@@ -67,12 +67,13 @@
 		4BC1073827FA9DD40017B1B7 /* TravelLive */ = {
 			isa = PBXGroup;
 			children = (
+				4BC1075B27FB4E8E0017B1B7 /* Extension */,
+				4BC1075A27FB4E710017B1B7 /* Resource */,
 				4BC1075027FB46430017B1B7 /* Model */,
 				4BC1074F27FB45FC0017B1B7 /* Controller */,
 				4BC1074E27FB45EE0017B1B7 /* View */,
 				4BC1073927FA9DD40017B1B7 /* AppDelegate.swift */,
 				4BC1073B27FA9DD40017B1B7 /* SceneDelegate.swift */,
-				4BC1074227FA9DD60017B1B7 /* Assets.xcassets */,
 				4BC1074427FA9DD60017B1B7 /* LaunchScreen.storyboard */,
 				4BC1074727FA9DD60017B1B7 /* Info.plist */,
 			);
@@ -110,6 +111,21 @@
 				4BC1075327FB470F0017B1B7 /* PushViewController.swift */,
 			);
 			path = PushStreaming;
+			sourceTree = "<group>";
+		};
+		4BC1075A27FB4E710017B1B7 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				4BC1074227FA9DD60017B1B7 /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		4BC1075B27FB4E8E0017B1B7 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		7A913B85FE671E754022C81C /* Pods */ = {
