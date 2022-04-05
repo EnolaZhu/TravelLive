@@ -14,6 +14,8 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let camera = GMSCameraPosition(latitude: 25.038806, longitude: 121.5573862, zoom: 15.81)
+        mapView.camera = camera
     }
     
     override func didReceiveMemoryWarning() {
