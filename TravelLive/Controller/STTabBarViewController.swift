@@ -77,6 +77,7 @@ class STTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBar.tintColor = UIColor.primary
+        tabBar.backgroundColor = UIColor.lightGray
         viewControllers = tabs.map({ $0.controller() })
         delegate = self
     }
