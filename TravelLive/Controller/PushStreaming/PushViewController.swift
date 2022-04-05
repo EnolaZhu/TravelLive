@@ -128,7 +128,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 視圖
     var containerView: UIView = {
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height))
         containerView.backgroundColor = UIColor.clear
         containerView.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleHeight]
         return containerView
@@ -145,21 +145,21 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // close
     var closeButton: UIButton = {
-        let closeButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 10 - 44, y: 40, width: 44, height: 44))
+        let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 10 - 44, y: 40, width: 44, height: 44))
         closeButton.setImage(UIImage.asset(.Icons_close_preview), for: UIControl.State())
         return closeButton
     }()
     
     // camera
     var cameraButton: UIButton = {
-        let cameraButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 54 * 2, y: UIScreen.main.bounds.height - 100, width: 44, height: 44))
+        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 54 * 2, y: UIScreen.height - 100, width: 44, height: 44))
         cameraButton.setImage(UIImage.asset(.Icons_camera_preview), for: UIControl.State())
         return cameraButton
     }()
     
     //  camera
     var beautyButton: UIButton = {
-        let beautyButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 54 * 3, y: UIScreen.main.bounds.height - 100, width: 44, height: 44))
+        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 54 * 3, y: UIScreen.height - 100, width: 44, height: 44))
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty), for: UIControl.State.selected)
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close), for: UIControl.State())
         return beautyButton
@@ -167,7 +167,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 開始直播
     var startLiveButton: UIButton = {
-        let startLiveButton = UIButton(frame: CGRect(x: 30, y: UIScreen.main.bounds.height - 60, width: UIScreen.main.bounds.width - 10 - 44, height: 44))
+        let startLiveButton = UIButton(frame: CGRect(x: 30, y: UIScreen.height - 60, width: UIScreen.width - 10 - 44, height: 44))
         startLiveButton.layer.cornerRadius = 22
         startLiveButton.setTitleColor(UIColor.black, for:UIControl.State())
         startLiveButton.setTitle("Start sharing your life!", for: UIControl.State())
