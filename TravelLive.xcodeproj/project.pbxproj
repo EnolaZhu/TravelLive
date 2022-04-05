@@ -13,6 +13,9 @@
 		4BC1074127FA9DD40017B1B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC1073F27FA9DD40017B1B7 /* Main.storyboard */; };
 		4BC1074327FA9DD60017B1B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BC1074227FA9DD60017B1B7 /* Assets.xcassets */; };
 		4BC1074627FA9DD60017B1B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC1074427FA9DD60017B1B7 /* LaunchScreen.storyboard */; };
+		4BC1075427FB470F0017B1B7 /* PushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1075327FB470F0017B1B7 /* PushViewController.swift */; };
+		4BC1075927FB4AE40017B1B7 /* PushStreaming.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC1075827FB4AE40017B1B7 /* PushStreaming.storyboard */; };
+		AEA482CD4B36D28858089603 /* Pods_TravelLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ED043953C97FFF9DE9D906 /* Pods_TravelLive.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,11 @@
 		4BC1074227FA9DD60017B1B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4BC1074527FA9DD60017B1B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4BC1074727FA9DD60017B1B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4BC1075327FB470F0017B1B7 /* PushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushViewController.swift; sourceTree = "<group>"; };
+		4BC1075827FB4AE40017B1B7 /* PushStreaming.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PushStreaming.storyboard; sourceTree = "<group>"; };
+		5A542C18633E121165E01470 /* Pods-TravelLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.release.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.release.xcconfig"; sourceTree = "<group>"; };
+		88095F294C454E63C1897DF6 /* Pods-TravelLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.debug.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.debug.xcconfig"; sourceTree = "<group>"; };
+		D4ED043953C97FFF9DE9D906 /* Pods_TravelLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEA482CD4B36D28858089603 /* Pods_TravelLive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +51,8 @@
 			children = (
 				4BC1073827FA9DD40017B1B7 /* TravelLive */,
 				4BC1073727FA9DD40017B1B7 /* Products */,
+				7A913B85FE671E754022C81C /* Pods */,
+				BE096D2F7223D5DB8A922421 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +67,66 @@
 		4BC1073827FA9DD40017B1B7 /* TravelLive */ = {
 			isa = PBXGroup;
 			children = (
+				4BC1075027FB46430017B1B7 /* Model */,
+				4BC1074F27FB45FC0017B1B7 /* Controller */,
+				4BC1074E27FB45EE0017B1B7 /* View */,
 				4BC1073927FA9DD40017B1B7 /* AppDelegate.swift */,
 				4BC1073B27FA9DD40017B1B7 /* SceneDelegate.swift */,
-				4BC1073D27FA9DD40017B1B7 /* ViewController.swift */,
-				4BC1073F27FA9DD40017B1B7 /* Main.storyboard */,
 				4BC1074227FA9DD60017B1B7 /* Assets.xcassets */,
 				4BC1074427FA9DD60017B1B7 /* LaunchScreen.storyboard */,
 				4BC1074727FA9DD60017B1B7 /* Info.plist */,
 			);
 			path = TravelLive;
+			sourceTree = "<group>";
+		};
+		4BC1074E27FB45EE0017B1B7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4BC1075827FB4AE40017B1B7 /* PushStreaming.storyboard */,
+				4BC1073F27FA9DD40017B1B7 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4BC1074F27FB45FC0017B1B7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4BC1073D27FA9DD40017B1B7 /* ViewController.swift */,
+				4BC1075127FB46660017B1B7 /* PushStreaming */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4BC1075027FB46430017B1B7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4BC1075127FB46660017B1B7 /* PushStreaming */ = {
+			isa = PBXGroup;
+			children = (
+				4BC1075327FB470F0017B1B7 /* PushViewController.swift */,
+			);
+			path = PushStreaming;
+			sourceTree = "<group>";
+		};
+		7A913B85FE671E754022C81C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				88095F294C454E63C1897DF6 /* Pods-TravelLive.debug.xcconfig */,
+				5A542C18633E121165E01470 /* Pods-TravelLive.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		BE096D2F7223D5DB8A922421 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D4ED043953C97FFF9DE9D906 /* Pods_TravelLive.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +136,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BC1074A27FA9DD60017B1B7 /* Build configuration list for PBXNativeTarget "TravelLive" */;
 			buildPhases = (
+				CB335F327D59DCD72F7C1D15 /* [CP] Check Pods Manifest.lock */,
 				4BC1073227FA9DD40017B1B7 /* Sources */,
 				4BC1073327FA9DD40017B1B7 /* Frameworks */,
 				4BC1073427FA9DD40017B1B7 /* Resources */,
+				08BBAF26DB207923EBFEDBCC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -128,10 +192,53 @@
 				4BC1074627FA9DD60017B1B7 /* LaunchScreen.storyboard in Resources */,
 				4BC1074327FA9DD60017B1B7 /* Assets.xcassets in Resources */,
 				4BC1074127FA9DD40017B1B7 /* Main.storyboard in Resources */,
+				4BC1075927FB4AE40017B1B7 /* PushStreaming.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		08BBAF26DB207923EBFEDBCC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TravelLive/Pods-TravelLive-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TravelLive/Pods-TravelLive-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TravelLive/Pods-TravelLive-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CB335F327D59DCD72F7C1D15 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TravelLive-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4BC1073227FA9DD40017B1B7 /* Sources */ = {
@@ -140,6 +247,7 @@
 			files = (
 				4BC1073E27FA9DD40017B1B7 /* ViewController.swift in Sources */,
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,
+				4BC1075427FB470F0017B1B7 /* PushViewController.swift in Sources */,
 				4BC1073C27FA9DD40017B1B7 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,7 +325,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -272,7 +380,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -284,6 +392,7 @@
 		};
 		4BC1074B27FA9DD60017B1B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88095F294C454E63C1897DF6 /* Pods-TravelLive.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -312,6 +421,7 @@
 		};
 		4BC1074C27FA9DD60017B1B7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A542C18633E121165E01470 /* Pods-TravelLive.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
