@@ -22,6 +22,7 @@
 		4BC1076727FB56790017B1B7 /* Shop.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC1076627FB56790017B1B7 /* Shop.storyboard */; };
 		4BC1076927FBF0390017B1B7 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1076827FBF0390017B1B7 /* UIImage+Extension.swift */; };
 		4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */; };
+		4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */; };
 		AEA482CD4B36D28858089603 /* Pods_TravelLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ED043953C97FFF9DE9D906 /* Pods_TravelLive.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		4BC1076627FB56790017B1B7 /* Shop.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Shop.storyboard; sourceTree = "<group>"; };
 		4BC1076827FBF0390017B1B7 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
+		4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		5A542C18633E121165E01470 /* Pods-TravelLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.release.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.release.xcconfig"; sourceTree = "<group>"; };
 		88095F294C454E63C1897DF6 /* Pods-TravelLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.debug.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.debug.xcconfig"; sourceTree = "<group>"; };
 		D4ED043953C97FFF9DE9D906 /* Pods_TravelLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +147,7 @@
 				4BC1075C27FB51870017B1B7 /* UIStoryboard+Extension.swift */,
 				4BC1076827FBF0390017B1B7 /* UIImage+Extension.swift */,
 				4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */,
+				4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				4BC1073C27FA9DD40017B1B7 /* SceneDelegate.swift in Sources */,
 				4BC1075D27FB51870017B1B7 /* UIStoryboard+Extension.swift in Sources */,
 				4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */,
+				4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +310,7 @@
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		4BC1074427FA9DD60017B1B7 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
