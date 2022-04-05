@@ -8,14 +8,20 @@
 import UIKit
 
 enum ImageAsset: String {
+    
     // push streming icon
     case Icons_camera_beauty
     case Icons_camera_beauty_close
     case Icons_close_preview
     case Icons_camera_preview
     case Icons_camera_beauty_1
-    // tab icon
     
+    // tab icon
+    case Icons_live
+    case Icons_map
+    case Icons_profile
+    case Icons_search
+    case Icons_shop
 }
 extension UIImage {
     static func asset(_ asset: ImageAsset) -> UIImage? {
