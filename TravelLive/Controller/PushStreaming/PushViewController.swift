@@ -77,7 +77,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             break
             // user defuse authorization, or can't access camera
         case AVAuthorizationStatus.denied: break
-        case AVAuthorizationStatus.restricted:break;
+        case AVAuthorizationStatus.restricted:break
         default:
             break
         }
@@ -146,22 +146,22 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // close
     var closeButton: UIButton = {
         let closeButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 10 - 44, y: 40, width: 44, height: 44))
-        closeButton.setImage(UIImage(named: "close_preview"), for: UIControl.State())
+        closeButton.setImage(UIImage.asset(.Icons_close_preview), for: UIControl.State())
         return closeButton
     }()
     
     // camera
     var cameraButton: UIButton = {
         let cameraButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 54 * 2, y: UIScreen.main.bounds.height - 100, width: 44, height: 44))
-        cameraButton.setImage(UIImage(named: "camra_preview"), for: UIControl.State())
+        cameraButton.setImage(UIImage.asset(.Icons_camera_preview), for: UIControl.State())
         return cameraButton
     }()
     
     //  camera
     var beautyButton: UIButton = {
         let beautyButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 54 * 3, y: UIScreen.main.bounds.height - 100, width: 44, height: 44))
-        beautyButton.setImage(UIImage(named: "camra_beauty"), for: UIControl.State.selected)
-        beautyButton.setImage(UIImage(named: "camra_beauty_close"), for: UIControl.State())
+        beautyButton.setImage(UIImage.asset(.Icons_camera_beauty), for: UIControl.State.selected)
+        beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close), for: UIControl.State())
         return beautyButton
     }()
     
