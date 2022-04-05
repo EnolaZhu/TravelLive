@@ -152,14 +152,14 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // camera
     var cameraButton: UIButton = {
-        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 54 * 2, y: UIScreen.height - 100, width: 44, height: 44))
+        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 54 * 2, y: UIScreen.height - 140, width: 44, height: 44))
         cameraButton.setImage(UIImage.asset(.Icons_camera_preview), for: UIControl.State())
         return cameraButton
     }()
     
     //  camera
     var beautyButton: UIButton = {
-        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 54 * 3, y: UIScreen.height - 100, width: 44, height: 44))
+        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 54 * 3, y: UIScreen.height - 140, width: 44, height: 44))
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty), for: UIControl.State.selected)
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close), for: UIControl.State())
         return beautyButton
@@ -167,7 +167,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 開始直播
     var startLiveButton: UIButton = {
-        let startLiveButton = UIButton(frame: CGRect(x: 30, y: UIScreen.height - 60, width: UIScreen.width - 10 - 44, height: 44))
+        let startLiveButton = UIButton(frame: CGRect(x: 30, y: UIScreen.height - 100, width: UIScreen.width - 10 - 44, height: 44))
         startLiveButton.layer.cornerRadius = 22
         startLiveButton.setTitleColor(UIColor.black, for:UIControl.State())
         startLiveButton.setTitle("Start sharing your life!", for: UIControl.State())
@@ -184,7 +184,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         if (startLiveButton.isSelected) {
             startLiveButton.setTitle("Close sharing", for: UIControl.State())
             let stream = LFLiveStreamInfo()
-            stream.url = ""
+            stream.url = Secret.pushStreamingUrl.rawValue
             session.startLive(stream)
         } else {
             startLiveButton.setTitle("Start sharing your life!", for: UIControl.State())
