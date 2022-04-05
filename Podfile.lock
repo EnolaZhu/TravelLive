@@ -1,16 +1,24 @@
 PODS:
+  - GoogleMaps (6.1.1):
+    - GoogleMaps/Maps (= 6.1.1)
+  - GoogleMaps/Base (6.1.1)
+  - GoogleMaps/Maps (6.1.1):
+    - GoogleMaps/Base
   - LFLiveKit (2.6)
 
 DEPENDENCIES:
+  - GoogleMaps
   - LFLiveKit
 
 SPEC REPOS:
   trunk:
+    - GoogleMaps
     - LFLiveKit
 
 SPEC CHECKSUMS:
+  GoogleMaps: 94e6e0851beece6678af9f508f4918b7a7c61722
   LFLiveKit: 2219563721f8aa0f188effc3395a06e2d53b23f2
 
-PODFILE CHECKSUM: 749116a15262bd53d34b8c46c1dbcb0b51a009f2
+PODFILE CHECKSUM: 51acd09bb65d61e5381c7f217cd1e56575f78aa1
 
 COCOAPODS: 1.11.2
