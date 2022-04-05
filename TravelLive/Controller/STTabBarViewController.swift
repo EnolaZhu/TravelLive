@@ -8,45 +8,31 @@
 import UIKit
 
 private enum Tab {
-    
     case map
-
     case search
-
     case publish
-
     case shop
-
     case profile
-
+    
     func controller() -> UIViewController {
-
         var controller: UIViewController
-
+        
         switch self {
-
         case .map: controller = UIStoryboard.map.instantiateInitialViewController()!
-
         case .search: controller = UIStoryboard.search.instantiateInitialViewController()!
-
         case .publish: controller = UIStoryboard.pushStreaming.instantiateInitialViewController()!
-
         case .shop: controller = UIStoryboard.shop.instantiateInitialViewController()!
-            
         case .profile: controller = UIStoryboard.profile.instantiateInitialViewController()!
         }
 
         controller.tabBarItem = tabBarItem()
-
         controller.tabBarItem.imageInsets = UIEdgeInsets(top: 6.0, left: 0.0, bottom: -6.0, right: 0.0)
 
         return controller
     }
 
     func tabBarItem() -> UITabBarItem {
-
         switch self {
-
         case .map:
             return UITabBarItem(
                 title: nil,
@@ -85,7 +71,6 @@ private enum Tab {
 }
 
 class STTabBarViewController: UITabBarController, UITabBarControllerDelegate {
-
     private let tabs: [Tab] = [.map, .search, .publish, .shop, .profile]
     var trolleyTabBarItem: UITabBarItem!
     
@@ -96,4 +81,3 @@ class STTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         delegate = self
     }
 }
-
