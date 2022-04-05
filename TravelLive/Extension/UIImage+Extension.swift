@@ -17,16 +17,11 @@ enum ImageAsset: String {
     case Icons_camera_beauty_1
     
     // tab icon
-    case Icons_live_normal
-    case Icons_map_normal
-    case Icons_profile_normal
-    case Icons_search_normal
-    case Icons_shop_normal
-    case Icons_live_focus
-    case Icons_map_focus
-    case Icons_profile_focus
-    case Icons_search_focus
-    case Icons_shop_focus
+    case Icons_live
+    case Icons_map
+    case Icons_profile
+    case Icons_search
+    case Icons_shop
 }
 extension UIImage {
     static func asset(_ asset: ImageAsset) -> UIImage? {

@@ -50,33 +50,36 @@ private enum Tab {
         case .map:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.asset(.Icons_map_normal),
-                selectedImage: UIImage.asset(.Icons_map_focus)
+                image: UIImage.asset(.Icons_map),
+                selectedImage: UIImage.asset(.Icons_map)
             )
 
         case .search:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.asset(.Icons_search_normal),
-                selectedImage: UIImage.asset(.Icons_search_focus)
+                image: UIImage.asset(.Icons_search),
+                selectedImage: UIImage.asset(.Icons_search)
             )
 
         case .publish:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.asset(.Icons_live_normal),
-                selectedImage: UIImage.asset(.Icons_live_focus)
+                image: UIImage.asset(.Icons_live),
+                selectedImage: UIImage.asset(.Icons_live)
             )
 
         case .shop:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.asset(.Icons_shop_normal),
-                selectedImage: UIImage.asset(.Icons_shop_focus)
+                image: UIImage.asset(.Icons_shop),
+                selectedImage: UIImage.asset(.Icons_shop)
             )
             
         case .profile:
-            return UITabBarItem(title: nil, image: UIImage.asset(.Icons_profile_normal), selectedImage: UIImage.asset(.Icons_profile_focus))
+            return UITabBarItem(
+                title: nil,
+                image: UIImage.asset(.Icons_profile),
+                selectedImage: UIImage.asset(.Icons_profile))
         }
     }
 }
@@ -88,35 +91,10 @@ class STTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        tabBar.tintColor = UIColor.red
         viewControllers = tabs.map({ $0.controller() })
         delegate = self
     }
-
-    // MARK: - UITabBarControllerDelegate
-
-//    func tabBarController(
-//        _ tabBarController: UITabBarController,
-//        shouldSelect viewController: UIViewController
-//    ) -> Bool {
-//
-//        guard let navVC = viewController as? UINavigationController,
-//              navVC.viewControllers.first is ProfileViewController
-//        else { return true }
-//
-//        guard KeyChainManager.shared.token != nil else {
-//
-//            if let authVC = UIStoryboard.auth.instantiateInitialViewController() {
-//
-//                authVC.modalPresentationStyle = .overCurrentContext
-//
-//                present(authVC, animated: false, completion: nil)
-//            }
-//
-//            return false
-//        }
-//
-//        return true
-//    }
 }
 
