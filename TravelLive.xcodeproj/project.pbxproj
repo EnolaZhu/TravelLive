@@ -23,6 +23,7 @@
 		4BC1076927FBF0390017B1B7 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1076827FBF0390017B1B7 /* UIImage+Extension.swift */; };
 		4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */; };
 		4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */; };
+		4BC2BE4F27FC4207001FF31D /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4E27FC4207001FF31D /* Secret.swift */; };
 		AEA482CD4B36D28858089603 /* Pods_TravelLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4ED043953C97FFF9DE9D906 /* Pods_TravelLive.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		4BC1076827FBF0390017B1B7 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		4BC2BE4E27FC4207001FF31D /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		5A542C18633E121165E01470 /* Pods-TravelLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.release.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.release.xcconfig"; sourceTree = "<group>"; };
 		88095F294C454E63C1897DF6 /* Pods-TravelLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.debug.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.debug.xcconfig"; sourceTree = "<group>"; };
 		D4ED043953C97FFF9DE9D906 /* Pods_TravelLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				4BC1074227FA9DD60017B1B7 /* Assets.xcassets */,
+				4BC2BE4E27FC4207001FF31D /* Secret.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 				4BC1073327FA9DD40017B1B7 /* Frameworks */,
 				4BC1073427FA9DD40017B1B7 /* Resources */,
 				08BBAF26DB207923EBFEDBCC /* [CP] Embed Pods Frameworks */,
+				42BFB29D4973D866B66C0F62 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -260,6 +264,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TravelLive/Pods-TravelLive-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		42BFB29D4973D866B66C0F62 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TravelLive/Pods-TravelLive-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TravelLive/Pods-TravelLive-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TravelLive/Pods-TravelLive-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		CB335F327D59DCD72F7C1D15 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -296,6 +317,7 @@
 				4BC1073C27FA9DD40017B1B7 /* SceneDelegate.swift in Sources */,
 				4BC1075D27FB51870017B1B7 /* UIStoryboard+Extension.swift in Sources */,
 				4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */,
+				4BC2BE4F27FC4207001FF31D /* Secret.swift in Sources */,
 				4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

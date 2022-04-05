@@ -6,5 +6,6 @@ target 'TravelLive' do
   use_frameworks!
 
   # Pods for TravelLive
-pod 'LFLiveKit'
+  pod 'LFLiveKit'
+  pod 'GoogleMaps'
 end
