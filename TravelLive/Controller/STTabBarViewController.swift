@@ -91,8 +91,7 @@ class STTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tabBar.tintColor = UIColor.red
+        tabBar.tintColor = UIColor.primary
         viewControllers = tabs.map({ $0.controller() })
         delegate = self
     }
