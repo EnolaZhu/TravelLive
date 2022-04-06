@@ -4,88 +4,92 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AuthView" customModule="TravelLive" customModuleProvider="target">
+            <connections>
+                <outlet property="authTitleLabel" destination="UM3-oa-OG5" id="VFI-gm-EFY"/>
+                <outlet property="loginButton" destination="ETc-Iy-VXm" id="aTS-KE-ivK"/>
+                <outlet property="loginWithAppleButton" destination="CpQ-Mk-gOc" id="JVF-Zx-zaM"/>
+                <outlet property="loginWithNativeButton" destination="AVc-me-7I1" id="IFu-Qe-hPS"/>
+                <outlet property="textLabel" destination="F2I-Zw-OdD" id="19g-O1-uOb"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="Zbw-Uk-AOQ" customClass="AuthView" customModule="TravelLive" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
+        <view contentMode="scaleToFill" id="Zbw-Uk-AOQ">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="350"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="d1T-JZ-PzO">
-                    <rect key="frame" x="0.0" y="117.5" width="414" height="92"/>
+                    <rect key="frame" x="20" y="127.5" width="374" height="135"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CpQ-Mk-gOc">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="46"/>
+                            <rect key="frame" x="0.0" y="0.0" width="374" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="TBC-zZ-6Vo"/>
+                            </constraints>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Continue with Apple">
+                            <buttonConfiguration key="configuration" style="plain" image="apple" title="Continue with Apple">
                                 <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </buttonConfiguration>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AVc-me-7I1">
-                            <rect key="frame" x="0.0" y="61" width="414" height="31"/>
+                            <rect key="frame" x="0.0" y="75" width="374" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="VIF-0Q-pvf"/>
+                            </constraints>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Continue with Email">
+                            <buttonConfiguration key="configuration" style="plain" image="email" title="Continue with Email">
                                 <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </buttonConfiguration>
                         </button>
                     </subviews>
                 </stackView>
-                <stackView opaque="NO" contentMode="scaleToFill" spacing="155" translatesAutoresizingMaskIntoConstraints="NO" id="sVm-BU-M7Y">
-                    <rect key="frame" x="70" y="239.5" width="274" height="31"/>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="sVm-BU-M7Y">
+                    <rect key="frame" x="40" y="292.5" width="334" height="31"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F2I-Zw-OdD">
-                            <rect key="frame" x="0.0" y="0.0" width="44.5" height="31"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F2I-Zw-OdD">
+                            <rect key="frame" x="0.0" y="0.0" width="265.5" height="31"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ETc-Iy-VXm">
-                            <rect key="frame" x="199.5" y="0.0" width="74.5" height="31"/>
+                            <rect key="frame" x="270.5" y="0.0" width="63.5" height="31"/>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Login in">
+                            <buttonConfiguration key="configuration" style="plain" title="Log in">
                                 <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </buttonConfiguration>
                         </button>
                     </subviews>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Explore Together" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UM3-oa-OG5">
-                    <rect key="frame" x="53" y="54" width="308" height="33.5"/>
+                    <rect key="frame" x="53" y="44" width="308" height="33.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="28"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="FoY-bg-Szh"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="sVm-BU-M7Y" firstAttribute="leading" secondItem="FoY-bg-Szh" secondAttribute="leading" constant="70" id="5DL-Nu-vzj"/>
-                <constraint firstItem="d1T-JZ-PzO" firstAttribute="leading" secondItem="Zbw-Uk-AOQ" secondAttribute="leading" id="6Ma-uE-fBl"/>
+                <constraint firstItem="sVm-BU-M7Y" firstAttribute="leading" secondItem="FoY-bg-Szh" secondAttribute="leading" constant="40" id="5DL-Nu-vzj"/>
+                <constraint firstItem="d1T-JZ-PzO" firstAttribute="leading" secondItem="Zbw-Uk-AOQ" secondAttribute="leading" constant="20" id="6Ma-uE-fBl"/>
                 <constraint firstItem="UM3-oa-OG5" firstAttribute="leading" secondItem="FoY-bg-Szh" secondAttribute="leading" constant="53" id="C22-oX-ARz"/>
-                <constraint firstItem="FoY-bg-Szh" firstAttribute="trailing" secondItem="sVm-BU-M7Y" secondAttribute="trailing" constant="70" id="CNU-JY-ted"/>
-                <constraint firstAttribute="trailing" secondItem="d1T-JZ-PzO" secondAttribute="trailing" id="DAr-oe-6DC"/>
-                <constraint firstItem="UM3-oa-OG5" firstAttribute="top" secondItem="Zbw-Uk-AOQ" secondAttribute="top" constant="54" id="Dk0-AA-6Qb"/>
+                <constraint firstItem="FoY-bg-Szh" firstAttribute="trailing" secondItem="sVm-BU-M7Y" secondAttribute="trailing" constant="40" id="CNU-JY-ted"/>
+                <constraint firstAttribute="trailing" secondItem="d1T-JZ-PzO" secondAttribute="trailing" constant="20" id="DAr-oe-6DC"/>
                 <constraint firstItem="sVm-BU-M7Y" firstAttribute="top" secondItem="d1T-JZ-PzO" secondAttribute="bottom" constant="30" id="JqJ-qp-Uvh"/>
+                <constraint firstItem="UM3-oa-OG5" firstAttribute="top" secondItem="FoY-bg-Szh" secondAttribute="top" id="M8S-WP-wfn"/>
                 <constraint firstItem="FoY-bg-Szh" firstAttribute="trailing" secondItem="UM3-oa-OG5" secondAttribute="trailing" constant="53" id="cdw-DY-Nif"/>
-                <constraint firstItem="d1T-JZ-PzO" firstAttribute="top" secondItem="UM3-oa-OG5" secondAttribute="bottom" constant="30" id="jcr-cQ-tWe"/>
-                <constraint firstItem="FoY-bg-Szh" firstAttribute="bottom" secondItem="sVm-BU-M7Y" secondAttribute="bottom" constant="29.5" id="xVy-Sc-08r"/>
+                <constraint firstItem="d1T-JZ-PzO" firstAttribute="top" secondItem="UM3-oa-OG5" secondAttribute="bottom" constant="50" id="jcr-cQ-tWe"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="authTitleLabel" destination="UM3-oa-OG5" id="CCQ-15-zkB"/>
-                <outlet property="loginButton" destination="ETc-Iy-VXm" id="6KW-Ae-erc"/>
-                <outlet property="loginWithAppleButton" destination="CpQ-Mk-gOc" id="hJP-BQ-l9w"/>
-                <outlet property="loginWithNativeButton" destination="AVc-me-7I1" id="nzA-Jd-OPC"/>
-                <outlet property="textLabel" destination="F2I-Zw-OdD" id="ZiG-Vf-CUd"/>
-            </connections>
-            <point key="canvasLocation" x="-159.42028985507247" y="-93.75"/>
+            <point key="canvasLocation" x="-159.42028985507247" y="21.763392857142858"/>
         </view>
     </objects>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="apple" width="32" height="32"/>
+        <image name="email" width="32" height="32"/>
     </resources>
 </document>

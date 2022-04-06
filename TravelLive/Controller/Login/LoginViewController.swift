@@ -9,11 +9,10 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    @IBOutlet weak var auth: AuthView!
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    @IBAction func editingTextfield(_ sender: UIButton) {
-        print("Did touch")
-    }
+    
 }
 

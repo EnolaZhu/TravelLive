@@ -12,8 +12,13 @@ class AuthView: UIView, NibOwnerLoadable {
     
     @IBOutlet weak var authTitleLabel: UILabel!
     @IBOutlet weak var loginWithAppleButton: UIButton!
+    // 修改
     @IBOutlet weak var loginWithNativeButton: UIButton!
-    @IBOutlet weak var textLabel: UILabel!
+    @IBOutlet weak var textLabel: UILabel! {
+        didSet {
+            textLabel.text = "Already have an account? "
+        }
+    }
     @IBOutlet weak var loginButton: UIButton!
     
     override func awakeFromNib() {
