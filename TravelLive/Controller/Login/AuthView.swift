@@ -9,18 +9,23 @@ import UIKit
 import Firebase
 import FirebaseAuth
 
+enum AuthText: String {
+    case appleButtonText = "Continue with Apple"
+    case textLabel = "Already have an account? "
+}
+
 class AuthView: UIView, NibOwnerLoadable {
     
     @IBOutlet weak var authTitleLabel: UILabel!
     @IBOutlet weak var loginWithAppleButton: UIButton!
     {
         didSet {
-            loginWithAppleButton.configureButton(text: "Continue with Apple", imageName: "apple", imagePadding: 10, edgePadding: 10, button: loginWithAppleButton, backgroundColor: UIColor.white, textColor: UIColor.black)
+            loginWithAppleButton.configureButton(text: AuthText.appleButtonText.rawValue, image: UIImage.asset(.apple) ?? UIImage(), imagePadding: 10, edgePadding: 10, button: loginWithAppleButton, backgroundColor: UIColor.white, textColor: UIColor.black)
         }
     }
     @IBOutlet weak var textLabel: UILabel! {
         didSet {
-            textLabel.text = "Already have an account? "
+            textLabel.text = AuthText.textLabel.rawValue
         }
     }
     @IBOutlet weak var loginButton: UIButton!
@@ -43,11 +48,4 @@ class AuthView: UIView, NibOwnerLoadable {
     private func customInit() {
         loadNibContent()
     }
-    
-//    @IBAction func loginWithEmail(_ sender: UIButton) {
-//        let mainTabVC = UIStoryboard.main.instantiateViewController(withIdentifier:
-//            String(describing: STTabBarViewController.self))
-//        guard let vc = mainTabVC as? STTabBarViewController else { return }
-//        show(vc, sender: nil)
-//    }
 }

@@ -9,10 +9,10 @@ import UIKit
 
 extension UIButton {
     
-    func configureButton(text: String, imageName: String, imagePadding: CGFloat, edgePadding: CGFloat, button: UIButton, backgroundColor: UIColor, textColor: UIColor)  {
+    func configureButton(text: String, image: UIImage, imagePadding: CGFloat, edgePadding: CGFloat, button: UIButton, backgroundColor: UIColor, textColor: UIColor)  {
         var configuration = UIButton.Configuration.filled()
         configuration.title = text
-        configuration.image = UIImage(named: imageName)
+        configuration.image = image
         configuration.imagePadding = imagePadding
         configuration.contentInsets = NSDirectionalEdgeInsets(top: edgePadding, leading: edgePadding, bottom: edgePadding, trailing: edgePadding)
         configuration.background.backgroundColor = backgroundColor
