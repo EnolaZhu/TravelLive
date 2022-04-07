@@ -9,13 +9,12 @@ import UIKit
 
 extension UIButton {
     
-    func configurePadding(_ text: String, _ imageName: String, _ padding: CGFloat) {
+    func configurePadding(text: String, imageName: String, imagePadding: CGFloat, edgePadding: CGFloat) {
         var configuration = UIButton.Configuration.filled()
         configuration.title = text
         configuration.image = UIImage(systemName: imageName)
-        configuration.titlePadding = padding
-        configuration.imagePadding = padding
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: padding, leading: padding, bottom: padding, trailing: padding)
+        configuration.imagePadding = imagePadding
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: edgePadding, leading: edgePadding, bottom: edgePadding, trailing: edgePadding)
     }
 }
 
