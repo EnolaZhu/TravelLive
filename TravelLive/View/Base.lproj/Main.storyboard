@@ -31,7 +31,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="qKM-Tb-M8L"/>
                     <connections>
-                        <outlet property="auth" destination="XTu-zX-FGC" id="NX1-vT-QVu"/>
+                        <outlet property="authView" destination="XTu-zX-FGC" id="X62-fR-FMH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R41-oA-IoC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -41,7 +41,7 @@
         <!--Tab Bar View Controller-->
         <scene sceneID="Hsp-0n-XFj">
             <objects>
-                <tabBarController id="JcO-YG-WjP" customClass="STTabBarViewController" customModule="TravelLive" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="STTabBarViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JcO-YG-WjP" customClass="STTabBarViewController" customModule="TravelLive" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="sLm-l0-wGN"/>
                     <size key="freeformSize" width="414" height="896"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="su9-Y9-cqo">

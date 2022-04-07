@@ -10,7 +10,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AuthView" customModule="TravelLive" customModuleProvider="target">
             <connections>
                 <outlet property="authTitleLabel" destination="UM3-oa-OG5" id="VFI-gm-EFY"/>
-                <outlet property="loginButton" destination="ETc-Iy-VXm" id="aTS-KE-ivK"/>
                 <outlet property="loginWithAppleButton" destination="CpQ-Mk-gOc" id="JVF-Zx-zaM"/>
                 <outlet property="textLabel" destination="F2I-Zw-OdD" id="19g-O1-uOb"/>
             </connections>
@@ -47,24 +46,14 @@
                     </subviews>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="sVm-BU-M7Y">
-                    <rect key="frame" x="40" y="217.5" width="334" height="31"/>
+                    <rect key="frame" x="40" y="217.5" width="334" height="20.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F2I-Zw-OdD">
-                            <rect key="frame" x="0.0" y="0.0" width="265.5" height="31"/>
+                            <rect key="frame" x="0.0" y="0.0" width="334" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ETc-Iy-VXm">
-                            <rect key="frame" x="270.5" y="0.0" width="63.5" height="31"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Log in">
-                                <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </buttonConfiguration>
-                            <connections>
-                                <action selector="loginWithEmail:" destination="-1" eventType="touchUpInside" id="v5d-uO-3yC"/>
-                            </connections>
-                        </button>
                     </subviews>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Explore Together" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UM3-oa-OG5">

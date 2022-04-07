@@ -44,7 +44,10 @@ class AuthView: UIView, NibOwnerLoadable {
         loadNibContent()
     }
     
-    @IBAction func loginWithEmail(_ sender: UIButton) {
-        
-    }
+//    @IBAction func loginWithEmail(_ sender: UIButton) {
+//        let mainTabVC = UIStoryboard.main.instantiateViewController(withIdentifier:
+//            String(describing: STTabBarViewController.self))
+//        guard let vc = mainTabVC as? STTabBarViewController else { return }
+//        show(vc, sender: nil)
+//    }
 }
