@@ -6,14 +6,18 @@
 //
 
 import UIKit
-
+import Firebase
+import FirebaseAuth
 
 class AuthView: UIView, NibOwnerLoadable {
     
     @IBOutlet weak var authTitleLabel: UILabel!
     @IBOutlet weak var loginWithAppleButton: UIButton!
-    // 修改
-    @IBOutlet weak var loginWithNativeButton: UIButton!
+    {
+        didSet {
+            loginWithAppleButton.configureButton(text: "Continue with Apple", imageName: "apple", imagePadding: 10, edgePadding: 10, button: loginWithAppleButton, backgroundColor: UIColor.white, textColor: UIColor.black)
+        }
+    }
     @IBOutlet weak var textLabel: UILabel! {
         didSet {
             textLabel.text = "Already have an account? "
@@ -23,13 +27,14 @@ class AuthView: UIView, NibOwnerLoadable {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        loginWithAppleButton.clipsToBounds = true
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         customInit()
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         customInit()
@@ -39,8 +44,7 @@ class AuthView: UIView, NibOwnerLoadable {
         loadNibContent()
     }
     
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//    }
-    
+    @IBAction func loginWithEmail(_ sender: UIButton) {
+        
+    }
 }
