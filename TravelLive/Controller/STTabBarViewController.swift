@@ -76,8 +76,9 @@ class STTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.setNavigationBarHidden(true, animated: false)
         tabBar.tintColor = UIColor.primary
-        tabBar.backgroundColor = UIColor.lightGray
+        tabBar.backgroundColor = UIColor.white
         viewControllers = tabs.map({ $0.controller() })
         delegate = self
     }
