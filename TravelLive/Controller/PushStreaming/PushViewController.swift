@@ -16,13 +16,14 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         session.delegate = self
         session.preView = view
         addPushPreview()
+        addChatView()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    func addPushPreview() {
+    private func addPushPreview() {
         requestAccessForVideo()
         requestAccessForAudio()
         view.backgroundColor = UIColor.clear
@@ -37,6 +38,15 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         beautyButton.addTarget(self, action: #selector(didTappedBeautyButton(_:)), for: .touchUpInside)
         startLiveButton.addTarget(self, action: #selector(didTappedStartLiveButton(_:)), for: .touchUpInside)
         closeButton.addTarget(self, action: #selector(didTappedCloseButton(_:)), for: .touchUpInside)
+    }
+    
+    private func addChatView() {
+        let chatMessageVC = UIStoryboard.chat.instantiateViewController(withIdentifier:
+            String(describing: ChatViewController.self)
+        )
+        guard let chatVC = chatMessageVC as? ChatViewController else { return }
+        view.addSubview(chatVC.view)
+        self.addChild(chatVC)
     }
     
     func requestAccessForVideo() -> Void {

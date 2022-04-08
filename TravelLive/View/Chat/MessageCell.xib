@@ -16,37 +16,82 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="YtC-Py-cFj">
-                        <rect key="frame" x="16" y="10" width="288" height="40"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Y89-fi-4fI">
+                        <rect key="frame" x="16" y="8" width="93" height="44"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FAW-7j-iFw">
-                                <rect key="frame" x="0.0" y="0.0" width="41.5" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M0A-gr-QO2" customClass="EdgeInsetLabel" customModule="TravelLive" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="41.5" height="44"/>
+                                <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="characterSpacing">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="leftTextInset">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="rightTextInset">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="topTextInset">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomTextInset">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i3g-qH-bAb">
-                                <rect key="frame" x="51.5" y="0.0" width="236.5" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YWv-eK-reY" customClass="EdgeInsetLabel" customModule="TravelLive" customModuleProvider="target">
+                                <rect key="frame" x="51.5" y="0.0" width="41.5" height="44"/>
+                                <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="characterSpacing">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="leftTextInset">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="rightTextInset">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="topTextInset">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomTextInset">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </label>
                         </subviews>
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="YtC-Py-cFj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="Tqv-uJ-joe"/>
-                    <constraint firstAttribute="trailing" secondItem="YtC-Py-cFj" secondAttribute="trailing" constant="16" id="dWn-Tf-Arw"/>
-                    <constraint firstItem="YtC-Py-cFj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="eTa-4Y-M4Y"/>
-                    <constraint firstAttribute="bottom" secondItem="YtC-Py-cFj" secondAttribute="bottom" constant="10" id="oSY-0v-oOV"/>
+                    <constraint firstItem="Y89-fi-4fI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="IXb-NJ-QjK"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Y89-fi-4fI" secondAttribute="trailing" id="OjT-qC-RO7"/>
+                    <constraint firstAttribute="bottom" secondItem="Y89-fi-4fI" secondAttribute="bottom" constant="8" id="Ugn-US-T6o"/>
+                    <constraint firstItem="Y89-fi-4fI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="tNh-ex-R2L"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="messageLabel" destination="i3g-qH-bAb" id="qhj-xG-16i"/>
-                <outlet property="usernameLabel" destination="FAW-7j-iFw" id="Y7N-NR-3y0"/>
+                <outlet property="messageLabel" destination="YWv-eK-reY" id="wll-eB-VwO"/>
+                <outlet property="userNameLabel" destination="M0A-gr-QO2" id="8Ti-0A-bFf"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="109.15178571428571"/>
         </tableViewCell>
     </objects>
+    <designables>
+        <designable name="M0A-gr-QO2">
+            <size key="intrinsicContentSize" width="41.5" height="20.5"/>
+        </designable>
+        <designable name="YWv-eK-reY">
+            <size key="intrinsicContentSize" width="41.5" height="20.5"/>
+        </designable>
+    </designables>
 </document>

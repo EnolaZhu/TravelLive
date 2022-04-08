@@ -12,6 +12,8 @@ class ChatViewController: UIViewController, UITableViewDelegate {
         didSet {
             chatView.delegate = self
             chatView.dataSource = self
+            chatView.estimatedRowHeight = 30
+            chatView.rowHeight = UITableView.automaticDimension
             chatView.backgroundColor = UIColor.clear
         }
     }
@@ -33,7 +35,7 @@ extension ChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MessageCell.self), for: indexPath)
         guard let messageCell = cell as? MessageCell else { return cell }
-        messageCell.usernameLabel.text = "Enola"
+        messageCell.userNameLabel.text = "Enola"
         messageCell.messageLabel.text = "hello world!"
         return messageCell
     }
