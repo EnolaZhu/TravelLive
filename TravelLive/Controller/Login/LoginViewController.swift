@@ -20,8 +20,8 @@ class LoginViewController: UIViewController {
     
     @objc func loginWithApple() {
         let mainTabVC = UIStoryboard.main.instantiateViewController(withIdentifier:
-        String(describing: STTabBarViewController.self))
-        guard let vc = mainTabVC as? STTabBarViewController else { return }
+        String(describing: TabBarViewController.self))
+        guard let vc = mainTabVC as? TabBarViewController else { return }
         show(vc, sender: nil)
     }
 }

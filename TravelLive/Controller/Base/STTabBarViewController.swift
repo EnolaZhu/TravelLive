@@ -70,7 +70,7 @@ private enum Tab {
     }
 }
 
-class STTabBarViewController: UITabBarController, UITabBarControllerDelegate {
+class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     private let tabs: [Tab] = [.map, .search, .publish, .shop, .profile]
     var trolleyTabBarItem: UITabBarItem!
     
