@@ -39,6 +39,4 @@ extension ChatViewController: UITableViewDataSource {
         messageCell.messageLabel.text = "hello world!"
         return messageCell
     }
-    
-    
 }
