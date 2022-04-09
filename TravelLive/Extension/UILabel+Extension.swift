@@ -9,8 +9,12 @@ import UIKit
 
 @IBDesignable
 extension UILabel {
-    
     @IBInspectable var characterSpacing: CGFloat {
+        get {
+            // swiftlint:disable force_cast
+            return attributedText?.value(forKey: NSAttributedString.Key.kern.rawValue) as! CGFloat
+            // swiftlint:enable force_cast
+        }
         set {
             if let labelText = text, labelText.count > 0 {
                 let attributedString = NSMutableAttributedString(attributedString: attributedText!)
@@ -21,11 +25,6 @@ extension UILabel {
                 )
                 attributedText = attributedString
             }
-        }
-        get {
-            // swiftlint:disable force_cast
-            return attributedText?.value(forKey: NSAttributedString.Key.kern.rawValue) as! CGFloat
-            // swiftlint:enable force_cast
         }
     }
 }
@@ -53,25 +52,22 @@ class EdgeInsetLabel: UILabel {
 extension EdgeInsetLabel {
     @IBInspectable
     var leftTextInset: CGFloat {
-        set { textInsets.left = newValue }
         get { return textInsets.left }
+        set { textInsets.left = newValue }
     }
-    
     @IBInspectable
     var rightTextInset: CGFloat {
-        set { textInsets.right = newValue }
         get { return textInsets.right }
+        set { textInsets.right = newValue }
     }
-    
     @IBInspectable
     var topTextInset: CGFloat {
-        set { textInsets.top = newValue }
         get { return textInsets.top }
+        set { textInsets.top = newValue }
     }
-    
     @IBInspectable
     var bottomTextInset: CGFloat {
-        set { textInsets.bottom = newValue }
         get { return textInsets.bottom }
+        set { textInsets.bottom = newValue }
     }
 }

@@ -99,8 +99,7 @@ extension CustomIndoorViewController: UIPickerViewDelegate {
   }
 
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int)
-    -> String?
-  {
+    -> String? {
     return sampleLevels[row].name
   }
 

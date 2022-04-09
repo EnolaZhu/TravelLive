@@ -8,8 +8,8 @@
 import UIKit
 
 enum ImageAsset: String {
-    
     // push streming icon
+    // swiftlint:disable identifier_name
     case Icons_camera_beauty
     case Icons_camera_beauty_close
     case Icons_close_preview

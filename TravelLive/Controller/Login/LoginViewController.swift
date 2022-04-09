@@ -8,12 +8,11 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-    
     @IBOutlet weak var authView: AuthView!
+    // swiftlint:disable trailing_whitespace
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         authView.loginWithAppleButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
     }
@@ -21,8 +20,7 @@ class LoginViewController: UIViewController {
     @objc func loginWithApple() {
         let mainTabVC = UIStoryboard.main.instantiateViewController(withIdentifier:
         String(describing: TabBarViewController.self))
-        guard let vc = mainTabVC as? TabBarViewController else { return }
-        show(vc, sender: nil)
+        guard let tabVc = mainTabVC as? TabBarViewController else { return }
+        show(tabVc, sender: nil)
     }
 }
-

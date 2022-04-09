@@ -15,8 +15,7 @@ class MessageCell: UITableViewCell {
             userNameLabel.layer.masksToBounds = (YESSTR != 0)
         }
     }
-    @IBOutlet weak var messageLabel: UILabel!
-    {
+    @IBOutlet weak var messageLabel: UILabel! {
         didSet {
             messageLabel.backgroundColor = UIColor.white
             messageLabel.layer.cornerRadius = 8
@@ -36,5 +35,4 @@ class MessageCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
 }

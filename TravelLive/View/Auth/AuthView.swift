@@ -15,12 +15,14 @@ enum AuthText: String {
 }
 
 class AuthView: UIView, NibOwnerLoadable {
-    
+    // swiftlint:disable opening_brace
+    // swiftlint:disable line_length
     @IBOutlet weak var authTitleLabel: UILabel!
     @IBOutlet weak var loginWithAppleButton: UIButton!
     {
         didSet {
-            loginWithAppleButton.configureButton(text: AuthText.appleButtonText.rawValue, image: UIImage.asset(.apple) ?? UIImage(), imagePadding: 10, edgePadding: 10, button: loginWithAppleButton, backgroundColor: UIColor.white, textColor: UIColor.black)
+        loginWithAppleButton.configureButton(text: AuthText.appleButtonText.rawValue, image: UIImage.asset(.apple) ?? UIImage(),
+        imagePadding: 10, edgePadding: 10, button: loginWithAppleButton, backgroundColor: UIColor.white, textColor: UIColor.black)
         }
     }
     @IBOutlet weak var textLabel: UILabel! {
@@ -29,7 +31,6 @@ class AuthView: UIView, NibOwnerLoadable {
         }
     }
     @IBOutlet weak var loginButton: UIButton!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         loginWithAppleButton.clipsToBounds = true
