@@ -10,4 +10,5 @@ target 'TravelLive' do
   pod 'GoogleMaps'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'SwiftLint'
 end

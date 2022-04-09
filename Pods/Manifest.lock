@@ -100,12 +100,14 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (2.0.0)
+  - SwiftLint (0.47.0)
 
 DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - GoogleMaps
   - LFLiveKit
+  - SwiftLint
 
 SPEC REPOS:
   trunk:
@@ -123,6 +125,7 @@ SPEC REPOS:
     - LFLiveKit
     - nanopb
     - PromisesObjC
+    - SwiftLint
 
 SPEC CHECKSUMS:
   Firebase: 7e8fe528c161b9271d365217a74c16aaf834578e
@@ -139,7 +142,8 @@ SPEC CHECKSUMS:
   LFLiveKit: 2219563721f8aa0f188effc3395a06e2d53b23f2
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: c42256aa52cd7705b2549c1d04a236095295aa5b
+PODFILE CHECKSUM: cfc46832ceb97b2412813ee0b0ae11ad1c9c6333
 
 COCOAPODS: 1.11.2

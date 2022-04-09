@@ -283,6 +283,7 @@
 				4BC1073427FA9DD40017B1B7 /* Resources */,
 				08BBAF26DB207923EBFEDBCC /* [CP] Embed Pods Frameworks */,
 				42BFB29D4973D866B66C0F62 /* [CP] Copy Pods Resources */,
+				4B43FD932801237400B7085D /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -382,6 +383,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TravelLive/Pods-TravelLive-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		4B43FD932801237400B7085D /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 		CB335F327D59DCD72F7C1D15 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
