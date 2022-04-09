@@ -10,4 +10,7 @@ target 'TravelLive' do
   pod 'GoogleMaps'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'SwiftLint'
+  pod “PubNub”, “~> 4”
+  pod 'IQKeyboardManagerSwift' 
 end

@@ -93,6 +93,7 @@ PODS:
   - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.7.1)
+  - IQKeyboardManagerSwift (6.5.9)
   - LFLiveKit (2.6)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
@@ -100,12 +101,19 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (2.0.0)
+  - PubNub (4.17.0):
+    - PubNub/Core (= 4.17.0)
+  - PubNub/Core (4.17.0)
+  - SwiftLint (0.47.0)
 
 DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - GoogleMaps
+  - IQKeyboardManagerSwift
   - LFLiveKit
+  - PubNub (~> 4)
+  - SwiftLint
 
 SPEC REPOS:
   trunk:
@@ -120,9 +128,12 @@ SPEC REPOS:
     - GoogleMaps
     - GoogleUtilities
     - GTMSessionFetcher
+    - IQKeyboardManagerSwift
     - LFLiveKit
     - nanopb
     - PromisesObjC
+    - PubNub
+    - SwiftLint
 
 SPEC CHECKSUMS:
   Firebase: 7e8fe528c161b9271d365217a74c16aaf834578e
@@ -136,10 +147,13 @@ SPEC CHECKSUMS:
   GoogleMaps: 94e6e0851beece6678af9f508f4918b7a7c61722
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
+  IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
   LFLiveKit: 2219563721f8aa0f188effc3395a06e2d53b23f2
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  PubNub: 306896876c3089884067609ff25d628a547d2942
+  SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: c42256aa52cd7705b2549c1d04a236095295aa5b
+PODFILE CHECKSUM: 83a9f040708b95a161a8ba73f42b4d2e87acea3e
 
 COCOAPODS: 1.11.2

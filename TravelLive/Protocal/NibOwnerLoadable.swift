@@ -13,7 +13,6 @@ protocol NibOwnerLoadable: AnyObject {
 
 // MARK: - Default implmentation
 extension NibOwnerLoadable {
-    
     static var nib: UINib {
         UINib(nibName: String(describing: self), bundle: Bundle(for: self))
     }
@@ -21,7 +20,6 @@ extension NibOwnerLoadable {
 
 // MARK: - Supporting methods
 extension NibOwnerLoadable where Self: UIView {
-    
     func loadNibContent() {
         guard let views = Self.nib.instantiate(withOwner: self, options: nil) as? [UIView],
             let contentView = views.first else {
@@ -35,4 +33,3 @@ extension NibOwnerLoadable where Self: UIView {
         contentView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
 }
-

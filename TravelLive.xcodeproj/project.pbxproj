@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B43FD922800AB2400B7085D /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B43FD912800AB2400B7085D /* UILabel+Extension.swift */; };
 		4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B8A27FD28D600A304D6 /* LoginViewController.swift */; };
 		4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B552B9227FD404A00A304D6 /* AuthView.xib */; };
 		4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */; };
 		4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9627FD5CC900A304D6 /* AuthView.swift */; };
-		4B552BA227FDF94500A304D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4B552BA127FDF94500A304D6 /* GoogleService-Info.plist */; };
 		4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */; };
+		4BC0EE6027FF327800C5673B /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0EE5E27FF327800C5673B /* MessageCell.swift */; };
+		4BC0EE6127FF327800C5673B /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC0EE5F27FF327800C5673B /* MessageCell.xib */; };
+		4BC0EE6327FFB90700C5673B /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0EE6227FFB90700C5673B /* UITableView+Extension.swift */; };
+		4BC0EE6528000A1F00C5673B /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC0EE6428000A1E00C5673B /* Chat.storyboard */; };
+		4BC0EE6828000B2000C5673B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0EE6728000B2000C5673B /* ChatViewController.swift */; };
+		4BC0EE6B28000D0800C5673B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0EE6A28000D0800C5673B /* BaseViewController.swift */; };
+		4BC0EE6D2800A30D00C5673B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BC0EE6C2800A30D00C5673B /* GoogleService-Info.plist */; };
 		4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1073927FA9DD40017B1B7 /* AppDelegate.swift */; };
 		4BC1073C27FA9DD40017B1B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1073B27FA9DD40017B1B7 /* SceneDelegate.swift */; };
 		4BC1073E27FA9DD40017B1B7 /* STTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1073D27FA9DD40017B1B7 /* STTabBarViewController.swift */; };
@@ -35,12 +42,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B43FD912800AB2400B7085D /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		4B552B8A27FD28D600A304D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4B552B9227FD404A00A304D6 /* AuthView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthView.xib; sourceTree = "<group>"; };
 		4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibOwnerLoadable.swift; sourceTree = "<group>"; };
 		4B552B9627FD5CC900A304D6 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
-		4B552BA127FDF94500A304D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		4BC0EE5E27FF327800C5673B /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		4BC0EE5F27FF327800C5673B /* MessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
+		4BC0EE6227FFB90700C5673B /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		4BC0EE6428000A1E00C5673B /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
+		4BC0EE6728000B2000C5673B /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		4BC0EE6A28000D0800C5673B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		4BC0EE6C2800A30D00C5673B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4BC1073627FA9DD40017B1B7 /* TravelLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC1073927FA9DD40017B1B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4BC1073B27FA9DD40017B1B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,7 +96,6 @@
 			isa = PBXGroup;
 			children = (
 				4B552B8A27FD28D600A304D6 /* LoginViewController.swift */,
-				4B552B9627FD5CC900A304D6 /* AuthView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -90,6 +103,7 @@
 		4B552B8D27FD2F5300A304D6 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				4B552B9627FD5CC900A304D6 /* AuthView.swift */,
 				4B552B9227FD404A00A304D6 /* AuthView.xib */,
 			);
 			path = Auth;
@@ -101,6 +115,32 @@
 				4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */,
 			);
 			path = Protocal;
+			sourceTree = "<group>";
+		};
+		4BC0EE5D27FF325100C5673B /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				4BC0EE5E27FF327800C5673B /* MessageCell.swift */,
+				4BC0EE5F27FF327800C5673B /* MessageCell.xib */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		4BC0EE6628000B0700C5673B /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				4BC0EE6728000B2000C5673B /* ChatViewController.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		4BC0EE6928000C9600C5673B /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				4BC1073D27FA9DD40017B1B7 /* STTabBarViewController.swift */,
+				4BC0EE6A28000D0800C5673B /* BaseViewController.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		4BC1072D27FA9DD40017B1B7 = {
@@ -124,7 +164,7 @@
 		4BC1073827FA9DD40017B1B7 /* TravelLive */ = {
 			isa = PBXGroup;
 			children = (
-				4B552BA127FDF94500A304D6 /* GoogleService-Info.plist */,
+				4BC0EE6C2800A30D00C5673B /* GoogleService-Info.plist */,
 				4B552B9827FD6A4300A304D6 /* Protocal */,
 				4BC1075B27FB4E8E0017B1B7 /* Extension */,
 				4BC1075A27FB4E710017B1B7 /* Resource */,
@@ -142,6 +182,7 @@
 		4BC1074E27FB45EE0017B1B7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4BC0EE5D27FF325100C5673B /* Chat */,
 				4B552B8D27FD2F5300A304D6 /* Auth */,
 				4BC1075827FB4AE40017B1B7 /* PushStreaming.storyboard */,
 				4BC1073F27FA9DD40017B1B7 /* Main.storyboard */,
@@ -149,6 +190,7 @@
 				4BC1076027FB56290017B1B7 /* Search.storyboard */,
 				4BC1076427FB565F0017B1B7 /* Profile.storyboard */,
 				4BC1076627FB56790017B1B7 /* Shop.storyboard */,
+				4BC0EE6428000A1E00C5673B /* Chat.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -156,9 +198,10 @@
 		4BC1074F27FB45FC0017B1B7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4BC0EE6928000C9600C5673B /* Base */,
+				4BC0EE6628000B0700C5673B /* Chat */,
 				4B552B8C27FD2A7A00A304D6 /* Login */,
 				4BC2BE5027FC45CC001FF31D /* Map */,
-				4BC1073D27FA9DD40017B1B7 /* STTabBarViewController.swift */,
 				4BC1075127FB46660017B1B7 /* PushStreaming */,
 			);
 			path = Controller;
@@ -196,6 +239,8 @@
 				4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */,
 				4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */,
 				4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */,
+				4BC0EE6227FFB90700C5673B /* UITableView+Extension.swift */,
+				4B43FD912800AB2400B7085D /* UILabel+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -238,6 +283,7 @@
 				4BC1073427FA9DD40017B1B7 /* Resources */,
 				08BBAF26DB207923EBFEDBCC /* [CP] Embed Pods Frameworks */,
 				42BFB29D4973D866B66C0F62 /* [CP] Copy Pods Resources */,
+				4B43FD932801237400B7085D /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -286,11 +332,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B552BA227FDF94500A304D6 /* GoogleService-Info.plist in Resources */,
 				4BC1076727FB56790017B1B7 /* Shop.storyboard in Resources */,
 				4BC1074627FA9DD60017B1B7 /* LaunchScreen.storyboard in Resources */,
 				4BC1076527FB565F0017B1B7 /* Profile.storyboard in Resources */,
+				4BC0EE6127FF327800C5673B /* MessageCell.xib in Resources */,
 				4BC1074327FA9DD60017B1B7 /* Assets.xcassets in Resources */,
+				4BC0EE6D2800A30D00C5673B /* GoogleService-Info.plist in Resources */,
+				4BC0EE6528000A1F00C5673B /* Chat.storyboard in Resources */,
 				4BC1075F27FB560D0017B1B7 /* Map.storyboard in Resources */,
 				4BC1074127FA9DD40017B1B7 /* Main.storyboard in Resources */,
 				4BC1076127FB56290017B1B7 /* Search.storyboard in Resources */,
@@ -336,6 +384,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TravelLive/Pods-TravelLive-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		4B43FD932801237400B7085D /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		CB335F327D59DCD72F7C1D15 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -370,15 +436,20 @@
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,
 				4BC1075427FB470F0017B1B7 /* PushViewController.swift in Sources */,
 				4BC2BE5227FC45F3001FF31D /* MapViewController.swift in Sources */,
+				4BC0EE6B28000D0800C5673B /* BaseViewController.swift in Sources */,
 				4BC1076927FBF0390017B1B7 /* UIImage+Extension.swift in Sources */,
 				4BC1073C27FA9DD40017B1B7 /* SceneDelegate.swift in Sources */,
+				4B43FD922800AB2400B7085D /* UILabel+Extension.swift in Sources */,
 				4BC1075D27FB51870017B1B7 /* UIStoryboard+Extension.swift in Sources */,
 				4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */,
 				4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */,
 				4BC2BE4F27FC4207001FF31D /* Secret.swift in Sources */,
+				4BC0EE6828000B2000C5673B /* ChatViewController.swift in Sources */,
+				4BC0EE6027FF327800C5673B /* MessageCell.swift in Sources */,
 				4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */,
 				4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */,
 				4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */,
+				4BC0EE6327FFB90700C5673B /* UITableView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -56,6 +56,7 @@ final class TileLayerViewController: UIViewController {
     // Clear existing tileLayer, if any.
     tileLayer?.map = nil
     // Create a new GMSTileLayer with the new floor choice.
+    // swiftlint:disable identifier_name
     tileLayer = GMSURLTileLayer(urlConstructor: { (x: UInt, y: UInt, zoom: UInt) -> URL? in
       return URL(
         string:

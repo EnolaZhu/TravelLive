@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIButton {
-    
+    // swiftlint:disable opening_brace line_length function_parameter_count
     func configureButton(text: String, image: UIImage, imagePadding: CGFloat, edgePadding: CGFloat, button: UIButton, backgroundColor: UIColor, textColor: UIColor)  {
         var configuration = UIButton.Configuration.filled()
         configuration.title = text
@@ -24,31 +24,31 @@ extension UIButton {
 @IBDesignable extension UIButton {
 
     @IBInspectable var borderWidth: CGFloat {
-        set {
-            layer.borderWidth = newValue
-        }
         get {
             return layer.borderWidth
+        }
+        set {
+            layer.borderWidth = newValue
         }
     }
 
     @IBInspectable var cornerRadius: CGFloat {
-        set {
-            layer.cornerRadius = newValue
-        }
         get {
             return layer.cornerRadius
+        }
+        set {
+            layer.cornerRadius = newValue
         }
     }
 
     @IBInspectable var borderColor: UIColor? {
-        set {
-            guard let uiColor = newValue else { return }
-            layer.borderColor = uiColor.cgColor
-        }
         get {
             guard let color = layer.borderColor else { return nil }
             return UIColor(cgColor: color)
+        }
+        set {
+            guard let uiColor = newValue else { return }
+            layer.borderColor = uiColor.cgColor
         }
     }
 }
