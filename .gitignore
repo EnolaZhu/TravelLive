@@ -92,3 +92,5 @@ iOSInjectionProject/
 
 # Enola added
 *.DS_Store
+Secret.swift
+GoogleService-Info.plist
