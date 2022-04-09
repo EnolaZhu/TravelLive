@@ -100,6 +100,9 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (2.0.0)
+  - PubNub (4.17.0):
+    - PubNub/Core (= 4.17.0)
+  - PubNub/Core (4.17.0)
   - SwiftLint (0.47.0)
 
 DEPENDENCIES:
@@ -107,6 +110,7 @@ DEPENDENCIES:
   - Firebase/Core
   - GoogleMaps
   - LFLiveKit
+  - PubNub (~> 4)
   - SwiftLint
 
 SPEC REPOS:
@@ -125,6 +129,7 @@ SPEC REPOS:
     - LFLiveKit
     - nanopb
     - PromisesObjC
+    - PubNub
     - SwiftLint
 
 SPEC CHECKSUMS:
@@ -142,8 +147,9 @@ SPEC CHECKSUMS:
   LFLiveKit: 2219563721f8aa0f188effc3395a06e2d53b23f2
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  PubNub: 306896876c3089884067609ff25d628a547d2942
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: cfc46832ceb97b2412813ee0b0ae11ad1c9c6333
+PODFILE CHECKSUM: 496907150d45ae2371c458ffb2212dfa17d0ad21
 
 COCOAPODS: 1.11.2

@@ -11,4 +11,5 @@ target 'TravelLive' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'SwiftLint'
+  pod “PubNub”, “~> 4” 
 end
