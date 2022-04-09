@@ -9,19 +9,15 @@ import UIKit
 import IQKeyboardManagerSwift
 
 class BaseViewController: UIViewController {
-    
     static var identifier: String {
         return String(describing: self)
     }
-    
     var isHideNavigationBar: Bool {
         return false
     }
-    
     var isEnableResignOnTouchOutside: Bool {
         return true
     }
-    
     var isEnableIQKeyboard: Bool {
         return true
     }

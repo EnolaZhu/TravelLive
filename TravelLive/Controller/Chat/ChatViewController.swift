@@ -25,10 +25,10 @@ class ChatViewController: BaseViewController, PNEventsListener {
         }
     }
     @IBOutlet weak var inputTextfield: UITextField!
-    
     private var messages = [Message]() {
         didSet {
             chatView.reloadData()
+            scroolRowToNewestRow(chatView)
         }
     }
     var noMoreMessages = false
@@ -53,13 +53,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
         chatView.registerCellWithNib(identifier: String(describing: MessageCell.self), bundle: nil)
     }
     
-    private func loadLastMessages() {
-        addHiistory(start: nil, end: nil, limit: 20)
-        if !self.messages.isEmpty {
-            self.chatView.scrollsToTop = true
-        }
-    }
-    
     @IBAction func sendMessage(_ sender: UIButton) {
         publishMessage()
     }
@@ -68,10 +61,10 @@ class ChatViewController: BaseViewController, PNEventsListener {
         if inputTextfield.text != "" || inputTextfield.text != nil {
             let messageString: String = inputTextfield.text!
             let messageObject: [String: Any] =
-                [ "message": messageString,
-                    "username": username,
-                    "uuid": client.uuid()
-                ]
+            [ "message": messageString,
+              "username": username,
+              "uuid": client.uuid()
+            ]
             
             client.publish(messageObject, toChannel: channelName) { status in
                 print(status.data.information)
@@ -92,7 +85,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
                 
                 for theMessage in messageDict {
                     let message = Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]! )
-                    self.messages.insert(message, at: 0)
+                    self.messages.append(message)
                 }
                 self.loadingMore = false
             } else if status !=  nil {
@@ -106,22 +99,14 @@ class ChatViewController: BaseViewController, PNEventsListener {
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
         if channelName == message.data.channel {
             guard let theMessage = message.data.message as? [String: String] else { return }
-            self.messages.insert(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!), at: 0)
-//            tableView.reloadData()
-            self.chatView.scrollsToTop = true
+            messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
         }
         print("Received message in Channel:", message.data.message!)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !loadingMore && !noMoreMessages {
-            let indexWant = IndexPath(row: messages.count - 1, section: 0)
-            let visible = chatView.indexPathsForVisibleRows
-            if visible!.contains(indexWant) {
-                loadingMore = true
-                addHiistory(start: earliestMessageTime, end: nil, limit: 10)
-            }
-        }
+    func scroolRowToNewestRow(_ tableView: UITableView) {
+        let indexPath = IndexPath(row: messages.count - 1, section: 0)
+        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
 }
 extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
