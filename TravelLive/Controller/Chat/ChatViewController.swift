@@ -8,7 +8,7 @@
 import UIKit
 import PubNub
 
-class ChatViewController: UIViewController, PNEventsListener {
+class ChatViewController: BaseViewController, PNEventsListener {
     private struct Message {
         var message: String
         var username: String
