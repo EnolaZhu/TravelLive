@@ -11,6 +11,8 @@ import CoreLocation
 
 class PushViewController: UIViewController, LFLiveSessionDelegate {
     var date = Int(Date().timeIntervalSince1970)
+    var longitude = Double()
+    var latitude = Double()
     private let secondDayMillis = 86400
     // Hard code streamerID
     let streamerId = "Enola"
@@ -210,7 +212,10 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 摄像头
     @objc func didTappedCameraButton(_ button: UIButton) {
-        pushStreamingProvider.postPushStreamingInfo(streamerId: streamerId) { [weak self] result in
+//        pushStreamingProvider.deletePushStreamingInfo(streamerId: streamerId) { [weak self] result in
+//            print("delete success")
+//        }
+        pushStreamingProvider.postPushStreamingInfo(streamerId: streamerId, longitude: longitude, latitude: latitude) { [weak self] result in
             print("post success")
         }
         let devicePositon = session.captureDevicePosition
@@ -246,5 +251,10 @@ private enum ComponentText {
 }
 
 extension PushViewController: CLLocationManagerDelegate {
-    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        longitude = locValue.longitude
+        latitude = locValue.latitude
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+    }
 }

@@ -13,6 +13,7 @@
 		4B4AA43B280294BE0066C602 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43A280294BE0066C602 /* Parser.swift */; };
 		4B4AA43E280296470066C602 /* PushStreamingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43D280296470066C602 /* PushStreamingRequest.swift */; };
 		4B4AA4402802AC4B0066C602 /* PushStreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */; };
+		4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */; };
 		4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B8A27FD28D600A304D6 /* LoginViewController.swift */; };
 		4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B552B9227FD404A00A304D6 /* AuthView.xib */; };
 		4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */; };
@@ -55,6 +56,7 @@
 		4B4AA43A280294BE0066C602 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		4B4AA43D280296470066C602 /* PushStreamingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingRequest.swift; sourceTree = "<group>"; };
 		4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingProvider.swift; sourceTree = "<group>"; };
+		4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingBody.swift; sourceTree = "<group>"; };
 		4B552B8A27FD28D600A304D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4B552B9227FD404A00A304D6 /* AuthView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthView.xib; sourceTree = "<group>"; };
 		4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibOwnerLoadable.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				4B4AA43D280296470066C602 /* PushStreamingRequest.swift */,
 				4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */,
+				4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */,
 			);
 			path = PushStreaming;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 			files = (
 				4BC1073E27FA9DD40017B1B7 /* STTabBarViewController.swift in Sources */,
 				4B4AA4402802AC4B0066C602 /* PushStreamingProvider.swift in Sources */,
+				4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */,
 				4BDEC3492801F28000143E25 /* String+Extension.swift in Sources */,
 				4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */,
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,

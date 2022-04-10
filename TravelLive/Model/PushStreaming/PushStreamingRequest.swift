@@ -8,7 +8,7 @@
 import Foundation
 
 enum PushStreamingRequest: Request {
-    case startPushStreaming(String)
+    case startPushStreaming(body: Data?)
     case stopPushStreaming(String)
     
     var headers: [String: String] {
@@ -21,14 +21,8 @@ enum PushStreamingRequest: Request {
     }
     var body: Data? {
         switch self {
-        case .startPushStreaming(let id):
-            let dict = [
-                "streamer_id": id,
-                "longitude": 121.5902465,
-                "latitude": 25.0450423
-            ] as [String : Any]
-            // as 不確定
-            return try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+        case .startPushStreaming(let body):
+            return body
         case .stopPushStreaming(let id):
             let dict = [
                 "streamer_id": id
