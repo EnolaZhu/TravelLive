@@ -7,15 +7,25 @@
 
 import UIKit
 import LFLiveKit
+import CoreLocation
 
 class PushViewController: UIViewController, LFLiveSessionDelegate {
     var date = Int(Date().timeIntervalSince1970)
     private let secondDayMillis = 86400
     // Hard code streamerID
     let streamerId = "Enola"
+    let pushStreamingProvider = PushStreamingProvider()
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
         session.delegate = self
         session.preView = view
         addPushPreview()
@@ -200,6 +210,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 摄像头
     @objc func didTappedCameraButton(_ button: UIButton) {
+        pushStreamingProvider.postPushStreamingInfo(streamerId: streamerId) { [weak self] result in
+            print("post success")
+        }
         let devicePositon = session.captureDevicePosition
         session.captureDevicePosition = (devicePositon == AVCaptureDevice.Position.back) ? AVCaptureDevice.Position.front : AVCaptureDevice.Position.back
     }
@@ -230,4 +243,8 @@ private enum ComponentText {
         case .closelive: return "Stop sharing"
         }
     }
+}
+
+extension PushViewController: CLLocationManagerDelegate {
+    
 }
