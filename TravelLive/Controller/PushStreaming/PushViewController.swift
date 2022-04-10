@@ -9,13 +9,21 @@ import UIKit
 import LFLiveKit
 
 class PushViewController: UIViewController, LFLiveSessionDelegate {
-    // swiftlint:disable trailing_whitespace
+    var date = Int(Date().timeIntervalSince1970)
+    private let secondDayMillis = 86400
+    // Hard code streamerID
+    let streamerId = "Enola"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         session.delegate = self
         session.preView = view
         addPushPreview()
         addChatView()
+        view.addSubview(cameraButton)
+        view.addSubview(closeButton)
+        view.addSubview(beautyButton)
+        view.addSubview(startLiveButton)
     }
     
     override func didReceiveMemoryWarning() {
@@ -28,10 +36,6 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         view.backgroundColor = UIColor.clear
         view.addSubview(containerView)
         containerView.addSubview(stateLabel)
-        containerView.addSubview(closeButton)
-        containerView.addSubview(beautyButton)
-        containerView.addSubview(cameraButton)
-        containerView.addSubview(startLiveButton)
         cameraButton.addTarget(self, action: #selector(didTappedCameraButton(_:)), for: .touchUpInside)
         beautyButton.addTarget(self, action: #selector(didTappedBeautyButton(_:)), for: .touchUpInside)
         startLiveButton.addTarget(self, action: #selector(didTappedStartLiveButton(_:)), for: .touchUpInside)
@@ -39,8 +43,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }
     // swiftlint:disable trailing_whitespace
     private func addChatView() {
-        let chatMessageVC = UIStoryboard.chat.instantiateViewController(withIdentifier:
-            String(describing: ChatViewController.self)
+        let chatMessageVC = UIStoryboard.chat.instantiateViewController(withIdentifier: String(describing: ChatViewController.self)
         )
         guard let chatVC = chatMessageVC as? ChatViewController else { return }
         view.addSubview(chatVC.view)
@@ -101,15 +104,15 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         print("liveStateDidChange: \(state.rawValue)")
         switch state {
         case LFLiveState.ready:
-            stateLabel.text = "No connection"
+            stateLabel.text = ComponentText.noConnect.text
         case LFLiveState.pending:
-            stateLabel.text = "Connecting"
+            stateLabel.text = ComponentText.connecting.text
         case LFLiveState.start:
-            stateLabel.text = "Connected"
+            stateLabel.text = ComponentText.connected.text
         case LFLiveState.error:
-            stateLabel.text = "Connect error"
+            stateLabel.text = ComponentText.connectError.text
         case LFLiveState.stop:
-            stateLabel.text = "Disconnect"
+            stateLabel.text = ComponentText.disconnect.text
         default:
             break
         }
@@ -118,11 +121,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     //  默認分辨率368 ＊ 640  音頻：44.1 iphone6以上48  雙聲道  豎屏
     var session: LFLiveSession = {
         let audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration(for: LFLiveAudioQuality.high)
-        let videoConfiguration = LFLiveVideoConfiguration.defaultConfiguration(for: LFLiveVideoQuality.low3)
+        let videoConfiguration = LFLiveVideoConfiguration.defaultConfiguration(for: LFLiveVideoQuality.low1)
         let session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
         return session!
     }()
-    // 視圖
+    // View
     // swiftlint:disable line_length
     var containerView: UIView = {
         let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height))
@@ -133,7 +136,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // Label
     var stateLabel: UILabel = {
         let stateLabel = UILabel(frame: CGRect(x: 20, y: 40, width: 80, height: 40))
-        stateLabel.text = "No connect"
+        stateLabel.text = ComponentText.noConnect.text
         stateLabel.textColor = UIColor.white
         stateLabel.font = UIFont.systemFont(ofSize: 14)
         return stateLabel
@@ -160,10 +163,10 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 開始直播
     var startLiveButton: UIButton = {
-        let startLiveButton = UIButton(frame: CGRect(x: 30, y: UIScreen.height - 100, width: UIScreen.width - 10 - 44, height: 44))
+        let startLiveButton = UIButton(frame: CGRect(x: 30, y: UIScreen.height - 130, width: UIScreen.width / 4, height: 44))
         startLiveButton.layer.cornerRadius = 22
         startLiveButton.setTitleColor(UIColor.black, for: UIControl.State())
-        startLiveButton.setTitle("Start sharing your life!", for: UIControl.State())
+        startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
         startLiveButton.titleLabel!.font = UIFont.systemFont(ofSize: 14)
         startLiveButton.backgroundColor = UIColor.red
         return startLiveButton
@@ -173,14 +176,18 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // start streming
     @objc func didTappedStartLiveButton(_ button: UIButton) {
+        let key = Secret.liveKey.rawValue
+        let hexTime = String(format: "%02X", date + secondDayMillis)
+        let secret = (key + streamerId + hexTime).md5
+        let pushStreamingUrl = Secret.pushStreamingUrl.rawValue + streamerId + "?txSecret=" + secret + "&txTime=" + hexTime
         startLiveButton.isSelected = !startLiveButton.isSelected
         if startLiveButton.isSelected {
-            startLiveButton.setTitle("Close sharing", for: UIControl.State())
+            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
             let stream = LFLiveStreamInfo()
-            stream.url = Secret.pushStreamingUrl.rawValue
+            stream.url = pushStreamingUrl
             session.startLive(stream)
         } else {
-            startLiveButton.setTitle("Start sharing your life!", for: UIControl.State())
+            startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
             session.stopLive()
         }
     }
@@ -201,5 +208,26 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     @objc func didTappedCloseButton(_ button: UIButton) {
         print("close!")
         view.removeFromSuperview()
+    }
+}
+
+private enum ComponentText {
+    case noConnect
+    case connecting
+    case connected
+    case connectError
+    case disconnect
+    case startLive
+    case closelive
+    var text: String {
+        switch self {
+        case .noConnect: return "No connect"
+        case .connecting: return "Connecting"
+        case .connected: return "Connected"
+        case .connectError: return "Connect error"
+        case .disconnect: return "Disconnect"
+        case .startLive: return "Start sharing"
+        case .closelive: return "Stop sharing"
+        }
     }
 }
