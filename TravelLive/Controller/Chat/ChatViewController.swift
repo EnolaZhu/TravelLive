@@ -109,6 +109,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
         tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
 }
+
 extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         messages.count

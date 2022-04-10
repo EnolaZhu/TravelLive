@@ -120,7 +120,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // MARK: - Getters and Setters
     //  默認分辨率368 ＊ 640  音頻：44.1 iphone6以上48  雙聲道  豎屏
     var session: LFLiveSession = {
-        let audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration(for: LFLiveAudioQuality.high)
+        let audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration(for: LFLiveAudioQuality.low)
         let videoConfiguration = LFLiveVideoConfiguration.defaultConfiguration(for: LFLiveVideoQuality.low1)
         let session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
         return session!
