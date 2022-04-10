@@ -13,7 +13,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     var date = Int(Date().timeIntervalSince1970)
     var longitude = Double()
     var latitude = Double()
+    var timer = Timer()
     private let secondDayMillis = 86400
+    private let time = 1000 * 3 * 60
     // Hard code streamerID
     let streamerId = "Enola"
     let pushStreamingProvider = PushStreamingProvider()
@@ -21,6 +23,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
@@ -28,6 +31,8 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+        // Timer
+        self.timer = Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         session.delegate = self
         session.preView = view
         addPushPreview()
@@ -40,6 +45,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+         // 將timer的執行緒停止
+        timer.invalidate()
     }
     
     private func addPushPreview() {
@@ -212,12 +222,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 摄像头
     @objc func didTappedCameraButton(_ button: UIButton) {
-//        pushStreamingProvider.deletePushStreamingInfo(streamerId: streamerId) { [weak self] result in
-//            print("delete success")
-//        }
-        pushStreamingProvider.postPushStreamingInfo(streamerId: streamerId, longitude: longitude, latitude: latitude) { [weak self] result in
-            print("post success")
-        }
+//        deletePushStreming()
+//        postPushStreamingInfo()
+        self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         let devicePositon = session.captureDevicePosition
         session.captureDevicePosition = (devicePositon == AVCaptureDevice.Position.back) ? AVCaptureDevice.Position.front : AVCaptureDevice.Position.back
     }
@@ -226,6 +233,18 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     @objc func didTappedCloseButton(_ button: UIButton) {
         print("close!")
         view.removeFromSuperview()
+    }
+    
+    @objc func postPushStreamingInfo() {
+        pushStreamingProvider.postPushStreamingInfo(streamerId: streamerId, longitude: longitude, latitude: latitude) { [weak self] result in
+            print("post success")
+        }
+    }
+    
+    func deletePushStreming() {
+        pushStreamingProvider.deletePushStreamingInfo(streamerId: streamerId) { [weak self] result in
+            print("delete success")
+        }
     }
 }
 
