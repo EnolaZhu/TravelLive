@@ -32,7 +32,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             locationManager.startUpdatingLocation()
         }
         // Timer
-        self.timer = Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         session.delegate = self
         session.preView = view
         addPushPreview()
