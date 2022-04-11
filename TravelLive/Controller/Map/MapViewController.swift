@@ -44,7 +44,10 @@ class MapViewController: UIViewController {
 extension MapViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        print("tapped on marker")
+        let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
+        )
+        guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return false }
+        show(pullVC, sender: nil)
         return true
     }
 }
