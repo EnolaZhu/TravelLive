@@ -76,6 +76,7 @@ class IndoorMuseumNavigationViewController: UIViewController {
     }
 
     if let exhibits = exhibits {
+    // swiftlint:disable identifier_name
       for (i, exhibit) in exhibits.enumerated() {
         segmentedControl.insertSegment(
           with: UIImage(named: exhibit.key), at: i, animated: false)

@@ -41,6 +41,7 @@ final class PolygonsViewController: UIViewController {
 
     // Copy the existing polygon and its settings and use it as a base for the
     // second polygon.
+      // swiftlint:disable force_cast
     let carolina = polygon.copy() as! GMSPolygon
     carolina.title = "North Carolina"
     carolina.path = GMSPath.northCarolina()
@@ -48,7 +49,7 @@ final class PolygonsViewController: UIViewController {
     carolina.map = mapView
   }
 }
-
+// swiftlint:disable function_body_length
 extension GMSPath {
   static func newYorkState() -> GMSPath {
     let data: [[CLLocationDegrees]] = [

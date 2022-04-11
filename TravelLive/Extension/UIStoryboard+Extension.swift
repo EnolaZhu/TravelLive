@@ -14,6 +14,7 @@ private struct StoryboardCategory {
     static let pushStreaming = "PushStreaming"
     static let shop = "Shop"
     static let profile = "Profile"
+    static let chat = "Chat"
 }
 
 extension UIStoryboard {
@@ -23,9 +24,9 @@ extension UIStoryboard {
     static var pushStreaming: UIStoryboard { return stStoryboard(name: StoryboardCategory.pushStreaming) }
     static var shop: UIStoryboard { return stStoryboard(name: StoryboardCategory.shop) }
     static var profile: UIStoryboard { return stStoryboard(name: StoryboardCategory.profile) }
+    static var chat: UIStoryboard { return stStoryboard(name: StoryboardCategory.chat) }
 
     private static func stStoryboard(name: String) -> UIStoryboard {
         return UIStoryboard(name: name, bundle: nil)
     }
 }
-
