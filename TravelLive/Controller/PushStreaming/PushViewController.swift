@@ -32,7 +32,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             locationManager.startUpdatingLocation()
         }
         // Timer
-        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
+//        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         session.delegate = self
         session.preView = view
         addPushPreview()
@@ -222,6 +222,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 摄像头
     @objc func didTappedCameraButton(_ button: UIButton) {
+        // 測試！！！
 //        deletePushStreming()
 //        postPushStreamingInfo()
         self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
