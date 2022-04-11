@@ -12,5 +12,6 @@ target 'TravelLive' do
   pod 'Firebase/Auth'
   pod 'SwiftLint'
   pod “PubNub”, “~> 4”
-  pod 'IQKeyboardManagerSwift' 
+  pod 'IQKeyboardManagerSwift'
+  pod 'Firebase/Storage' 
 end
