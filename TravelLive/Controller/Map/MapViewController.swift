@@ -13,10 +13,10 @@ class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
     let marker = GMSMarker()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mapView.delegate = self
         makeCustomMarker(latitude: 25.038806, longitude: 121.5573862)
     }
     
@@ -38,5 +38,13 @@ class MapViewController: UIViewController {
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         marker.icon = resizedImage?.circularImage(44)
         marker.map = self.mapView
+    }
+}
+
+extension MapViewController: GMSMapViewDelegate {
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        print("tapped on marker")
+        return true
     }
 }
