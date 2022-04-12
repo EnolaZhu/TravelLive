@@ -18,6 +18,7 @@ class PullStreamingViewController: UIViewController {
         super.viewDidLoad()
         
         createPlayer()
+        addChatView()
         createAnimationButton()
         loveButton.addTarget(self, action: #selector(click), for: .touchUpInside)
     }
@@ -54,6 +55,14 @@ class PullStreamingViewController: UIViewController {
         view.autoresizesSubviews = true
         view.addSubview((player?.view)!)
         self.player = player
+    }
+    
+    private func addChatView() {
+        let chatMessageVC = UIStoryboard.chat.instantiateViewController(withIdentifier: String(describing: ChatViewController.self)
+        )
+        guard let chatVC = chatMessageVC as? ChatViewController else { return }
+        view.addSubview(chatVC.view)
+        self.addChild(chatVC)
     }
     
     func createAnimationButton() {
