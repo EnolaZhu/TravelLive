@@ -21,9 +21,6 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //        pullStreamingProvider.fetchStreamerInfo { [weak self] data in
-        //            print("\(data)")
-        //        }
         // Location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
@@ -32,22 +29,30 @@ class MapViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        
-        pullStreamingProvider.request { [weak self] result in
-            self?.streamerData = result
-            print("\(String(describing: self?.streamerData))")
-            guard let streamerData = self?.streamerData else { return }
-            for index in 0...streamerData.data.count - 1 {
-                self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
-            }
-        }
-        
         mapView.delegate = self
+        fetchData()
     }
     
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func fetchData() {
+        pullStreamingProvider.fetchStreamerInfo(completion: { [weak self] result in
+            
+            switch result {
+            case .success(let user):
+                self?.streamerData = user
+                print("\(String(describing: self?.streamerData))")
+                guard let streamerData = self?.streamerData else { return }
+                for index in 0...streamerData.data.count - 1 {
+                    self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
+                }
+            case .failure:
+                print("Failed")
+            }
+        })
     }
     
     func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
@@ -84,8 +89,8 @@ extension MapViewController: GMSMapViewDelegate {
 extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-//        longitude = locValue.longitude
-//        latitude = locValue.latitude
+        //        longitude = locValue.longitude
+        //        latitude = locValue.latitude
         let camera = GMSCameraPosition(latitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.81)
         mapView.camera = camera
     }
