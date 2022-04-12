@@ -12,7 +12,11 @@ struct StreamerDataObject: Codable {
 }
 struct Streamer: Codable {
     var id: String
+    var storageBucket: String
     var avatar: String
     var latitude: Double
     var longitude: Double
+    enum CodingKeys: String, CodingKey {
+        case storageBucket = "storage_bucket", id, avatar, longitude, latitude
+    }
 }
