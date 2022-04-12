@@ -8,5 +8,5 @@
 import Foundation
 
 struct Constant {
-    static let updateLiveUrlKey = "UpdateLiveUrlKey"
+    static let BaseUrl = "BaseUrl"
 }

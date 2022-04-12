@@ -12,29 +12,66 @@ import CoreLocation
 class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
-    let marker = GMSMarker()
+    
+    let pullStreamingProvider = PullStreamingProvider()
+    var avater = UIImage()
+    var streamerData: StreamerDataObject?
+    let locationManager = CLLocationManager()
+    var specificStreamer: [Streamer]?
+    var url = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Location
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
         
         mapView.delegate = self
-        makeCustomMarker(latitude: 25.038806, longitude: 121.5573862)
+        fetchData()
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
     
-    func makeCustomMarker(latitude: Float, longitude: Float) {
-        let camera = GMSCameraPosition(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude), zoom: 15.81)
-        mapView.camera = camera
+    func fetchData() {
+        pullStreamingProvider.fetchStreamerInfo(completion: { [weak self] result in
+            switch result {
+                
+            case .success(let user):
+                self?.streamerData = user
+                print("\(String(describing: self?.streamerData))")
+                guard let streamerData = self?.streamerData else { return }
+                for index in 0...streamerData.data.count - 1 {
+                    self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
+                }
+                
+            case .failure:
+                print("Failed")
+            }
+        })
+    }
+    
+    func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
+        MarkerManager.shared.fetchStreamerImage(imageUrl: data.storageBucket, avater: data.avatar) { image in
+            self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image)
+        }
+    }
+    
+    func makeCustomMarker(latitude: Float, longitude: Float, pinImage: UIImage) {
+        let marker = GMSMarker()
         mapView.selectedMarker = marker
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
         marker.map = mapView
-        let pinImage = UIImage(named: "userImage")
         let size = CGSize(width: 88, height: 88)
         UIGraphicsBeginImageContext(size)
-        pinImage!.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         marker.icon = resizedImage?.circularImage(44)
         marker.map = self.mapView
@@ -42,12 +79,38 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController: GMSMapViewDelegate {
-    
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        let markerLatitude = Float(marker.position.latitude)
+        let markerLongitude = Float(marker.position.longitude)
+        
+        specificStreamer = self.streamerData?.data.filter({
+            Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
+        })
+        print("\(String(describing: specificStreamer?.first?.shareUrl))")
+        
+        guard let url = specificStreamer?.first?.shareUrl else { return false }
+        self.url = url
+        createLiveRoom(streamerUrl: url)
+        //        25.055294
+        return true
+    }
+    
+    func createLiveRoom(streamerUrl: String) {
         let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
         )
-        guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return false }
+        guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
+        pullVC.streamingUrl = url
+        print("\(pullVC.streamingUrl)")
         show(pullVC, sender: nil)
-        return true
+    }
+}
+
+extension MapViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        //        longitude = locValue.longitude
+        //        latitude = locValue.latitude
+        let camera = GMSCameraPosition(latitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.81)
+        mapView.camera = camera
     }
 }
