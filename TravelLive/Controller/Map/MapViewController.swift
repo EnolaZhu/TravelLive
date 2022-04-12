@@ -16,6 +16,7 @@ class MapViewController: UIViewController {
     let pullStreamingProvider = PullStreamingProvider()
     var avater = UIImage()
     var streamerData: StreamerDataObject?
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,15 @@ class MapViewController: UIViewController {
         //        pullStreamingProvider.fetchStreamerInfo { [weak self] data in
         //            print("\(data)")
         //        }
+        // Location
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+        
         pullStreamingProvider.request { [weak self] result in
             self?.streamerData = result
             print("\(String(describing: self?.streamerData))")
@@ -31,9 +41,7 @@ class MapViewController: UIViewController {
                 self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
             }
         }
-        // Hard code
-        let camera = GMSCameraPosition(latitude: CLLocationDegrees(25.038806), longitude: CLLocationDegrees(121.5573862), zoom: 15.81)
-        mapView.camera = camera
+        
         mapView.delegate = self
     }
     
@@ -70,5 +78,15 @@ extension MapViewController: GMSMapViewDelegate {
         guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return false }
         show(pullVC, sender: nil)
         return true
+    }
+}
+
+extension MapViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+//        longitude = locValue.longitude
+//        latitude = locValue.latitude
+        let camera = GMSCameraPosition(latitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.81)
+        mapView.camera = camera
     }
 }
