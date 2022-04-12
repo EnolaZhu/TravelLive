@@ -35,7 +35,7 @@ enum HTTPHeaderValue: String {
 }
 
 protocol Request {
-    var headers: [String: String] { get }
+    var headers: [String: String]? { get }
     var body: Data? { get }
     var method: String { get }
     var endPoint: String { get }
@@ -43,7 +43,7 @@ protocol Request {
 
 extension Request {
     func makeRequest() -> URLRequest {
-        let urlString = Bundle.ValueForString(key: Constant.updateLiveUrlKey) + endPoint
+        let urlString = Bundle.ValueForString(key: Constant.BaseUrl) + endPoint
         let url = URL(string: urlString)!
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = headers
