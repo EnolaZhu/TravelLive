@@ -10,6 +10,7 @@ import IJKMediaFramework
 
 class PullStreamingViewController: UIViewController {
     var player: IJKFFMoviePlayerController!
+    var streamingUrl = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,10 +31,10 @@ class PullStreamingViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+    // "http://cdn-live1.qvc.jp/iPhone/800/800.m3u8"
     func createPlayer() {
         let options = IJKFFOptions.byDefault()
-        let url = NSURL(string: "http://cdn-live1.qvc.jp/iPhone/800/800.m3u8")
+        let url = NSURL(string: streamingUrl)
         let player = IJKFFMoviePlayerController(contentURL: url as URL?, with: options)
         // 播放頁面寬高自適應
         let autoresize = UIView.AutoresizingMask.flexibleWidth.rawValue | UIView.AutoresizingMask.flexibleHeight.rawValue

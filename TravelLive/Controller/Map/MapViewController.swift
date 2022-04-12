@@ -17,10 +17,11 @@ class MapViewController: UIViewController {
     var avater = UIImage()
     var streamerData: StreamerDataObject?
     let locationManager = CLLocationManager()
+    var specificStreamer: [Streamer]?
+    var url = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
@@ -29,6 +30,7 @@ class MapViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+        
         mapView.delegate = self
         fetchData()
     }
@@ -40,8 +42,8 @@ class MapViewController: UIViewController {
     
     func fetchData() {
         pullStreamingProvider.fetchStreamerInfo(completion: { [weak self] result in
-            
             switch result {
+                
             case .success(let user):
                 self?.streamerData = user
                 print("\(String(describing: self?.streamerData))")
@@ -49,6 +51,7 @@ class MapViewController: UIViewController {
                 for index in 0...streamerData.data.count - 1 {
                     self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
                 }
+                
             case .failure:
                 print("Failed")
             }
@@ -76,13 +79,29 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController: GMSMapViewDelegate {
-    
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        let markerLatitude = Float(marker.position.latitude)
+        let markerLongitude = Float(marker.position.longitude)
+        
+        specificStreamer = self.streamerData?.data.filter({
+            Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
+        })
+        print("\(String(describing: specificStreamer?.first?.shareUrl))")
+        
+        guard let url = specificStreamer?.first?.shareUrl else { return false }
+        self.url = url
+        createLiveRoom(streamerUrl: url)
+        //        25.055294
+        return true
+    }
+    
+    func createLiveRoom(streamerUrl: String) {
         let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
         )
-        guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return false }
+        guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
+        pullVC.streamingUrl = url
+        print("\(pullVC.streamingUrl)")
         show(pullVC, sender: nil)
-        return true
     }
 }
 
