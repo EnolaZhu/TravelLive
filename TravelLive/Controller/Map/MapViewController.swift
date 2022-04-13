@@ -19,6 +19,8 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var specificStreamer: [Streamer]?
     var url = String()
+//    var longitude = CLLocationDegrees()
+//    var latitude = CLLocationDegrees()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +35,13 @@ class MapViewController: UIViewController {
         
         mapView.delegate = self
         fetchData()
+        let camera = GMSCameraPosition(latitude: 25.0552943, longitude: 121.6340554, zoom: 15.81)
+                mapView.camera = camera
     }
     
+//    override func viewDidAppear(_ animated: Bool) {
+//
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -108,9 +115,9 @@ extension MapViewController: GMSMapViewDelegate {
 extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        //        longitude = locValue.longitude
-        //        latitude = locValue.latitude
-        let camera = GMSCameraPosition(latitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.81)
-        mapView.camera = camera
+//                longitude = locValue.longitude
+//                latitude = locValue.latitude
+//
     }
+    
 }
