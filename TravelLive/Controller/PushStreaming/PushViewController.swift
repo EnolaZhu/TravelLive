@@ -8,6 +8,7 @@
 import UIKit
 import LFLiveKit
 import CoreLocation
+import Speech
 
 class PushViewController: UIViewController, LFLiveSessionDelegate {
     var date = Int(Date().timeIntervalSince1970)
@@ -20,6 +21,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     let streamerId = "Enola"
     let pushStreamingProvider = PushStreamingProvider()
     let locationManager = CLLocationManager()
+    // STT
+    let audioEngine = AVAudioEngine()
+    let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "zh_Hans_CN"))
+    let request = SFSpeechAudioBufferRecognitionRequest()
+    var task: SFSpeechRecognitionTask!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +38,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             locationManager.startUpdatingLocation()
         }
         // Timer
-//        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
+        //        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         session.delegate = self
         session.preView = view
         addPushPreview()
@@ -48,8 +54,10 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-         // 將timer的執行緒停止
+        // 將timer的執行緒停止
         timer.invalidate()
+        // Cancel STT
+        cancelSpeechRecognization()
     }
     
     private func addPushPreview() {
@@ -63,6 +71,74 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         startLiveButton.addTarget(self, action: #selector(didTappedStartLiveButton(_:)), for: .touchUpInside)
         closeButton.addTarget(self, action: #selector(didTappedCloseButton(_:)), for: .touchUpInside)
     }
+    
+    func requestPermission() {
+        SFSpeechRecognizer.requestAuthorization { authState in
+            OperationQueue.main.addOperation {
+                if authState == .authorized {
+                    print("Accepted")
+                } else if authState == .denied {
+                    self.alertView(message: "User denied the permission")
+                } else if authState == .notDetermined {
+                    self.alertView(message: "In user phone there is no speech recognization")
+                } else if authState == .restricted {
+                    self.alertView(message: "User has been restricted for using the speech recognization")
+                }
+            }
+        }
+    }
+    
+    func alertView(message: String) {
+        let controller = UIAlertController.init(title: "Error ocured...", message: message, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            controller.dismiss(animated: true, completion: nil)
+        }))
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    func startSpeechRecognization(){
+        let node = audioEngine.inputNode
+        let recordingFormat = node.outputFormat(forBus: 0)
+        
+        node.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, _) in
+            self.request.append(buffer)
+        }
+        
+        audioEngine.prepare()
+        do {
+            try audioEngine.start()
+        } catch let error {
+            alertView(message: "Error comes here for starting the audio listner =\(error.localizedDescription)")
+        }
+        
+        guard let myRecognization = SFSpeechRecognizer() else {
+            self.alertView(message: "Recognization is not allow on your local")
+            return
+        }
+        
+        if !myRecognization.isAvailable {
+            self.alertView(message: "Recognization is free right now, Please try again after some time.")
+        }
+        
+        task = speechRecognizer?.recognitionTask(with: request, resultHandler: { (response, error) in
+            guard let response = response else {
+                if error != nil {
+                    self.alertView(message: error.debugDescription)
+                } else {
+                    self.alertView(message: "Problem in giving the response")
+                }
+                return
+            }
+            let message = response.bestTranscription.formattedString
+//            print("Message : \(message)")
+//            self.textsOfSTT.append(message) // ["你好。", "你好，今天。", "你好，今天開心嗎？", ""]
+//            print("\(self.textsOfSTT)")
+            let streamerText = ["streamer": message]
+            NotificationCenter.default.post(name: .textNotificationKey, object: nil, userInfo: streamerText)
+        })
+       
+    }
+    
     // swiftlint:disable trailing_whitespace
     private func addChatView() {
         let chatMessageVC = UIStoryboard.chat.instantiateViewController(withIdentifier: String(describing: ChatViewController.self)
@@ -109,6 +185,19 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         case AVAuthorizationStatus.restricted: break
         default:
             break
+        }
+    }
+    func cancelSpeechRecognization() {
+        task.finish()
+        task.cancel()
+        task = nil
+        request.endAudio()
+        audioEngine.stop()
+        //audioEngine.inputNode.removeTap(onBus: 0)
+        
+        //MARK: UPDATED
+        if audioEngine.inputNode.numberOfInputs > 0 {
+            audioEngine.inputNode.removeTap(onBus: 0)
         }
     }
     
@@ -198,6 +287,10 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // start streming
     @objc func didTappedStartLiveButton(_ button: UIButton) {
+        // STT
+        requestPermission()
+        startSpeechRecognization()
+        
         let key = Secret.liveKey.rawValue
         let hexTime = String(format: "%02X", date + secondDayMillis)
         let secret = (key + streamerId + hexTime).md5
@@ -223,8 +316,8 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // 摄像头
     @objc func didTappedCameraButton(_ button: UIButton) {
         // 測試！！！
-//        deletePushStreming()
-//        postPushStreamingInfo()
+        //        deletePushStreming()
+        //        postPushStreamingInfo()
         self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         let devicePositon = session.captureDevicePosition
         session.captureDevicePosition = (devicePositon == AVCaptureDevice.Position.back) ? AVCaptureDevice.Position.front : AVCaptureDevice.Position.back
@@ -275,6 +368,5 @@ extension PushViewController: CLLocationManagerDelegate {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         longitude = locValue.longitude
         latitude = locValue.latitude
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
 }
