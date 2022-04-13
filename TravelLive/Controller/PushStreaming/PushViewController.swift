@@ -134,7 +134,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
 //            self.textsOfSTT.append(message) // ["你好。", "你好，今天。", "你好，今天開心嗎？", ""]
 //            print("\(self.textsOfSTT)")
             let streamerText = ["streamer": message]
-            NotificationCenter.default.post(name: NSNotification.Name("text"), object: nil, userInfo: streamerText)
+            NotificationCenter.default.post(name: .textNotificationKey, object: nil, userInfo: streamerText)
         })
        
     }

@@ -72,6 +72,6 @@ class PullStreamingViewController: UIViewController {
     }
     
     @objc func click() {
-        NotificationCenter.default.post(name: NSNotification.Name("heart"), object: nil)
+        NotificationCenter.default.post(name: .animationNotificationKey, object: nil)
     }
 }

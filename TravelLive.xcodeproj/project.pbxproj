@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4B12BAB72803CBDB0096359B /* GMSMarker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */; };
+		4B3AAAD62806BCB500CBFE89 /* Notification.Nam+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */; };
 		4B43FD922800AB2400B7085D /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B43FD912800AB2400B7085D /* UILabel+Extension.swift */; };
 		4B4AA43628028E7B0066C602 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43528028E7B0066C602 /* Constant.swift */; };
 		4B4AA4382802928B0066C602 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA4372802928B0066C602 /* Bundle+Extension.swift */; };
@@ -60,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GMSMarker+Extension.swift"; sourceTree = "<group>"; };
+		4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Nam+Extension.swift"; sourceTree = "<group>"; };
 		4B43FD912800AB2400B7085D /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		4B4AA43528028E7B0066C602 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		4B4AA4372802928B0066C602 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				4BDEC3482801F28000143E25 /* String+Extension.swift */,
 				4B4AA4372802928B0066C602 /* Bundle+Extension.swift */,
 				4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */,
+				4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				4BDEC34C28028B6F00143E25 /* HTTPClient.swift in Sources */,
 				4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */,
 				4B4AA43B280294BE0066C602 /* Parser.swift in Sources */,
+				4B3AAAD62806BCB500CBFE89 /* Notification.Nam+Extension.swift in Sources */,
 				4B4AA43628028E7B0066C602 /* Constant.swift in Sources */,
 				4BB6AC0628045F5D0061EDDE /* PullStreamingProvider.swift in Sources */,
 				4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */,
