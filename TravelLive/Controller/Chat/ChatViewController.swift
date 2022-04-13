@@ -24,7 +24,9 @@ class ChatViewController: BaseViewController, PNEventsListener {
             chatView.backgroundColor = UIColor.clear
         }
     }
+    @IBOutlet weak var caption: UILabel!
     @IBOutlet weak var inputTextfield: UITextField!
+    
     private var messages = [Message]() {
         didSet {
             chatView.reloadData()
@@ -54,12 +56,17 @@ class ChatViewController: BaseViewController, PNEventsListener {
         // Add observer for STT text
         NotificationCenter.default.addObserver(self, selector: #selector(self.getStreamerText(_:)), name: .textNotificationKey, object: nil)
     }
-
+    
     @objc func getStreamerText(_ notification: NSNotification) {
         if let text = notification.userInfo?["streamer"] as? String {
-            textsOfSTT.append(text)
+            self.client.publish(["message": text,
+                                 "username": "STT",
+                                 "uuid": self.client.uuid()
+                                ], toChannel: channelName) { status in
+                print(status.data.information)
+            }
+            print(textsOfSTT)
         }
-        print(textsOfSTT)
     }
     
     @objc func showAnimation(_ notification: NSNotification) {
@@ -142,7 +149,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
             } else if status !=  nil {
                 print(status!.category)
             } else {
-                print("everything is nil whaaat")
+                print("everything is nil whaat")
             }
         }
     }
@@ -150,9 +157,10 @@ class ChatViewController: BaseViewController, PNEventsListener {
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
         if channelName == message.data.channel {
             guard let theMessage = message.data.message as? [String: String] else { return }
-            if theMessage["username"] == "animation"{
-                print(theMessage["message"])
+            if theMessage["username"] == "animation" {
                 createAnimation()
+            } else if theMessage["username"] == "STT" {
+                caption.text = theMessage["message"]
             } else {
                 messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
             }
