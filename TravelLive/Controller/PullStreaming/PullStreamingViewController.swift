@@ -13,7 +13,6 @@ class PullStreamingViewController: UIViewController {
     private let loveButton = UIButton()
     var streamingUrl = String()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,7 +72,6 @@ class PullStreamingViewController: UIViewController {
     }
     
     @objc func click() {
-        
         NotificationCenter.default.post(name: NSNotification.Name("heart"), object: nil)
     }
 }
