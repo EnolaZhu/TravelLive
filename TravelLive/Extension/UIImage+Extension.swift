@@ -23,6 +23,8 @@ enum ImageAsset: String {
     case Icons_shop
     // auth image
     case apple
+    // live animation
+    case cherry_blossom
 }
 
 extension UIImage {

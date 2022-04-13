@@ -10,12 +10,17 @@ import IJKMediaFramework
 
 class PullStreamingViewController: UIViewController {
     var player: IJKFFMoviePlayerController!
+    private let loveButton = UIButton()
     var streamingUrl = String()
+    var clickNumber = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         createPlayer()
+        addChatView()
+        createAnimationButton()
+        loveButton.addTarget(self, action: #selector(click), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,8 +36,10 @@ class PullStreamingViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
     // "http://cdn-live1.qvc.jp/iPhone/800/800.m3u8"
     func createPlayer() {
+        streamingUrl = "http://cdn-live1.qvc.jp/iPhone/800/800.m3u8"
         let options = IJKFFOptions.byDefault()
         let url = NSURL(string: streamingUrl)
         let player = IJKFFMoviePlayerController(contentURL: url as URL?, with: options)
@@ -48,5 +55,49 @@ class PullStreamingViewController: UIViewController {
         view.autoresizesSubviews = true
         view.addSubview((player?.view)!)
         self.player = player
+    }
+    
+    private func addChatView() {
+        let chatMessageVC = UIStoryboard.chat.instantiateViewController(withIdentifier: String(describing: ChatViewController.self)
+        )
+        guard let chatVC = chatMessageVC as? ChatViewController else { return }
+        view.addSubview(chatVC.view)
+        self.addChild(chatVC)
+    }
+    
+    func createAnimationButton() {
+        view.addSubview(loveButton)
+        loveButton.translatesAutoresizingMaskIntoConstraints = false
+        loveButton.setImage(UIImage.asset(.cherry_blossom), for: UIControl.State())
+        NSLayoutConstraint.activate([loveButton.widthAnchor.constraint(equalToConstant: 44), loveButton.heightAnchor.constraint(equalToConstant: 44), loveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120), loveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)])
+    }
+    
+    @objc func click() {
+        clickNumber += 1
+        createAnimation()
+    }
+    
+    func createAnimation() {
+        let animationImage = UIImageView(image: UIImage.asset(.cherry_blossom))
+        animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
+        
+        if clickNumber % 2 == 0 {
+            UIView.transition(with: self.view, duration: 1, options: .curveEaseOut) {
+                animationImage.frame = CGRect(x: 0 - 30, y: 0 - 30, width: 44, height: 44)
+                self.view.addSubview(animationImage)
+                animationImage.alpha = 0.1
+            } completion: {_ in
+                animationImage.removeFromSuperview()
+            }
+        } else {
+            animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
+            UIView.transition(with: self.view, duration: 1, options: .curveEaseInOut) {
+                animationImage.frame = CGRect(x: UIScreen.width / 2, y: 0 - 30, width: 44, height: 44)
+                self.view.addSubview(animationImage)
+                animationImage.alpha = 0.2
+            } completion: {_ in
+                animationImage.removeFromSuperview()
+            }
+        }
     }
 }
