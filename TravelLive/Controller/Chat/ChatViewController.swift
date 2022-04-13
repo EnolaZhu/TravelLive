@@ -38,6 +38,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var channelName = "Channel Name"
     var username = "Enola"
     var clickNumber = 0
+    var textsOfSTT = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +49,17 @@ class ChatViewController: BaseViewController, PNEventsListener {
         client = PubNub.clientWithConfiguration(configuration)
         client.addListener(self)
         client.subscribeToChannels([channelName], withPresence: true)
-        // Add observer
+        // Add observer for animation
         NotificationCenter.default.addObserver(self, selector: #selector(self.showAnimation(_:)), name: NSNotification.Name(rawValue: "heart"), object: nil)
+        // Add observer for STT text
+        NotificationCenter.default.addObserver(self, selector: #selector(self.getStreamerText(_:)), name: NSNotification.Name(rawValue: "text"), object: nil)
+    }
+
+    @objc func getStreamerText(_ notification: NSNotification) {
+        if let text = notification.userInfo?["streamer"] as? String {
+            textsOfSTT.append(text)
+        }
+        print(textsOfSTT)
     }
     
     @objc func showAnimation(_ notification: NSNotification) {
