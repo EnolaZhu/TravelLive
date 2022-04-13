@@ -11,14 +11,17 @@ struct StreamerDataObject: Codable {
     var data: [Streamer]
 }
 struct Streamer: Codable {
-    var id: String
+    var streamerId: String
     var storageBucket: String
-    var shareUrl: String
+    var universalLink: String
+    var pullUrl: String
     var avatar: String
     var latitude: Double
     var longitude: Double
     enum CodingKeys: String, CodingKey {
         case storageBucket = "storage_bucket"
-        case shareUrl = "share_url", id, avatar, longitude, latitude
+        case streamerId = "streamer_id"
+        case pullUrl = "pull_url"
+        case universalLink = "universal_link", avatar, longitude, latitude
     }
 }
