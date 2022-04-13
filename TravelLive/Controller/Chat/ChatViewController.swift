@@ -37,6 +37,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var client: PubNub!
     var channelName = "Channel Name"
     var username = "Enola"
+    var clickNumber = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +48,12 @@ class ChatViewController: BaseViewController, PNEventsListener {
         client = PubNub.clientWithConfiguration(configuration)
         client.addListener(self)
         client.subscribeToChannels([channelName], withPresence: true)
+        // Add observer
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showAnimation(_:)), name: NSNotification.Name(rawValue: "heart"), object: nil)
+    }
+    
+    @objc func showAnimation(_ notification: NSNotification) {
+        publishAnimation()
     }
     
     private func setupChatView() {
@@ -70,6 +77,40 @@ class ChatViewController: BaseViewController, PNEventsListener {
                 print(status.data.information)
             }
             inputTextfield.text = ""
+        }
+    }
+    
+    func publishAnimation() {
+        clickNumber += 1
+        client.publish(["message": "heart",
+                        "username": "animation",
+                        "uuid": client.uuid()
+                       ], toChannel: channelName) { status in
+            print(status.data.information)
+        }
+    }
+    
+    func createAnimation() {
+        let animationImage = UIImageView(image: UIImage.asset(.cherry_blossom))
+        animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
+        
+        if clickNumber % 2 == 0 {
+            UIView.transition(with: self.view, duration: 1, options: .curveEaseOut) {
+                animationImage.frame = CGRect(x: 0 - 30, y: 0 - 30, width: 44, height: 44)
+                self.view.addSubview(animationImage)
+                animationImage.alpha = 0.1
+            } completion: {_ in
+                animationImage.removeFromSuperview()
+            }
+        } else {
+            animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
+            UIView.transition(with: self.view, duration: 1, options: .curveEaseInOut) {
+                animationImage.frame = CGRect(x: UIScreen.width / 2, y: 0 - 30, width: 44, height: 44)
+                self.view.addSubview(animationImage)
+                animationImage.alpha = 0.2
+            } completion: {_ in
+                animationImage.removeFromSuperview()
+            }
         }
     }
     
@@ -99,7 +140,12 @@ class ChatViewController: BaseViewController, PNEventsListener {
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
         if channelName == message.data.channel {
             guard let theMessage = message.data.message as? [String: String] else { return }
-            messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
+            if theMessage["username"] == "animation"{
+                print(theMessage["message"])
+                createAnimation()
+            } else {
+                messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
+            }
         }
         print("Received message in Channel:", message.data.message!)
     }
