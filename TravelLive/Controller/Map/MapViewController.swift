@@ -93,9 +93,9 @@ extension MapViewController: GMSMapViewDelegate {
         specificStreamer = self.streamerData?.data.filter({
             Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
         })
-        print("\(String(describing: specificStreamer?.first?.shareUrl))")
+        print("\(String(describing: specificStreamer?.first?.pullUrl))")
         
-        guard let url = specificStreamer?.first?.shareUrl else { return false }
+        guard let url = specificStreamer?.first?.pullUrl else { return false }
         self.url = url
         createLiveRoom(streamerUrl: url)
         //        25.055294
