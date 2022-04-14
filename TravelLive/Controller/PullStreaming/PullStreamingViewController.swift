@@ -45,7 +45,7 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     func createAnimationButton() {
         view.addSubview(loveButton)
         loveButton.translatesAutoresizingMaskIntoConstraints = false
-        loveButton.setImage(UIImage.asset(.cherry_blossom), for: UIControl.State())
+        loveButton.setImage(UIImage.asset(.heart), for: UIControl.State())
         NSLayoutConstraint.activate([loveButton.widthAnchor.constraint(equalToConstant: 44), loveButton.heightAnchor.constraint(equalToConstant: 44), loveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200), loveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)])
     }
     

@@ -108,7 +108,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
     }
     
     func createAnimation() {
-        let animationImage = UIImageView(image: UIImage.asset(.cherry_blossom))
+        let animationImage = UIImageView(image: UIImage.asset(.heart))
         animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
         
         if clickNumber % 2 == 0 {
