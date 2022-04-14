@@ -57,7 +57,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         // 將timer的執行緒停止
         timer.invalidate()
         // Cancel STT
-        cancelSpeechRecognization()
+        if task != nil {
+            cancelSpeechRecognization()
+        }
     }
     
     private func addPushPreview() {
@@ -260,13 +262,13 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }()
     // camera
     var cameraButton: UIButton = {
-        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 54 * 2, y: UIScreen.height - 140, width: 44, height: 44))
+        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 430, width: 44, height: 44))
         cameraButton.setImage(UIImage.asset(.Icons_camera_preview), for: UIControl.State())
         return cameraButton
     }()
     //  camera
     var beautyButton: UIButton = {
-        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 54 * 3, y: UIScreen.height - 140, width: 44, height: 44))
+        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 380, width: 44, height: 44))
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty), for: UIControl.State.selected)
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close), for: UIControl.State())
         return beautyButton
@@ -274,12 +276,12 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 開始直播
     var startLiveButton: UIButton = {
-        let startLiveButton = UIButton(frame: CGRect(x: 30, y: UIScreen.height - 130, width: UIScreen.width / 4, height: 44))
+        let startLiveButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 280, width: 44, height: 44))
         startLiveButton.layer.cornerRadius = 22
         startLiveButton.setTitleColor(UIColor.black, for: UIControl.State())
         startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
         startLiveButton.titleLabel!.font = UIFont.systemFont(ofSize: 14)
-        startLiveButton.backgroundColor = UIColor.red
+        startLiveButton.backgroundColor = UIColor.primary
         return startLiveButton
     }()
     
@@ -357,8 +359,8 @@ private enum ComponentText {
         case .connected: return "Connected"
         case .connectError: return "Connect error"
         case .disconnect: return "Disconnect"
-        case .startLive: return "Start sharing"
-        case .closelive: return "Stop sharing"
+        case .startLive: return "Start"
+        case .closelive: return "Stop"
         }
     }
 }
