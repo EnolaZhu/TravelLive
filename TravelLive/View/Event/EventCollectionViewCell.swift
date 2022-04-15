@@ -56,6 +56,7 @@ class EventCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
 
     
     override func awakeFromNib() {
+        descriptionLabel.isHidden = true
         self.addGestureRecognizer(panRecognizer)
     }
     
@@ -126,13 +127,13 @@ class EventCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
 
         animator.addAnimations {
             self.initialFrame = self.frame
-
+            self.descriptionLabel.textColor = UIColor.black
             self.descriptionLabel.alpha = 1
-            self.descriptionLabel.backgroundColor = UIColor.red
+            self.descriptionLabel.isHidden = false
             self.closeButton.alpha = 1
-
+            
             self.layer.cornerRadius = 0
-            self.frame = CGRect(x: collectionView.contentOffset.x, y: 0, width: UIScreen.width, height: 350)
+            self.frame = CGRect(x: collectionView.contentOffset.x, y: 0, width: UIScreen.width, height: 600)
 
             if let leftCell = collectionView.cellForItem(at: IndexPath(row: index - 1, section: 0)) {
                 leftCell.center.x -= 50
@@ -163,6 +164,7 @@ class EventCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate
         guard let collectionView = self.collectionView, let index = self.index else { return }
 
         animator.addAnimations {
+            self.descriptionLabel.isHidden = true
             self.descriptionLabel.alpha = 0
             self.closeButton.alpha = 0
 
