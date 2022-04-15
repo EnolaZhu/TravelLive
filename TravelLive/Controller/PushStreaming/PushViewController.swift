@@ -55,13 +55,20 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         super.didReceiveMemoryWarning()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         // 將timer的執行緒停止
         timer.invalidate()
         // Cancel STT
         if task != nil {
             cancelSpeechRecognization()
         }
+        tabBarController?.tabBar.isHidden = false
     }
     
     private func addPushPreview() {
@@ -135,13 +142,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
                 return
             }
             let message = response.bestTranscription.formattedString
-//            print("Message : \(message)")
-//            self.textsOfSTT.append(message) // ["你好。", "你好，今天。", "你好，今天開心嗎？", ""]
-//            print("\(self.textsOfSTT)")
             let streamerText = ["streamer": message]
             NotificationCenter.default.post(name: .textNotificationKey, object: nil, userInfo: streamerText)
         })
-       
     }
     
     // swiftlint:disable trailing_whitespace
@@ -259,7 +262,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }()
     // close
     var closeButton: UIButton = {
-        let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 10 - 44, y: 40, width: 44, height: 44))
+        let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 10 - 44, y: 80, width: 44, height: 44))
         closeButton.setImage(UIImage.asset(.Icons_close_preview), for: UIControl.State())
         return closeButton
     }()
@@ -338,6 +341,13 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     @objc func didTappedCloseButton(_ button: UIButton) {
         print("close!")
         view.removeFromSuperview()
+        tabBarController?.selectedIndex = 0
+//        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+//        if let tabBarController = self.presentingViewController as? UITabBarController {
+//                       tabBarController.selectedIndex = 0
+//                   }
+//        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+//        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
     // record
@@ -349,11 +359,10 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             return
         }
         if record.isRecording {
-            self.stopRecording(button, record)
+            RecordManager.record.stopRecording(button, record, self)
         }
         else {
-            self.startRecording(button, record)
-            
+             RecordManager.record.startRecording(button, record)
         }
     }
     
@@ -367,35 +376,6 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         pushStreamingProvider.deletePushStreamingInfo(streamerId: streamerId) { [weak self] result in
             print("delete success")
         }
-    }
-    
-    func startRecording(_ sender: UIButton, _ record: RPScreenRecorder) {
-        record.startRecording(handler: { (error: Error?) -> Void in
-            if error == nil {
-                // Recording has started
-                sender.setImage(UIImage.asset(.stop), for: .normal)
-            } else {
-                // Handle error
-                print(error?.localizedDescription ?? "Unknown error")
-            }
-        })
-    }
-    
-    func stopRecording(_ sender: UIButton, _ record: RPScreenRecorder) {
-        record.stopRecording( handler: { previewViewController, error in
-            if let pvc = previewViewController {
-                if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
-                    pvc.modalPresentationStyle = UIModalPresentationStyle.popover
-                    pvc.popoverPresentationController?.sourceRect = CGRect.zero
-                    pvc.popoverPresentationController?.sourceView = self.view
-                }
-                pvc.previewControllerDelegate = self
-                self.present(pvc, animated: true, completion: nil)
-            }
-            else if let error = error {
-                print(error.localizedDescription)
-            }
-        })
     }
 }
 
