@@ -59,7 +59,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         let d = Date()
         let df = DateFormatter()
         df.dateFormat = "SSSSSS"
-        df.string(from: d)
         let date = Int(Date().timeIntervalSince1970)
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
