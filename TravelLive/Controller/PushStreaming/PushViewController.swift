@@ -9,6 +9,7 @@ import UIKit
 import LFLiveKit
 import CoreLocation
 import Speech
+import ReplayKit
 
 class PushViewController: UIViewController, LFLiveSessionDelegate {
     var date = Int(Date().timeIntervalSince1970)
@@ -47,6 +48,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         view.addSubview(closeButton)
         view.addSubview(beautyButton)
         view.addSubview(startLiveButton)
+        view.addSubview(recordButton)
     }
     
     override func didReceiveMemoryWarning() {
@@ -72,6 +74,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         beautyButton.addTarget(self, action: #selector(didTappedBeautyButton(_:)), for: .touchUpInside)
         startLiveButton.addTarget(self, action: #selector(didTappedStartLiveButton(_:)), for: .touchUpInside)
         closeButton.addTarget(self, action: #selector(didTappedCloseButton(_:)), for: .touchUpInside)
+        recordButton.addTarget(self, action: #selector(didTappedRecordButton(_:)), for: .touchUpInside)
     }
     
     func requestPermission() {
@@ -273,6 +276,12 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close), for: UIControl.State())
         return beautyButton
     }()
+    // record
+    var recordButton: UIButton = {
+        let recordButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 530, width: 44, height: 44))
+        recordButton.setImage(UIImage.asset(.play), for: UIControl.State())
+        return recordButton
+    }()
     
     // 開始直播
     var startLiveButton: UIButton = {
@@ -331,6 +340,23 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         view.removeFromSuperview()
     }
     
+    // record
+    @objc func didTappedRecordButton(_ button: UIButton) {
+        // swiftlint:disable force_cast identifier_name
+        let record = RPScreenRecorder.shared()
+        guard record.isAvailable else {
+            print("ReplayKit unavailable")
+            return
+        }
+        if record.isRecording {
+            self.stopRecording(button, record)
+        }
+        else {
+            self.startRecording(button, record)
+            
+        }
+    }
+    
     @objc func postPushStreamingInfo() {
         pushStreamingProvider.postPushStreamingInfo(streamerId: streamerId, longitude: longitude, latitude: latitude) { [weak self] result in
             print("post success")
@@ -341,6 +367,35 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         pushStreamingProvider.deletePushStreamingInfo(streamerId: streamerId) { [weak self] result in
             print("delete success")
         }
+    }
+    
+    func startRecording(_ sender: UIButton, _ record: RPScreenRecorder) {
+        record.startRecording(handler: { (error: Error?) -> Void in
+            if error == nil {
+                // Recording has started
+                sender.setImage(UIImage.asset(.stop), for: .normal)
+            } else {
+                // Handle error
+                print(error?.localizedDescription ?? "Unknown error")
+            }
+        })
+    }
+    
+    func stopRecording(_ sender: UIButton, _ record: RPScreenRecorder) {
+        record.stopRecording( handler: { previewViewController, error in
+            if let pvc = previewViewController {
+                if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
+                    pvc.modalPresentationStyle = UIModalPresentationStyle.popover
+                    pvc.popoverPresentationController?.sourceRect = CGRect.zero
+                    pvc.popoverPresentationController?.sourceView = self.view
+                }
+                pvc.previewControllerDelegate = self
+                self.present(pvc, animated: true, completion: nil)
+            }
+            else if let error = error {
+                print(error.localizedDescription)
+            }
+        })
     }
 }
 
@@ -365,10 +420,14 @@ private enum ComponentText {
     }
 }
 
-extension PushViewController: CLLocationManagerDelegate {
+extension PushViewController: CLLocationManagerDelegate, RPPreviewViewControllerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         longitude = locValue.longitude
         latitude = locValue.latitude
+    }
+    
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        previewController.dismiss(animated: true, completion: nil)
     }
 }
