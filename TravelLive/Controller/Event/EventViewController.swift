@@ -20,6 +20,7 @@ class EventViewController: UIViewController, UICollectionViewDataSource, UIColle
         collectionView.decelerationRate = UIScrollView.DecelerationRate.fast
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.collectionViewLayout = EventCollectionViewFlowLayout(itemSize: CGSize(width: 250, height: 500))
     }
 }
 extension EventViewController {
