@@ -8,7 +8,7 @@
 import Foundation
 
 enum PullStreamingRequest: Request {
-    case fetchStreamerData
+    case fetchStreamerData(query: String)
     var headers: [String: String]? {
         switch self {
         case .fetchStreamerData:
@@ -28,7 +28,7 @@ enum PullStreamingRequest: Request {
     }
     var endPoint: String {
         switch self {
-        case .fetchStreamerData: return "/live"
+        case .fetchStreamerData(let query): return "/live" + query
         }
     }
 }

@@ -9,7 +9,15 @@ import Foundation
 
 struct StreamerDataObject: Codable {
     var data: [Streamer]
+    var nearLiveLatitude: Double?
+    var nearLiveLongitude: Double?
+    enum CodingKeys: String, CodingKey {
+        case data
+        case nearLiveLatitude = "near_live_latitude"
+        case nearLiveLongitude = "near_live_longitude"
+    }
 }
+
 struct Streamer: Codable {
     var streamerId: String
     var storageBucket: String
