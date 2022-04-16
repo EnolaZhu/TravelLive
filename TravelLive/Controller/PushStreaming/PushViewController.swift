@@ -27,6 +27,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "zh_Hans_CN"))
     let request = SFSpeechAudioBufferRecognitionRequest()
     var task: SFSpeechRecognitionTask!
+    var streamingUrl: PushStreamingObject?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -302,23 +303,17 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // start streming
     @objc func didTappedStartLiveButton(_ button: UIButton) {
         // STT
-        requestPermission()
-        startSpeechRecognization()
+//        requestPermission()
+//        startSpeechRecognization()
         
-        let key = Secret.liveKey.rawValue
-        let hexTime = String(format: "%02X", date + secondDayMillis)
-        let secret = (key + streamerId + hexTime).md5
-        let pushStreamingUrl = Secret.pushStreamingUrl.rawValue + streamerId + "?txSecret=" + secret + "&txTime=" + hexTime
-        startLiveButton.isSelected = !startLiveButton.isSelected
-        if startLiveButton.isSelected {
-            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
-            let stream = LFLiveStreamInfo()
-            stream.url = pushStreamingUrl
-            session.startLive(stream)
-        } else {
-            startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
-            session.stopLive()
-        }
+        postPushStreamingInfo()
+//        self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
+        
+//        let key = Secret.liveKey.rawValue
+//        let hexTime = String(format: "%02X", date + secondDayMillis)
+//        let secret = (key + streamerId + hexTime).md5
+//        let pushStreamingUrl = Secret.pushStreamingUrl.rawValue + streamerId + "?txSecret=" + secret + "&txTime=" + hexTime
+        
     }
     
     // beautify
@@ -332,7 +327,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         // 測試！！！
         //        deletePushStreming()
         //        postPushStreamingInfo()
-        self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
+        
         let devicePositon = session.captureDevicePosition
         session.captureDevicePosition = (devicePositon == AVCaptureDevice.Position.back) ? AVCaptureDevice.Position.front : AVCaptureDevice.Position.back
     }
@@ -367,13 +362,35 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     @objc func postPushStreamingInfo() {
         pushStreamingProvider.postPushStreamingInfo(streamerId: streamerId, longitude: longitude, latitude: latitude) { [weak self] result in
-            print("post success")
+            switch result {
+            case .success(let url):
+                self?.streamingUrl = url
+                self?.startLive(self?.streamingUrl?.pushUrl ?? "")
+            case .failure:
+                print("Failed")
+            }
         }
     }
     
     func deletePushStreming() {
         pushStreamingProvider.deletePushStreamingInfo(streamerId: streamerId) { [weak self] result in
             print("delete success")
+        }
+    }
+    
+    func startLive(_ url: String) {
+        startLiveButton.isSelected = !startLiveButton.isSelected
+        if startLiveButton.isSelected {
+            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
+            let stream = LFLiveStreamInfo()
+//            if  streamingUrl. != nil {
+                stream.url = url
+                print(stream.url)
+                session.startLive(stream)
+//            }
+        } else {
+            startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
+            session.stopLive()
         }
     }
 }
