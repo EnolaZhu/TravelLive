@@ -9,6 +9,7 @@ import UIKit
 import LFLiveKit
 import CoreLocation
 import Speech
+import ReplayKit
 
 class PushViewController: UIViewController, LFLiveSessionDelegate {
     var date = Int(Date().timeIntervalSince1970)
@@ -47,19 +48,27 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         view.addSubview(closeButton)
         view.addSubview(beautyButton)
         view.addSubview(startLiveButton)
+        view.addSubview(recordButton)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         // 將timer的執行緒停止
         timer.invalidate()
         // Cancel STT
         if task != nil {
             cancelSpeechRecognization()
         }
+        tabBarController?.tabBar.isHidden = false
     }
     
     private func addPushPreview() {
@@ -72,6 +81,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         beautyButton.addTarget(self, action: #selector(didTappedBeautyButton(_:)), for: .touchUpInside)
         startLiveButton.addTarget(self, action: #selector(didTappedStartLiveButton(_:)), for: .touchUpInside)
         closeButton.addTarget(self, action: #selector(didTappedCloseButton(_:)), for: .touchUpInside)
+        recordButton.addTarget(self, action: #selector(didTappedRecordButton(_:)), for: .touchUpInside)
     }
     
     func requestPermission() {
@@ -132,13 +142,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
                 return
             }
             let message = response.bestTranscription.formattedString
-//            print("Message : \(message)")
-//            self.textsOfSTT.append(message) // ["你好。", "你好，今天。", "你好，今天開心嗎？", ""]
-//            print("\(self.textsOfSTT)")
             let streamerText = ["streamer": message]
             NotificationCenter.default.post(name: .textNotificationKey, object: nil, userInfo: streamerText)
         })
-       
     }
     
     // swiftlint:disable trailing_whitespace
@@ -256,7 +262,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }()
     // close
     var closeButton: UIButton = {
-        let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 10 - 44, y: 40, width: 44, height: 44))
+        let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 10 - 44, y: 80, width: 44, height: 44))
         closeButton.setImage(UIImage.asset(.Icons_close_preview), for: UIControl.State())
         return closeButton
     }()
@@ -272,6 +278,12 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty), for: UIControl.State.selected)
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close), for: UIControl.State())
         return beautyButton
+    }()
+    // record
+    var recordButton: UIButton = {
+        let recordButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 530, width: 44, height: 44))
+        recordButton.setImage(UIImage.asset(.play), for: UIControl.State())
+        return recordButton
     }()
     
     // 開始直播
@@ -329,6 +341,28 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     @objc func didTappedCloseButton(_ button: UIButton) {
         print("close!")
         view.removeFromSuperview()
+        tabBarController?.selectedIndex = 0
+        //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        //        if let tabBarController = self.presentingViewController as? UITabBarController {
+        //                       tabBarController.selectedIndex = 0
+        //                   }
+        //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        //        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    // record
+    @objc func didTappedRecordButton(_ button: UIButton) {
+        // swiftlint:disable force_cast identifier_name
+        let record = RPScreenRecorder.shared()
+        guard record.isAvailable else {
+            print("ReplayKit unavailable")
+            return
+        }
+        if record.isRecording {
+            RecordManager.record.stopRecording(button, record, self)
+        } else {
+            RecordManager.record.startRecording(button, record)
+        }
     }
     
     @objc func postPushStreamingInfo() {
@@ -365,10 +399,14 @@ private enum ComponentText {
     }
 }
 
-extension PushViewController: CLLocationManagerDelegate {
+extension PushViewController: CLLocationManagerDelegate, RPPreviewViewControllerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         longitude = locValue.longitude
         latitude = locValue.latitude
+    }
+    
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        previewController.dismiss(animated: true, completion: nil)
     }
 }
