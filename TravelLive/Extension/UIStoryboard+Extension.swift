@@ -12,7 +12,7 @@ private struct StoryboardCategory {
     static let map = "Map"
     static let search = "Search"
     static let pushStreaming = "PushStreaming"
-    static let shop = "Shop"
+    static let event = "Event"
     static let profile = "Profile"
     static let chat = "Chat"
     static let pullStreaming = "PullStreaming"
@@ -23,7 +23,7 @@ extension UIStoryboard {
     static var map: UIStoryboard { return stStoryboard(name: StoryboardCategory.map) }
     static var search: UIStoryboard { return stStoryboard(name: StoryboardCategory.search) }
     static var pushStreaming: UIStoryboard { return stStoryboard(name: StoryboardCategory.pushStreaming) }
-    static var shop: UIStoryboard { return stStoryboard(name: StoryboardCategory.shop) }
+    static var shop: UIStoryboard { return stStoryboard(name: StoryboardCategory.event) }
     static var profile: UIStoryboard { return stStoryboard(name: StoryboardCategory.profile) }
     static var chat: UIStoryboard { return stStoryboard(name: StoryboardCategory.chat) }
     static var pullStreaming: UIStoryboard { return stStoryboard(name: StoryboardCategory.pullStreaming) }

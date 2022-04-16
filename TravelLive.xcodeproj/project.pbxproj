@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		4B12BAB72803CBDB0096359B /* GMSMarker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */; };
 		4B3AAAD62806BCB500CBFE89 /* Notification.Nam+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */; };
+		4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */; };
+		4B3AAAE92808232C00CBFE89 /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAE82808232C00CBFE89 /* EventCollectionViewCell.swift */; };
+		4B3AAAEB2808234700CBFE89 /* EventCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAEA2808234700CBFE89 /* EventCollectionViewFlowLayout.swift */; };
+		4B3AAAED280825BB00CBFE89 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAEC280825BB00CBFE89 /* Event.swift */; };
+		4B3AAAF1280873D400CBFE89 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAF0280873D400CBFE89 /* ProfileViewController.swift */; };
+		4B3AAAF32808893F00CBFE89 /* PhotoVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAF22808893E00CBFE89 /* PhotoVideoManager.swift */; };
 		4B43FD922800AB2400B7085D /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B43FD912800AB2400B7085D /* UILabel+Extension.swift */; };
 		4B4AA43628028E7B0066C602 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43528028E7B0066C602 /* Constant.swift */; };
 		4B4AA4382802928B0066C602 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA4372802928B0066C602 /* Bundle+Extension.swift */; };
@@ -22,6 +28,7 @@
 		4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B552B9227FD404A00A304D6 /* AuthView.xib */; };
 		4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */; };
 		4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9627FD5CC900A304D6 /* AuthView.swift */; };
+		4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B55B589280A6919005D9869 /* RecordManager.swift */; };
 		4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */; };
 		4BB6AC0628045F5D0061EDDE /* PullStreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */; };
 		4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC07280466380061EDDE /* StreamerDataObject.swift */; };
@@ -44,7 +51,7 @@
 		4BC1075F27FB560D0017B1B7 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC1075E27FB560D0017B1B7 /* Map.storyboard */; };
 		4BC1076127FB56290017B1B7 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC1076027FB56290017B1B7 /* Search.storyboard */; };
 		4BC1076527FB565F0017B1B7 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC1076427FB565F0017B1B7 /* Profile.storyboard */; };
-		4BC1076727FB56790017B1B7 /* Shop.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC1076627FB56790017B1B7 /* Shop.storyboard */; };
+		4BC1076727FB56790017B1B7 /* Event.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC1076627FB56790017B1B7 /* Event.storyboard */; };
 		4BC1076927FBF0390017B1B7 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1076827FBF0390017B1B7 /* UIImage+Extension.swift */; };
 		4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */; };
 		4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */; };
@@ -62,6 +69,12 @@
 /* Begin PBXFileReference section */
 		4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GMSMarker+Extension.swift"; sourceTree = "<group>"; };
 		4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Nam+Extension.swift"; sourceTree = "<group>"; };
+		4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
+		4B3AAAE82808232C00CBFE89 /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
+		4B3AAAEA2808234700CBFE89 /* EventCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		4B3AAAEC280825BB00CBFE89 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		4B3AAAF0280873D400CBFE89 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		4B3AAAF22808893E00CBFE89 /* PhotoVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoVideoManager.swift; sourceTree = "<group>"; };
 		4B43FD912800AB2400B7085D /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		4B4AA43528028E7B0066C602 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		4B4AA4372802928B0066C602 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
@@ -75,6 +88,7 @@
 		4B552B9227FD404A00A304D6 /* AuthView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthView.xib; sourceTree = "<group>"; };
 		4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibOwnerLoadable.swift; sourceTree = "<group>"; };
 		4B552B9627FD5CC900A304D6 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		4B55B589280A6919005D9869 /* RecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManager.swift; sourceTree = "<group>"; };
 		4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullStreamingProvider.swift; sourceTree = "<group>"; };
 		4BB6AC07280466380061EDDE /* StreamerDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamerDataObject.swift; sourceTree = "<group>"; };
@@ -99,7 +113,7 @@
 		4BC1075E27FB560D0017B1B7 /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		4BC1076027FB56290017B1B7 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		4BC1076427FB565F0017B1B7 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
-		4BC1076627FB56790017B1B7 /* Shop.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Shop.storyboard; sourceTree = "<group>"; };
+		4BC1076627FB56790017B1B7 /* Event.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Event.storyboard; sourceTree = "<group>"; };
 		4BC1076827FBF0390017B1B7 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -129,6 +143,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B3AAAE428081CC100CBFE89 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		4B3AAAE72808230000CBFE89 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				4B3AAAE82808232C00CBFE89 /* EventCollectionViewCell.swift */,
+				4B3AAAEA2808234700CBFE89 /* EventCollectionViewFlowLayout.swift */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		4B3AAAEE2808664F00CBFE89 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				4B3AAAEC280825BB00CBFE89 /* Event.swift */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		4B3AAAEF280873B400CBFE89 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				4B3AAAF0280873D400CBFE89 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		4B4AA439280294AF0066C602 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				4B4BBF732804324E00A53128 /* MarkerManager.swift */,
+				4B3AAAF22808893E00CBFE89 /* PhotoVideoManager.swift */,
 			);
 			path = FireStore;
 			sourceTree = "<group>";
@@ -188,6 +236,14 @@
 				4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */,
 			);
 			path = Protocal;
+			sourceTree = "<group>";
+		};
+		4B55B588280A687C005D9869 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				4B55B589280A6919005D9869 /* RecordManager.swift */,
+			);
+			path = Record;
 			sourceTree = "<group>";
 		};
 		4BC0EE5D27FF325100C5673B /* Chat */ = {
@@ -256,6 +312,7 @@
 		4BC1074E27FB45EE0017B1B7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4B3AAAE72808230000CBFE89 /* Event */,
 				4BC0EE5D27FF325100C5673B /* Chat */,
 				4B552B8D27FD2F5300A304D6 /* Auth */,
 				4BC1075827FB4AE40017B1B7 /* PushStreaming.storyboard */,
@@ -264,7 +321,7 @@
 				4BC1075E27FB560D0017B1B7 /* Map.storyboard */,
 				4BC1076027FB56290017B1B7 /* Search.storyboard */,
 				4BC1076427FB565F0017B1B7 /* Profile.storyboard */,
-				4BC1076627FB56790017B1B7 /* Shop.storyboard */,
+				4BC1076627FB56790017B1B7 /* Event.storyboard */,
 				4BC0EE6428000A1E00C5673B /* Chat.storyboard */,
 			);
 			path = View;
@@ -273,6 +330,8 @@
 		4BC1074F27FB45FC0017B1B7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4B3AAAEF280873B400CBFE89 /* Profile */,
+				4B3AAAE428081CC100CBFE89 /* Event */,
 				4BD3736628041B6400141A29 /* PullStreaming */,
 				4BD373622804180300141A29 /* Search */,
 				4BC0EE6928000C9600C5673B /* Base */,
@@ -287,6 +346,8 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4B55B588280A687C005D9869 /* Record */,
+				4B3AAAEE2808664F00CBFE89 /* Event */,
 				4B4BBF7528043DE700A53128 /* PullStreaming */,
 				4B4AA43C280295B20066C602 /* PushStreaming */,
 				4B4BBF72280430FD00A53128 /* FireStore */,
@@ -443,7 +504,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BC1076727FB56790017B1B7 /* Shop.storyboard in Resources */,
+				4BC1076727FB56790017B1B7 /* Event.storyboard in Resources */,
 				4BC1074627FA9DD60017B1B7 /* LaunchScreen.storyboard in Resources */,
 				4BD3736A28041BE200141A29 /* PullStreaming.storyboard in Resources */,
 				4BC1076527FB565F0017B1B7 /* Profile.storyboard in Resources */,
@@ -548,12 +609,17 @@
 				4B4AA4402802AC4B0066C602 /* PushStreamingProvider.swift in Sources */,
 				4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */,
 				4BDEC3492801F28000143E25 /* String+Extension.swift in Sources */,
+				4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */,
+				4B3AAAE92808232C00CBFE89 /* EventCollectionViewCell.swift in Sources */,
 				4B4BBF7728043E4700A53128 /* PullStreamingRequest.swift in Sources */,
 				4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */,
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,
 				4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */,
 				4BC1075427FB470F0017B1B7 /* PushViewController.swift in Sources */,
+				4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */,
 				4BC2BE5227FC45F3001FF31D /* MapViewController.swift in Sources */,
+				4B3AAAF32808893F00CBFE89 /* PhotoVideoManager.swift in Sources */,
+				4B3AAAEB2808234700CBFE89 /* EventCollectionViewFlowLayout.swift in Sources */,
 				4BC0EE6B28000D0800C5673B /* BaseViewController.swift in Sources */,
 				4BC1076927FBF0390017B1B7 /* UIImage+Extension.swift in Sources */,
 				4BC1073C27FA9DD40017B1B7 /* SceneDelegate.swift in Sources */,
@@ -562,9 +628,11 @@
 				4BC1075D27FB51870017B1B7 /* UIStoryboard+Extension.swift in Sources */,
 				4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */,
 				4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */,
+				4B3AAAF1280873D400CBFE89 /* ProfileViewController.swift in Sources */,
 				4BC2BE4F27FC4207001FF31D /* Secret.swift in Sources */,
 				4BC0EE6828000B2000C5673B /* ChatViewController.swift in Sources */,
 				4BC0EE6027FF327800C5673B /* MessageCell.swift in Sources */,
+				4B3AAAED280825BB00CBFE89 /* Event.swift in Sources */,
 				4B4BBF742804324E00A53128 /* MarkerManager.swift in Sources */,
 				4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */,
 				4B4AA43E280296470066C602 /* PushStreamingRequest.swift in Sources */,

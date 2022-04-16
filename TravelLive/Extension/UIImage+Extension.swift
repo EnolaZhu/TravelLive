@@ -25,6 +25,10 @@ enum ImageAsset: String {
     case apple
     // live animation
     case heart
+    // post button
+    case plus
+    case stop
+    case play
 }
 
 extension UIImage {
