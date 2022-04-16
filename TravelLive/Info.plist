@@ -2,7 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UpdateLiveUrlKey</key>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Please allow the recognization of the speech for the app</string>
+	<key>BaseUrl</key>
 	<string>https://asia-east1-travellive-1d79e.cloudfunctions.net</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Need microphone access for uploading videos</string>

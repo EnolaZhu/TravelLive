@@ -24,7 +24,9 @@ class ChatViewController: BaseViewController, PNEventsListener {
             chatView.backgroundColor = UIColor.clear
         }
     }
+    @IBOutlet weak var caption: UILabel!
     @IBOutlet weak var inputTextfield: UITextField!
+    
     private var messages = [Message]() {
         didSet {
             chatView.reloadData()
@@ -37,6 +39,8 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var client: PubNub!
     var channelName = "Channel Name"
     var username = "Enola"
+    var clickNumber = 0
+    var textsOfSTT = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +51,26 @@ class ChatViewController: BaseViewController, PNEventsListener {
         client = PubNub.clientWithConfiguration(configuration)
         client.addListener(self)
         client.subscribeToChannels([channelName], withPresence: true)
+        // Add observer for animation
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showAnimation(_:)), name: .animationNotificationKey, object: nil)
+        // Add observer for STT text
+        NotificationCenter.default.addObserver(self, selector: #selector(self.getStreamerText(_:)), name: .textNotificationKey, object: nil)
+    }
+    
+    @objc func getStreamerText(_ notification: NSNotification) {
+        if let text = notification.userInfo?["streamer"] as? String {
+            self.client.publish(["message": text,
+                                 "username": "STT",
+                                 "uuid": self.client.uuid()
+                                ], toChannel: channelName) { status in
+                print(status.data.information)
+            }
+            print(textsOfSTT)
+        }
+    }
+    
+    @objc func showAnimation(_ notification: NSNotification) {
+        publishAnimation()
     }
     
     private func setupChatView() {
@@ -73,6 +97,40 @@ class ChatViewController: BaseViewController, PNEventsListener {
         }
     }
     
+    func publishAnimation() {
+        clickNumber += 1
+        client.publish(["message": "heart",
+                        "username": "animation",
+                        "uuid": client.uuid()
+                       ], toChannel: channelName) { status in
+            print(status.data.information)
+        }
+    }
+    
+    func createAnimation() {
+        let animationImage = UIImageView(image: UIImage.asset(.heart))
+        animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
+        
+        if clickNumber % 2 == 0 {
+            UIView.transition(with: self.view, duration: 1, options: .curveEaseOut) {
+                animationImage.frame = CGRect(x: 0 - 30, y: 0 - 30, width: 44, height: 44)
+                self.view.addSubview(animationImage)
+                animationImage.alpha = 0.1
+            } completion: {_ in
+                animationImage.removeFromSuperview()
+            }
+        } else {
+            animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
+            UIView.transition(with: self.view, duration: 1, options: .curveEaseInOut) {
+                animationImage.frame = CGRect(x: UIScreen.width / 2, y: 0 - 30, width: 44, height: 44)
+                self.view.addSubview(animationImage)
+                animationImage.alpha = 0.2
+            } completion: {_ in
+                animationImage.removeFromSuperview()
+            }
+        }
+    }
+    
     func addHiistory(start: NSNumber?, end: NSNumber?, limit: UInt) {
         client.historyForChannel(channelName, start: start, end: end, limit: limit) { result, status in
             if result != nil && status == nil {
@@ -91,7 +149,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
             } else if status !=  nil {
                 print(status!.category)
             } else {
-                print("everything is nil whaaat")
+                print("everything is nil whaat")
             }
         }
     }
@@ -99,7 +157,13 @@ class ChatViewController: BaseViewController, PNEventsListener {
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
         if channelName == message.data.channel {
             guard let theMessage = message.data.message as? [String: String] else { return }
-            messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
+            if theMessage["username"] == "animation" {
+                createAnimation()
+            } else if theMessage["username"] == "STT" {
+                caption.text = theMessage["message"]
+            } else {
+                messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
+            }
         }
         print("Received message in Channel:", message.data.message!)
     }

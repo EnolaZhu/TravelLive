@@ -8,6 +8,8 @@
 import UIKit
 import LFLiveKit
 import CoreLocation
+import Speech
+import ReplayKit
 
 class PushViewController: UIViewController, LFLiveSessionDelegate {
     var date = Int(Date().timeIntervalSince1970)
@@ -20,6 +22,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     let streamerId = "Enola"
     let pushStreamingProvider = PushStreamingProvider()
     let locationManager = CLLocationManager()
+    // STT
+    let audioEngine = AVAudioEngine()
+    let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "zh_Hans_CN"))
+    let request = SFSpeechAudioBufferRecognitionRequest()
+    var task: SFSpeechRecognitionTask!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +39,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             locationManager.startUpdatingLocation()
         }
         // Timer
-        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
+        //        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         session.delegate = self
         session.preView = view
         addPushPreview()
@@ -41,15 +48,27 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         view.addSubview(closeButton)
         view.addSubview(beautyButton)
         view.addSubview(startLiveButton)
+        view.addSubview(recordButton)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
-         // 將timer的執行緒停止
+        super.viewDidDisappear(animated)
+        // 將timer的執行緒停止
         timer.invalidate()
+        // Cancel STT
+        if task != nil {
+            cancelSpeechRecognization()
+        }
+        tabBarController?.tabBar.isHidden = false
     }
     
     private func addPushPreview() {
@@ -62,7 +81,72 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         beautyButton.addTarget(self, action: #selector(didTappedBeautyButton(_:)), for: .touchUpInside)
         startLiveButton.addTarget(self, action: #selector(didTappedStartLiveButton(_:)), for: .touchUpInside)
         closeButton.addTarget(self, action: #selector(didTappedCloseButton(_:)), for: .touchUpInside)
+        recordButton.addTarget(self, action: #selector(didTappedRecordButton(_:)), for: .touchUpInside)
     }
+    
+    func requestPermission() {
+        SFSpeechRecognizer.requestAuthorization { authState in
+            OperationQueue.main.addOperation {
+                if authState == .authorized {
+                    print("Accepted")
+                } else if authState == .denied {
+                    self.alertView(message: "User denied the permission")
+                } else if authState == .notDetermined {
+                    self.alertView(message: "In user phone there is no speech recognization")
+                } else if authState == .restricted {
+                    self.alertView(message: "User has been restricted for using the speech recognization")
+                }
+            }
+        }
+    }
+    
+    func alertView(message: String) {
+        let controller = UIAlertController.init(title: "Error ocured...", message: message, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            controller.dismiss(animated: true, completion: nil)
+        }))
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    func startSpeechRecognization(){
+        let node = audioEngine.inputNode
+        let recordingFormat = node.outputFormat(forBus: 0)
+        
+        node.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, _) in
+            self.request.append(buffer)
+        }
+        
+        audioEngine.prepare()
+        do {
+            try audioEngine.start()
+        } catch let error {
+            alertView(message: "Error comes here for starting the audio listner =\(error.localizedDescription)")
+        }
+        
+        guard let myRecognization = SFSpeechRecognizer() else {
+            self.alertView(message: "Recognization is not allow on your local")
+            return
+        }
+        
+        if !myRecognization.isAvailable {
+            self.alertView(message: "Recognization is free right now, Please try again after some time.")
+        }
+        
+        task = speechRecognizer?.recognitionTask(with: request, resultHandler: { (response, error) in
+            guard let response = response else {
+                if error != nil {
+                    self.alertView(message: error.debugDescription)
+                } else {
+                    self.alertView(message: "Problem in giving the response")
+                }
+                return
+            }
+            let message = response.bestTranscription.formattedString
+            let streamerText = ["streamer": message]
+            NotificationCenter.default.post(name: .textNotificationKey, object: nil, userInfo: streamerText)
+        })
+    }
+    
     // swiftlint:disable trailing_whitespace
     private func addChatView() {
         let chatMessageVC = UIStoryboard.chat.instantiateViewController(withIdentifier: String(describing: ChatViewController.self)
@@ -109,6 +193,19 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         case AVAuthorizationStatus.restricted: break
         default:
             break
+        }
+    }
+    func cancelSpeechRecognization() {
+        task.finish()
+        task.cancel()
+        task = nil
+        request.endAudio()
+        audioEngine.stop()
+        //audioEngine.inputNode.removeTap(onBus: 0)
+        
+        //MARK: UPDATED
+        if audioEngine.inputNode.numberOfInputs > 0 {
+            audioEngine.inputNode.removeTap(onBus: 0)
         }
     }
     
@@ -165,32 +262,38 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }()
     // close
     var closeButton: UIButton = {
-        let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 10 - 44, y: 40, width: 44, height: 44))
+        let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 10 - 44, y: 80, width: 44, height: 44))
         closeButton.setImage(UIImage.asset(.Icons_close_preview), for: UIControl.State())
         return closeButton
     }()
     // camera
     var cameraButton: UIButton = {
-        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 54 * 2, y: UIScreen.height - 140, width: 44, height: 44))
+        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 430, width: 44, height: 44))
         cameraButton.setImage(UIImage.asset(.Icons_camera_preview), for: UIControl.State())
         return cameraButton
     }()
     //  camera
     var beautyButton: UIButton = {
-        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 54 * 3, y: UIScreen.height - 140, width: 44, height: 44))
+        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 380, width: 44, height: 44))
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty), for: UIControl.State.selected)
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close), for: UIControl.State())
         return beautyButton
     }()
+    // record
+    var recordButton: UIButton = {
+        let recordButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 530, width: 44, height: 44))
+        recordButton.setImage(UIImage.asset(.play), for: UIControl.State())
+        return recordButton
+    }()
     
     // 開始直播
     var startLiveButton: UIButton = {
-        let startLiveButton = UIButton(frame: CGRect(x: 30, y: UIScreen.height - 130, width: UIScreen.width / 4, height: 44))
+        let startLiveButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 280, width: 44, height: 44))
         startLiveButton.layer.cornerRadius = 22
         startLiveButton.setTitleColor(UIColor.black, for: UIControl.State())
         startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
         startLiveButton.titleLabel!.font = UIFont.systemFont(ofSize: 14)
-        startLiveButton.backgroundColor = UIColor.red
+        startLiveButton.backgroundColor = UIColor.primary
         return startLiveButton
     }()
     
@@ -198,6 +301,10 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // start streming
     @objc func didTappedStartLiveButton(_ button: UIButton) {
+        // STT
+        requestPermission()
+        startSpeechRecognization()
+        
         let key = Secret.liveKey.rawValue
         let hexTime = String(format: "%02X", date + secondDayMillis)
         let secret = (key + streamerId + hexTime).md5
@@ -222,8 +329,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 摄像头
     @objc func didTappedCameraButton(_ button: UIButton) {
-//        deletePushStreming()
-//        postPushStreamingInfo()
+        // 測試！！！
+        //        deletePushStreming()
+        //        postPushStreamingInfo()
         self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         let devicePositon = session.captureDevicePosition
         session.captureDevicePosition = (devicePositon == AVCaptureDevice.Position.back) ? AVCaptureDevice.Position.front : AVCaptureDevice.Position.back
@@ -233,6 +341,28 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     @objc func didTappedCloseButton(_ button: UIButton) {
         print("close!")
         view.removeFromSuperview()
+        tabBarController?.selectedIndex = 0
+        //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        //        if let tabBarController = self.presentingViewController as? UITabBarController {
+        //                       tabBarController.selectedIndex = 0
+        //                   }
+        //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        //        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    // record
+    @objc func didTappedRecordButton(_ button: UIButton) {
+        // swiftlint:disable force_cast identifier_name
+        let record = RPScreenRecorder.shared()
+        guard record.isAvailable else {
+            print("ReplayKit unavailable")
+            return
+        }
+        if record.isRecording {
+            RecordManager.record.stopRecording(button, record, self)
+        } else {
+            RecordManager.record.startRecording(button, record)
+        }
     }
     
     @objc func postPushStreamingInfo() {
@@ -263,17 +393,20 @@ private enum ComponentText {
         case .connected: return "Connected"
         case .connectError: return "Connect error"
         case .disconnect: return "Disconnect"
-        case .startLive: return "Start sharing"
-        case .closelive: return "Stop sharing"
+        case .startLive: return "Start"
+        case .closelive: return "Stop"
         }
     }
 }
 
-extension PushViewController: CLLocationManagerDelegate {
+extension PushViewController: CLLocationManagerDelegate, RPPreviewViewControllerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         longitude = locValue.longitude
         latitude = locValue.latitude
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+    }
+    
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        previewController.dismiss(animated: true, completion: nil)
     }
 }

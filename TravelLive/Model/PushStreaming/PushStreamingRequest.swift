@@ -11,7 +11,7 @@ enum PushStreamingRequest: Request {
     case startPushStreaming(body: Data?)
     case stopPushStreaming(String)
     
-    var headers: [String: String] {
+    var headers: [String: String]? {
         switch self {
         case .startPushStreaming:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
