@@ -342,12 +342,12 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         print("close!")
         view.removeFromSuperview()
         tabBarController?.selectedIndex = 0
-//        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-//        if let tabBarController = self.presentingViewController as? UITabBarController {
-//                       tabBarController.selectedIndex = 0
-//                   }
-//        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-//        self.presentingViewController?.dismiss(animated: true, completion: nil)
+        //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        //        if let tabBarController = self.presentingViewController as? UITabBarController {
+        //                       tabBarController.selectedIndex = 0
+        //                   }
+        //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        //        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
     // record
@@ -360,9 +360,8 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         }
         if record.isRecording {
             RecordManager.record.stopRecording(button, record, self)
-        }
-        else {
-             RecordManager.record.startRecording(button, record)
+        } else {
+            RecordManager.record.startRecording(button, record)
         }
     }
     

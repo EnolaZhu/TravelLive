@@ -39,20 +39,4 @@ class RecordManager {
             }
         })
     }
-    
-//    @objc func didTappedRecordButton(_ button: UIButton) {
-//        // swiftlint:disable force_cast identifier_name
-//        let record = RPScreenRecorder.shared()
-//        guard record.isAvailable else {
-//            print("ReplayKit unavailable")
-//            return
-//        }
-//        if record.isRecording {
-//            self.stopRecording(button, record)
-//        }
-//        else {
-//            self.startRecording(button, record)
-//
-//        }
-//    }
 }
