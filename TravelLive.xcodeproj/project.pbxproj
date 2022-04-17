@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4B060CBC280BD3020055EDB2 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B060CBB280BD3020055EDB2 /* GridLayout.swift */; };
+		4B060CC0280C5DCA0055EDB2 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B060CBF280C5DCA0055EDB2 /* ImageManager.swift */; };
 		4B12BAB72803CBDB0096359B /* GMSMarker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */; };
 		4B3AAAD62806BCB500CBFE89 /* Notification.Nam+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */; };
 		4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */; };
@@ -69,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		4B060CBB280BD3020055EDB2 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
+		4B060CBF280C5DCA0055EDB2 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GMSMarker+Extension.swift"; sourceTree = "<group>"; };
 		4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Nam+Extension.swift"; sourceTree = "<group>"; };
 		4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			children = (
 				4B4BBF732804324E00A53128 /* MarkerManager.swift */,
 				4B3AAAF22808893E00CBFE89 /* PhotoVideoManager.swift */,
+				4B060CBF280C5DCA0055EDB2 /* ImageManager.swift */,
 			);
 			path = FireStore;
 			sourceTree = "<group>";
@@ -646,6 +649,7 @@
 				4BC0EE6027FF327800C5673B /* MessageCell.swift in Sources */,
 				4B3AAAED280825BB00CBFE89 /* Event.swift in Sources */,
 				4B4BBF742804324E00A53128 /* MarkerManager.swift in Sources */,
+				4B060CC0280C5DCA0055EDB2 /* ImageManager.swift in Sources */,
 				4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */,
 				4B4AA43E280296470066C602 /* PushStreamingRequest.swift in Sources */,
 				4B12BAB72803CBDB0096359B /* GMSMarker+Extension.swift in Sources */,

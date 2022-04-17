@@ -28,6 +28,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     var request: SFSpeechAudioBufferRecognitionRequest?
     var task: SFSpeechRecognitionTask!
     var streamingUrl: PushStreamingObject?
+    var click = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -342,6 +343,14 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // record
     @objc func didTappedRecordButton(_ button: UIButton) {
         // swiftlint:disable force_cast identifier_name
+        // change button image
+        click = !click
+        if click {
+            recordButton.setImage(UIImage.asset(.play), for: .normal)
+        } else {
+            recordButton.setImage(UIImage.asset(.stop), for: .normal)
+        }
+        // start record
         let record = RPScreenRecorder.shared()
         guard record.isAvailable else {
             print("ReplayKit unavailable")
