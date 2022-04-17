@@ -25,7 +25,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // STT
     let audioEngine = AVAudioEngine()
     let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "zh_Hans_CN"))
-    let request = SFSpeechAudioBufferRecognitionRequest()
+    var request: SFSpeechAudioBufferRecognitionRequest?
     var task: SFSpeechRecognitionTask!
     var streamingUrl: PushStreamingObject?
     
@@ -66,9 +66,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         // 將timer的執行緒停止
         timer.invalidate()
         // Cancel STT
-        if task != nil {
-            cancelSpeechRecognization()
-        }
+        //        if task != nil {
+        //            cancelSpeechRecognization()
+        //        }
         tabBarController?.tabBar.isHidden = false
     }
     
@@ -112,11 +112,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     func startSpeechRecognization(){
         let node = audioEngine.inputNode
         let recordingFormat = node.outputFormat(forBus: 0)
-        
-        node.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, _) in
-            self.request.append(buffer)
+        request = SFSpeechAudioBufferRecognitionRequest()
+        guard let recognitionRequest = request else { fatalError("Unable to created a SFSpeechAudioBufferRecognitionRequest object") }
+        node.installTap(onBus: 20, bufferSize: 1024, format: recordingFormat) { (buffer, _) in
+            recognitionRequest.append(buffer)
         }
-        
         audioEngine.prepare()
         do {
             try audioEngine.start()
@@ -133,8 +133,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             self.alertView(message: "Recognization is free right now, Please try again after some time.")
         }
         
-        task = speechRecognizer?.recognitionTask(with: request, resultHandler: { (response, error) in
+        task = speechRecognizer?.recognitionTask(with: recognitionRequest, resultHandler: { (response, error) in
             guard let response = response else {
+                if self.task == nil {
+                    return
+                }
                 if error != nil {
                     self.alertView(message: error.debugDescription)
                 } else {
@@ -196,18 +199,17 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             break
         }
     }
+    
     func cancelSpeechRecognization() {
-        task.finish()
-        task.cancel()
-        task = nil
-        request.endAudio()
         audioEngine.stop()
-        //audioEngine.inputNode.removeTap(onBus: 0)
-        
-        //MARK: UPDATED
         if audioEngine.inputNode.numberOfInputs > 0 {
             audioEngine.inputNode.removeTap(onBus: 0)
         }
+        request?.endAudio()
+        request?.shouldReportPartialResults = false
+        task.finish()
+        task.cancel()
+        task = nil
     }
     
     // MARK: - Callbacks
@@ -303,17 +305,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // start streming
     @objc func didTappedStartLiveButton(_ button: UIButton) {
         // STT
-//        requestPermission()
-//        startSpeechRecognization()
-        
+        //        requestPermission()
+        //        startSpeechRecognization()
         postPushStreamingInfo()
-//        self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
-        
-//        let key = Secret.liveKey.rawValue
-//        let hexTime = String(format: "%02X", date + secondDayMillis)
-//        let secret = (key + streamerId + hexTime).md5
-//        let pushStreamingUrl = Secret.pushStreamingUrl.rawValue + streamerId + "?txSecret=" + secret + "&txTime=" + hexTime
-        
     }
     
     // beautify
@@ -324,10 +318,6 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // 摄像头
     @objc func didTappedCameraButton(_ button: UIButton) {
-        // 測試！！！
-        //        deletePushStreming()
-        //        postPushStreamingInfo()
-        
         let devicePositon = session.captureDevicePosition
         session.captureDevicePosition = (devicePositon == AVCaptureDevice.Position.back) ? AVCaptureDevice.Position.front : AVCaptureDevice.Position.back
     }
@@ -335,6 +325,8 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // close
     @objc func didTappedCloseButton(_ button: UIButton) {
         print("close!")
+        session.stopLive()
+        deletePushStreming()
         view.removeFromSuperview()
         tabBarController?.selectedIndex = 0
         //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
@@ -381,16 +373,17 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     func startLive(_ url: String) {
         startLiveButton.isSelected = !startLiveButton.isSelected
         if startLiveButton.isSelected {
-            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
-            let stream = LFLiveStreamInfo()
-//            if  streamingUrl. != nil {
-                stream.url = url
-                print(stream.url)
-                session.startLive(stream)
-//            }
-        } else {
             startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
+            let stream = LFLiveStreamInfo()
+            stream.url = url
+            session.startLive(stream)
+            audioEngine.inputNode.removeTap(onBus: 0)
+            self.startSpeechRecognization()
+        } else {
+            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
             session.stopLive()
+            deletePushStreming()
+            cancelSpeechRecognization()
         }
     }
 }
