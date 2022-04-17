@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B060CBC280BD3020055EDB2 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B060CBB280BD3020055EDB2 /* GridLayout.swift */; };
 		4B12BAB72803CBDB0096359B /* GMSMarker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */; };
 		4B3AAAD62806BCB500CBFE89 /* Notification.Nam+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */; };
 		4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */; };
@@ -67,6 +68,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B060CBB280BD3020055EDB2 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GMSMarker+Extension.swift"; sourceTree = "<group>"; };
 		4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Nam+Extension.swift"; sourceTree = "<group>"; };
 		4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +145,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B060CBA280BD2EA0055EDB2 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				4B060CBB280BD3020055EDB2 /* GridLayout.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		4B3AAAE428081CC100CBFE89 /* Event */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +322,7 @@
 		4BC1074E27FB45EE0017B1B7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4B060CBA280BD2EA0055EDB2 /* Search */,
 				4B3AAAE72808230000CBFE89 /* Event */,
 				4BC0EE5D27FF325100C5673B /* Chat */,
 				4B552B8D27FD2F5300A304D6 /* Auth */,
@@ -619,6 +630,7 @@
 				4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */,
 				4BC2BE5227FC45F3001FF31D /* MapViewController.swift in Sources */,
 				4B3AAAF32808893F00CBFE89 /* PhotoVideoManager.swift in Sources */,
+				4B060CBC280BD3020055EDB2 /* GridLayout.swift in Sources */,
 				4B3AAAEB2808234700CBFE89 /* EventCollectionViewFlowLayout.swift in Sources */,
 				4BC0EE6B28000D0800C5673B /* BaseViewController.swift in Sources */,
 				4BC1076927FBF0390017B1B7 /* UIImage+Extension.swift in Sources */,
