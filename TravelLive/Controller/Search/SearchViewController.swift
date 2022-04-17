@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import IJKMediaFramework
 
 class SearchViewController: UIViewController {
     

@@ -110,7 +110,9 @@ PODS:
   - PubNub (4.17.0):
     - PubNub/Core (= 4.17.0)
   - PubNub/Core (4.17.0)
+  - SnapKit (5.6.0)
   - SwiftLint (0.47.0)
+  - TXLiteAVSDK_Professional (9.5.11346)
 
 DEPENDENCIES:
   - Firebase/Auth
@@ -120,7 +122,9 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - LFLiveKit
   - PubNub (~> 4)
+  - SnapKit (~> 5.6.0)
   - SwiftLint
+  - TXLiteAVSDK_Professional
 
 SPEC REPOS:
   trunk:
@@ -141,7 +145,9 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - PubNub
+    - SnapKit
     - SwiftLint
+    - TXLiteAVSDK_Professional
 
 SPEC CHECKSUMS:
   Firebase: 7e8fe528c161b9271d365217a74c16aaf834578e
@@ -161,8 +167,10 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   PubNub: 306896876c3089884067609ff25d628a547d2942
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
+  TXLiteAVSDK_Professional: 645670c9d1bbabb88e8dff998fb097a22fe71208
 
-PODFILE CHECKSUM: 59b26bf1e82bd96dad82e281f444663106c94885
+PODFILE CHECKSUM: 0076db7da2ccd9736600005d5fc3df7bdc0ecf13
 
 COCOAPODS: 1.11.3

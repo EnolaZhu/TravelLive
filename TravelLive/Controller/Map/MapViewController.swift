@@ -19,43 +19,62 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var specificStreamer: [Streamer]?
     var url = String()
-    
+    var longitude: CLLocationDegrees?
+    var latitude: CLLocationDegrees?
+    var currentLocation: CLLocation!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
+        locationManager.delegate = self
+        longitude = locationManager.location?.coordinate.longitude
+        latitude = locationManager.location?.coordinate.latitude
+        if CLLocationManager.authorizationStatus() != .denied {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
+            fetchData()
+        } else {
+            DispatchQueue.main.async() {
+                self.fetchData()
+            }
         }
-        
         mapView.delegate = self
-        fetchData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        // Hide the Navigation Bar
+        mapView.clear()
+        fetchData()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        // Show the Navigation Bar
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     func fetchData() {
-        pullStreamingProvider.fetchStreamerInfo(completion: { [weak self] result in
+        pullStreamingProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
-                
             case .success(let user):
                 self?.streamerData = user
-                print("\(String(describing: self?.streamerData))")
                 guard let streamerData = self?.streamerData else { return }
+                let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 5.81)
+                self?.mapView.camera = camera
                 for index in 0...streamerData.data.count - 1 {
                     self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
                 }
-                
             case .failure:
                 print("Failed")
             }
-        })
+        }
     }
     
     func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
@@ -86,12 +105,11 @@ extension MapViewController: GMSMapViewDelegate {
         specificStreamer = self.streamerData?.data.filter({
             Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
         })
-        print("\(String(describing: specificStreamer?.first?.shareUrl))")
+        print("\(String(describing: specificStreamer?.first?.pullUrl))")
         
-        guard let url = specificStreamer?.first?.shareUrl else { return false }
+        guard let url = specificStreamer?.first?.pullUrl else { return false }
         self.url = url
         createLiveRoom(streamerUrl: url)
-        //        25.055294
         return true
     }
     
@@ -106,11 +124,10 @@ extension MapViewController: GMSMapViewDelegate {
 }
 
 extension MapViewController: CLLocationManagerDelegate {
+    // 半秒一次
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        //        longitude = locValue.longitude
-        //        latitude = locValue.latitude
-        let camera = GMSCameraPosition(latitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.81)
-        mapView.camera = camera
+        longitude = locValue.longitude
+        latitude = locValue.latitude
     }
 }
