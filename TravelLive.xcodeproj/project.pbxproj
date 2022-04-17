@@ -217,6 +217,7 @@
 			children = (
 				4B4BBF732804324E00A53128 /* MarkerManager.swift */,
 				4B3AAAF22808893E00CBFE89 /* PhotoVideoManager.swift */,
+				4B060CBF280C5DCA0055EDB2 /* ImageManager.swift */,
 			);
 			path = FireStore;
 			sourceTree = "<group>";
@@ -655,6 +656,7 @@
 				4BC0EE6027FF327800C5673B /* MessageCell.swift in Sources */,
 				4B3AAAED280825BB00CBFE89 /* Event.swift in Sources */,
 				4B4BBF742804324E00A53128 /* MarkerManager.swift in Sources */,
+				4B060CC0280C5DCA0055EDB2 /* ImageManager.swift in Sources */,
 				4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */,
 				4B4AA43E280296470066C602 /* PushStreamingRequest.swift in Sources */,
 				4B12BAB72803CBDB0096359B /* GMSMarker+Extension.swift in Sources */,
