@@ -22,7 +22,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, GridLa
         
         var tempStorage = false
         for _ in 1...21 {
-            if(tempStorage){
+            if tempStorage {
                 arrInstaBigCells.append(arrInstaBigCells.last! + 10)
             } else {
                 arrInstaBigCells.append(arrInstaBigCells.last! + 8)
@@ -61,7 +61,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, GridLa
     // MARK: - PrimeGridDelegate
     
     func scaleForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> UInt {
-        if(arrInstaBigCells.contains(indexPath.row) || (indexPath.row == 1)){
+        if arrInstaBigCells.contains(indexPath.row) || (indexPath.row == 1) {
             return 2
         } else {
             return 1
@@ -70,5 +70,16 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, GridLa
     
     func itemFlexibleDimension(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, fixedDimension: CGFloat) -> CGFloat {
         return fixedDimension
+    }
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let searchBarView: UICollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SearchBar", for: indexPath)
+        return searchBarView
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
     }
 }
