@@ -45,6 +45,8 @@ class MapViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         // Hide the Navigation Bar
+        mapView.clear()
+        fetchData()
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -64,7 +66,7 @@ class MapViewController: UIViewController {
             case .success(let user):
                 self?.streamerData = user
                 guard let streamerData = self?.streamerData else { return }
-                let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
+                let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 5.81)
                 self?.mapView.camera = camera
                 for index in 0...streamerData.data.count - 1 {
                     self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])

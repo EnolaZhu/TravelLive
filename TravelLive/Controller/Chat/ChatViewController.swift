@@ -55,6 +55,8 @@ class ChatViewController: BaseViewController, PNEventsListener {
         NotificationCenter.default.addObserver(self, selector: #selector(self.showAnimation(_:)), name: .animationNotificationKey, object: nil)
         // Add observer for STT text
         NotificationCenter.default.addObserver(self, selector: #selector(self.getStreamerText(_:)), name: .textNotificationKey, object: nil)
+        // Clear caption
+        caption.text = ""
     }
     
     @objc func getStreamerText(_ notification: NSNotification) {
