@@ -52,6 +52,7 @@ class MapViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
+        mapView.clear()
         // Show the Navigation Bar
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
@@ -66,8 +67,13 @@ class MapViewController: UIViewController {
             case .success(let user):
                 self?.streamerData = user
                 guard let streamerData = self?.streamerData else { return }
-                let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 5.81)
-                self?.mapView.camera = camera
+                if self?.mapView.camera == nil {
+                    let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
+                    self?.mapView.camera = camera
+                } else {
+                    let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 10.81)
+                    self?.mapView.animate(to: location)
+                }
                 for index in 0...streamerData.data.count - 1 {
                     self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
                 }

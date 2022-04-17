@@ -55,6 +55,8 @@ class ChatViewController: BaseViewController, PNEventsListener {
         NotificationCenter.default.addObserver(self, selector: #selector(self.showAnimation(_:)), name: .animationNotificationKey, object: nil)
         // Add observer for STT text
         NotificationCenter.default.addObserver(self, selector: #selector(self.getStreamerText(_:)), name: .textNotificationKey, object: nil)
+        // Add streamer close live observer
+        NotificationCenter.default.addObserver(self, selector: #selector(self.closePullingView(_:)), name: .closePullingViewKey, object: nil)
         // Clear caption
         caption.text = ""
     }
@@ -73,6 +75,28 @@ class ChatViewController: BaseViewController, PNEventsListener {
     
     @objc func showAnimation(_ notification: NSNotification) {
         publishAnimation()
+    }
+    
+    @objc func closePullingView(_ notification: NSNotification) {
+        self.client.publish(["message": "close",
+                             "username": "close",
+                             "uuid": self.client.uuid()
+                            ], toChannel: channelName) { status in
+            print(status.data.information)
+        }
+    }
+    // swiftlint:disable identifier_name
+    private func createCloseAlert() {
+        let CloseAlertController = UIAlertController(
+            title: "主播已下播",
+            message: "去別的地方看看吧！",
+            preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "好~", style: .default, handler: { (action: UIAlertAction!) -> Void in
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            self.navigationController?.popToRootViewController(animated: true)
+            })
+        CloseAlertController.addAction(okAction)
+        self.present(CloseAlertController, animated: true, completion: nil)
     }
     
     private func setupChatView() {
@@ -163,7 +187,10 @@ class ChatViewController: BaseViewController, PNEventsListener {
                 createAnimation()
             } else if theMessage["username"] == "STT" {
                 caption.text = theMessage["message"]
-            } else {
+            } else if theMessage["username"] == "close" {
+                createCloseAlert()
+            }
+            else {
                 messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
             }
         }
