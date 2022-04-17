@@ -69,6 +69,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         //        if task != nil {
         //            cancelSpeechRecognization()
         //        }
+        deletePushStreming()
         tabBarController?.tabBar.isHidden = false
     }
     
@@ -327,6 +328,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         print("close!")
         session.stopLive()
         deletePushStreming()
+        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
         view.removeFromSuperview()
         tabBarController?.selectedIndex = 0
         //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
@@ -373,17 +375,18 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     func startLive(_ url: String) {
         startLiveButton.isSelected = !startLiveButton.isSelected
         if startLiveButton.isSelected {
-            startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
+            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
             let stream = LFLiveStreamInfo()
             stream.url = url
             session.startLive(stream)
             audioEngine.inputNode.removeTap(onBus: 0)
             self.startSpeechRecognization()
         } else {
-            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
+            startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
             session.stopLive()
             deletePushStreming()
             cancelSpeechRecognization()
+            NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
         }
     }
 }
