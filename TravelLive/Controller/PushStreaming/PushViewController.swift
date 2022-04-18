@@ -310,6 +310,12 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         //        requestPermission()
         //        startSpeechRecognization()
         postPushStreamingInfo()
+        click = !click
+        if click {
+            startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
+        } else {
+            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
+        }
     }
     
     // beautify
@@ -329,7 +335,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         print("close!")
         session.stopLive()
         deletePushStreming()
-        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
+//        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
         view.removeFromSuperview()
         tabBarController?.selectedIndex = 0
         //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)

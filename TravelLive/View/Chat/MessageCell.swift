@@ -13,6 +13,7 @@ class MessageCell: UITableViewCell {
             userNameLabel.backgroundColor = UIColor.white
             userNameLabel.layer.cornerRadius = 8
             userNameLabel.layer.masksToBounds = (YESSTR != 0)
+            userNameLabel.textColor = UIColor.black
         }
     }
     @IBOutlet weak var messageLabel: UILabel! {
@@ -20,6 +21,7 @@ class MessageCell: UITableViewCell {
             messageLabel.backgroundColor = UIColor.white
             messageLabel.layer.cornerRadius = 8
             messageLabel.layer.masksToBounds = (YESSTR != 0)
+            messageLabel.textColor = UIColor.black
         }
     }
     
