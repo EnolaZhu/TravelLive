@@ -71,7 +71,7 @@ class MapViewController: UIViewController {
                     let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
                     self?.mapView.camera = camera
                 } else {
-                    let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 10.81)
+                    let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
                     self?.mapView.animate(to: location)
                 }
                 for index in 0...streamerData.data.count - 1 {
