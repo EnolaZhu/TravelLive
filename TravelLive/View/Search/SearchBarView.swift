@@ -8,5 +8,10 @@
 import UIKit
 
 class SearchBarView: UICollectionReusableView {
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var searchBar: UISearchBar! {
+        didSet {
+            searchBar.backgroundColor = UIColor.clear
+            searchBar.tintColor = UIColor.primary
+        }
+    }
 }
