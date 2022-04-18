@@ -7,15 +7,18 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, UICollectionViewDataSource, GridLayoutDelegate {
+class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
     var images = [UIImage]()
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var gridLayout: GridLayout!
     
     var arrInstaBigCells = [Int]()
+    let searchController = UISearchController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.searchController = searchController
         
         images = Array(repeatElement(#imageLiteral(resourceName: "avatar"), count: 99))
         arrInstaBigCells.append(1)
@@ -41,6 +44,12 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, GridLa
         gridLayout.fixedDivisionCount = 3
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        searchController.searchBar.placeholder = "搜尋"
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
 
@@ -78,6 +87,21 @@ extension SearchViewController: UISearchBarDelegate {
         let searchBarView: UICollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SearchBar", for: indexPath)
         return searchBarView
     }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if decelerate == false {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
