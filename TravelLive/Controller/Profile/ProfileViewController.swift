@@ -26,9 +26,10 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func postImage(_ button: UIButton) {
+        
         imagePickerController.delegate = self
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            
+
             // 如果可以，指定 UIImagePickerController 的照片來源為 照片圖庫 (.photoLibrary)，並 present UIImagePickerController
             imagePickerController.sourceType = .photoLibrary
             if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
@@ -70,8 +71,21 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPath)
         }
         if let mediaUrl = info[.mediaURL] as? URL {
+            // Upload video file
             let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
             PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath)
+            
+            // Convert video type to GIF
+            let storageRefGifPath = userId + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag + "_thumbnail"
+            GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
+                switch result {
+                case .success(let urlOfGIF):
+                    // Upload GIF file
+                    PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath)
+                case .failure:
+                    print("Failed")
+                }
+            }
         }
         imagePickerController.dismiss(animated: true, completion: nil)
     }
