@@ -15,17 +15,23 @@ class MarkerManager {
     lazy var storage = Storage.storage()
     var storageRef: StorageReference?
     
-    func fetchStreamerImage(imageUrl: String, avater: String, completion: @escaping (UIImage) -> Void) {
-        if storageRef == nil {
-            storageRef = storage.reference(forURL: imageUrl)
-        }
-        storageRef?.child(avater).getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print(error)
-            } else {
-                let image = UIImage(data: data!)
-                print("Get Image")
-                completion(image!)
+    func fetchStreamerImage(hostUrl: String, imageUrl: String, completion: @escaping (UIImage) -> Void) {
+        if hostUrl.hasPrefix("gs://") {
+            if storageRef == nil {
+                storageRef = storage.reference(forURL: hostUrl)
+            }
+            storageRef?.child(imageUrl).getData(maxSize: 1 * 1024 * 1024) { data, error in
+                if let error = error {
+                    print(error)
+                } else {
+                    let image = UIImage(data: data!)
+                    print("Get Image")
+                    completion(image!)
+                }
+            }
+        } else {
+            ImageManager.shared.downloadImage(with: imageUrl) { uiImage in
+                completion(uiImage ?? UIImage())
             }
         }
     }

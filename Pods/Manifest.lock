@@ -100,6 +100,7 @@ PODS:
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.7.1)
   - IQKeyboardManagerSwift (6.5.9)
+  - Kingfisher (7.2.1)
   - LFLiveKit (2.6)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
@@ -120,6 +121,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - GoogleMaps
   - IQKeyboardManagerSwift
+  - Kingfisher (~> 7.0)
   - LFLiveKit
   - PubNub (~> 4)
   - SnapKit (~> 5.6.0)
@@ -141,6 +143,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - Kingfisher
     - LFLiveKit
     - nanopb
     - PromisesObjC
@@ -163,6 +166,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
+  Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
   LFLiveKit: 2219563721f8aa0f188effc3395a06e2d53b23f2
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
@@ -171,6 +175,6 @@ SPEC CHECKSUMS:
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
   TXLiteAVSDK_Professional: 645670c9d1bbabb88e8dff998fb097a22fe71208
 
-PODFILE CHECKSUM: 0076db7da2ccd9736600005d5fc3df7bdc0ecf13
+PODFILE CHECKSUM: ff785d04e94d50d2df72fa9b8b8002c9e3f93fed
 
 COCOAPODS: 1.11.3
