@@ -56,19 +56,22 @@ class ProfileViewController: UIViewController {
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         //    swiftlint: disable identifier_name
-        let d = Date()
-        let df = DateFormatter()
-        df.dateFormat = "SSSSSS"
-        let date = Int(Date().timeIntervalSince1970)
+        let uploadDate = Date()
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "SSSSSS"
+        let uploadTimestamp = Int(uploadDate.timeIntervalSince1970)
+        // TODO: Tag
+        let tag = "\(Int.random(in: 0...2))"
+        let storageRefPath = userId + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
         
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
-            let imgUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
-            guard let url = imgUrl else { return }
-            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: url), child: (userId + "_" + "\(date)" + df.string(from: d)))
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            let imageUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
+            guard let imgUrl = imageUrl else { return }
+            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPath)
         }
-        if let url = info[.mediaURL] as? URL {
-            let videoUrl = createTemporaryURLforVideoFile(url: url as NSURL)
-            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: (userId + "_" + "\(date)" + df.string(from: d)))
+        if let mediaUrl = info[.mediaURL] as? URL {
+            let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
+            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath)
         }
         imagePickerController.dismiss(animated: true, completion: nil)
     }
