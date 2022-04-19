@@ -98,13 +98,13 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 print("\(data)")
                 self?.searchDataObjc = data
                 guard let searchDataObjc = self?.searchDataObjc else { return }
-//                for index in 0...searchDataObjc.data?.count - 1 {
-//                    if searchDataObjc.data[0].thumbnailName == "" {
-//                        self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileName)
-//                    } else {
-//                        self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].thumbnailName ?? "")
-//                    }
-//                }
+                for index in 0...searchDataObjc.data.count - 1 {
+                    if searchDataObjc.data[0].thumbnailName == "" {
+                        self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileName)
+                    } else {
+                        self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].thumbnailName ?? "")
+                    }
+                }
             case .failure:
                 print("Failed")
             }
@@ -114,12 +114,14 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     private func getImage(searchData: SearchData, imageUrl: String) {
         // Image
         MarkerManager.shared.fetchStreamerImage(hostUrl: searchData.storageBucket, imageUrl: imageUrl) { image in
+            print("success1 image")
         }
     }
     
     private func getthumbnail(searchData: SearchData) {
         // video GIF
-        MarkerManager.shared.fetchStreamerImage(hostUrl: searchData.storageBucket, imageUrl: searchData.thumbnailName ?? "" ) { thumbnail in
+        MarkerManager.shared.fetchStreamerImage(hostUrl: searchData.storageBucket, imageUrl: searchData.thumbnailName) { thumbnail in
+            print("success2 gif")
         }
     }
 }

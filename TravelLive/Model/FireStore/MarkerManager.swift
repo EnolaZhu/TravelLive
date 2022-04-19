@@ -35,4 +35,6 @@ class MarkerManager {
             }
         }
     }
+    
+//    func fetchUserGIF(hostUrl: String, gifUrl: String, completion: @escaping (UIImage) -> Void) {
 }
