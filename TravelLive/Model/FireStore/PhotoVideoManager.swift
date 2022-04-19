@@ -21,7 +21,7 @@ class PhotoVideoManager {
             let size = metadata.size
             riversRef.downloadURL { (url, error) in
                 guard let downloadURL = url else { return }
-                print("\(url)")
+                print("\(String(describing: url))")
             }
         }
     }
