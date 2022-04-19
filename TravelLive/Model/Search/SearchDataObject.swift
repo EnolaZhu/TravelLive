@@ -19,14 +19,14 @@ struct SearchData: Decodable {
     var type: String
     var format: String
     var fileName: String
-    var thumbnailName: String
+    var thumbnailUrl: String
     var timestamp: String
     var storageBucket: String
     
     enum CodingKeys: String, CodingKey {
         case uid, tag, type, format, timestamp
         case fileName = "file_name"
-        case thumbnailName = "thumbnail_name"
+        case thumbnailUrl = "thumbnail_url"
         case storageBucket = "storage_bucket"
     }
 }

@@ -36,6 +36,7 @@
 		4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */; };
 		4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */; };
 		4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E393280E49F600D421D0 /* SearchDataObject.swift */; };
+		4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */; };
 		4BB5A92D280DAD6E00739C61 /* GIFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB5A92C280DAD6E00739C61 /* GIFManager.swift */; };
 		4BB6AC0628045F5D0061EDDE /* PullStreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */; };
 		4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC07280466380061EDDE /* StreamerDataObject.swift */; };
@@ -101,6 +102,7 @@
 		4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataProvider.swift; sourceTree = "<group>"; };
 		4BA5E393280E49F600D421D0 /* SearchDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataObject.swift; sourceTree = "<group>"; };
+		4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
 		4BB5A92C280DAD6E00739C61 /* GIFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFManager.swift; sourceTree = "<group>"; };
 		4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullStreamingProvider.swift; sourceTree = "<group>"; };
 		4BB6AC07280466380061EDDE /* StreamerDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamerDataObject.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				4B4AA4372802928B0066C602 /* Bundle+Extension.swift */,
 				4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */,
 				4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */,
+				4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				4B43FD922800AB2400B7085D /* UILabel+Extension.swift in Sources */,
 				4BC1075D27FB51870017B1B7 /* UIStoryboard+Extension.swift in Sources */,
 				4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */,
+				4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */,
 				4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */,
 				4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */,
 				4B3AAAF1280873D400CBFE89 /* ProfileViewController.swift in Sources */,

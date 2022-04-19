@@ -84,7 +84,7 @@ class MapViewController: UIViewController {
     }
     
     func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
-        MarkerManager.shared.fetchStreamerImage(hostUrl: data.storageBucket, imageUrl: data.avatar) { image in
+        MarkerManager.shared.fetchStorageImage(hostUrl: data.storageBucket, imageUrl: data.avatar) { image in
             self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image)
         }
     }

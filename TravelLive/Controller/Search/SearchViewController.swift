@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
+    
     var images = [UIImage]()
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var gridLayout: GridLayout!
@@ -16,13 +18,15 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     var searchDataObjc: SearchDataObject?
     let searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
+//    var gif = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.searchController = searchController
         
-        images = Array(repeatElement(#imageLiteral(resourceName: "avatar"), count: 99))
+//        images = Array(repeatElement(gif, count: 99))
+    
         arrInstaBigCells.append(1)
         
         var tempStorage = false
@@ -62,7 +66,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     // MARK: - UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 99
+        return images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -99,10 +103,10 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 self?.searchDataObjc = data
                 guard let searchDataObjc = self?.searchDataObjc else { return }
                 for index in 0...searchDataObjc.data.count - 1 {
-                    if searchDataObjc.data[0].thumbnailName == "" {
+                    if searchDataObjc.data[0].thumbnailUrl == "" {
                         self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileName)
                     } else {
-                        self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].thumbnailName ?? "")
+                        self?.getThumbnail(searchData: searchDataObjc.data[index])
                     }
                 }
             case .failure:
@@ -113,15 +117,17 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     private func getImage(searchData: SearchData, imageUrl: String) {
         // Image
-        MarkerManager.shared.fetchStreamerImage(hostUrl: searchData.storageBucket, imageUrl: imageUrl) { image in
-            print("success1 image")
+        MarkerManager.shared.fetchStorageImage(hostUrl: searchData.storageBucket, imageUrl: imageUrl) { image in
+            self.images.append(image)
+            self.searchCollectionView.reloadData()
         }
     }
     
-    private func getthumbnail(searchData: SearchData) {
+    private func getThumbnail(searchData: SearchData) {
         // video GIF
-        MarkerManager.shared.fetchStreamerImage(hostUrl: searchData.storageBucket, imageUrl: searchData.thumbnailName) { thumbnail in
-            print("success2 gif")
+        MarkerManager.shared.fetchUserGIF(thumbnailUrl: searchData.thumbnailUrl) { gif in
+            self.images.append(gif)
+            self.searchCollectionView.reloadData()
         }
     }
 }
