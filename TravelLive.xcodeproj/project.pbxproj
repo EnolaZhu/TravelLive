@@ -27,13 +27,16 @@
 		4B4AA4402802AC4B0066C602 /* PushStreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */; };
 		4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */; };
 		4B4BBF742804324E00A53128 /* MarkerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4BBF732804324E00A53128 /* MarkerManager.swift */; };
-		4B4BBF7728043E4700A53128 /* PullStreamingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4BBF7628043E4700A53128 /* PullStreamingRequest.swift */; };
+		4B4BBF7728043E4700A53128 /* GetDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4BBF7628043E4700A53128 /* GetDataRequest.swift */; };
 		4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B8A27FD28D600A304D6 /* LoginViewController.swift */; };
 		4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B552B9227FD404A00A304D6 /* AuthView.xib */; };
 		4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */; };
 		4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9627FD5CC900A304D6 /* AuthView.swift */; };
 		4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B55B589280A6919005D9869 /* RecordManager.swift */; };
 		4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */; };
+		4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */; };
+		4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E393280E49F600D421D0 /* SearchDataObject.swift */; };
+		4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */; };
 		4BB5A92D280DAD6E00739C61 /* GIFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB5A92C280DAD6E00739C61 /* GIFManager.swift */; };
 		4BB6AC0628045F5D0061EDDE /* PullStreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */; };
 		4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC07280466380061EDDE /* StreamerDataObject.swift */; };
@@ -90,13 +93,16 @@
 		4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingProvider.swift; sourceTree = "<group>"; };
 		4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingBody.swift; sourceTree = "<group>"; };
 		4B4BBF732804324E00A53128 /* MarkerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerManager.swift; sourceTree = "<group>"; };
-		4B4BBF7628043E4700A53128 /* PullStreamingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullStreamingRequest.swift; sourceTree = "<group>"; };
+		4B4BBF7628043E4700A53128 /* GetDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDataRequest.swift; sourceTree = "<group>"; };
 		4B552B8A27FD28D600A304D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4B552B9227FD404A00A304D6 /* AuthView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthView.xib; sourceTree = "<group>"; };
 		4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibOwnerLoadable.swift; sourceTree = "<group>"; };
 		4B552B9627FD5CC900A304D6 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		4B55B589280A6919005D9869 /* RecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManager.swift; sourceTree = "<group>"; };
 		4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataProvider.swift; sourceTree = "<group>"; };
+		4BA5E393280E49F600D421D0 /* SearchDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataObject.swift; sourceTree = "<group>"; };
+		4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
 		4BB5A92C280DAD6E00739C61 /* GIFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFManager.swift; sourceTree = "<group>"; };
 		4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullStreamingProvider.swift; sourceTree = "<group>"; };
 		4BB6AC07280466380061EDDE /* StreamerDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamerDataObject.swift; sourceTree = "<group>"; };
@@ -224,7 +230,7 @@
 		4B4BBF7528043DE700A53128 /* PullStreaming */ = {
 			isa = PBXGroup;
 			children = (
-				4B4BBF7628043E4700A53128 /* PullStreamingRequest.swift */,
+				4B4BBF7628043E4700A53128 /* GetDataRequest.swift */,
 				4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */,
 				4BB6AC07280466380061EDDE /* StreamerDataObject.swift */,
 			);
@@ -262,6 +268,15 @@
 				4B55B589280A6919005D9869 /* RecordManager.swift */,
 			);
 			path = Record;
+			sourceTree = "<group>";
+		};
+		4BA5E390280E482F00D421D0 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */,
+				4BA5E393280E49F600D421D0 /* SearchDataObject.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		4BB5A92A280D693500739C61 /* Detail */ = {
@@ -381,6 +396,7 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4BA5E390280E482F00D421D0 /* Search */,
 				4BB5A92B280DAD3500739C61 /* GIF */,
 				4B55B588280A687C005D9869 /* Record */,
 				4B3AAAEE2808664F00CBFE89 /* Event */,
@@ -425,6 +441,7 @@
 				4B4AA4372802928B0066C602 /* Bundle+Extension.swift */,
 				4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */,
 				4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */,
+				4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -647,7 +664,7 @@
 				4BDEC3492801F28000143E25 /* String+Extension.swift in Sources */,
 				4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */,
 				4B3AAAE92808232C00CBFE89 /* EventCollectionViewCell.swift in Sources */,
-				4B4BBF7728043E4700A53128 /* PullStreamingRequest.swift in Sources */,
+				4B4BBF7728043E4700A53128 /* GetDataRequest.swift in Sources */,
 				4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */,
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,
 				4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */,
@@ -664,6 +681,8 @@
 				4B43FD922800AB2400B7085D /* UILabel+Extension.swift in Sources */,
 				4BC1075D27FB51870017B1B7 /* UIStoryboard+Extension.swift in Sources */,
 				4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */,
+				4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */,
+				4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */,
 				4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */,
 				4B3AAAF1280873D400CBFE89 /* ProfileViewController.swift in Sources */,
 				4BC2BE4F27FC4207001FF31D /* Secret.swift in Sources */,
@@ -684,6 +703,7 @@
 				4BB6AC0628045F5D0061EDDE /* PullStreamingProvider.swift in Sources */,
 				4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */,
 				4BC0EE6327FFB90700C5673B /* UITableView+Extension.swift in Sources */,
+				4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */,
 				4BD373642804181800141A29 /* SearchViewController.swift in Sources */,
 				4B060CC2280C66590055EDB2 /* SearchCollectionViewCell.swift in Sources */,
 			);

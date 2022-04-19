@@ -61,7 +61,7 @@ class MapViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func fetchData() {
+    private func fetchData() {
         pullStreamingProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
             case .success(let user):
@@ -84,7 +84,7 @@ class MapViewController: UIViewController {
     }
     
     func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
-        MarkerManager.shared.fetchStreamerImage(hostUrl: data.storageBucket, imageUrl: data.avatar) { image in
+        MarkerManager.shared.fetchStorageImage(hostUrl: data.storageBucket, imageUrl: data.avatar) { image in
             self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image)
         }
     }
