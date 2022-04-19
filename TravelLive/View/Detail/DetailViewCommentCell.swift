@@ -14,6 +14,7 @@ class DetailViewCommentCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.selectionStyle = .none
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -21,5 +22,8 @@ class DetailViewCommentCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+    func layoutCell(name: String, comment: String) {
+        reviewerName.text = name
+        commentLabel.text = comment
+    }
 }

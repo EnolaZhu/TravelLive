@@ -17,6 +17,8 @@ class DetailViewImageCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.selectionStyle = .none
+        userAvatarimage.makeRounded()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -25,4 +27,10 @@ class DetailViewImageCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func layoutCell(mainImage: UIImage) {
+        userUploadImageView.contentMode = .scaleAspectFill
+        userUploadImageView.image = mainImage
+        userAvatarimage.image = UIImage(named: "avatar")?.circularImage(22)
+        userName.text = "Enola"
+    }
 }
