@@ -7,7 +7,7 @@
 
 import UIKit
 import FirebaseStorage
-
+//GridLayoutDelegate
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
     
     var images = [UIImage]()
@@ -22,11 +22,10 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationItem.searchController = searchController
         
 //        images = Array(repeatElement(gif, count: 99))
-    
+        searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
         
         var tempStorage = false
@@ -42,6 +41,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         print(arrInstaBigCells)
         searchCollectionView.backgroundColor = .white
         searchCollectionView.dataSource = self
+        searchCollectionView.delegate = self
         searchCollectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         searchCollectionView.contentOffset = CGPoint(x: -10, y: -10)
         
@@ -132,12 +132,22 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     }
 }
 
-extension SearchViewController: UISearchBarDelegate {
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let searchBarView: UICollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SearchBar", for: indexPath)
-        return searchBarView
+extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate {
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        let searchBarView: UICollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SearchBar", for: indexPath)
+//        return searchBarView
+//    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let image = images[indexPath.item]
+        print("\(indexPath.item)")
+        let detailVC = DetailViewController()
+        detailVC.detailPageImage = image
+        navigationController?.pushViewController(detailVC, animated: true)
     }
     
+    // 下滑隱藏 navigation bar,上拉出現 navigation bar
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
