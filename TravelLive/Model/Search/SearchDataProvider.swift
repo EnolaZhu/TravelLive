@@ -14,10 +14,8 @@ class SearchDataProvider {
         HTTPClient.shared.request(request, completion: { data in
             switch data {
             case .success(let data):
-                print(data)
                 do {
                     let response = try JSONDecoder().decode(SearchDataObject.self, from: data)
-                    print(response)
                     DispatchQueue.main.async {
                         completion(Result.success(response))
                     }
