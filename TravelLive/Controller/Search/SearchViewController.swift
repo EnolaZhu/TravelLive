@@ -6,21 +6,27 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
+    
     var images = [UIImage]()
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var gridLayout: GridLayout!
     
     var arrInstaBigCells = [Int]()
+    var searchDataObjc: SearchDataObject?
     let searchController = UISearchController()
-
+    let searchDataProvider = SearchDataProvider()
+//    var gif = UIImage()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.searchController = searchController
         
-        images = Array(repeatElement(#imageLiteral(resourceName: "avatar"), count: 99))
+//        images = Array(repeatElement(gif, count: 99))
+    
         arrInstaBigCells.append(1)
         
         var tempStorage = false
@@ -42,6 +48,8 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         gridLayout.delegate = self
         gridLayout.itemSpacing = 3
         gridLayout.fixedDivisionCount = 3
+        
+        getSearchData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -58,7 +66,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     // MARK: - UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 99
+        return images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -79,6 +87,48 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     func itemFlexibleDimension(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, fixedDimension: CGFloat) -> CGFloat {
         return fixedDimension
+    }
+    
+    // Fetch search data
+    private func getSearchData() {
+        fetchSearchData(type: SearchQuery.image.rawValue)
+        fetchSearchData(type: SearchQuery.video.rawValue)
+    }
+    
+    private func fetchSearchData(type: String) {
+        searchDataProvider.fetchSearchData(type: type) { [weak self] result in
+            switch result {
+            case .success(let data):
+                print("\(data)")
+                self?.searchDataObjc = data
+                guard let searchDataObjc = self?.searchDataObjc else { return }
+                for index in 0...searchDataObjc.data.count - 1 {
+                    if searchDataObjc.data[0].thumbnailUrl == "" {
+                        self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileName)
+                    } else {
+                        self?.getThumbnail(searchData: searchDataObjc.data[index])
+                    }
+                }
+            case .failure:
+                print("Failed")
+            }
+        }
+    }
+    
+    private func getImage(searchData: SearchData, imageUrl: String) {
+        // Image
+        MarkerManager.shared.fetchStorageImage(hostUrl: searchData.storageBucket, imageUrl: imageUrl) { image in
+            self.images.append(image)
+            self.searchCollectionView.reloadData()
+        }
+    }
+    
+    private func getThumbnail(searchData: SearchData) {
+        // video GIF
+        MarkerManager.shared.fetchUserGIF(thumbnailUrl: searchData.thumbnailUrl) { gif in
+            self.images.append(gif)
+            self.searchCollectionView.reloadData()
+        }
     }
 }
 
@@ -106,4 +156,9 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
     }
+}
+
+enum SearchQuery: String {
+    case video = "video"
+    case image = "image"
 }

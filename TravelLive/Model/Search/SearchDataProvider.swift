@@ -1,21 +1,23 @@
 //
-//  PullStreamingProvider.swift
+//  SearchDataManager.swift
 //  TravelLive
 //
-//  Created by Enola Zhu on 2022/4/11.
+//  Created by Enola Zhu on 2022/4/19.
 //
-
 import Foundation
 
-class PullStreamingProvider {
-    func fetchStreamerInfo(latitude: Double, longitude: Double, completion: @escaping (Result<StreamerDataObject>) -> Void) {
-        let query = "?latitude=\(latitude)&longitude=\(longitude)"
-        let request = GetDataRequest.fetchStreamerData(query: query)
+class SearchDataProvider {
+    
+    func fetchSearchData(type: String, completion: @escaping (Result<SearchDataObject>) -> Void) {
+        let query = "?type=" + type
+        let request = GetDataRequest.fetchSearchData(query: query)
         HTTPClient.shared.request(request, completion: { data in
             switch data {
             case .success(let data):
+                print(data)
                 do {
-                    let response = try JSONDecoder().decode(StreamerDataObject.self, from: data)
+                    let response = try JSONDecoder().decode(SearchDataObject.self, from: data)
+                    print(response)
                     DispatchQueue.main.async {
                         completion(Result.success(response))
                     }
@@ -27,5 +29,4 @@ class PullStreamingProvider {
             }
         })
     }
-    
 }
