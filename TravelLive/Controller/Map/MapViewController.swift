@@ -61,7 +61,7 @@ class MapViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func fetchData() {
+    private func fetchData() {
         pullStreamingProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
             case .success(let user):

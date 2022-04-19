@@ -13,8 +13,10 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     @IBOutlet weak var gridLayout: GridLayout!
     
     var arrInstaBigCells = [Int]()
+    var searchDataObjc: SearchDataObject?
     let searchController = UISearchController()
-
+    let searchDataProvider = SearchDataProvider()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,6 +44,8 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         gridLayout.delegate = self
         gridLayout.itemSpacing = 3
         gridLayout.fixedDivisionCount = 3
+        
+        getSearchData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +84,44 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     func itemFlexibleDimension(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, fixedDimension: CGFloat) -> CGFloat {
         return fixedDimension
     }
+    
+    // Fetch search data
+    private func getSearchData() {
+        fetchSearchData(type: SearchQuery.image.rawValue)
+        fetchSearchData(type: SearchQuery.video.rawValue)
+    }
+    
+    private func fetchSearchData(type: String) {
+        searchDataProvider.fetchSearchData(type: type) { [weak self] result in
+            switch result {
+            case .success(let data):
+                print("\(data)")
+                self?.searchDataObjc = data
+                guard let searchDataObjc = self?.searchDataObjc else { return }
+//                for index in 0...searchDataObjc.data?.count - 1 {
+//                    if searchDataObjc.data[0].thumbnailName == "" {
+//                        self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileName)
+//                    } else {
+//                        self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].thumbnailName ?? "")
+//                    }
+//                }
+            case .failure:
+                print("Failed")
+            }
+        }
+    }
+    
+    private func getImage(searchData: SearchData, imageUrl: String) {
+        // Image
+        MarkerManager.shared.fetchStreamerImage(hostUrl: searchData.storageBucket, imageUrl: imageUrl) { image in
+        }
+    }
+    
+    private func getthumbnail(searchData: SearchData) {
+        // video GIF
+        MarkerManager.shared.fetchStreamerImage(hostUrl: searchData.storageBucket, imageUrl: searchData.thumbnailName ?? "" ) { thumbnail in
+        }
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -106,4 +148,9 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
     }
+}
+
+enum SearchQuery: String {
+    case video = "video"
+    case image = "image"
 }
