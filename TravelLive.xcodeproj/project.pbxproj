@@ -37,6 +37,7 @@
 		4B9787FD280FEFB90003CC9F /* CommentObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9787FC280FEFB90003CC9F /* CommentObject.swift */; };
 		4B978801281008740003CC9F /* Hearts moving.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B978800281008740003CC9F /* Hearts moving.json */; };
 		4B9788032810462B0003CC9F /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9788022810462B0003CC9F /* Date+Extension.swift */; };
+		4B97880828105A7A0003CC9F /* Heart falling.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B97880728105A7A0003CC9F /* Heart falling.json */; };
 		4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */; };
 		4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E393280E49F600D421D0 /* SearchDataObject.swift */; };
 		4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */; };
@@ -118,6 +119,7 @@
 		4B9787FC280FEFB90003CC9F /* CommentObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentObject.swift; sourceTree = "<group>"; };
 		4B978800281008740003CC9F /* Hearts moving.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Hearts moving.json"; sourceTree = "<group>"; };
 		4B9788022810462B0003CC9F /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		4B97880728105A7A0003CC9F /* Heart falling.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart falling.json"; sourceTree = "<group>"; };
 		4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataProvider.swift; sourceTree = "<group>"; };
 		4BA5E393280E49F600D421D0 /* SearchDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataObject.swift; sourceTree = "<group>"; };
 		4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
@@ -300,6 +302,15 @@
 			path = Record;
 			sourceTree = "<group>";
 		};
+		4B97880628105A440003CC9F /* LottieAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				4B97880728105A7A0003CC9F /* Heart falling.json */,
+				4B978800281008740003CC9F /* Hearts moving.json */,
+			);
+			path = LottieAnimation;
+			sourceTree = "<group>";
+		};
 		4BA5E390280E482F00D421D0 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,7 +415,7 @@
 		4BC1073827FA9DD40017B1B7 /* TravelLive */ = {
 			isa = PBXGroup;
 			children = (
-				4B978800281008740003CC9F /* Hearts moving.json */,
+				4B97880628105A440003CC9F /* LottieAnimation */,
 				4BA5E3AC280F0FEA00D421D0 /* TravelLive.entitlements */,
 				4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */,
 				4B552B9827FD6A4300A304D6 /* Protocal */,
@@ -646,6 +657,7 @@
 				4BC1076127FB56290017B1B7 /* Search.storyboard in Resources */,
 				4BC1075927FB4AE40017B1B7 /* PushStreaming.storyboard in Resources */,
 				4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */,
+				4B97880828105A7A0003CC9F /* Heart falling.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
