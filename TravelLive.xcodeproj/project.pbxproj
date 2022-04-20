@@ -26,7 +26,6 @@
 		4B4AA43E280296470066C602 /* PushStreamingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43D280296470066C602 /* PushStreamingRequest.swift */; };
 		4B4AA4402802AC4B0066C602 /* PushStreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */; };
 		4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */; };
-		4B4BBF742804324E00A53128 /* MarkerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4BBF732804324E00A53128 /* MarkerManager.swift */; };
 		4B4BBF7728043E4700A53128 /* GetDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4BBF7628043E4700A53128 /* GetDataRequest.swift */; };
 		4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B8A27FD28D600A304D6 /* LoginViewController.swift */; };
 		4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B552B9227FD404A00A304D6 /* AuthView.xib */; };
@@ -43,6 +42,7 @@
 		4BA5E3A6280E9CEE00D421D0 /* DetailViewCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3A4280E9CEE00D421D0 /* DetailViewCommentCell.xib */; };
 		4BA5E3A9280E9FB400D421D0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3A8280E9FB400D421D0 /* DetailViewController.swift */; };
 		4BA5E3AB280EC4D600D421D0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */; };
+		4BA5E3AE280F133900D421D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */; };
 		4BB5A92D280DAD6E00739C61 /* GIFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB5A92C280DAD6E00739C61 /* GIFManager.swift */; };
 		4BB6AC0628045F5D0061EDDE /* PullStreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */; };
 		4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC07280466380061EDDE /* StreamerDataObject.swift */; };
@@ -52,7 +52,6 @@
 		4BC0EE6528000A1F00C5673B /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC0EE6428000A1E00C5673B /* Chat.storyboard */; };
 		4BC0EE6828000B2000C5673B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0EE6728000B2000C5673B /* ChatViewController.swift */; };
 		4BC0EE6B28000D0800C5673B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC0EE6A28000D0800C5673B /* BaseViewController.swift */; };
-		4BC0EE6D2800A30D00C5673B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BC0EE6C2800A30D00C5673B /* GoogleService-Info.plist */; };
 		4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1073927FA9DD40017B1B7 /* AppDelegate.swift */; };
 		4BC1073C27FA9DD40017B1B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1073B27FA9DD40017B1B7 /* SceneDelegate.swift */; };
 		4BC1073E27FA9DD40017B1B7 /* STTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1073D27FA9DD40017B1B7 /* STTabBarViewController.swift */; };
@@ -98,7 +97,6 @@
 		4B4AA43D280296470066C602 /* PushStreamingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingRequest.swift; sourceTree = "<group>"; };
 		4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingProvider.swift; sourceTree = "<group>"; };
 		4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingBody.swift; sourceTree = "<group>"; };
-		4B4BBF732804324E00A53128 /* MarkerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerManager.swift; sourceTree = "<group>"; };
 		4B4BBF7628043E4700A53128 /* GetDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDataRequest.swift; sourceTree = "<group>"; };
 		4B552B8A27FD28D600A304D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4B552B9227FD404A00A304D6 /* AuthView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthView.xib; sourceTree = "<group>"; };
@@ -115,6 +113,8 @@
 		4BA5E3A4280E9CEE00D421D0 /* DetailViewCommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewCommentCell.xib; sourceTree = "<group>"; };
 		4BA5E3A8280E9FB400D421D0 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		4BA5E3AC280F0FEA00D421D0 /* TravelLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TravelLive.entitlements; sourceTree = "<group>"; };
+		4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4BB5A92C280DAD6E00739C61 /* GIFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFManager.swift; sourceTree = "<group>"; };
 		4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullStreamingProvider.swift; sourceTree = "<group>"; };
 		4BB6AC07280466380061EDDE /* StreamerDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamerDataObject.swift; sourceTree = "<group>"; };
@@ -124,7 +124,6 @@
 		4BC0EE6428000A1E00C5673B /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		4BC0EE6728000B2000C5673B /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		4BC0EE6A28000D0800C5673B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
-		4BC0EE6C2800A30D00C5673B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4BC1073627FA9DD40017B1B7 /* TravelLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC1073927FA9DD40017B1B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4BC1073B27FA9DD40017B1B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -232,7 +231,6 @@
 		4B4BBF72280430FD00A53128 /* FireStore */ = {
 			isa = PBXGroup;
 			children = (
-				4B4BBF732804324E00A53128 /* MarkerManager.swift */,
 				4B3AAAF22808893E00CBFE89 /* PhotoVideoManager.swift */,
 				4B060CBF280C5DCA0055EDB2 /* ImageManager.swift */,
 			);
@@ -366,7 +364,8 @@
 		4BC1073827FA9DD40017B1B7 /* TravelLive */ = {
 			isa = PBXGroup;
 			children = (
-				4BC0EE6C2800A30D00C5673B /* GoogleService-Info.plist */,
+				4BA5E3AC280F0FEA00D421D0 /* TravelLive.entitlements */,
+				4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */,
 				4B552B9827FD6A4300A304D6 /* Protocal */,
 				4BC1075B27FB4E8E0017B1B7 /* Extension */,
 				4BC1075A27FB4E710017B1B7 /* Resource */,
@@ -583,6 +582,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BA5E3AE280F133900D421D0 /* GoogleService-Info.plist in Resources */,
 				4BC1076727FB56790017B1B7 /* Event.storyboard in Resources */,
 				4BC1074627FA9DD60017B1B7 /* LaunchScreen.storyboard in Resources */,
 				4BD3736A28041BE200141A29 /* PullStreaming.storyboard in Resources */,
@@ -590,7 +590,6 @@
 				4BC0EE6127FF327800C5673B /* MessageCell.xib in Resources */,
 				4BA5E3A2280E974100D421D0 /* DetailViewImageCell.xib in Resources */,
 				4BC1074327FA9DD60017B1B7 /* Assets.xcassets in Resources */,
-				4BC0EE6D2800A30D00C5673B /* GoogleService-Info.plist in Resources */,
 				4BA5E3A6280E9CEE00D421D0 /* DetailViewCommentCell.xib in Resources */,
 				4BC0EE6528000A1F00C5673B /* Chat.storyboard in Resources */,
 				4BC1075F27FB560D0017B1B7 /* Map.storyboard in Resources */,
@@ -718,7 +717,6 @@
 				4BC0EE6828000B2000C5673B /* ChatViewController.swift in Sources */,
 				4BC0EE6027FF327800C5673B /* MessageCell.swift in Sources */,
 				4B3AAAED280825BB00CBFE89 /* Event.swift in Sources */,
-				4B4BBF742804324E00A53128 /* MarkerManager.swift in Sources */,
 				4BA5E3A1280E974100D421D0 /* DetailViewImageCell.swift in Sources */,
 				4B060CC0280C5DCA0055EDB2 /* ImageManager.swift in Sources */,
 				4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */,
@@ -887,6 +885,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TravelLive/TravelLive.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KKSLT7KN48;
@@ -922,6 +921,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TravelLive/TravelLive.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KKSLT7KN48;
