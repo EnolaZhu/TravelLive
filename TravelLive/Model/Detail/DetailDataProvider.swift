@@ -36,7 +36,8 @@ class DetailDataProvider {
         })
     }
     
-    func fetchCommentData(query: String,  completion: @escaping (Result<CommentObject>) -> Void) {
+    func fetchCommentData(propertyId: String, userId: String, completion: @escaping (Result<CommentObject>) -> Void) {
+        let query = "?id=" + propertyId + "&uid=" + userId
         let request = DataRequest.fetchComment(query: query)
         HTTPClient.shared.request(request, completion: { data in
             switch data {

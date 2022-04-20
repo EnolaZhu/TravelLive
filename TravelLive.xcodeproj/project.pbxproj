@@ -38,6 +38,7 @@
 		4B978801281008740003CC9F /* Hearts moving.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B978800281008740003CC9F /* Hearts moving.json */; };
 		4B9788032810462B0003CC9F /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9788022810462B0003CC9F /* Date+Extension.swift */; };
 		4B97880828105A7A0003CC9F /* Heart falling.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B97880728105A7A0003CC9F /* Heart falling.json */; };
+		4B978805281057280003CC9F /* LikeBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B978804281057280003CC9F /* LikeBody.swift */; };
 		4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */; };
 		4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E393280E49F600D421D0 /* SearchDataObject.swift */; };
 		4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */; };
@@ -120,6 +121,7 @@
 		4B978800281008740003CC9F /* Hearts moving.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Hearts moving.json"; sourceTree = "<group>"; };
 		4B9788022810462B0003CC9F /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		4B97880728105A7A0003CC9F /* Heart falling.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart falling.json"; sourceTree = "<group>"; };
+		4B978804281057280003CC9F /* LikeBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeBody.swift; sourceTree = "<group>"; };
 		4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataProvider.swift; sourceTree = "<group>"; };
 		4BA5E393280E49F600D421D0 /* SearchDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataObject.swift; sourceTree = "<group>"; };
 		4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
@@ -329,15 +331,16 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
-		4BA5E3B4280FB0E700D421D0 /* Report */ = {
+		4BA5E3B4280FB0E700D421D0 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
 				4BA5E3B5280FB10500D421D0 /* ReportBody.swift */,
 				4BA5E3B7280FB36200D421D0 /* DetailDataProvider.swift */,
 				4B9787FA280FEB490003CC9F /* CommentBody.swift */,
 				4B9787FC280FEFB90003CC9F /* CommentObject.swift */,
+				4B978804281057280003CC9F /* LikeBody.swift */,
 			);
-			path = Report;
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		4BA5E3B9280FB5E500D421D0 /* Report */ = {
@@ -475,7 +478,7 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4BA5E3B4280FB0E700D421D0 /* Report */,
+				4BA5E3B4280FB0E700D421D0 /* Detail */,
 				4BA5E390280E482F00D421D0 /* Search */,
 				4BB5A92B280DAD3500739C61 /* GIF */,
 				4B55B588280A687C005D9869 /* Record */,
@@ -753,6 +756,7 @@
 				4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */,
 				4BDEC3492801F28000143E25 /* String+Extension.swift in Sources */,
 				4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */,
+				4B978805281057280003CC9F /* LikeBody.swift in Sources */,
 				4B3AAAE92808232C00CBFE89 /* EventCollectionViewCell.swift in Sources */,
 				4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */,
 				4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */,

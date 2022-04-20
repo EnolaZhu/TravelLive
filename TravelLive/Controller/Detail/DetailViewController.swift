@@ -35,7 +35,7 @@ class DetailViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchComment(ownerId: "Enola_1650378092481000_0")
+        fetchComment(ownerId: "Enola_1650378092481000_0", userId: "Enola")
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -53,8 +53,8 @@ class DetailViewController: BaseViewController {
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewCommentCell.self), bundle: nil)
     }
     
-    private func fetchComment(ownerId: String) {
-        DetailDataProvider.shared.fetchCommentData(query: ownerId) { [weak self] result in
+    private func fetchComment(ownerId: String, userId: String) {
+        DetailDataProvider.shared.fetchCommentData(propertyId: ownerId ,userId: userId) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.allCommentData = data
@@ -70,7 +70,7 @@ class DetailViewController: BaseViewController {
 
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1 + (allCommentData?.data.count ?? 0)
+        1 + (allCommentData?.message.count ?? 0)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -93,10 +93,10 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             if allCommentData == nil {
                 return UITableViewCell()
             } else {
-                ImageManager.shared.fetchStorageImage(imageUrl: allCommentData?.data[indexPath.row - 1].avatar ?? "") { [weak self] image in
+                ImageManager.shared.fetchStorageImage(imageUrl: allCommentData?.message[indexPath.row - 1].avatar ?? "") { [weak self] image in
                     self?.avatarImage = image
                 }
-                commentCell.layoutCell(name: allCommentData?.data[indexPath.row - 1].reviewerId ?? "", comment: allCommentData?.data[indexPath.row - 1].message ?? "", avatar: avatarImage, time: allCommentData?.data[indexPath.row - 1].timestamp ?? "")
+                commentCell.layoutCell(name: allCommentData?.message[indexPath.row - 1].reviewerId ?? "", comment: allCommentData?.message[indexPath.row - 1].message ?? "", avatar: avatarImage, time: allCommentData?.message[indexPath.row - 1].timestamp ?? "")
             }
             return commentCell
         }
@@ -105,7 +105,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         // swiftlint:disable force_cast
         _ = tapGestureRecognizer.view as! UIImageView
-        setUpHeartAnimation()
+        setUpHeartAnimation(name: "Hearts moving")
         // change heart button
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
     }
@@ -141,12 +141,12 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func clickLoveButton(_ sender: UIButton) {
-        setUpHeartAnimation()
+        setUpHeartAnimation(name: "Hearts moving")
         sender.setImage(UIImage.asset(.theheart), for: .normal)
     }
     
-    func setUpHeartAnimation() {
-        let animationView = AnimationView(name: "Hearts moving")
+    func setUpHeartAnimation(name: String) {
+        let animationView = AnimationView(name: name)
         animationView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
         animationView.center = self.view.center
         animationView.contentMode = .scaleAspectFit

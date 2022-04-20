@@ -68,7 +68,7 @@ enum DataRequest: Request {
         case .postComment:
             return "/comment"
         case .fetchComment(let query):
-            return "/comment" + "?id=" + query
+            return "/comment" + query
         }
     }
 }
