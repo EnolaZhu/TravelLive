@@ -114,6 +114,7 @@ PODS:
   - IQKeyboardManagerSwift (6.5.9)
   - Kingfisher (7.2.1)
   - LFLiveKit (2.6)
+  - lottie-ios (3.3.0)
   - mobile-ffmpeg-full (4.4)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
@@ -137,6 +138,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - Kingfisher (~> 7.0)
   - LFLiveKit
+  - lottie-ios
   - mobile-ffmpeg-full (~> 4.4)
   - PubNub (~> 4)
   - SnapKit (~> 5.6.0)
@@ -161,6 +163,7 @@ SPEC REPOS:
     - IQKeyboardManagerSwift
     - Kingfisher
     - LFLiveKit
+    - lottie-ios
     - mobile-ffmpeg-full
     - nanopb
     - PromisesObjC
@@ -186,6 +189,7 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
   Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
   LFLiveKit: 2219563721f8aa0f188effc3395a06e2d53b23f2
+  lottie-ios: 6ac74dcc09904798f59b18cb3075c089d76be9ae
   mobile-ffmpeg-full: 505c583d91ac1c4fb2b015787e69d83f83fb8f29
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
@@ -194,6 +198,6 @@ SPEC CHECKSUMS:
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
   TXLiteAVSDK_Professional: 645670c9d1bbabb88e8dff998fb097a22fe71208
 
-PODFILE CHECKSUM: b6939a1a32568d79f6eaab4a8f7adcb24ef85ef6
+PODFILE CHECKSUM: fa780091308ce600afe1b221c33f107a2f5286c6
 
 COCOAPODS: 1.11.3
