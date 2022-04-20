@@ -14,7 +14,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     var arrInstaBigCells = [Int]()
     var images = [UIImage]()
-    var searchDataObjc: SearchDataObject?
+    var searchDataObjc: SearchDataObject?//
     let searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
     
@@ -70,7 +70,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionViewCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
         if images.count > 0 {
-        cell.imageView.image = images[indexPath.row]
+            cell.imageView.image = images[indexPath.row]
         }
         return cell
     }

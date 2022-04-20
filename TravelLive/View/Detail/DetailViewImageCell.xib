@@ -57,7 +57,7 @@
                         </constraints>
                         <color key="tintColor" systemColor="systemRedColor"/>
                         <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="plain" image="suit.heart.fill" catalog="system" title=""/>
+                        <buttonConfiguration key="configuration" style="plain" image="heart-1" title=""/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zhW-ut-ZZH">
                         <rect key="frame" x="60" y="409" width="30" height="30"/>
@@ -114,9 +114,9 @@
     </objects>
     <resources>
         <image name="chat" width="24" height="24"/>
+        <image name="heart-1" width="32" height="32"/>
         <image name="option" width="32" height="32"/>
         <image name="send" width="16" height="16"/>
-        <image name="suit.heart.fill" catalog="system" width="128" height="109"/>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

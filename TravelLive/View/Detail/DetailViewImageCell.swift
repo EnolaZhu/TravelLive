@@ -26,7 +26,8 @@ class DetailViewImageCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+        // Add heart button observer
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeHeart(_:)), name: .changeLoveButtonKey, object: nil)
     }
     
     func layoutCell(mainImage: UIImage) {
@@ -34,5 +35,9 @@ class DetailViewImageCell: UITableViewCell {
         userUploadImageView.image = mainImage
         userAvatarimage.image = UIImage(named: "avatar")?.circularImage(22)
         userName.text = "Enola"
+    }
+    
+    @objc func changeHeart(_ notification: NSNotification) {
+        loveButton.setImage(UIImage.asset(.theheart), for: .normal)
     }
 }

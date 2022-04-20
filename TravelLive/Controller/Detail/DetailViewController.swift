@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Lottie
 
 class DetailViewController: BaseViewController {
     let detailTableView = UITableView()
@@ -18,16 +19,17 @@ class DetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = UIColor.white
         
         detailTableView.rowHeight = UITableView.automaticDimension
         detailTableView.estimatedRowHeight = 200.0
         detailTableView.delegate = self
         detailTableView.dataSource = self
-        setUpTableView()
-        setUpMaskView()
         detailTableView.separatorStyle = .none
         
+        setUpTableView()
+        setUpMaskView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,8 +41,13 @@ class DetailViewController: BaseViewController {
     
     private func setUpTableView() {
         self.view.addSubview(detailTableView)
+        
         detailTableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([detailTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0), detailTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0), detailTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0), detailTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)])
+        NSLayoutConstraint.activate([
+            detailTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
+            detailTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
+            detailTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            detailTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)])
         
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewImageCell.self), bundle: nil)
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewCommentCell.self), bundle: nil)
@@ -50,11 +57,10 @@ class DetailViewController: BaseViewController {
         DetailDataProvider.shared.fetchCommentData(query: ownerId) { [weak self] result in
             switch result {
             case .success(let data):
-                print(data)
                 self?.allCommentData = data
-                guard let allCommentData = self?.allCommentData else { return }
+                guard (self?.allCommentData) != nil else { return }
                 self?.detailTableView.reloadData()
-                print("\(allCommentData)")
+                
             case .failure(let error):
                 print(error)
             }
@@ -73,7 +79,12 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
             imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
+            imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
             imageCell.layoutCell(mainImage: detailPageImage)
+            // ImageView gesture
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+            imageCell.userUploadImageView.isUserInteractionEnabled = true
+            imageCell.userUploadImageView.addGestureRecognizer(tapGestureRecognizer)
             return imageCell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewCommentCell.self), for: indexPath)
@@ -91,16 +102,27 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        // swiftlint:disable force_cast
+        _ = tapGestureRecognizer.view as! UIImageView
+        setUpHeartAnimation()
+        // change heart button
+        NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
+    }
+    
     @objc func showReportPage(_ sender: UIButton) {
         let reportVC = ReportViewController()
         reportVC.clickCloseButton = self
-        
         reportVC.view.frame = CGRect(x: 0, y: UIScreen.height, width: UIScreen.width, height: 202)
-        
         view.addSubview(reportMaskView)
         // Animation
         UIView.animate(withDuration: 1, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
-            reportVC.view.frame = CGRect(x: 0, y: CGFloat(UIScreen.height - CGFloat(250.0)), width: UIScreen.width, height: 250.0)
+            reportVC.view.frame = CGRect(
+                x: 0,
+                y: CGFloat(UIScreen.height - CGFloat(250.0)),
+                width: UIScreen.width,
+                height: 250.0
+            )
         }, completion: { _ in print("report page show")})
         view.addSubview(reportVC.view)
         addChild(reportVC)
@@ -116,6 +138,22 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     func setUpMaskView() {
         reportMaskView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         reportMaskView.frame = CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height)
+    }
+    
+    @objc func clickLoveButton(_ sender: UIButton) {
+        setUpHeartAnimation()
+        sender.setImage(UIImage.asset(.theheart), for: .normal)
+    }
+    
+    func setUpHeartAnimation() {
+        let animationView = AnimationView(name: "Hearts moving")
+        animationView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
+        animationView.center = self.view.center
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .playOnce
+        animationView.animationSpeed = 4
+        view.addSubview(animationView)
+        animationView.play()
     }
 }
 
