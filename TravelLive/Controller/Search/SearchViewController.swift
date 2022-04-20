@@ -9,12 +9,11 @@ import UIKit
 import FirebaseStorage
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
-    
-    var images = [UIImage]()
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var gridLayout: GridLayout!
     
     var arrInstaBigCells = [Int]()
+    var images = [UIImage]()
     var searchDataObjc: SearchDataObject?
     let searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
@@ -25,6 +24,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         searchController.searchResultsUpdater = self
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
+        
         
         var tempStorage = false
         for _ in 1...21 {
@@ -49,7 +49,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        tabBarController?.tabBar.isHidden = false
         images.removeAll()
         getSearchData()
         searchController.searchBar.text = ""

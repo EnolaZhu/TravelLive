@@ -11,17 +11,25 @@ import SwiftUI
 class DetailViewController: BaseViewController {
     let detailTableView = UITableView()
     let reportMaskView = UIView()
+    let commentVC = CommentViewController()
     var detailPageImage = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        
         detailTableView.rowHeight = UITableView.automaticDimension
         detailTableView.estimatedRowHeight = 200.0
         detailTableView.delegate = self
         detailTableView.dataSource = self
         setUpTableView()
+        setUpMaskView()
         detailTableView.separatorStyle = .none
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
     }
     
     func setUpTableView() {
@@ -37,7 +45,7 @@ class DetailViewController: BaseViewController {
 
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -45,6 +53,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
+            imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.layoutCell(mainImage: detailPageImage)
             return imageCell
         } else {
@@ -58,9 +67,9 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc func showReportPage(_ sender: UIButton) {
         let reportVC = ReportViewController()
         reportVC.clickCloseButton = self
-        reportMaskView.frame = CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height)
+        
         reportVC.view.frame = CGRect(x: 0, y: UIScreen.height, width: UIScreen.width, height: 202)
-        reportMaskView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        
         view.addSubview(reportMaskView)
         // Animation
         UIView.animate(withDuration: 1, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
@@ -69,9 +78,25 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         view.addSubview(reportVC.view)
         addChild(reportVC)
     }
+    
+    @objc func showCommentPage(_ sender: UIButton) {
+        view.addSubview(reportMaskView)
+        commentVC.clickCloseButton = self
+        self.view.addSubview(commentVC.view)
+        self.addChild(commentVC)
+    }
+    
+    func setUpMaskView() {
+        reportMaskView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        reportMaskView.frame = CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height)
+    }
 }
 
-extension DetailViewController: CloseMaskView {
+extension DetailViewController: CloseMaskView, CloseCommentView {
+    func clickCloseButton() {
+        reportMaskView.removeFromSuperview()
+    }
+    
     func pressCloseButton() {
         reportMaskView.removeFromSuperview()
     }

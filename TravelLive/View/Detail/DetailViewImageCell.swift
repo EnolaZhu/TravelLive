@@ -14,6 +14,8 @@ class DetailViewImageCell: UITableViewCell {
     @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var loveButton: UIButton!
     @IBOutlet weak var userAvatarimage: UIImageView!
+    @IBOutlet weak var commentButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

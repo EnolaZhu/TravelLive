@@ -69,7 +69,7 @@
                         <buttonConfiguration key="configuration" style="plain" image="send" title=""/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MJv-zd-liO">
-                        <rect key="frame" x="95" y="404" width="48" height="40"/>
+                        <rect key="frame" x="320" y="404" width="48" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="X4f-qj-pus"/>
                         </constraints>
@@ -96,12 +96,13 @@
                     <constraint firstItem="i4r-If-eMK" firstAttribute="top" secondItem="Bv2-nt-MHw" secondAttribute="bottom" constant="31.5" id="hxf-3C-Avf"/>
                     <constraint firstItem="Bv2-nt-MHw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21.5" id="oT3-nY-kdW"/>
                     <constraint firstItem="zhW-ut-ZZH" firstAttribute="centerY" secondItem="MJv-zd-liO" secondAttribute="centerY" id="ot3-sj-2LM"/>
-                    <constraint firstItem="MJv-zd-liO" firstAttribute="leading" secondItem="zhW-ut-ZZH" secondAttribute="trailing" constant="5" id="tRz-fz-ran"/>
+                    <constraint firstItem="MJv-zd-liO" firstAttribute="leading" secondItem="zhW-ut-ZZH" secondAttribute="trailing" constant="230" id="tRz-fz-ran"/>
                     <constraint firstItem="MJv-zd-liO" firstAttribute="top" secondItem="i4r-If-eMK" secondAttribute="bottom" constant="10" id="vwH-wA-g3L"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="commentButton" destination="MJv-zd-liO" id="5IE-Ex-iyO"/>
                 <outlet property="loveButton" destination="LBJ-ic-zyH" id="bNH-Zk-O2P"/>
                 <outlet property="reportButton" destination="Sra-ti-o8l" id="yYh-KZ-O5p"/>
                 <outlet property="userAvatarimage" destination="706-2I-Hxf" id="PGp-Pc-mWg"/>
