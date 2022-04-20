@@ -33,8 +33,9 @@ class CommentViewController: UIViewController {
     
     @objc func publishComment(_ sender: UIButton) {
         if commentTextFied.text == "" {
-            return
+            publishButton.isEnabled = true
         } else {
+            DetailDataProvider.shared.postComment(id: "Enola", reviewerId: "Jack", message: commentTextFied.text ?? "")
             clickCloseButton?.clickCloseButton()
             self.view.removeFromSuperview()
         }
