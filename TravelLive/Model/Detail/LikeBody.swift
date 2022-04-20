@@ -10,7 +10,7 @@ import Foundation
 struct LikeBody: Encodable {
     var propertyId: String
     var userId: String
-    var isLiked: String
+    var isLiked: Bool
     
     enum CodingKeys: String, CodingKey {
         case propertyId = "id"

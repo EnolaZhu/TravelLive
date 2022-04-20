@@ -14,6 +14,7 @@ enum DataRequest: Request {
     case postBanData(body: Data?)
     case postComment(body: Data?)
     case fetchComment(query: String)
+    case postLike(body: Data?)
     
     var headers: [String: String]? {
         switch self {
@@ -26,6 +27,8 @@ enum DataRequest: Request {
         case .postComment:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .fetchComment:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .postLike:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         }
     }
@@ -41,6 +44,8 @@ enum DataRequest: Request {
             return body
         case .fetchComment:
             return nil
+        case .postLike(let body):
+            return body
         }
     }
     var method: String {
@@ -55,6 +60,8 @@ enum DataRequest: Request {
             return HTTPMethod.POST.rawValue
         case .fetchComment:
             return HTTPMethod.GET.rawValue
+        case .postLike:
+            return HTTPMethod.POST.rawValue
         }
     }
     var endPoint: String {
@@ -69,6 +76,10 @@ enum DataRequest: Request {
             return "/comment"
         case .fetchComment(let query):
             return "/comment" + query
+        case .postLike:
+            return "/like"
         }
     }
+//    getQueryString(keyValues: ("kk", "yy"), ("kk", "yy"))
+    
 }
