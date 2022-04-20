@@ -18,13 +18,11 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     var searchDataObjc: SearchDataObject?
     let searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
-    //    var gif = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
-        //        images = Array(repeatElement(gif, count: 99))
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
         
@@ -158,10 +156,6 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
             print("Do nothing")
         }
     }
-
-    //    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    //
-    //    }
 }
 
 enum SearchQuery: String {
