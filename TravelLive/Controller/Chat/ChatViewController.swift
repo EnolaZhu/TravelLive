@@ -142,6 +142,11 @@ class ChatViewController: BaseViewController, PNEventsListener {
         animationView.currentTime = 2
         view.addSubview(animationView)
         animationView.play()
+        animationView.play { isCompleted in
+            if isCompleted {
+                animationView.removeFromSuperview()
+            }
+        }
     }
     
     func addHiistory(start: NSNumber?, end: NSNumber?, limit: UInt) {

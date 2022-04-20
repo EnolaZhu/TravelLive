@@ -34,8 +34,9 @@ class DetailViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // owner id 換成 property id   從 search 頁和圖片一起帶過來
         
-        fetchComment(ownerId: "Enola_1650378092481000_0", userId: "Enola")
+        fetchComment(propertyId: "Enola_1650378092481000_0", userId: "Enola")
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -53,8 +54,8 @@ class DetailViewController: BaseViewController {
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewCommentCell.self), bundle: nil)
     }
     
-    private func fetchComment(ownerId: String, userId: String) {
-        DetailDataProvider.shared.fetchCommentData(propertyId: ownerId ,userId: userId) { [weak self] result in
+    private func fetchComment(propertyId: String, userId: String) {
+        DetailDataProvider.shared.fetchCommentData(propertyId: propertyId, userId: userId) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.allCommentData = data
@@ -77,6 +78,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
+            
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
             imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
@@ -141,8 +143,15 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func clickLoveButton(_ sender: UIButton) {
-        setUpHeartAnimation(name: "Hearts moving")
-        sender.setImage(UIImage.asset(.theheart), for: .normal)
+        if sender.hasImage(named: "theheart", for: .normal) {
+            DetailDataProvider.shared.postLike(propertyId: "Enola_1650378092481000_0", userId: "Enola", isLiked: false)
+            setUpHeartAnimation(name: "Heart break")
+            sender.setImage(UIImage.asset(.emptyHeart), for: .normal)
+        } else {
+            DetailDataProvider.shared.postLike(propertyId: "Enola_1650378092481000_0", userId: "Enola", isLiked: true)
+            setUpHeartAnimation(name: "Hearts moving")
+            sender.setImage(UIImage.asset(.theheart), for: .normal)
+        }
     }
     
     func setUpHeartAnimation(name: String) {
@@ -154,6 +163,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         animationView.animationSpeed = 4
         view.addSubview(animationView)
         animationView.play()
+        animationView.play { isCompleted in
+            if isCompleted {
+                animationView.removeFromSuperview()
+            }
+        }
     }
 }
 
