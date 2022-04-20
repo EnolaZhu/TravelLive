@@ -12,7 +12,9 @@ class DetailViewController: BaseViewController {
     let detailTableView = UITableView()
     let reportMaskView = UIView()
     let commentVC = CommentViewController()
+    var allCommentData: CommentObject?
     var detailPageImage = UIImage()
+    var avatarImage = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,15 +27,17 @@ class DetailViewController: BaseViewController {
         setUpTableView()
         setUpMaskView()
         detailTableView.separatorStyle = .none
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        fetchComment(ownerId: "Enola_1650378092481000_0")
         tabBarController?.tabBar.isHidden = true
     }
     
-    func setUpTableView() {
-        
+    private func setUpTableView() {
         self.view.addSubview(detailTableView)
         detailTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([detailTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0), detailTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0), detailTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0), detailTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)])
@@ -41,11 +45,26 @@ class DetailViewController: BaseViewController {
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewImageCell.self), bundle: nil)
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewCommentCell.self), bundle: nil)
     }
+    
+    private func fetchComment(ownerId: String) {
+        DetailDataProvider.shared.fetchCommentData(query: ownerId) { [weak self] result in
+            switch result {
+            case .success(let data):
+                print(data)
+                self?.allCommentData = data
+                guard let allCommentData = self?.allCommentData else { return }
+                self?.detailTableView.reloadData()
+                print("\(allCommentData)")
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
 
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        8
+        1 + (allCommentData?.data.count ?? 0)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -59,7 +78,15 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewCommentCell.self), for: indexPath)
             guard let commentCell = cell as? DetailViewCommentCell else { return cell }
-            commentCell.layoutCell(name: "Mike", comment: "So Beauty~")
+            
+            if allCommentData == nil {
+                return UITableViewCell()
+            } else {
+                ImageManager.shared.fetchStorageImage(imageUrl: allCommentData?.data[indexPath.row - 1].avatar ?? "") { [weak self] image in
+                    self?.avatarImage = image
+                }
+                commentCell.layoutCell(name: allCommentData?.data[indexPath.row - 1].reviewerId ?? "", comment: allCommentData?.data[indexPath.row - 1].message ?? "", avatar: avatarImage)
+            }
             return commentCell
         }
     }

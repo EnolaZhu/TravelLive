@@ -25,9 +25,9 @@ class DetailViewCommentCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func layoutCell(name: String, comment: String) {
+    func layoutCell(name: String, comment: String, avatar: UIImage) {
         reviewerName.text = name
         commentLabel.text = comment
-        reviewerAvatarImage.image = UIImage(named: "avatar")
+        reviewerAvatarImage.image = avatar
     }
 }

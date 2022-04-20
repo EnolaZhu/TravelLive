@@ -34,6 +34,7 @@
 		4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B55B589280A6919005D9869 /* RecordManager.swift */; };
 		4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */; };
 		4B9787FB280FEB490003CC9F /* CommentBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9787FA280FEB490003CC9F /* CommentBody.swift */; };
+		4B9787FD280FEFB90003CC9F /* CommentObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9787FC280FEFB90003CC9F /* CommentObject.swift */; };
 		4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */; };
 		4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E393280E49F600D421D0 /* SearchDataObject.swift */; };
 		4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */; };
@@ -112,6 +113,7 @@
 		4B55B589280A6919005D9869 /* RecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManager.swift; sourceTree = "<group>"; };
 		4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		4B9787FA280FEB490003CC9F /* CommentBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBody.swift; sourceTree = "<group>"; };
+		4B9787FC280FEFB90003CC9F /* CommentObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentObject.swift; sourceTree = "<group>"; };
 		4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataProvider.swift; sourceTree = "<group>"; };
 		4BA5E393280E49F600D421D0 /* SearchDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataObject.swift; sourceTree = "<group>"; };
 		4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				4BA5E3B5280FB10500D421D0 /* ReportBody.swift */,
 				4BA5E3B7280FB36200D421D0 /* DetailDataProvider.swift */,
 				4B9787FA280FEB490003CC9F /* CommentBody.swift */,
+				4B9787FC280FEFB90003CC9F /* CommentObject.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -747,6 +750,7 @@
 				4BC0EE6B28000D0800C5673B /* BaseViewController.swift in Sources */,
 				4BC1076927FBF0390017B1B7 /* UIImage+Extension.swift in Sources */,
 				4BC1073C27FA9DD40017B1B7 /* SceneDelegate.swift in Sources */,
+				4B9787FD280FEFB90003CC9F /* CommentObject.swift in Sources */,
 				4B4AA4382802928B0066C602 /* Bundle+Extension.swift in Sources */,
 				4B43FD922800AB2400B7085D /* UILabel+Extension.swift in Sources */,
 				4BC1075D27FB51870017B1B7 /* UIStoryboard+Extension.swift in Sources */,

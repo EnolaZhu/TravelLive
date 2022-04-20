@@ -15,7 +15,7 @@ class DetailDataProvider {
         let request = DataRequest.postBanData(body: try? JSONEncoder().encode(body))
         HTTPClient.shared.request(request, completion: { data in
             switch data {
-            case .success(let _):
+            case .success( _):
                 print("Ban successfully")
             case .failure(let error):
                 print(error)
@@ -28,10 +28,29 @@ class DetailDataProvider {
         let request = DataRequest.postComment(body: try? JSONEncoder().encode(body))
         HTTPClient.shared.request(request, completion: { data in
             switch data {
-            case .success(let _):
+            case .success( _):
                 print("Comment successfully")
             case .failure(let error):
                 print(error)
+            }
+        })
+    }
+    
+    func fetchCommentData(query: String,  completion: @escaping (Result<CommentObject>) -> Void) {
+        let request = DataRequest.fetchComment(query: query)
+        HTTPClient.shared.request(request, completion: { data in
+            switch data {
+            case .success(let data):
+                do {
+                    let response = try JSONDecoder().decode(CommentObject.self, from: data)
+                    DispatchQueue.main.async {
+                        completion(Result.success(response))
+                    }
+                } catch {
+                    completion(Result.failure(error))
+                }
+            case .failure(let error):
+                completion(Result.failure(error))
             }
         })
     }
