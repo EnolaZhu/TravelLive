@@ -36,6 +36,7 @@
 		4B9787FB280FEB490003CC9F /* CommentBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9787FA280FEB490003CC9F /* CommentBody.swift */; };
 		4B9787FD280FEFB90003CC9F /* CommentObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9787FC280FEFB90003CC9F /* CommentObject.swift */; };
 		4B978801281008740003CC9F /* Hearts moving.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B978800281008740003CC9F /* Hearts moving.json */; };
+		4B9788032810462B0003CC9F /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9788022810462B0003CC9F /* Date+Extension.swift */; };
 		4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */; };
 		4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E393280E49F600D421D0 /* SearchDataObject.swift */; };
 		4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */; };
@@ -116,6 +117,7 @@
 		4B9787FA280FEB490003CC9F /* CommentBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBody.swift; sourceTree = "<group>"; };
 		4B9787FC280FEFB90003CC9F /* CommentObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentObject.swift; sourceTree = "<group>"; };
 		4B978800281008740003CC9F /* Hearts moving.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Hearts moving.json"; sourceTree = "<group>"; };
+		4B9788022810462B0003CC9F /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataProvider.swift; sourceTree = "<group>"; };
 		4BA5E393280E49F600D421D0 /* SearchDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataObject.swift; sourceTree = "<group>"; };
 		4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
@@ -510,6 +512,7 @@
 				4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */,
 				4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */,
 				4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */,
+				4B9788022810462B0003CC9F /* Date+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -773,6 +776,7 @@
 				4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */,
 				4B4AA43E280296470066C602 /* PushStreamingRequest.swift in Sources */,
 				4B12BAB72803CBDB0096359B /* GMSMarker+Extension.swift in Sources */,
+				4B9788032810462B0003CC9F /* Date+Extension.swift in Sources */,
 				4BA5E3A9280E9FB400D421D0 /* DetailViewController.swift in Sources */,
 				4BDEC34C28028B6F00143E25 /* HTTPClient.swift in Sources */,
 				4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */,

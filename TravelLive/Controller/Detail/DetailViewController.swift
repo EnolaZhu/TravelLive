@@ -96,7 +96,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                 ImageManager.shared.fetchStorageImage(imageUrl: allCommentData?.data[indexPath.row - 1].avatar ?? "") { [weak self] image in
                     self?.avatarImage = image
                 }
-                commentCell.layoutCell(name: allCommentData?.data[indexPath.row - 1].reviewerId ?? "", comment: allCommentData?.data[indexPath.row - 1].message ?? "", avatar: avatarImage)
+                commentCell.layoutCell(name: allCommentData?.data[indexPath.row - 1].reviewerId ?? "", comment: allCommentData?.data[indexPath.row - 1].message ?? "", avatar: avatarImage, time: allCommentData?.data[indexPath.row - 1].timestamp ?? "")
             }
             return commentCell
         }
