@@ -30,14 +30,20 @@ class ReportViewController: UIViewController {
     }
     
     @objc func cancelReport(_ sender: UIButton) {
+        closeReportView()
+    }
+    
+    @objc func report(_ sender: UIButton) {
+        //TODO: response error
+        ReportDataProvider.report.fetchSearchData(reason: "內容違規", userId: "Enola", whistleblowerId: "Enora")
+        closeReportView()
+    }
+    
+    func closeReportView() {
         clickCloseButton?.pressCloseButton()
         UIView.animate(withDuration: 0.3, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
             self.view.frame = CGRect(x: 0, y: 1000, width: UIScreen.width, height: 500)
         }, completion: { _ in print("close login page")})
-    }
-    
-    @objc func report(_ sender: UIButton) {
-        
     }
 }
 

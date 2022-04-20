@@ -6,15 +6,19 @@
 //
 
 import Foundation
+import SwiftUI
 
-enum GetDataRequest: Request {
+enum DataRequest: Request {
     case fetchStreamerData(query: String)
     case fetchSearchData(query: String)
+    case postBanData(body: Data?)
     var headers: [String: String]? {
         switch self {
         case .fetchStreamerData:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .fetchSearchData:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .postBanData:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         }
     }
@@ -24,18 +28,28 @@ enum GetDataRequest: Request {
             return nil
         case .fetchSearchData:
             return nil
+        case .postBanData(let body):
+            return body
         }
     }
     var method: String {
         switch self {
-        case .fetchStreamerData: return HTTPMethod.GET.rawValue
-        case .fetchSearchData: return HTTPMethod.GET.rawValue
+        case .fetchStreamerData:
+            return HTTPMethod.GET.rawValue
+        case .fetchSearchData:
+            return HTTPMethod.GET.rawValue
+        case .postBanData:
+            return HTTPMethod.POST.rawValue
         }
     }
     var endPoint: String {
         switch self {
-        case .fetchStreamerData(let query): return "/live" + query
-        case .fetchSearchData(let query): return "/storage" + query
+        case .fetchStreamerData(let query):
+            return "/live" + query
+        case .fetchSearchData(let query):
+            return "/storage" + query
+        case .postBanData:
+            return "/ban"
         }
     }
 }
