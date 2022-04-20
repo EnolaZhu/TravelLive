@@ -9,12 +9,14 @@ import UIKit
 
 class DetailViewCommentCell: UITableViewCell {
 
+    @IBOutlet weak var reviewerAvatarImage: UIImageView!
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var reviewerName: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.selectionStyle = .none
+        reviewerAvatarImage.makeRounded()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -22,8 +24,10 @@ class DetailViewCommentCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
     func layoutCell(name: String, comment: String) {
         reviewerName.text = name
         commentLabel.text = comment
+        reviewerAvatarImage.image = UIImage(named: "avatar")
     }
 }

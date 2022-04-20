@@ -18,13 +18,11 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     var searchDataObjc: SearchDataObject?
     let searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
-    //    var gif = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
-        //        images = Array(repeatElement(gif, count: 99))
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
         
@@ -71,7 +69,9 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionViewCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
+        if images.count > 0 {
         cell.imageView.image = images[indexPath.row]
+        }
         return cell
     }
     
@@ -156,10 +156,6 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
             print("Do nothing")
         }
     }
-
-    //    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    //
-    //    }
 }
 
 enum SearchQuery: String {
