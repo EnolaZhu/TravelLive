@@ -10,6 +10,7 @@ import SwiftUI
 
 class DetailViewController: BaseViewController {
     let detailTableView = UITableView()
+    let reportMaskView = UIView()
     var detailPageImage = UIImage()
     
     override func viewDidLoad() {
@@ -43,6 +44,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
+            imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
             imageCell.layoutCell(mainImage: detailPageImage)
             return imageCell
         } else {
@@ -51,5 +53,26 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             commentCell.layoutCell(name: "Mike", comment: "So Beauty~")
             return commentCell
         }
+    }
+    
+    @objc func showReportPage(_ sender: UIButton) {
+        let reportVC = ReportViewController()
+        reportVC.clickCloseButton = self
+        reportMaskView.frame = CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height)
+        reportVC.view.frame = CGRect(x: 0, y: UIScreen.height, width: UIScreen.width, height: 202)
+        reportMaskView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        view.addSubview(reportMaskView)
+        // Animation
+        UIView.animate(withDuration: 1, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
+            reportVC.view.frame = CGRect(x: 0, y: CGFloat(UIScreen.height - CGFloat(250.0)), width: UIScreen.width, height: 250.0)
+        }, completion: { _ in print("report page show")})
+        view.addSubview(reportVC.view)
+        addChild(reportVC)
+    }
+}
+
+extension DetailViewController: CloseMaskView {
+    func pressCloseButton() {
+        reportMaskView.removeFromSuperview()
     }
 }

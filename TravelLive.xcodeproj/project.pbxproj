@@ -26,7 +26,7 @@
 		4B4AA43E280296470066C602 /* PushStreamingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43D280296470066C602 /* PushStreamingRequest.swift */; };
 		4B4AA4402802AC4B0066C602 /* PushStreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */; };
 		4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */; };
-		4B4BBF7728043E4700A53128 /* GetDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4BBF7628043E4700A53128 /* GetDataRequest.swift */; };
+		4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4BBF7628043E4700A53128 /* DataRequest.swift */; };
 		4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B8A27FD28D600A304D6 /* LoginViewController.swift */; };
 		4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B552B9227FD404A00A304D6 /* AuthView.xib */; };
 		4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */; };
@@ -43,6 +43,10 @@
 		4BA5E3A9280E9FB400D421D0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3A8280E9FB400D421D0 /* DetailViewController.swift */; };
 		4BA5E3AB280EC4D600D421D0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */; };
 		4BA5E3AE280F133900D421D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */; };
+		4BA5E3B2280F9D2900D421D0 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B0280F9D2900D421D0 /* ReportViewController.swift */; };
+		4BA5E3B3280F9D2A00D421D0 /* ReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */; };
+		4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B5280FB10500D421D0 /* ReportBody.swift */; };
+		4BA5E3B8280FB36300D421D0 /* ReportDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B7280FB36200D421D0 /* ReportDataProvider.swift */; };
 		4BB5A92D280DAD6E00739C61 /* GIFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB5A92C280DAD6E00739C61 /* GIFManager.swift */; };
 		4BB6AC0628045F5D0061EDDE /* PullStreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */; };
 		4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC07280466380061EDDE /* StreamerDataObject.swift */; };
@@ -97,7 +101,7 @@
 		4B4AA43D280296470066C602 /* PushStreamingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingRequest.swift; sourceTree = "<group>"; };
 		4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingProvider.swift; sourceTree = "<group>"; };
 		4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingBody.swift; sourceTree = "<group>"; };
-		4B4BBF7628043E4700A53128 /* GetDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDataRequest.swift; sourceTree = "<group>"; };
+		4B4BBF7628043E4700A53128 /* DataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequest.swift; sourceTree = "<group>"; };
 		4B552B8A27FD28D600A304D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4B552B9227FD404A00A304D6 /* AuthView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthView.xib; sourceTree = "<group>"; };
 		4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibOwnerLoadable.swift; sourceTree = "<group>"; };
@@ -115,6 +119,10 @@
 		4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		4BA5E3AC280F0FEA00D421D0 /* TravelLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TravelLive.entitlements; sourceTree = "<group>"; };
 		4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4BA5E3B0280F9D2900D421D0 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportViewController.xib; sourceTree = "<group>"; };
+		4BA5E3B5280FB10500D421D0 /* ReportBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBody.swift; sourceTree = "<group>"; };
+		4BA5E3B7280FB36200D421D0 /* ReportDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDataProvider.swift; sourceTree = "<group>"; };
 		4BB5A92C280DAD6E00739C61 /* GIFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFManager.swift; sourceTree = "<group>"; };
 		4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullStreamingProvider.swift; sourceTree = "<group>"; };
 		4BB6AC07280466380061EDDE /* StreamerDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamerDataObject.swift; sourceTree = "<group>"; };
@@ -240,7 +248,7 @@
 		4B4BBF7528043DE700A53128 /* PullStreaming */ = {
 			isa = PBXGroup;
 			children = (
-				4B4BBF7628043E4700A53128 /* GetDataRequest.swift */,
+				4B4BBF7628043E4700A53128 /* DataRequest.swift */,
 				4BB6AC0528045F5D0061EDDE /* PullStreamingProvider.swift */,
 				4BB6AC07280466380061EDDE /* StreamerDataObject.swift */,
 			);
@@ -295,6 +303,23 @@
 				4BA5E3A8280E9FB400D421D0 /* DetailViewController.swift */,
 			);
 			path = Detail;
+			sourceTree = "<group>";
+		};
+		4BA5E3B4280FB0E700D421D0 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				4BA5E3B5280FB10500D421D0 /* ReportBody.swift */,
+				4BA5E3B7280FB36200D421D0 /* ReportDataProvider.swift */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
+		4BA5E3B9280FB5E500D421D0 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				4BA5E3B0280F9D2900D421D0 /* ReportViewController.swift */,
+			);
+			path = Report;
 			sourceTree = "<group>";
 		};
 		4BB5A92A280D693500739C61 /* Detail */ = {
@@ -395,6 +420,7 @@
 				4BC1076027FB56290017B1B7 /* Search.storyboard */,
 				4BC1076427FB565F0017B1B7 /* Profile.storyboard */,
 				4BC1076627FB56790017B1B7 /* Event.storyboard */,
+				4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */,
 				4BC0EE6428000A1E00C5673B /* Chat.storyboard */,
 			);
 			path = View;
@@ -403,6 +429,7 @@
 		4BC1074F27FB45FC0017B1B7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4BA5E3B9280FB5E500D421D0 /* Report */,
 				4BA5E3A7280E9FA100D421D0 /* Detail */,
 				4B3AAAEF280873B400CBFE89 /* Profile */,
 				4B3AAAE428081CC100CBFE89 /* Event */,
@@ -420,6 +447,7 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4BA5E3B4280FB0E700D421D0 /* Report */,
 				4BA5E390280E482F00D421D0 /* Search */,
 				4BB5A92B280DAD3500739C61 /* GIF */,
 				4B55B588280A687C005D9869 /* Record */,
@@ -586,6 +614,7 @@
 				4BC1076727FB56790017B1B7 /* Event.storyboard in Resources */,
 				4BC1074627FA9DD60017B1B7 /* LaunchScreen.storyboard in Resources */,
 				4BD3736A28041BE200141A29 /* PullStreaming.storyboard in Resources */,
+				4BA5E3B3280F9D2A00D421D0 /* ReportViewController.xib in Resources */,
 				4BC1076527FB565F0017B1B7 /* Profile.storyboard in Resources */,
 				4BC0EE6127FF327800C5673B /* MessageCell.xib in Resources */,
 				4BA5E3A2280E974100D421D0 /* DetailViewImageCell.xib in Resources */,
@@ -684,6 +713,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */,
 				4BD3736828041B9300141A29 /* PullStreamingViewController.swift in Sources */,
 				4BC1073E27FA9DD40017B1B7 /* STTabBarViewController.swift in Sources */,
 				4B4AA4402802AC4B0066C602 /* PushStreamingProvider.swift in Sources */,
@@ -691,12 +721,13 @@
 				4BDEC3492801F28000143E25 /* String+Extension.swift in Sources */,
 				4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */,
 				4B3AAAE92808232C00CBFE89 /* EventCollectionViewCell.swift in Sources */,
-				4B4BBF7728043E4700A53128 /* GetDataRequest.swift in Sources */,
+				4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */,
 				4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */,
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,
 				4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */,
 				4BC1075427FB470F0017B1B7 /* PushViewController.swift in Sources */,
 				4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */,
+				4BA5E3B8280FB36300D421D0 /* ReportDataProvider.swift in Sources */,
 				4BC2BE5227FC45F3001FF31D /* MapViewController.swift in Sources */,
 				4B3AAAF32808893F00CBFE89 /* PhotoVideoManager.swift in Sources */,
 				4BA5E3A5280E9CEE00D421D0 /* DetailViewCommentCell.swift in Sources */,
@@ -735,6 +766,7 @@
 				4BC0EE6327FFB90700C5673B /* UITableView+Extension.swift in Sources */,
 				4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */,
 				4BD373642804181800141A29 /* SearchViewController.swift in Sources */,
+				4BA5E3B2280F9D2900D421D0 /* ReportViewController.swift in Sources */,
 				4B060CC2280C66590055EDB2 /* SearchCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
