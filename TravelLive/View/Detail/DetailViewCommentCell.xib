@@ -17,33 +17,44 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4rp-8H-uLr">
-                        <rect key="frame" x="20" y="20" width="42" height="19"/>
+                        <rect key="frame" x="43" y="20" width="42" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lRD-BC-c7N">
-                        <rect key="frame" x="82" y="20" width="41.5" height="19"/>
+                        <rect key="frame" x="105" y="20" width="41.5" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Nu-yG-av0">
+                        <rect key="frame" x="8" y="13" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="NFO-61-uCE"/>
+                            <constraint firstAttribute="width" constant="25" id="lBA-tZ-lhY"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="lRD-BC-c7N" firstAttribute="leading" secondItem="4rp-8H-uLr" secondAttribute="trailing" constant="20" id="03M-xe-xey"/>
-                    <constraint firstItem="lRD-BC-c7N" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="CCd-wf-ncV"/>
-                    <constraint firstItem="4rp-8H-uLr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="FX3-CN-cWV"/>
-                    <constraint firstItem="4rp-8H-uLr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="Khc-5y-Odz"/>
-                    <constraint firstAttribute="bottom" secondItem="lRD-BC-c7N" secondAttribute="bottom" id="haP-JS-Omu"/>
-                    <constraint firstAttribute="bottom" secondItem="4rp-8H-uLr" secondAttribute="bottom" id="moE-Hw-LuQ"/>
+                    <constraint firstAttribute="bottom" secondItem="lRD-BC-c7N" secondAttribute="bottom" constant="3" id="Bb4-b1-R0B"/>
+                    <constraint firstAttribute="bottom" secondItem="8Nu-yG-av0" secondAttribute="bottom" id="DhO-a7-5Mh"/>
+                    <constraint firstAttribute="bottom" secondItem="4rp-8H-uLr" secondAttribute="bottom" constant="3" id="FqR-ST-XcK"/>
+                    <constraint firstItem="8Nu-yG-av0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="KDQ-Lq-AJn"/>
+                    <constraint firstItem="4rp-8H-uLr" firstAttribute="leading" secondItem="8Nu-yG-av0" secondAttribute="trailing" constant="10" id="N4v-ot-3Ms"/>
+                    <constraint firstItem="4rp-8H-uLr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" symbolic="YES" id="dRU-r3-eGH"/>
+                    <constraint firstItem="lRD-BC-c7N" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" symbolic="YES" id="ddV-a3-trE"/>
+                    <constraint firstItem="8Nu-yG-av0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="uVW-tQ-uJf"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="commentLabel" destination="lRD-BC-c7N" id="bLG-ZV-biZ"/>
+                <outlet property="reviewerAvatarImage" destination="8Nu-yG-av0" id="e0c-DC-5Su"/>
                 <outlet property="reviewerName" destination="4rp-8H-uLr" id="XVY-cX-S5n"/>
             </connections>
-            <point key="canvasLocation" x="61" y="94"/>
+            <point key="canvasLocation" x="60.869565217391312" y="93.415178571428569"/>
         </tableViewCell>
     </objects>
 </document>
