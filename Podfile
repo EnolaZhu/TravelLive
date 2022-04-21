@@ -20,4 +20,5 @@ target 'TravelLive' do
   pod 'mobile-ffmpeg-full', '~> 4.4'
   pod 'Firebase/Messaging'
   pod 'lottie-ios'
+  pod 'Google-Mobile-Ads-SDK'
 end
