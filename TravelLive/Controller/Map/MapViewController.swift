@@ -22,11 +22,13 @@ class MapViewController: UIViewController {
     var longitude: CLLocationDegrees?
     var latitude: CLLocationDegrees?
     var currentLocation: CLLocation!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
+        
         locationManager.delegate = self
         longitude = locationManager.location?.coordinate.longitude
         latitude = locationManager.location?.coordinate.latitude
@@ -39,7 +41,12 @@ class MapViewController: UIViewController {
                 self.fetchData()
             }
         }
-        mapView.delegate = self
+        
+        if mapView == nil {
+            return
+        } else {
+            mapView.delegate = self
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,19 +71,24 @@ class MapViewController: UIViewController {
     private func fetchData() {
         pullStreamingProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
+                
             case .success(let user):
                 self?.streamerData = user
                 guard let streamerData = self?.streamerData else { return }
+                
                 if self?.mapView.camera == nil {
                     let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
                     self?.mapView.camera = camera
+                    
                 } else {
                     let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
                     self?.mapView.animate(to: location)
                 }
+                
                 for index in 0...streamerData.data.count - 1 {
                     self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
                 }
+                
             case .failure:
                 print("Failed")
             }
@@ -124,7 +136,6 @@ extension MapViewController: GMSMapViewDelegate {
         )
         guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
         pullVC.streamingUrl = url
-        print("\(pullVC.streamingUrl)")
         show(pullVC, sender: nil)
     }
 }
