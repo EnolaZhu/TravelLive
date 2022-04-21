@@ -1,4 +1,6 @@
 PODS:
+  - Firebase/Analytics (8.15.0):
+    - Firebase/Core
   - Firebase/Auth (8.15.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 8.15.0)
@@ -7,6 +9,9 @@ PODS:
     - FirebaseAnalytics (~> 8.15.0)
   - Firebase/CoreOnly (8.15.0):
     - FirebaseCore (= 8.15.0)
+  - Firebase/DynamicLinks (8.15.0):
+    - Firebase/CoreOnly
+    - FirebaseDynamicLinks (~> 8.15.0)
   - Firebase/Messaging (8.15.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.15.0)
@@ -45,6 +50,8 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (~> 2.30908.0)
+  - FirebaseDynamicLinks (8.15.0):
+    - FirebaseCore (~> 8.0)
   - FirebaseInstallations (8.15.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
@@ -130,8 +137,10 @@ PODS:
   - TXLiteAVSDK_Professional (9.5.11346)
 
 DEPENDENCIES:
+  - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Core
+  - Firebase/DynamicLinks
   - Firebase/Messaging
   - Firebase/Storage
   - GoogleMaps
@@ -152,6 +161,7 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseDynamicLinks
     - FirebaseInstallations
     - FirebaseMessaging
     - FirebaseStorage
@@ -178,6 +188,7 @@ SPEC CHECKSUMS:
   FirebaseAuth: 3e73bf8abf4fbb40f8b421f361f4cc48ee57388c
   FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
   FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
+  FirebaseDynamicLinks: 1dc816ef789c5adac6fede0b46d11478175c70e4
   FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
   FirebaseMessaging: 5e5118a2383b3531e730d974680954c679ca0a13
   FirebaseStorage: 8019af461599b2c3bc61c6a5dbdfa3d2de66a4d9
@@ -198,6 +209,6 @@ SPEC CHECKSUMS:
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
   TXLiteAVSDK_Professional: 645670c9d1bbabb88e8dff998fb097a22fe71208
 
-PODFILE CHECKSUM: fa780091308ce600afe1b221c33f107a2f5286c6
+PODFILE CHECKSUM: 554b8f288e8066467a4d3184f8766536f23d1ed2
 
 COCOAPODS: 1.11.3
