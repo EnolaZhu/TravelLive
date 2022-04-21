@@ -7,6 +7,7 @@
 
 import UIKit
 import PubNub
+import Lottie
 
 class ChatViewController: BaseViewController, PNEventsListener {
     private struct Message {
@@ -39,7 +40,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var client: PubNub!
     var channelName = "Channel Name"
     var username = "Enola"
-    var clickNumber = 0
     var textsOfSTT = [String]()
     
     override func viewDidLoad() {
@@ -124,7 +124,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
     }
     
     func publishAnimation() {
-        clickNumber += 1
         client.publish(["message": "heart",
                         "username": "animation",
                         "uuid": client.uuid()
@@ -134,25 +133,18 @@ class ChatViewController: BaseViewController, PNEventsListener {
     }
     
     func createAnimation() {
-        let animationImage = UIImageView(image: UIImage.asset(.heart))
-        animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
-        
-        if clickNumber % 2 == 0 {
-            UIView.transition(with: self.view, duration: 1, options: .curveEaseOut) {
-                animationImage.frame = CGRect(x: 0 - 30, y: 0 - 30, width: 44, height: 44)
-                self.view.addSubview(animationImage)
-                animationImage.alpha = 0.1
-            } completion: {_ in
-                animationImage.removeFromSuperview()
-            }
-        } else {
-            animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
-            UIView.transition(with: self.view, duration: 1, options: .curveEaseInOut) {
-                animationImage.frame = CGRect(x: UIScreen.width / 2, y: 0 - 30, width: 44, height: 44)
-                self.view.addSubview(animationImage)
-                animationImage.alpha = 0.2
-            } completion: {_ in
-                animationImage.removeFromSuperview()
+        let animationView = AnimationView(name: "Heart falling")
+        animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
+        animationView.center = self.view.center
+        animationView.contentMode = .scaleAspectFill
+        animationView.loopMode = .playOnce
+        animationView.animationSpeed = 1.5
+        animationView.currentTime = 2
+        view.addSubview(animationView)
+        animationView.play()
+        animationView.play { isCompleted in
+            if isCompleted {
+                animationView.removeFromSuperview()
             }
         }
     }

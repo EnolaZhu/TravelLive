@@ -38,6 +38,12 @@ class DetailViewImageCell: UITableViewCell {
     }
     
     @objc func changeHeart(_ notification: NSNotification) {
-        loveButton.setImage(UIImage.asset(.theheart), for: .normal)
+        
+        if loveButton.hasImage(named: "theheart", for: .normal) {
+            return
+        } else {
+            DetailDataProvider.shared.postLike(propertyId: "Enola_1650378092481000_0", userId: "Enola", isLiked: true)
+            loveButton.setImage(UIImage.asset(.theheart), for: .normal)
+        }
     }
 }
