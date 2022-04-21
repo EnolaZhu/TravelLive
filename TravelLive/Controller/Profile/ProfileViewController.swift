@@ -7,14 +7,18 @@
 
 import UIKit
 import CoreServices
+import GoogleMobileAds
 
 class ProfileViewController: UIViewController {
+    @IBOutlet weak var bannerView: GADBannerView!
+    
     var postButton: UIButton = {
         let postButton = UIButton(frame: CGRect(x: UIScreen.width - 120, y: UIScreen.height - 430, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
         postButton.setImage(UIImage.asset(.plus), for: UIControl.State())
         return postButton
     }()
+    
     let imagePickerController = UIImagePickerController()
     let userId = "Enola"
     
@@ -23,6 +27,11 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = UIColor.white
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
         view.addSubview(postButton)
+        
+        // Add advertisement
+        bannerView.adUnitID = Secret.bannerId.rawValue
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
     }
     
     @objc func postImage(_ button: UIButton) {
