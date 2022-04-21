@@ -25,6 +25,8 @@ enum ImageAsset: String {
     case apple
     // live animation
     case heart
+    case theheart
+    case emptyHeart
     // post button
     case plus
     case stop

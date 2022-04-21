@@ -76,7 +76,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath)
             
             // Convert video type to GIF
-            let storageRefGifPath = userId + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag + "_thumbnail"
+            let storageRefGifPath = "thumbnail_" + userId + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
             GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
                 switch result {
                 case .success(let urlOfGIF):
