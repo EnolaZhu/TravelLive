@@ -8,7 +8,13 @@
 import Foundation
 
 struct CommentObject: Decodable {
-    let data: [Message]
+    let message: [Message]
+    let isLiked: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case message = "comment"
+        case isLiked = "is_liked"
+    }
 }
 
 struct Message: Decodable {

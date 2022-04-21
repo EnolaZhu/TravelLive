@@ -36,8 +36,10 @@ class DetailDataProvider {
         })
     }
     
-    func fetchCommentData(query: String,  completion: @escaping (Result<CommentObject>) -> Void) {
+    func fetchCommentData(propertyId: String, userId: String, completion: @escaping (Result<CommentObject>) -> Void) {
+        let query = ConvertQuery.shared.getQueryString(keyValues: ("id", propertyId), ("uid", userId))
         let request = DataRequest.fetchComment(query: query)
+        
         HTTPClient.shared.request(request, completion: { data in
             switch data {
             case .success(let data):
@@ -51,6 +53,19 @@ class DetailDataProvider {
                 }
             case .failure(let error):
                 completion(Result.failure(error))
+            }
+        })
+    }
+    
+    func postLike(propertyId: String, userId: String, isLiked: Bool) {
+        let body = LikeBody(propertyId: propertyId, userId: userId, isLiked: isLiked)
+        let request = DataRequest.postLike(body: try? JSONEncoder().encode(body))
+        HTTPClient.shared.request(request, completion: { data in
+            switch data {
+            case .success(_):
+                print("Comment successfully")
+            case .failure(let error):
+                print(error)
             }
         })
     }
