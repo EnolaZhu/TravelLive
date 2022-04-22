@@ -16,6 +16,9 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate {
         case gif = 1
     }
     
+    @IBOutlet weak var payButton: UIButton!
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var postAssetButton: UIButton!
     @IBOutlet weak var bannerView: GADBannerView!
     var postButton: UIButton = {
         let postButton = UIButton(frame: CGRect(x: UIScreen.width - 120, y: UIScreen.height - 430, width: 88, height: 88))
@@ -34,7 +37,8 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
-//        view.addSubview(postButton)
+        payButton.addTarget(self, action: #selector(hideBanner(_:)), for: .touchUpInside)
+
         navigationItem.title = "個人"
         // Add advertisement
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
@@ -131,6 +135,10 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate {
             }
             self.present(imagePickerController, animated: true, completion: nil)
         }
+    }
+    
+    @objc func hideBanner(_ button: UIButton) {
+        bannerView.isHidden = true
     }
     
     func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
