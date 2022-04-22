@@ -42,11 +42,7 @@ class MapViewController: UIViewController {
             }
         }
         
-        if mapView == nil {
-            return
-        } else {
             mapView.delegate = self
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,6 +104,7 @@ class MapViewController: UIViewController {
         marker.map = mapView
         let size = CGSize(width: 88, height: 88)
         UIGraphicsBeginImageContext(size)
+        
         pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         marker.icon = resizedImage?.circularImage(44)
@@ -123,7 +120,6 @@ extension MapViewController: GMSMapViewDelegate {
         specificStreamer = self.streamerData?.data.filter({
             Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
         })
-        print("\(String(describing: specificStreamer?.first?.pullUrl))")
         
         guard let url = specificStreamer?.first?.pullUrl else { return false }
         self.url = url
