@@ -111,7 +111,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         self.present(controller, animated: true, completion: nil)
     }
     
-    func startSpeechRecognization(){
+    func startSpeechRecognization() {
         let node = audioEngine.inputNode
         let recordingFormat = node.outputFormat(forBus: 0)
         request = SFSpeechAudioBufferRecognitionRequest()

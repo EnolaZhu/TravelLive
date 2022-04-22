@@ -9,24 +9,22 @@ import UIKit
 import FirebaseStorage
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
-    
-    var images = [UIImage]()
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var gridLayout: GridLayout!
     
     var arrInstaBigCells = [Int]()
-    var searchDataObjc: SearchDataObject?
+    var images = [UIImage]()
+    var searchDataObjc: SearchDataObject?//
     let searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
-    //    var gif = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
-        //        images = Array(repeatElement(gif, count: 99))
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
+        
         
         var tempStorage = false
         for _ in 1...21 {
@@ -51,7 +49,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        tabBarController?.tabBar.isHidden = false
         images.removeAll()
         getSearchData()
         searchController.searchBar.text = ""
@@ -71,7 +69,9 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionViewCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
-        cell.imageView.image = images[indexPath.row]
+        if images.count > 0 {
+            cell.imageView.image = images[indexPath.row]
+        }
         return cell
     }
     
@@ -156,10 +156,6 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
             print("Do nothing")
         }
     }
-
-    //    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    //
-    //    }
 }
 
 enum SearchQuery: String {
