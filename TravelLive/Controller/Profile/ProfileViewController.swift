@@ -10,6 +10,7 @@ import CoreServices
 import GoogleMobileAds
 
 class ProfileViewController: UIViewController, UICollectionViewDelegate {
+    static let headerKind = "headerKind"
     
     enum Section: Int {
         case image = 0
@@ -20,6 +21,7 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var postAssetButton: UIButton!
     @IBOutlet weak var bannerView: GADBannerView!
+    
     var postButton: UIButton = {
         let postButton = UIButton(frame: CGRect(x: UIScreen.width - 120, y: UIScreen.height - 430, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
@@ -51,31 +53,18 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate {
     }
     
     private func configureHierarchy() {
-//        dynamicAnimator = UIDynamicAnimator(referenceView: view)
-// view.bounds
         collection = UICollectionView(frame: CGRect(x: 0, y: 400, width: view.bounds.width, height: 300), collectionViewLayout: createLayout())
         collection.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collection.backgroundColor = .systemBackground
         collection.registerCellWithNib(identifier: String(describing: ImageCell.self), bundle: nil)
+        collection.register(UINib(nibName: "TitleView", bundle: nil),
+                            forSupplementaryViewOfKind: ProfileViewController.headerKind,
+                            withReuseIdentifier: TitleView.reuseIdentifier)
         collection.delegate = self
         view.addSubview(collection)
     }
     
     private func createLayout() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout { sectionNumber, env -> NSCollectionLayoutSection? in
-            switch Section(rawValue: sectionNumber) {
-            case .image:
-                return self.imageSection()
-            case .gif:
-                return self.imageSection()
-            default:
-                return nil
-            }
-        }
-    }
-
-    
-    private func imageSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
                                               heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -83,13 +72,27 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalHeight(0.8))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                          subitems: [item])
+        
+        
+        let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .absolute(50.0))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: ProfileViewController.headerKind, alignment: .top)
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        // 分頁效果
+        
+        section.boundarySupplementaryItems = [header]
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 16
+        
         section.orthogonalScrollingBehavior = .groupPaging
-        return section
+        
+        let layout = UICollectionViewCompositionalLayout(section: section, configuration: config)
+
+        return layout
     }
-    
+
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collection) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Int) -> UICollectionViewCell? in
@@ -109,6 +112,26 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate {
 
             // Return the cell.
             return cell
+        }
+            
+            dataSource.supplementaryViewProvider = {(collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
+
+                // Get a supplementary view of the desired kind.
+                if let titleView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: TitleView.reuseIdentifier,
+                    for: indexPath) as? TitleView {
+
+                    switch kind {
+                    case ProfileViewController.headerKind:
+                        titleView.eventTitleLbl.text = "Footer"
+                    default:
+                        ()
+                    }
+                    return titleView
+                } else {
+                    fatalError("Cannot create new supplementary")
+                }
         }
 
         // initial data
