@@ -24,15 +24,15 @@ class MapViewController: UIViewController {
     var longitude: CLLocationDegrees?
     var latitude: CLLocationDegrees?
     var currentLocation: CLLocation!
+    var containerView = UIView()
+    let placeButton = UIButton()
+    let eventButton = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
         // fake button
-        let placeButton = UIButton(frame: CGRect(x: UIScreen.width - 120, y: UIScreen.height - 430, width: 88, height: 88))
-        placeButton.tintColor = UIColor.primary
-        placeButton.setImage(UIImage.asset(.plus), for: UIControl.State())
         
-        let eventButton = UIButton(frame: CGRect(x: UIScreen.width - 120, y: UIScreen.height - 230, width: 88, height: 88))
-        eventButton.setTitle("Event", for: .normal)
+        placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
+        eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
         
         // Location
         self.locationManager.requestAlwaysAuthorization()
@@ -54,8 +54,10 @@ class MapViewController: UIViewController {
         
         placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
-        view.addSubview(placeButton)
-        view.addSubview(eventButton)
+        
+        setUpContainerView()
+        setUpPlaceButton()
+        setUpEventButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,8 +75,47 @@ class MapViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        containerView.roundCorners(cornerRadius: 10.0)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    private func setUpContainerView() {
+        view.addSubview(containerView)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [containerView.widthAnchor.constraint(equalToConstant: 150),
+             containerView.heightAnchor.constraint(equalToConstant: 50),
+             containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+             containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30)]
+        )
+        containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+    }
+    
+    private func setUpPlaceButton() {
+        containerView.addSubview(placeButton)
+        placeButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [placeButton.widthAnchor.constraint(equalToConstant: 44),
+             placeButton.heightAnchor.constraint(equalToConstant: 44),
+             placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+             placeButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 25)]
+        )
+    }
+    
+    private func setUpEventButton() {
+        containerView.addSubview(eventButton)
+        eventButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [eventButton.widthAnchor.constraint(equalToConstant: 30),
+             eventButton.heightAnchor.constraint(equalToConstant: 30),
+             eventButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+             eventButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -25)]
+        )
     }
     
     private func fetchData() {
@@ -134,13 +175,13 @@ class MapViewController: UIViewController {
     }
     
     
-    func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
+    private func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
         ImageManager.shared.fetchImage(imageUrl: data.avatar) { image in
             self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image, isStreamer: true)
         }
     }
     
-    func makeCustomMarker(latitude: Float, longitude: Float, pinImage: UIImage, isStreamer: Bool) {
+    private func makeCustomMarker(latitude: Float, longitude: Float, pinImage: UIImage, isStreamer: Bool) {
         let marker = GMSMarker()
         
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
@@ -181,7 +222,7 @@ extension MapViewController: GMSMapViewDelegate {
         return true
     }
     
-    func createLiveRoom(streamerUrl: String) {
+    private func createLiveRoom(streamerUrl: String) {
         let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
         )
         
