@@ -107,6 +107,8 @@
 		4BEAF1D6281471EF0094B90E /* PlaceEventViewReuseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D4281471EF0094B90E /* PlaceEventViewReuseCell.xib */; };
 		4BEAF1D9281473A60094B90E /* PlaceEventViewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D7281473A60094B90E /* PlaceEventViewImageCell.swift */; };
 		4BEAF1DA281473A60094B90E /* PlaceEventViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */; };
+		4BEAF1DC2814764B0094B90E /* MapDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */; };
+		4BEAF1DE281476BD0094B90E /* MapDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -212,6 +214,8 @@
 		4BEAF1D4281471EF0094B90E /* PlaceEventViewReuseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceEventViewReuseCell.xib; sourceTree = "<group>"; };
 		4BEAF1D7281473A60094B90E /* PlaceEventViewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceEventViewImageCell.swift; sourceTree = "<group>"; };
 		4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceEventViewImageCell.xib; sourceTree = "<group>"; };
+		4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailViewController.swift; sourceTree = "<group>"; };
+		4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapDetailViewController.storyboard; sourceTree = "<group>"; };
 		68FED9196589F5A3DCFBDD4D /* Pods-TravelLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.release.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.release.xcconfig"; sourceTree = "<group>"; };
 		7058E26C63EAA7047446EE5B /* Pods_TravelLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B84252E6E16D9ACCFE58A916 /* Pods-TravelLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.debug.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.debug.xcconfig"; sourceTree = "<group>"; };
@@ -507,6 +511,7 @@
 				4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */,
 				4BC0EE6428000A1E00C5673B /* Chat.storyboard */,
 				4BA5E3BB280FCEB100D421D0 /* CommentViewController.xib */,
+				4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -591,6 +596,7 @@
 			isa = PBXGroup;
 			children = (
 				4BC2BE5127FC45F3001FF31D /* MapViewController.swift */,
+				4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -736,6 +742,7 @@
 				4BEAF1D2281471810094B90E /* PlaceEventViewContentCell.xib in Resources */,
 				4B978801281008740003CC9F /* Hearts moving.json in Resources */,
 				4BC0EE6528000A1F00C5673B /* Chat.storyboard in Resources */,
+				4BEAF1DE281476BD0094B90E /* MapDetailViewController.storyboard in Resources */,
 				4BC1075F27FB560D0017B1B7 /* Map.storyboard in Resources */,
 				4BC1074127FA9DD40017B1B7 /* Main.storyboard in Resources */,
 				4BC1076127FB56290017B1B7 /* Search.storyboard in Resources */,
@@ -834,6 +841,7 @@
 				4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */,
 				4BD3736828041B9300141A29 /* PullStreamingViewController.swift in Sources */,
 				4BC1073E27FA9DD40017B1B7 /* STTabBarViewController.swift in Sources */,
+				4BEAF1DC2814764B0094B90E /* MapDetailViewController.swift in Sources */,
 				4B4AA4402802AC4B0066C602 /* PushStreamingProvider.swift in Sources */,
 				4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */,
 				4BDEC3492801F28000143E25 /* String+Extension.swift in Sources */,

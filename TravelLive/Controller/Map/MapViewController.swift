@@ -217,15 +217,28 @@ extension MapViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         let markerLatitude = Float(marker.position.latitude)
         let markerLongitude = Float(marker.position.longitude)
-        
-        specificStreamer = self.streamerData?.data.filter({
-            Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
-        })
-        
-        guard let url = specificStreamer?.first?.pullUrl else { return false }
-        self.url = url
-        createLiveRoom(streamerUrl: url)
+        if showTypeOfMarker == "event" {
+            createDetailView()
+        } else if showTypeOfMarker == "place" {
+            createDetailView()
+        } else {
+            specificStreamer = self.streamerData?.data.filter({
+                Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
+            })
+            
+            guard let url = specificStreamer?.first?.pullUrl else { return false }
+            self.url = url
+            createLiveRoom(streamerUrl: url)
+        }
         return true
+    }
+    
+    private func createDetailView() {
+        let mapDetailVC = UIStoryboard.mapDetail.instantiateViewController(withIdentifier: String(describing: MapDetailViewController.self)
+        )
+        
+        guard let detailVC = mapDetailVC as? MapDetailViewController else { return }
+        show(detailVC, sender: nil)
     }
     
     private func createLiveRoom(streamerUrl: String) {
