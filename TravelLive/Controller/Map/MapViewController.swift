@@ -13,7 +13,7 @@ class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
     
-    let pullStreamingProvider = PullStreamingProvider()
+    let mapDataProvider = MapDataProvider()
     var avater = UIImage()
     var streamerData: StreamerDataObject?
     let locationManager = CLLocationManager()
@@ -62,7 +62,7 @@ class MapViewController: UIViewController {
     }
     
     private func fetchData() {
-        pullStreamingProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+        mapDataProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.streamerData = user
@@ -85,20 +85,24 @@ class MapViewController: UIViewController {
     
     func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
         ImageManager.shared.fetchStorageImage(imageUrl: data.avatar) { image in
-            self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image)
+            self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image, isStreamer: true)
         }
     }
     
-    func makeCustomMarker(latitude: Float, longitude: Float, pinImage: UIImage) {
+    func makeCustomMarker(latitude: Float, longitude: Float, pinImage: UIImage, isStreamer: Bool) {
         let marker = GMSMarker()
         mapView.selectedMarker = marker
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
+        
         marker.map = mapView
         let size = CGSize(width: 88, height: 88)
         UIGraphicsBeginImageContext(size)
         pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        marker.icon = resizedImage?.circularImage(44)
+        
+        if isStreamer {
+            marker.icon = resizedImage?.circularImage(44)
+        }
         marker.map = self.mapView
     }
 }
@@ -111,7 +115,6 @@ extension MapViewController: GMSMapViewDelegate {
         specificStreamer = self.streamerData?.data.filter({
             Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
         })
-        print("\(String(describing: specificStreamer?.first?.pullUrl))")
         
         guard let url = specificStreamer?.first?.pullUrl else { return false }
         self.url = url
@@ -122,9 +125,9 @@ extension MapViewController: GMSMapViewDelegate {
     func createLiveRoom(streamerUrl: String) {
         let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
         )
+        
         guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
         pullVC.streamingUrl = url
-        print("\(pullVC.streamingUrl)")
         show(pullVC, sender: nil)
     }
 }
