@@ -61,7 +61,7 @@ class MapViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func fetchData() {
+    private func fetchData() {
         pullStreamingProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
             case .success(let user):
@@ -71,7 +71,7 @@ class MapViewController: UIViewController {
                     let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
                     self?.mapView.camera = camera
                 } else {
-                    let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 10.81)
+                    let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
                     self?.mapView.animate(to: location)
                 }
                 for index in 0...streamerData.data.count - 1 {
@@ -84,7 +84,7 @@ class MapViewController: UIViewController {
     }
     
     func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
-        MarkerManager.shared.fetchStreamerImage(hostUrl: data.storageBucket, imageUrl: data.avatar) { image in
+        ImageManager.shared.fetchStorageImage(imageUrl: data.avatar) { image in
             self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image)
         }
     }

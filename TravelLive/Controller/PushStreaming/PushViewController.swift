@@ -111,7 +111,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         self.present(controller, animated: true, completion: nil)
     }
     
-    func startSpeechRecognization(){
+    func startSpeechRecognization() {
         let node = audioEngine.inputNode
         let recordingFormat = node.outputFormat(forBus: 0)
         request = SFSpeechAudioBufferRecognitionRequest()
@@ -310,6 +310,12 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         //        requestPermission()
         //        startSpeechRecognization()
         postPushStreamingInfo()
+        click = !click
+        if click {
+            startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
+        } else {
+            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
+        }
     }
     
     // beautify
@@ -329,7 +335,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         print("close!")
         session.stopLive()
         deletePushStreming()
-        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
+//        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
         view.removeFromSuperview()
         tabBarController?.selectedIndex = 0
         //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
@@ -384,14 +390,14 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     func startLive(_ url: String) {
         startLiveButton.isSelected = !startLiveButton.isSelected
         if startLiveButton.isSelected {
-            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
+            startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
             let stream = LFLiveStreamInfo()
             stream.url = url
             session.startLive(stream)
             audioEngine.inputNode.removeTap(onBus: 0)
             self.startSpeechRecognization()
         } else {
-            startLiveButton.setTitle(ComponentText.startLive.text, for: UIControl.State())
+            startLiveButton.setTitle(ComponentText.closelive.text, for: UIControl.State())
             session.stopLive()
             deletePushStreming()
             cancelSpeechRecognization()

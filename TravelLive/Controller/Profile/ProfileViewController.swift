@@ -7,8 +7,21 @@
 
 import UIKit
 import CoreServices
+import GoogleMobileAds
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UICollectionViewDelegate {
+    static let headerKind = "headerKind"
+    
+    enum Section: Int {
+        case image = 0
+        case gif = 1
+    }
+    
+    @IBOutlet weak var payButton: UIButton!
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var postAssetButton: UIButton!
+    @IBOutlet weak var bannerView: GADBannerView!
+    
     var postButton: UIButton = {
         let postButton = UIButton(frame: CGRect(x: UIScreen.width - 120, y: UIScreen.height - 430, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
@@ -18,17 +31,126 @@ class ProfileViewController: UIViewController {
     let imagePickerController = UIImagePickerController()
     let userId = "Enola"
     
+    var collection: UICollectionView! = nil
+    var dynamicAnimator: UIDynamicAnimator!
+    var dataSource: UICollectionViewDiffableDataSource<Section, Int>! = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
+        payButton.addTarget(self, action: #selector(hideBanner(_:)), for: .touchUpInside)
+
+        navigationItem.title = "個人"
+        // Add advertisement
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        // collection view
+        configureHierarchy()
+        configureDataSource()
         view.addSubview(postButton)
+    }
+    
+    private func configureHierarchy() {
+        collection = UICollectionView(frame: CGRect(x: 0, y: 400, width: view.bounds.width, height: 300), collectionViewLayout: createLayout())
+        collection.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collection.backgroundColor = .systemBackground
+        collection.registerCellWithNib(identifier: String(describing: ImageCell.self), bundle: nil)
+        collection.register(UINib(nibName: "TitleView", bundle: nil),
+                            forSupplementaryViewOfKind: ProfileViewController.headerKind,
+                            withReuseIdentifier: TitleView.reuseIdentifier)
+        collection.delegate = self
+        view.addSubview(collection)
+    }
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                              heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalHeight(0.8))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+        
+        
+        let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .absolute(50.0))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: ProfileViewController.headerKind, alignment: .top)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        section.boundarySupplementaryItems = [header]
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 16
+        
+        section.orthogonalScrollingBehavior = .groupPaging
+        
+        let layout = UICollectionViewCompositionalLayout(section: section, configuration: config)
+
+        return layout
+    }
+
+    private func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collection) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Int) -> UICollectionViewCell? in
+
+            // Get a cell of the desired kind.
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: String(describing: ImageCell.self),
+                for: indexPath) as? ImageCell else { fatalError("Cannot create new cell") }
+            if indexPath.section == 0 {
+                cell.backgroundColor = UIColor.primary
+            } else {
+                cell.backgroundColor = UIColor.blue
+            }
+            
+            // Populate the cell with our item description.
+//            cell.configureWith(text: "\(indexPath.row)", image: nil)
+
+            // Return the cell.
+            return cell
+        }
+            
+            dataSource.supplementaryViewProvider = {(collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
+
+                // Get a supplementary view of the desired kind.
+                if let titleView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: TitleView.reuseIdentifier,
+                    for: indexPath) as? TitleView {
+
+                    switch kind {
+                    case ProfileViewController.headerKind:
+                        titleView.eventTitleLbl.text = "Footer"
+                    default:
+                        ()
+                    }
+                    return titleView
+                } else {
+                    fatalError("Cannot create new supplementary")
+                }
+        }
+
+        // initial data
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+        snapshot.appendSections([.image])
+        snapshot.appendItems(Array(1..<15))
+        snapshot.appendSections([.gif])
+        snapshot.appendItems(Array(6..<37))
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
     @objc func postImage(_ button: UIButton) {
         imagePickerController.delegate = self
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            
+
             // 如果可以，指定 UIImagePickerController 的照片來源為 照片圖庫 (.photoLibrary)，並 present UIImagePickerController
             imagePickerController.sourceType = .photoLibrary
             if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
@@ -36,6 +158,10 @@ class ProfileViewController: UIViewController {
             }
             self.present(imagePickerController, animated: true, completion: nil)
         }
+    }
+    
+    @objc func hideBanner(_ button: UIButton) {
+        bannerView.isHidden = true
     }
     
     func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
@@ -54,21 +180,38 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    //    swiftlint: disable identifier_name
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        //    swiftlint: disable identifier_name
-        let d = Date()
-        let df = DateFormatter()
-        df.dateFormat = "SSSSSS"
-        let date = Int(Date().timeIntervalSince1970)
+        let uploadDate = Date()
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "SSSSSS"
+        let uploadTimestamp = Int(uploadDate.timeIntervalSince1970)
+        // TODO: Tag
+        let tag = "\(Int.random(in: 0...2))"
+        let storageRefPath = userId + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
         
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
-            let imgUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
-            guard let url = imgUrl else { return }
-            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: url), child: (userId + "_" + "\(date)" + df.string(from: d)))
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            let imageUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
+            guard let imgUrl = imageUrl else { return }
+            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPath)
         }
-        if let url = info[.mediaURL] as? URL {
-            let videoUrl = createTemporaryURLforVideoFile(url: url as NSURL)
-            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: (userId + "_" + "\(date)" + df.string(from: d)))
+        
+        if let mediaUrl = info[.mediaURL] as? URL {
+            // Upload video file
+            let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
+            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath)
+            
+            // Convert video type to GIF
+            let storageRefGifPath = "thumbnail_" + userId + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
+            GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
+                switch result {
+                case .success(let urlOfGIF):
+                    // Upload GIF file
+                    PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath)
+                case .failure:
+                    print("Failed")
+                }
+            }
         }
         imagePickerController.dismiss(animated: true, completion: nil)
     }

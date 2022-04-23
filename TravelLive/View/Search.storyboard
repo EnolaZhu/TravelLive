@@ -27,13 +27,27 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="AKh-Rg-e28">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SearchCollectionViewCell" id="AKh-Rg-e28" customClass="SearchCollectionViewCell" customModule="TravelLive" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Pqo-N7-4Jk">
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QwG-mT-8sq">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="QwG-mT-8sq" secondAttribute="trailing" id="6Cr-j1-1dh"/>
+                                                <constraint firstItem="QwG-mT-8sq" firstAttribute="top" secondItem="Pqo-N7-4Jk" secondAttribute="top" id="PZx-az-gyI"/>
+                                                <constraint firstItem="QwG-mT-8sq" firstAttribute="centerY" secondItem="Pqo-N7-4Jk" secondAttribute="centerY" id="QQZ-Qh-BXu"/>
+                                                <constraint firstItem="QwG-mT-8sq" firstAttribute="leading" secondItem="Pqo-N7-4Jk" secondAttribute="leading" id="SMY-M4-6n1"/>
+                                            </constraints>
                                         </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="imageView" destination="QwG-mT-8sq" id="6Tz-3F-MFN"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -42,12 +56,16 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="F9u-sn-fjy" secondAttribute="bottom" id="4ZL-51-MLY"/>
-                            <constraint firstItem="F9u-sn-fjy" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="9AV-xJ-Jc4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="F9u-sn-fjy" secondAttribute="trailing" id="Ues-OV-caq"/>
+                            <constraint firstItem="F9u-sn-fjy" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="rT1-90-UW3"/>
                             <constraint firstItem="F9u-sn-fjy" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="wuC-KG-zoT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cZ9-kn-oyJ"/>
+                    <connections>
+                        <outlet property="gridLayout" destination="8sh-Rd-g5E" id="Ur0-3X-Kp2"/>
+                        <outlet property="searchCollectionView" destination="F9u-sn-fjy" id="LKz-ac-c1g"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
