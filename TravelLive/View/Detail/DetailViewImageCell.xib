@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -105,6 +105,7 @@
                 <outlet property="commentButton" destination="MJv-zd-liO" id="5IE-Ex-iyO"/>
                 <outlet property="loveButton" destination="LBJ-ic-zyH" id="bNH-Zk-O2P"/>
                 <outlet property="reportButton" destination="Sra-ti-o8l" id="yYh-KZ-O5p"/>
+                <outlet property="shareButton" destination="zhW-ut-ZZH" id="ft3-aa-LKY"/>
                 <outlet property="userAvatarimage" destination="706-2I-Hxf" id="PGp-Pc-mWg"/>
                 <outlet property="userName" destination="Bv2-nt-MHw" id="f6v-3j-ZZq"/>
                 <outlet property="userUploadImageView" destination="i4r-If-eMK" id="dkM-RM-nTo"/>
