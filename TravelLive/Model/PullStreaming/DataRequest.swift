@@ -15,6 +15,8 @@ enum DataRequest: Request {
     case postComment(body: Data?)
     case fetchComment(query: String)
     case postLike(body: Data?)
+    case fetchPlaceData(query: String)
+    case fetchEventData(query: String)
     
     var headers: [String: String]? {
         switch self {
@@ -29,6 +31,10 @@ enum DataRequest: Request {
         case .fetchComment:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .postLike:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchPlaceData:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchEventData:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         }
     }
@@ -46,6 +52,10 @@ enum DataRequest: Request {
             return nil
         case .postLike(let body):
             return body
+        case .fetchPlaceData:
+            return nil
+        case .fetchEventData:
+            return nil
         }
     }
     var method: String {
@@ -62,6 +72,10 @@ enum DataRequest: Request {
             return HTTPMethod.GET.rawValue
         case .postLike:
             return HTTPMethod.POST.rawValue
+        case .fetchPlaceData:
+            return HTTPMethod.GET.rawValue
+        case .fetchEventData:
+            return HTTPMethod.GET.rawValue
         }
     }
     var endPoint: String {
@@ -78,8 +92,10 @@ enum DataRequest: Request {
             return "/comment" + query
         case .postLike:
             return "/like"
+        case .fetchPlaceData(let query):
+            return "/place" + query
+        case .fetchEventData(let query):
+            return "/event" + query
         }
     }
-//    getQueryString(keyValues: ("kk", "yy"), ("kk", "yy"))
-    
 }

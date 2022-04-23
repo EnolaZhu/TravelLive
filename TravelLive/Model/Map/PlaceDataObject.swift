@@ -5,7 +5,7 @@
 //  Created by Enola Zhu on 2022/4/23.
 //
 
-struct PlaceObject: Decodable {
+struct PlaceDataObject: Decodable {
     let data: [Place]
 }
 
