@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0951D3D245DBD86F0F3241C5 /* Pods_TravelLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7058E26C63EAA7047446EE5B /* Pods_TravelLive.framework */; };
+		4B035A0028125F2B00017762 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0359FE28125F2B00017762 /* ImageCell.swift */; };
+		4B035A0B2812748200017762 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B035A0A2812748200017762 /* UICollectionView+Extension.swift */; };
+		4B035A0D2812A60E00017762 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B035A0C2812A60E00017762 /* ImageCell.xib */; };
 		4B060CBC280BD3020055EDB2 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B060CBB280BD3020055EDB2 /* GridLayout.swift */; };
 		4B060CC0280C5DCA0055EDB2 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B060CBF280C5DCA0055EDB2 /* ImageManager.swift */; };
 		4B060CC2280C66590055EDB2 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B060CC1280C66580055EDB2 /* SearchCollectionViewCell.swift */; };
@@ -93,6 +96,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B0359FE28125F2B00017762 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		4B035A0A2812748200017762 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		4B035A0C2812A60E00017762 /* ImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		4B060CBB280BD3020055EDB2 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		4B060CBF280C5DCA0055EDB2 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		4B060CC1280C66580055EDB2 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -196,6 +202,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B0359F528125EC100017762 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				4B0359FE28125F2B00017762 /* ImageCell.swift */,
+				4B035A0C2812A60E00017762 /* ImageCell.xib */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		4B060CBA280BD2EA0055EDB2 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -444,6 +459,7 @@
 		4BC1074E27FB45EE0017B1B7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4B0359F528125EC100017762 /* Profile */,
 				4BB5A92A280D693500739C61 /* Detail */,
 				4B060CBA280BD2EA0055EDB2 /* Search */,
 				4B3AAAE72808230000CBFE89 /* Event */,
@@ -533,6 +549,7 @@
 				4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */,
 				4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */,
 				4B9788022810462B0003CC9F /* Date+Extension.swift */,
+				4B035A0A2812748200017762 /* UICollectionView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -657,6 +674,7 @@
 				4BA5E3B3280F9D2A00D421D0 /* ReportViewController.xib in Resources */,
 				4BC1076527FB565F0017B1B7 /* Profile.storyboard in Resources */,
 				4BC0EE6127FF327800C5673B /* MessageCell.xib in Resources */,
+				4B035A0D2812A60E00017762 /* ImageCell.xib in Resources */,
 				4BA5E3A2280E974100D421D0 /* DetailViewImageCell.xib in Resources */,
 				4BC1074327FA9DD60017B1B7 /* Assets.xcassets in Resources */,
 				4BA5E3A6280E9CEE00D421D0 /* DetailViewCommentCell.xib in Resources */,
@@ -767,7 +785,9 @@
 				4B3AAAE92808232C00CBFE89 /* EventCollectionViewCell.swift in Sources */,
 				4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */,
 				4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */,
+				4B035A0B2812748200017762 /* UICollectionView+Extension.swift in Sources */,
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,
+				4B035A0028125F2B00017762 /* ImageCell.swift in Sources */,
 				4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */,
 				4BC1075427FB470F0017B1B7 /* PushViewController.swift in Sources */,
 				4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */,
