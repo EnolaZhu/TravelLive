@@ -27,6 +27,8 @@ class MapViewController: UIViewController {
     var containerView = UIView()
     let placeButton = UIButton()
     let eventButton = UIButton()
+    var showTypeOfMarker = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // fake button
@@ -44,10 +46,10 @@ class MapViewController: UIViewController {
         if CLLocationManager.authorizationStatus() != .denied {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
-            fetchData()
+            fetchStreamerData()
         } else {
-            DispatchQueue.main.async() {
-                self.fetchData()
+            DispatchQueue.main.async {
+                self.fetchStreamerData()
             }
         }
         mapView.delegate = self
@@ -64,7 +66,7 @@ class MapViewController: UIViewController {
         super.viewWillAppear(true)
         // Hide the Navigation Bar
         mapView.clear()
-        fetchData()
+        fetchStreamerData()
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -118,7 +120,7 @@ class MapViewController: UIViewController {
         )
     }
     
-    private func fetchData() {
+    private func fetchStreamerData() {
         mapDataProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
             case .success(let user):
@@ -141,6 +143,8 @@ class MapViewController: UIViewController {
     }
     
     @objc func getEventData(_ sender: UIButton) {
+        mapView.clear()
+        showTypeOfMarker = "event"
         mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
             case .success(let places):
@@ -158,6 +162,8 @@ class MapViewController: UIViewController {
     }
     
     @objc func getPlaceData(_ sender: UIButton) {
+        mapView.clear()
+        showTypeOfMarker = "place"
         mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
             case .success(let places):

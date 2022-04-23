@@ -97,6 +97,16 @@
 		4BDEC34C28028B6F00143E25 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDEC34B28028B6F00143E25 /* HTTPClient.swift */; };
 		4BEAF1BF281440950094B90E /* PlaceDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1BE281440950094B90E /* PlaceDataObject.swift */; };
 		4BEAF1C1281468950094B90E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1C0281468950094B90E /* UIView+Extension.swift */; };
+		4BEAF1C92814714A0094B90E /* PlaceEventViewTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1C72814714A0094B90E /* PlaceEventViewTitleCell.swift */; };
+		4BEAF1CA2814714A0094B90E /* PlaceEventViewTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1C82814714A0094B90E /* PlaceEventViewTitleCell.xib */; };
+		4BEAF1CD281471650094B90E /* PlaceEventViewLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1CB281471650094B90E /* PlaceEventViewLocationCell.swift */; };
+		4BEAF1CE281471650094B90E /* PlaceEventViewLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1CC281471650094B90E /* PlaceEventViewLocationCell.xib */; };
+		4BEAF1D1281471810094B90E /* PlaceEventViewContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1CF281471810094B90E /* PlaceEventViewContentCell.swift */; };
+		4BEAF1D2281471810094B90E /* PlaceEventViewContentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D0281471810094B90E /* PlaceEventViewContentCell.xib */; };
+		4BEAF1D5281471EF0094B90E /* PlaceEventViewReuseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D3281471EF0094B90E /* PlaceEventViewReuseCell.swift */; };
+		4BEAF1D6281471EF0094B90E /* PlaceEventViewReuseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D4281471EF0094B90E /* PlaceEventViewReuseCell.xib */; };
+		4BEAF1D9281473A60094B90E /* PlaceEventViewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D7281473A60094B90E /* PlaceEventViewImageCell.swift */; };
+		4BEAF1DA281473A60094B90E /* PlaceEventViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -192,6 +202,16 @@
 		4BDEC34B28028B6F00143E25 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		4BEAF1BE281440950094B90E /* PlaceDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDataObject.swift; sourceTree = "<group>"; };
 		4BEAF1C0281468950094B90E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		4BEAF1C72814714A0094B90E /* PlaceEventViewTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceEventViewTitleCell.swift; sourceTree = "<group>"; };
+		4BEAF1C82814714A0094B90E /* PlaceEventViewTitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceEventViewTitleCell.xib; sourceTree = "<group>"; };
+		4BEAF1CB281471650094B90E /* PlaceEventViewLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceEventViewLocationCell.swift; sourceTree = "<group>"; };
+		4BEAF1CC281471650094B90E /* PlaceEventViewLocationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceEventViewLocationCell.xib; sourceTree = "<group>"; };
+		4BEAF1CF281471810094B90E /* PlaceEventViewContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceEventViewContentCell.swift; sourceTree = "<group>"; };
+		4BEAF1D0281471810094B90E /* PlaceEventViewContentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceEventViewContentCell.xib; sourceTree = "<group>"; };
+		4BEAF1D3281471EF0094B90E /* PlaceEventViewReuseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceEventViewReuseCell.swift; sourceTree = "<group>"; };
+		4BEAF1D4281471EF0094B90E /* PlaceEventViewReuseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceEventViewReuseCell.xib; sourceTree = "<group>"; };
+		4BEAF1D7281473A60094B90E /* PlaceEventViewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceEventViewImageCell.swift; sourceTree = "<group>"; };
+		4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceEventViewImageCell.xib; sourceTree = "<group>"; };
 		68FED9196589F5A3DCFBDD4D /* Pods-TravelLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.release.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.release.xcconfig"; sourceTree = "<group>"; };
 		7058E26C63EAA7047446EE5B /* Pods_TravelLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B84252E6E16D9ACCFE58A916 /* Pods-TravelLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.debug.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.debug.xcconfig"; sourceTree = "<group>"; };
@@ -470,6 +490,7 @@
 		4BC1074E27FB45EE0017B1B7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4BEAF1C6281471100094B90E /* Map */,
 				4B0359F528125EC100017762 /* Profile */,
 				4BB5A92A280D693500739C61 /* Detail */,
 				4B060CBA280BD2EA0055EDB2 /* Search */,
@@ -598,6 +619,23 @@
 			path = HTTP;
 			sourceTree = "<group>";
 		};
+		4BEAF1C6281471100094B90E /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				4BEAF1C72814714A0094B90E /* PlaceEventViewTitleCell.swift */,
+				4BEAF1C82814714A0094B90E /* PlaceEventViewTitleCell.xib */,
+				4BEAF1CB281471650094B90E /* PlaceEventViewLocationCell.swift */,
+				4BEAF1CC281471650094B90E /* PlaceEventViewLocationCell.xib */,
+				4BEAF1CF281471810094B90E /* PlaceEventViewContentCell.swift */,
+				4BEAF1D0281471810094B90E /* PlaceEventViewContentCell.xib */,
+				4BEAF1D3281471EF0094B90E /* PlaceEventViewReuseCell.swift */,
+				4BEAF1D4281471EF0094B90E /* PlaceEventViewReuseCell.xib */,
+				4BEAF1D7281473A60094B90E /* PlaceEventViewImageCell.swift */,
+				4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		7A913B85FE671E754022C81C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -677,20 +715,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BEAF1CA2814714A0094B90E /* PlaceEventViewTitleCell.xib in Resources */,
 				4BA5E3AE280F133900D421D0 /* GoogleService-Info.plist in Resources */,
 				4BC1076727FB56790017B1B7 /* Event.storyboard in Resources */,
 				4BC1074627FA9DD60017B1B7 /* LaunchScreen.storyboard in Resources */,
 				4BA5E3BD280FCEB100D421D0 /* CommentViewController.xib in Resources */,
+				4BEAF1DA281473A60094B90E /* PlaceEventViewImageCell.xib in Resources */,
+				4BEAF1CE281471650094B90E /* PlaceEventViewLocationCell.xib in Resources */,
 				4B97880E28107C200003CC9F /* Heart break.json in Resources */,
 				4BD3736A28041BE200141A29 /* PullStreaming.storyboard in Resources */,
 				4BA5E3B3280F9D2A00D421D0 /* ReportViewController.xib in Resources */,
 				4BC1076527FB565F0017B1B7 /* Profile.storyboard in Resources */,
 				4BC0EE6127FF327800C5673B /* MessageCell.xib in Resources */,
+				4BEAF1D6281471EF0094B90E /* PlaceEventViewReuseCell.xib in Resources */,
 				4B035A0D2812A60E00017762 /* ImageCell.xib in Resources */,
 				4BA5E3A2280E974100D421D0 /* DetailViewImageCell.xib in Resources */,
 				4BC1074327FA9DD60017B1B7 /* Assets.xcassets in Resources */,
 				4BA5E3A6280E9CEE00D421D0 /* DetailViewCommentCell.xib in Resources */,
 				4B1ED6232813A6F000674E6D /* TitleView.xib in Resources */,
+				4BEAF1D2281471810094B90E /* PlaceEventViewContentCell.xib in Resources */,
 				4B978801281008740003CC9F /* Hearts moving.json in Resources */,
 				4BC0EE6528000A1F00C5673B /* Chat.storyboard in Resources */,
 				4BC1075F27FB560D0017B1B7 /* Map.storyboard in Resources */,
@@ -796,6 +839,7 @@
 				4BDEC3492801F28000143E25 /* String+Extension.swift in Sources */,
 				4B1ED6222813A6F000674E6D /* TitleView.swift in Sources */,
 				4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */,
+				4BEAF1D1281471810094B90E /* PlaceEventViewContentCell.swift in Sources */,
 				4B978805281057280003CC9F /* LikeBody.swift in Sources */,
 				4B3AAAE92808232C00CBFE89 /* EventCollectionViewCell.swift in Sources */,
 				4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */,
@@ -845,13 +889,17 @@
 				4B4AA43628028E7B0066C602 /* Constant.swift in Sources */,
 				4BB6AC0628045F5D0061EDDE /* MapDataProvider.swift in Sources */,
 				4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */,
+				4BEAF1C92814714A0094B90E /* PlaceEventViewTitleCell.swift in Sources */,
+				4BEAF1D9281473A60094B90E /* PlaceEventViewImageCell.swift in Sources */,
 				4BA5E3AB280EC4D600D421D0 /* UIImageView+Extension.swift in Sources */,
 				4BC0EE6327FFB90700C5673B /* UITableView+Extension.swift in Sources */,
+				4BEAF1D5281471EF0094B90E /* PlaceEventViewReuseCell.swift in Sources */,
 				4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */,
 				4BD373642804181800141A29 /* SearchViewController.swift in Sources */,
 				4BA5E3B2280F9D2900D421D0 /* ReportViewController.swift in Sources */,
 				4B060CC2280C66590055EDB2 /* SearchCollectionViewCell.swift in Sources */,
 				4B97880A28106E660003CC9F /* ConvertQuery.swift in Sources */,
+				4BEAF1CD281471650094B90E /* PlaceEventViewLocationCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
