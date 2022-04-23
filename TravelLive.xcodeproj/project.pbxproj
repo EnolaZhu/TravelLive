@@ -17,6 +17,8 @@
 		4B12BAB72803CBDB0096359B /* GMSMarker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */; };
 		4B1ED6222813A6F000674E6D /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1ED6202813A6F000674E6D /* TitleView.swift */; };
 		4B1ED6232813A6F000674E6D /* TitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B1ED6212813A6F000674E6D /* TitleView.xib */; };
+		4B1ED6272813F6FF00674E6D /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1ED6262813F6FF00674E6D /* ProfileHeader.swift */; };
+		4B1ED6292813F93000674E6D /* ProfileCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1ED6282813F93000674E6D /* ProfileCollectionCell.swift */; };
 		4B3AAAD62806BCB500CBFE89 /* Notification.Nam+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */; };
 		4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */; };
 		4B3AAAE92808232C00CBFE89 /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAE82808232C00CBFE89 /* EventCollectionViewCell.swift */; };
@@ -107,6 +109,8 @@
 		4B12BAB62803CBDA0096359B /* GMSMarker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GMSMarker+Extension.swift"; sourceTree = "<group>"; };
 		4B1ED6202813A6F000674E6D /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		4B1ED6212813A6F000674E6D /* TitleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleView.xib; sourceTree = "<group>"; };
+		4B1ED6262813F6FF00674E6D /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
+		4B1ED6282813F93000674E6D /* ProfileCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionCell.swift; sourceTree = "<group>"; };
 		4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Nam+Extension.swift"; sourceTree = "<group>"; };
 		4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 		4B3AAAE82808232C00CBFE89 /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -209,10 +213,8 @@
 		4B0359F528125EC100017762 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				4B0359FE28125F2B00017762 /* ImageCell.swift */,
-				4B035A0C2812A60E00017762 /* ImageCell.xib */,
-				4B1ED6202813A6F000674E6D /* TitleView.swift */,
-				4B1ED6212813A6F000674E6D /* TitleView.xib */,
+				4B1ED6262813F6FF00674E6D /* ProfileHeader.swift */,
+				4B1ED6282813F93000674E6D /* ProfileCollectionCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -465,6 +467,10 @@
 		4BC1074E27FB45EE0017B1B7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4B0359FE28125F2B00017762 /* ImageCell.swift */,
+				4B035A0C2812A60E00017762 /* ImageCell.xib */,
+				4B1ED6202813A6F000674E6D /* TitleView.swift */,
+				4B1ED6212813A6F000674E6D /* TitleView.xib */,
 				4B0359F528125EC100017762 /* Profile */,
 				4BB5A92A280D693500739C61 /* Detail */,
 				4B060CBA280BD2EA0055EDB2 /* Search */,
@@ -798,6 +804,7 @@
 				4B035A0028125F2B00017762 /* ImageCell.swift in Sources */,
 				4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */,
 				4BC1075427FB470F0017B1B7 /* PushViewController.swift in Sources */,
+				4B1ED6272813F6FF00674E6D /* ProfileHeader.swift in Sources */,
 				4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */,
 				4BA5E3B8280FB36300D421D0 /* DetailDataProvider.swift in Sources */,
 				4BC2BE5227FC45F3001FF31D /* MapViewController.swift in Sources */,
@@ -844,6 +851,7 @@
 				4BA5E3B2280F9D2900D421D0 /* ReportViewController.swift in Sources */,
 				4B060CC2280C66590055EDB2 /* SearchCollectionViewCell.swift in Sources */,
 				4B97880A28106E660003CC9F /* ConvertQuery.swift in Sources */,
+				4B1ED6292813F93000674E6D /* ProfileCollectionCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
