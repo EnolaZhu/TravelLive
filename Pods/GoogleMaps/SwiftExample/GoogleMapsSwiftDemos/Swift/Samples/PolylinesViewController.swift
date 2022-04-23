@@ -46,7 +46,6 @@ final class PolylinesViewController: UIViewController {
     path.addLatitude(-33.866901, longitude: 151.195988)
     path = path.pathOffset(byLatitude: -30, longitude: 0)
     pathLength = path.length(of: .geodesic) / 21
-    // swiftlint:disable identifier_name
     for i in 0..<30 {
       let polyline = GMSPolyline(path: path.pathOffset(byLatitude: Double(i) * 1.5, longitude: 0))
       polyline.strokeWidth = 8

@@ -10,14 +10,15 @@ import Foundation
 class PushStreamingProvider {
     static let shared = PushStreamingProvider()
     
-    func postPushStreamingInfo(streamerId: String, longitude: Double, latitude: Double, completion: @escaping (Result<Void>) -> Void) {
+    func postPushStreamingInfo(streamerId: String, longitude: Double, latitude: Double, completion: @escaping (Result<PushStreamingObject>) -> Void) {
         let body = PushStreamingBody(streamerId: streamerId, longitude: Double(longitude), latitude: Double(latitude))
         let request = PushStreamingRequest.startPushStreaming(body: try? JSONEncoder().encode(body))
         HTTPClient.shared.request(request, completion: { result in
             switch result {
-            case .success(_):
+            case .success(let result):
                 do {
-                    completion(Result.success(()))
+                    let response = try JSONDecoder().decode(PushStreamingObject.self, from: result)
+                    completion(Result.success(response))
                 } catch {
                     completion(Result.failure(error))
                 }

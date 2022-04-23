@@ -19,6 +19,13 @@ extension UIButton {
         configuration.baseForegroundColor = textColor
         button.configuration = configuration
     }
+    
+    func hasImage(named imageName: String, for state: UIControl.State) -> Bool {
+        guard let buttonImage = image(for: state), let namedImage = UIImage(named: imageName) else {
+            return false
+        }
+        return buttonImage.pngData() == namedImage.pngData()
+    }
 }
 
 @IBDesignable extension UIButton {

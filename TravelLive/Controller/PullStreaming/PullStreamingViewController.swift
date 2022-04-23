@@ -17,7 +17,7 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        startPlay()
+        startPlay(streamingUrl)
         addChatView()
         createAnimationButton()
         loveButton.addTarget(self, action: #selector(click), for: .touchUpInside)
@@ -27,10 +27,8 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
         super.didReceiveMemoryWarning()
     }
     
-    func startPlay() {
+    func startPlay(_ url: String) {
         livePlayer.setRenderView(view)
-        // "http://cdn-live1.qvc.jp/iPhone/800/800.m3u8"
-        let url = "webrtc://pull.whiletrue.cafe/TravelLive/Broccoli2"
         livePlayer.startPlay(url)
     }
     
@@ -46,7 +44,12 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
         view.addSubview(loveButton)
         loveButton.translatesAutoresizingMaskIntoConstraints = false
         loveButton.setImage(UIImage.asset(.heart), for: UIControl.State())
-        NSLayoutConstraint.activate([loveButton.widthAnchor.constraint(equalToConstant: 44), loveButton.heightAnchor.constraint(equalToConstant: 44), loveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200), loveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)])
+        NSLayoutConstraint.activate(
+            [loveButton.widthAnchor.constraint(equalToConstant: 44),
+            loveButton.heightAnchor.constraint(equalToConstant: 44),
+            loveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
+            loveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)]
+        )
     }
     
     @objc func click() {

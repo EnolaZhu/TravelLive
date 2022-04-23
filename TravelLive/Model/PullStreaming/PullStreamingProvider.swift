@@ -8,8 +8,10 @@
 import Foundation
 
 class PullStreamingProvider {
-    func fetchStreamerInfo(completion: @escaping (Result<StreamerDataObject>) -> Void) {
-        HTTPClient.shared.request(PullStreamingRequest.fetchStreamerData, completion: { data in
+    func fetchStreamerInfo(latitude: Double, longitude: Double, completion: @escaping (Result<StreamerDataObject>) -> Void) {
+        let query = "?latitude=\(latitude)&longitude=\(longitude)"
+        let request = DataRequest.fetchStreamerData(query: query)
+        HTTPClient.shared.request(request, completion: { data in
             switch data {
             case .success(let data):
                 do {
@@ -25,6 +27,5 @@ class PullStreamingProvider {
             }
         })
     }
+    
 }
-
-

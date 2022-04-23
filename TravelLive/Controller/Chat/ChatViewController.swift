@@ -7,6 +7,7 @@
 
 import UIKit
 import PubNub
+import Lottie
 
 class ChatViewController: BaseViewController, PNEventsListener {
     private struct Message {
@@ -39,7 +40,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var client: PubNub!
     var channelName = "Channel Name"
     var username = "Enola"
-    var clickNumber = 0
     var textsOfSTT = [String]()
     
     override func viewDidLoad() {
@@ -55,6 +55,10 @@ class ChatViewController: BaseViewController, PNEventsListener {
         NotificationCenter.default.addObserver(self, selector: #selector(self.showAnimation(_:)), name: .animationNotificationKey, object: nil)
         // Add observer for STT text
         NotificationCenter.default.addObserver(self, selector: #selector(self.getStreamerText(_:)), name: .textNotificationKey, object: nil)
+        // Add streamer close live observer
+        NotificationCenter.default.addObserver(self, selector: #selector(self.closePullingView(_:)), name: .closePullingViewKey, object: nil)
+        // Clear caption
+        caption.text = ""
     }
     
     @objc func getStreamerText(_ notification: NSNotification) {
@@ -71,6 +75,28 @@ class ChatViewController: BaseViewController, PNEventsListener {
     
     @objc func showAnimation(_ notification: NSNotification) {
         publishAnimation()
+    }
+    
+    @objc func closePullingView(_ notification: NSNotification) {
+        self.client.publish(["message": "close",
+                             "username": "close",
+                             "uuid": self.client.uuid()
+                            ], toChannel: channelName) { status in
+            print(status.data.information)
+        }
+    }
+    // swiftlint:disable identifier_name
+    private func createCloseAlert() {
+        let CloseAlertController = UIAlertController(
+            title: "主播已下播",
+            message: "去別的地方看看吧！",
+            preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "好~", style: .default, handler: { (action: UIAlertAction!) -> Void in
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            self.navigationController?.popToRootViewController(animated: true)
+            })
+        CloseAlertController.addAction(okAction)
+        self.present(CloseAlertController, animated: true, completion: nil)
     }
     
     private func setupChatView() {
@@ -98,7 +124,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
     }
     
     func publishAnimation() {
-        clickNumber += 1
         client.publish(["message": "heart",
                         "username": "animation",
                         "uuid": client.uuid()
@@ -108,25 +133,18 @@ class ChatViewController: BaseViewController, PNEventsListener {
     }
     
     func createAnimation() {
-        let animationImage = UIImageView(image: UIImage.asset(.heart))
-        animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
-        
-        if clickNumber % 2 == 0 {
-            UIView.transition(with: self.view, duration: 1, options: .curveEaseOut) {
-                animationImage.frame = CGRect(x: 0 - 30, y: 0 - 30, width: 44, height: 44)
-                self.view.addSubview(animationImage)
-                animationImage.alpha = 0.1
-            } completion: {_ in
-                animationImage.removeFromSuperview()
-            }
-        } else {
-            animationImage.frame = CGRect(x: UIScreen.width + 20, y: UIScreen.height + 20, width: 44, height: 44)
-            UIView.transition(with: self.view, duration: 1, options: .curveEaseInOut) {
-                animationImage.frame = CGRect(x: UIScreen.width / 2, y: 0 - 30, width: 44, height: 44)
-                self.view.addSubview(animationImage)
-                animationImage.alpha = 0.2
-            } completion: {_ in
-                animationImage.removeFromSuperview()
+        let animationView = AnimationView(name: "Heart falling")
+        animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
+        animationView.center = self.view.center
+        animationView.contentMode = .scaleAspectFill
+        animationView.loopMode = .playOnce
+        animationView.animationSpeed = 1.5
+        animationView.currentTime = 2
+        view.addSubview(animationView)
+        animationView.play()
+        animationView.play { isCompleted in
+            if isCompleted {
+                animationView.removeFromSuperview()
             }
         }
     }
@@ -161,7 +179,10 @@ class ChatViewController: BaseViewController, PNEventsListener {
                 createAnimation()
             } else if theMessage["username"] == "STT" {
                 caption.text = theMessage["message"]
-            } else {
+            } else if theMessage["username"] == "close" {
+                createCloseAlert()
+            }
+            else {
                 messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
             }
         }
