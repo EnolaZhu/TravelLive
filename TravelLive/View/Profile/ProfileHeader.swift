@@ -13,4 +13,13 @@ class ProfileHeader: UICollectionReusableView {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var profilePropertyButton: UIButton!
     @IBOutlet weak var likedPropertyButton: UIButton!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
+    
+    func layoutProfileHeader(avatar: UIImage) {
+        avatarImageView.image = avatar.circularImage(avatarImageView.frame.width)
+    }
 }

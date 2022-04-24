@@ -15,6 +15,9 @@ enum DataRequest: Request {
     case postComment(body: Data?)
     case fetchComment(query: String)
     case postLike(body: Data?)
+    case fetchUserInfo(query: String)
+    case fetchUserProperty(query: String)
+    case fetchUserliked(query: String)
     
     var headers: [String: String]? {
         switch self {
@@ -29,6 +32,12 @@ enum DataRequest: Request {
         case .fetchComment:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .postLike:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchUserInfo:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchUserProperty:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchUserliked:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         }
     }
@@ -46,6 +55,12 @@ enum DataRequest: Request {
             return nil
         case .postLike(let body):
             return body
+        case .fetchUserInfo:
+            return nil
+        case .fetchUserProperty:
+            return nil
+        case .fetchUserliked:
+            return nil
         }
     }
     var method: String {
@@ -62,6 +77,12 @@ enum DataRequest: Request {
             return HTTPMethod.GET.rawValue
         case .postLike:
             return HTTPMethod.POST.rawValue
+        case .fetchUserInfo:
+            return HTTPMethod.GET.rawValue
+        case .fetchUserProperty:
+            return HTTPMethod.GET.rawValue
+        case .fetchUserliked:
+            return HTTPMethod.GET.rawValue
         }
     }
     var endPoint: String {
@@ -78,8 +99,12 @@ enum DataRequest: Request {
             return "/comment" + query
         case .postLike:
             return "/like"
+        case .fetchUserInfo(let query):
+            return "/user" + query
+        case .fetchUserProperty(let query):
+            return "/storage" + query
+        case .fetchUserliked(let query):
+            return "/storage" + query
         }
     }
-//    getQueryString(keyValues: ("kk", "yy"), ("kk", "yy"))
-    
 }

@@ -27,7 +27,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
 
         navigationItem.title = "個人"
@@ -43,10 +42,11 @@ class ProfileViewController: UIViewController {
         imageWidth = profileView.frame.width / 3 - 1
     
         profileView.contentInsetAdjustmentBehavior = .never
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
     }
     
     
-    @objc func postImage(_ button: UIButton) {
+    @objc func postImage(_ sender: UIButton) {
         imagePickerController.delegate = self
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             // 如果可以，指定 UIImagePickerController 的照片來源為 照片圖庫 (.photoLibrary)，並 present UIImagePickerController
@@ -120,6 +120,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     // Set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
+        header.layoutProfileHeader(avatar: UIImage(named: "avatar") ?? UIImage())
         return header
     }
     
@@ -140,13 +141,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: imageWidth, height: imageWidth)
-//        itemSize
-        
-//        let screenWidth = UIScreen.main.bounds.width
-//                    return CGSize.init(width: (screenWidth-55) / 2, height: (screenWidth-55) / 2 * 1.481)
     }
     
-//    private func collectionview(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewDelegateFlowLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 16
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        0
+    }
 }
