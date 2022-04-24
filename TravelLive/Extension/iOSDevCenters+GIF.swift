@@ -21,8 +21,6 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     }
 }
 
-
-
 extension UIImage {
     
     public class func gifImageWithData(_ data: Data) -> UIImage? {
@@ -35,7 +33,8 @@ extension UIImage {
     }
     
     public class func gifImageWithURL(_ gifUrl:String) -> UIImage? {
-        guard let bundleURL:URL? = URL(string: gifUrl)
+        
+        guard let bundleURL: URL? = URL(string: gifUrl)
         else {
             print("image named \"\(gifUrl)\" doesn't exist")
             return nil

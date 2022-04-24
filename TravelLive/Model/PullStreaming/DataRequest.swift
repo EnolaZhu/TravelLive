@@ -18,6 +18,8 @@ enum DataRequest: Request {
     case fetchUserInfo(query: String)
     case fetchUserProperty(query: String)
     case fetchUserliked(query: String)
+    case fetchPlaceData(query: String)
+    case fetchEventData(query: String)
     
     var headers: [String: String]? {
         switch self {
@@ -38,6 +40,10 @@ enum DataRequest: Request {
         case .fetchUserProperty:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .fetchUserliked:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchPlaceData:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchEventData:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         }
     }
@@ -61,6 +67,10 @@ enum DataRequest: Request {
             return nil
         case .fetchUserliked:
             return nil
+        case .fetchPlaceData:
+            return nil
+        case .fetchEventData:
+            return nil
         }
     }
     var method: String {
@@ -82,6 +92,10 @@ enum DataRequest: Request {
         case .fetchUserProperty:
             return HTTPMethod.GET.rawValue
         case .fetchUserliked:
+            return HTTPMethod.GET.rawValue
+        case .fetchPlaceData:
+            return HTTPMethod.GET.rawValue
+        case .fetchEventData:
             return HTTPMethod.GET.rawValue
         }
     }
@@ -105,6 +119,10 @@ enum DataRequest: Request {
             return "/storage" + query
         case .fetchUserliked(let query):
             return "/like" + query
+        case .fetchPlaceData(let query):
+            return "/place" + query
+        case .fetchEventData(let query):
+            return "/event" + query
         }
     }
 }

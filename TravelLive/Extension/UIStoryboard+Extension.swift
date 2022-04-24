@@ -16,6 +16,7 @@ private struct StoryboardCategory {
     static let profile = "Profile"
     static let chat = "Chat"
     static let pullStreaming = "PullStreaming"
+    static let mapDetail = "MapDetailViewController"
 }
 
 extension UIStoryboard {
@@ -27,6 +28,7 @@ extension UIStoryboard {
     static var profile: UIStoryboard { return stStoryboard(name: StoryboardCategory.profile) }
     static var chat: UIStoryboard { return stStoryboard(name: StoryboardCategory.chat) }
     static var pullStreaming: UIStoryboard { return stStoryboard(name: StoryboardCategory.pullStreaming) }
+    static var mapDetail: UIStoryboard { return stStoryboard(name: StoryboardCategory.mapDetail) }
 
     private static func stStoryboard(name: String) -> UIStoryboard {
         return UIStoryboard(name: name, bundle: nil)

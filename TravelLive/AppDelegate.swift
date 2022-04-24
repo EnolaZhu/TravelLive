@@ -51,7 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         print("deviceToken", deviceTokenString)
     }
-    
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {

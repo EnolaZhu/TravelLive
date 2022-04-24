@@ -14,4 +14,5 @@ extension Notification.Name {
     public static let changeLoveButtonKey = Notification.Name(rawValue: "love")
     public static let showUserPropertyKey = Notification.Name(rawValue: "user")
     public static let showLikedPropertyKey = Notification.Name(rawValue: "like")
+    public static let redirectNewViewKey = Notification.Name(rawValue: "redirect")
 }
