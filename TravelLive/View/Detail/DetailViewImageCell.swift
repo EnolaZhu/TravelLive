@@ -17,6 +17,8 @@ class DetailViewImageCell: UITableViewCell {
     @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     
+    var propertyId: String?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -31,11 +33,12 @@ class DetailViewImageCell: UITableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeHeart(_:)), name: .changeLoveButtonKey, object: nil)
     }
     
-    func layoutCell(mainImage: UIImage) {
+    func layoutCell(mainImage: UIImage, propertyId: String) {
         userUploadImageView.contentMode = .scaleAspectFill
         userUploadImageView.image = mainImage
         userAvatarimage.image = UIImage(named: "avatar")?.circularImage(22)
         userName.text = "Enola"
+        self.propertyId = propertyId
     }
     
     @objc func changeHeart(_ notification: NSNotification) {
@@ -43,7 +46,7 @@ class DetailViewImageCell: UITableViewCell {
             return
             
         } else {
-            DetailDataProvider.shared.postLike(propertyId: "Enola_1650378092481000_0", userId: "Enola", isLiked: true)
+            DetailDataProvider.shared.postLike(propertyId: propertyId ?? "", userId: "Enola", isLiked: true)
             loveButton.setImage(UIImage.asset(.theheart), for: .normal)
         }
     }

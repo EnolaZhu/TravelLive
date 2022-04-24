@@ -15,7 +15,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     var arrInstaBigCells = [Int]()
     var images = [UIImage]()
-    var searchDataObjc: SearchDataObject?//
+    var searchDataObjc: SearchDataObject?
     let searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
     
@@ -140,9 +140,9 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = images[indexPath.item]
-        print("\(indexPath.item)")
         let detailVC = DetailViewController()
         detailVC.detailPageImage = image
+        detailVC.propertyId = searchDataObjc?.data[indexPath.item].propertyId
         navigationController?.pushViewController(detailVC, animated: true)
     }
     
