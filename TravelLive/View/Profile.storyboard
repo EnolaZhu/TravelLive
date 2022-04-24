@@ -66,10 +66,12 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="229"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="Cyv-jo-TpT">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cyv-jo-TpT">
                                             <rect key="frame" x="147" y="16" width="120" height="120"/>
                                             <constraints>
+                                                <constraint firstAttribute="width" constant="120" id="Ead-9b-DR8"/>
                                                 <constraint firstAttribute="width" secondItem="Cyv-jo-TpT" secondAttribute="height" multiplier="1:1" id="Ey1-K0-vB8"/>
+                                                <constraint firstAttribute="height" constant="120" id="pZQ-jM-Xap"/>
                                             </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dEX-ST-0eg">
@@ -93,15 +95,24 @@
                                                 <action selector="changeProfileProperty:" destination="rk0-g5-6au" eventType="valueChanged" id="Czn-Za-7kX"/>
                                             </connections>
                                         </segmentedControl>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIq-4o-qCl">
+                                            <rect key="frame" x="108" y="146" width="198" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="dEX-ST-0eg" firstAttribute="leading" secondItem="Cyv-jo-TpT" secondAttribute="trailing" constant="16" id="2Ki-Qr-owr"/>
-                                        <constraint firstAttribute="bottom" secondItem="Cyv-jo-TpT" secondAttribute="bottom" constant="93" id="5Oq-xZ-0xE"/>
+                                        <constraint firstItem="vQp-ur-6YS" firstAttribute="top" secondItem="yIq-4o-qCl" secondAttribute="bottom" constant="25" id="AWX-GL-E1l"/>
                                         <constraint firstAttribute="trailing" secondItem="vQp-ur-6YS" secondAttribute="trailing" id="F32-1N-4sL"/>
                                         <constraint firstItem="vQp-ur-6YS" firstAttribute="leading" secondItem="rk0-g5-6au" secondAttribute="leading" id="Fge-iW-0UH"/>
                                         <constraint firstAttribute="bottom" secondItem="vQp-ur-6YS" secondAttribute="bottom" constant="6" id="I1K-ez-X7D"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="yIq-4o-qCl" secondAttribute="trailing" constant="100" id="V0Q-X4-3di"/>
+                                        <constraint firstItem="yIq-4o-qCl" firstAttribute="leading" secondItem="rk0-g5-6au" secondAttribute="leadingMargin" constant="100" id="V81-TN-WGa"/>
                                         <constraint firstItem="Cyv-jo-TpT" firstAttribute="centerX" secondItem="rk0-g5-6au" secondAttribute="centerX" id="iEB-8K-7Wt"/>
                                         <constraint firstAttribute="bottom" secondItem="dEX-ST-0eg" secondAttribute="bottom" constant="99" id="jv5-go-hCr"/>
+                                        <constraint firstItem="yIq-4o-qCl" firstAttribute="centerX" secondItem="rk0-g5-6au" secondAttribute="centerX" id="qGp-C0-7I5"/>
                                         <constraint firstItem="Cyv-jo-TpT" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="top" constant="16" id="tXM-rU-Lu0"/>
                                         <constraint firstItem="dEX-ST-0eg" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="top" constant="98" id="yl1-zA-apZ"/>
                                     </constraints>
@@ -109,6 +120,7 @@
                                         <outlet property="avatarImageView" destination="Cyv-jo-TpT" id="4Xb-BI-b1D"/>
                                         <outlet property="changePropertySegment" destination="vQp-ur-6YS" id="su6-HZ-DPe"/>
                                         <outlet property="editButton" destination="dEX-ST-0eg" id="nS4-tE-yOA"/>
+                                        <outlet property="profileWordLabel" destination="yIq-4o-qCl" id="aS0-4p-CS8"/>
                                     </connections>
                                 </collectionReusableView>
                             </collectionView>

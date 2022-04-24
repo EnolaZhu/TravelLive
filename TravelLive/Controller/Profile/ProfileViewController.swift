@@ -56,12 +56,17 @@ class ProfileViewController: UIViewController {
         getUserProperty()
     }
     
-    func getUserInfo() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func getUserInfo() {
         ProfileProvider.shared.fetchUserData(userId: userId) { [weak self] result in
             switch result {
             case .success(let data):
                 
-                ImageManager.shared.fetchStorageImage(imageUrl: data.avatar ?? "") { image in
+                ImageManager.shared.fetchStorageImage(imageUrl: data.avatar) { image in
                     self?.avatarImage = image
                     self?.profileView.reloadData()
                 }
@@ -229,6 +234,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     // Set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
+//        avatarImage = UIImage(named: "avatar") ?? UIImage()
+        avatarImage = avatarImage.circularImage(60) ?? UIImage()
         header.layoutProfileHeader(avatar: avatarImage)
         return header
     }
@@ -258,5 +265,14 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let image = propertyImages[indexPath.item]
+        print("\(indexPath.item)")
+        let detailVC = DetailViewController()
+        detailVC.detailPageImage = image
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
