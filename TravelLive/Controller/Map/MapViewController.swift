@@ -41,6 +41,7 @@ class MapViewController: UIViewController {
         // Location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
+        
         locationManager.delegate = self
         longitude = locationManager.location?.coordinate.longitude
         latitude = locationManager.location?.coordinate.latitude
@@ -126,19 +127,24 @@ class MapViewController: UIViewController {
     private func fetchStreamerData() {
         mapDataProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
+                
             case .success(let user):
                 self?.streamerData = user
                 guard let streamerData = self?.streamerData else { return }
+                
                 if self?.mapView.camera == nil {
                     let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
                     self?.mapView.camera = camera
+                    
                 } else {
                     let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
                     self?.mapView.animate(to: location)
                 }
+                
                 for index in 0...streamerData.data.count - 1 {
                     self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
                 }
+                
             case .failure:
                 print("Failed")
             }
@@ -204,6 +210,7 @@ class MapViewController: UIViewController {
         }
         
         UIGraphicsBeginImageContext(size)
+        
         pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         

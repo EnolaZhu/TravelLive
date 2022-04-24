@@ -82,11 +82,13 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
             imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
+            imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
             imageCell.layoutCell(mainImage: detailPageImage)
             // ImageView gesture
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
             imageCell.userUploadImageView.isUserInteractionEnabled = true
             imageCell.userUploadImageView.addGestureRecognizer(tapGestureRecognizer)
+            
             return imageCell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewCommentCell.self), for: indexPath)
@@ -110,6 +112,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         setUpHeartAnimation(name: "Hearts moving")
         // change heart button
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
+    }
+    
+    @objc func shareLink(_ sender: UIButton) {
+        let url = "https://travellive.page.link/?link=https://travellive-1d79e.web.app/WebRTCPlayer.html?live=Broccoli2"
+        ShareManager.share.shareLink(textToShare: "Check out my app", shareUrl: url, thevVC: self, sender: sender)
     }
     
     @objc func showReportPage(_ sender: UIButton) {

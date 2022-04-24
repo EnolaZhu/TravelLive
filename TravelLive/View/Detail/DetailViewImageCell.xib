@@ -105,6 +105,7 @@
                 <outlet property="commentButton" destination="MJv-zd-liO" id="5IE-Ex-iyO"/>
                 <outlet property="loveButton" destination="LBJ-ic-zyH" id="bNH-Zk-O2P"/>
                 <outlet property="reportButton" destination="Sra-ti-o8l" id="yYh-KZ-O5p"/>
+                <outlet property="shareButton" destination="zhW-ut-ZZH" id="ft3-aa-LKY"/>
                 <outlet property="userAvatarimage" destination="706-2I-Hxf" id="PGp-Pc-mWg"/>
                 <outlet property="userName" destination="Bv2-nt-MHw" id="f6v-3j-ZZq"/>
                 <outlet property="userUploadImageView" destination="i4r-If-eMK" id="dkM-RM-nTo"/>

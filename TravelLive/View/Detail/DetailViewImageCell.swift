@@ -15,6 +15,7 @@ class DetailViewImageCell: UITableViewCell {
     @IBOutlet weak var loveButton: UIButton!
     @IBOutlet weak var userAvatarimage: UIImageView!
     @IBOutlet weak var commentButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,9 +39,9 @@ class DetailViewImageCell: UITableViewCell {
     }
     
     @objc func changeHeart(_ notification: NSNotification) {
-        
         if loveButton.hasImage(named: "theheart", for: .normal) {
             return
+            
         } else {
             DetailDataProvider.shared.postLike(propertyId: "Enola_1650378092481000_0", userId: "Enola", isLiked: true)
             loveButton.setImage(UIImage.asset(.theheart), for: .normal)
