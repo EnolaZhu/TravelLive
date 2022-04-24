@@ -9,6 +9,7 @@ import UIKit
 import GoogleMaps
 import Firebase
 import UserNotifications
+import GoogleMobileAds
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,11 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         GMSServices.provideAPIKey(Secret.googleMapApiKey.rawValue)
+        
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-            
         }
         UIApplication.shared.registerForRemoteNotifications()
+        
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         return true
     }
     

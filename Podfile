@@ -22,4 +22,5 @@ target 'TravelLive' do
   pod 'lottie-ios'
   pod 'Firebase/Analytics'
   pod 'Firebase/DynamicLinks'
+  pod 'Google-Mobile-Ads-SDK'
 end

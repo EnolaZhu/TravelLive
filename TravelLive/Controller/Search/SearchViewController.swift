@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseStorage
+import SwiftUI
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
     @IBOutlet weak var searchCollectionView: UICollectionView!
@@ -91,8 +92,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     // Fetch search data
     private func getSearchData() {
-        fetchSearchData(type: "?type=" + SearchQuery.image.rawValue)
-        fetchSearchData(type: "?type=" + SearchQuery.video.rawValue)
+        fetchSearchData(type: "")
     }
     
     private func fetchSearchData(type: String) {
@@ -103,11 +103,13 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 self?.searchDataObjc = data
                 guard let searchDataObjc = self?.searchDataObjc else { return }
                 if searchDataObjc.data.count > 0 {
+                    // placeholder
+                    self?.images = [UIImage](repeating: UIImage(named: "placeholder") ?? UIImage(), count: searchDataObjc.data.count)
                     for index in 0...searchDataObjc.data.count - 1 {
-                        if searchDataObjc.data[0].thumbnailUrl == "" {
-                            self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileUrl)
+                        if searchDataObjc.data[index].thumbnailUrl == "" {
+                            self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileUrl, index: index)
                         } else {
-                            self?.getThumbnail(searchData: searchDataObjc.data[index])
+                            self?.getThumbnail(searchData: searchDataObjc.data[index], index: index)
                         }
                     }
                 }
@@ -117,19 +119,19 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         }
     }
     
-    private func getImage(searchData: SearchData, imageUrl: String) {
+    private func getImage(searchData: SearchData, imageUrl: String, index: Int) {
         // Image
-        ImageManager.shared.fetchStorageImage(imageUrl: imageUrl) { image in
-            self.images.append(image)
-            self.searchCollectionView.reloadData()
+        ImageManager.shared.fetchImage(imageUrl: imageUrl) { image in
+            self.images[index] = image
+            self.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
     
-    private func getThumbnail(searchData: SearchData) {
+    private func getThumbnail(searchData: SearchData, index: Int) {
         // video GIF
         ImageManager.shared.fetchUserGIF(thumbnailUrl: searchData.thumbnailUrl) { gif in
-            self.images.append(gif)
-            self.searchCollectionView.reloadData()
+            self.images[index] = gif
+            self.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
 }
