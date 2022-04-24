@@ -69,6 +69,7 @@ class MapViewController: UIViewController {
         // Hide the Navigation Bar
         mapView.clear()
         fetchStreamerData()
+        tabBarController?.tabBar.isHidden = false
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
