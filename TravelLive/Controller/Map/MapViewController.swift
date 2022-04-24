@@ -13,40 +13,62 @@ class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
     
-    let pullStreamingProvider = PullStreamingProvider()
+    let mapDataProvider = MapDataProvider()
     var avater = UIImage()
     var streamerData: StreamerDataObject?
+    var placeData: PlaceDataObject?
+    var eventData: EventDataObject?
     let locationManager = CLLocationManager()
     var specificStreamer: [Streamer]?
+    var specificEvent: [Event]?
+    var specificPlace: [Place]?
     var url = String()
     var longitude: CLLocationDegrees?
     var latitude: CLLocationDegrees?
     var currentLocation: CLLocation!
+    var containerView = UIView()
+    let placeButton = UIButton()
+    let eventButton = UIButton()
+    var showTypeOfMarker = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // fake button
+        
+        placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
+        eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
+        
         // Location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
         longitude = locationManager.location?.coordinate.longitude
         latitude = locationManager.location?.coordinate.latitude
+        
         if CLLocationManager.authorizationStatus() != .denied {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
-            fetchData()
+            fetchStreamerData()
         } else {
-            DispatchQueue.main.async() {
-                self.fetchData()
+            DispatchQueue.main.async {
+                self.fetchStreamerData()
             }
         }
         mapView.delegate = self
+        
+        placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
+        eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
+        
+        setUpContainerView()
+        setUpPlaceButton()
+        setUpEventButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         // Hide the Navigation Bar
         mapView.clear()
-        fetchData()
+        fetchStreamerData()
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -57,12 +79,51 @@ class MapViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        containerView.roundCorners(cornerRadius: 10.0)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    private func fetchData() {
-        pullStreamingProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+    private func setUpContainerView() {
+        view.addSubview(containerView)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [containerView.widthAnchor.constraint(equalToConstant: 150),
+             containerView.heightAnchor.constraint(equalToConstant: 50),
+             containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+             containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30)]
+        )
+        containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+    }
+    
+    private func setUpPlaceButton() {
+        containerView.addSubview(placeButton)
+        placeButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [placeButton.widthAnchor.constraint(equalToConstant: 44),
+             placeButton.heightAnchor.constraint(equalToConstant: 44),
+             placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+             placeButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 25)]
+        )
+    }
+    
+    private func setUpEventButton() {
+        containerView.addSubview(eventButton)
+        eventButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [eventButton.widthAnchor.constraint(equalToConstant: 30),
+             eventButton.heightAnchor.constraint(equalToConstant: 30),
+             eventButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+             eventButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -25)]
+        )
+    }
+    
+    private func fetchStreamerData() {
+        mapDataProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.streamerData = user
@@ -83,23 +144,75 @@ class MapViewController: UIViewController {
         }
     }
     
-    func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
-        ImageManager.shared.fetchStorageImage(imageUrl: data.avatar) { image in
-            self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image)
+    @objc func getEventData(_ sender: UIButton) {
+        mapView.clear()
+        showTypeOfMarker = "event"
+        mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+            switch result {
+            case .success(let places):
+                self?.eventData = places
+                guard let eventData = self?.eventData else { return }
+                for index in 0...eventData.data.count - 1 {
+                    ImageManager.shared.fetchImage(imageUrl: eventData.data[index].image) { image in
+                        self?.makeCustomMarker(latitude: Float(eventData.data[index].latitude), longitude: Float(eventData.data[index].longitude), pinImage: image, isStreamer: false)
+                    }
+                }
+            case .failure:
+                print("Failed")
+            }
         }
     }
     
-    func makeCustomMarker(latitude: Float, longitude: Float, pinImage: UIImage) {
+    @objc func getPlaceData(_ sender: UIButton) {
+        mapView.clear()
+        showTypeOfMarker = "place"
+        mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+            switch result {
+            case .success(let places):
+                self?.placeData = places
+                guard let placeData = self?.placeData else { return }
+                
+                for index in 0...placeData.data.count - 1 {
+                    ImageManager.shared.fetchImage(imageUrl: placeData.data[index].image) { image in
+                        self?.makeCustomMarker(latitude: Float(placeData.data[index].latitude), longitude: Float(placeData.data[index].longitude), pinImage: image, isStreamer: false)
+                    }
+                }
+            case .failure:
+                print("Failed")
+            }
+        }
+    }
+    
+    
+    private func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
+        ImageManager.shared.fetchImage(imageUrl: data.avatar) { image in
+            self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image, isStreamer: true)
+        }
+    }
+    
+    private func makeCustomMarker(latitude: Float, longitude: Float, pinImage: UIImage, isStreamer: Bool) {
         let marker = GMSMarker()
-        mapView.selectedMarker = marker
+        
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
-        marker.map = mapView
-        let size = CGSize(width: 88, height: 88)
+        
+        var size = CGSize()
+        if isStreamer {
+            size = CGSize(width: 88, height: 88)
+        } else {
+            size = CGSize(width: 77, height: 77)
+        }
+        
         UIGraphicsBeginImageContext(size)
         pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        marker.icon = resizedImage?.circularImage(44)
+        
+        if isStreamer {
+            marker.icon = resizedImage?.circularImage(44)
+        } else {
+            marker.icon = resizedImage
+        }
         marker.map = self.mapView
+        mapView.selectedMarker = marker
     }
 }
 
@@ -108,23 +221,48 @@ extension MapViewController: GMSMapViewDelegate {
         let markerLatitude = Float(marker.position.latitude)
         let markerLongitude = Float(marker.position.longitude)
         
-        specificStreamer = self.streamerData?.data.filter({
-            Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
-        })
-        print("\(String(describing: specificStreamer?.first?.pullUrl))")
-        
-        guard let url = specificStreamer?.first?.pullUrl else { return false }
-        self.url = url
-        createLiveRoom(streamerUrl: url)
+        if showTypeOfMarker == "event" {
+            specificEvent = self.eventData?.data.filter({
+                Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
+            })
+            createDetailView(detailEventData: specificEvent?.first, detailPlaceData: nil)
+            
+        } else if showTypeOfMarker == "place" {
+            specificPlace = self.placeData?.data.filter({
+                Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
+            })
+            createDetailView(detailEventData: nil, detailPlaceData: specificPlace?.first)
+            
+        } else {
+            specificStreamer = self.streamerData?.data.filter({
+                Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
+            })
+            
+            guard let url = specificStreamer?.first?.pullUrl else { return false }
+            self.url = url
+            createLiveRoom(streamerUrl: url)
+        }
         return true
     }
     
-    func createLiveRoom(streamerUrl: String) {
+    private func createDetailView(detailEventData: Event?, detailPlaceData: Place?) {
+        let mapDetailVC = UIStoryboard.mapDetail.instantiateViewController(withIdentifier: String(describing: MapDetailViewController.self)
+        )
+        guard let detailVC = mapDetailVC as? MapDetailViewController else { return }
+        if detailEventData == nil {
+            detailVC.detailPlaceData = detailPlaceData
+        } else {
+            detailVC.detailEventData = detailEventData
+        }
+        show(detailVC, sender: nil)
+    }
+    
+    private func createLiveRoom(streamerUrl: String) {
         let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
         )
+        
         guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
         pullVC.streamingUrl = url
-        print("\(pullVC.streamingUrl)")
         show(pullVC, sender: nil)
     }
 }
