@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="hch-5M-ozN">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <rect key="frame" x="0.0" y="-100" width="414" height="962"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
@@ -26,7 +26,7 @@
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="hch-5M-ozN" secondAttribute="bottom" id="B4m-PP-Pt7"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="hch-5M-ozN" secondAttribute="trailing" id="WpT-FE-pT8"/>
-                            <constraint firstItem="hch-5M-ozN" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="bmT-Vx-mJH"/>
+                            <constraint firstItem="hch-5M-ozN" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="-100" id="bmT-Vx-mJH"/>
                             <constraint firstItem="hch-5M-ozN" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="lTj-q0-rRX"/>
                         </constraints>
                     </view>
@@ -47,6 +47,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="OVn-Tc-wKl">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

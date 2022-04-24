@@ -21,4 +21,7 @@ class PlaceEventViewContentCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func layoutCell(content: String) {
+        contentLabel.text = content
+    }
 }

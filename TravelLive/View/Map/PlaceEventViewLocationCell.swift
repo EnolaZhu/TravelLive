@@ -24,4 +24,9 @@ class PlaceEventViewLocationCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func layoutCell(title: String, detail: String) {
+        mapImageView.image = UIImage.asset(.mapIcon)
+        locationTitleLabel.text = title
+        detailLocationLabel.text = detail
+    }
 }

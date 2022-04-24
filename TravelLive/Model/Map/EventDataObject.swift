@@ -12,13 +12,15 @@ struct EventDataObject: Decodable {
 }
 
 struct Event: Decodable {
-    let id: String
     let title: String
     let content: String
     let image: String
+    let tel: String?
     let address: String
     let latitude: Double
     let longitude: Double
     let city: String
     let distric: String
+    let start: String?
+    let end: String?
 }

@@ -22,4 +22,8 @@ class PlaceEventViewReuseCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func layoutCell(start: String, end: String) {
+        titleLabel.text = "開始時間" + start
+        contentLabel.text = "結束時間" + end
+    }
 }

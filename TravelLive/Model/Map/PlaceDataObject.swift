@@ -19,9 +19,11 @@ struct Place: Decodable {
     let city: String
     let distric: String
     let openTime: String
+    let start: String?
+    let end: String?
     
     enum CodingKeys: String, CodingKey {
         case openTime = "open_time"
-        case title, content, image, address, city, distric, longitude, latitude
+        case title, content, image, address, city, distric, longitude, latitude, start, end
     }
 }

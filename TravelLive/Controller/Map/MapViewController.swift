@@ -20,6 +20,8 @@ class MapViewController: UIViewController {
     var eventData: EventDataObject?
     let locationManager = CLLocationManager()
     var specificStreamer: [Streamer]?
+    var specificEvent: [Event]?
+    var specificPlace: [Place]?
     var url = String()
     var longitude: CLLocationDegrees?
     var latitude: CLLocationDegrees?
@@ -169,6 +171,7 @@ class MapViewController: UIViewController {
             case .success(let places):
                 self?.placeData = places
                 guard let placeData = self?.placeData else { return }
+                
                 for index in 0...placeData.data.count - 1 {
                     ImageManager.shared.fetchImage(imageUrl: placeData.data[index].image) { image in
                         self?.makeCustomMarker(latitude: Float(placeData.data[index].latitude), longitude: Float(placeData.data[index].longitude), pinImage: image, isStreamer: false)
@@ -217,10 +220,19 @@ extension MapViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         let markerLatitude = Float(marker.position.latitude)
         let markerLongitude = Float(marker.position.longitude)
+        
         if showTypeOfMarker == "event" {
-            createDetailView()
+            specificEvent = self.eventData?.data.filter({
+                Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
+            })
+            createDetailView(detailEventData: specificEvent?.first, detailPlaceData: nil)
+            
         } else if showTypeOfMarker == "place" {
-            createDetailView()
+            specificPlace = self.placeData?.data.filter({
+                Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
+            })
+            createDetailView(detailEventData: nil, detailPlaceData: specificPlace?.first)
+            
         } else {
             specificStreamer = self.streamerData?.data.filter({
                 Float($0.longitude) == markerLongitude && Float($0.latitude) == markerLatitude
@@ -233,11 +245,15 @@ extension MapViewController: GMSMapViewDelegate {
         return true
     }
     
-    private func createDetailView() {
+    private func createDetailView(detailEventData: Event?, detailPlaceData: Place?) {
         let mapDetailVC = UIStoryboard.mapDetail.instantiateViewController(withIdentifier: String(describing: MapDetailViewController.self)
         )
-        
         guard let detailVC = mapDetailVC as? MapDetailViewController else { return }
+        if detailEventData == nil {
+            detailVC.detailPlaceData = detailPlaceData
+        } else {
+            detailVC.detailEventData = detailEventData
+        }
         show(detailVC, sender: nil)
     }
     
