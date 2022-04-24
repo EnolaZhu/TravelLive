@@ -38,6 +38,7 @@ class DetailViewImageCell: UITableViewCell {
         userUploadImageView.image = mainImage
         userAvatarimage.image = UIImage(named: "avatar")?.circularImage(22)
         userName.text = "Enola"
+        
         if isLiked {
             loveButton.setImage(UIImage.asset(.theheart), for: .normal)
         } else {
