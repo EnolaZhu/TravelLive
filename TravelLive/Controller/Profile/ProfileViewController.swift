@@ -66,7 +66,7 @@ class ProfileViewController: UIViewController {
             switch result {
             case .success(let data):
                 
-                ImageManager.shared.fetchStorageImage(imageUrl: data.avatar) { image in
+                ImageManager.shared.fetchImage(imageUrl: data.avatar) { image in
                     self?.avatarImage = image
                     self?.profileView.reloadData()
                 }
@@ -133,7 +133,7 @@ class ProfileViewController: UIViewController {
     
     private func getImage(imageUrl: String) {
         // Image
-        ImageManager.shared.fetchStorageImage(imageUrl: imageUrl) { image in
+        ImageManager.shared.fetchImage(imageUrl: imageUrl) { image in
             self.propertyImages.append(image)
             self.profileView.reloadData()
         }
@@ -251,7 +251,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         cell.profileImageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageWidth)
         cell.layoutCell(image: propertyImages[indexPath.row])
-        cell.profileImageView.contentMode = .scaleAspectFill
+//        cell.profileImageView.contentMode = .scaleAspectFill
         return cell
     }
     

@@ -17,6 +17,10 @@
 		4B17A8592815BE230006BB2D /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B17A8562815BE220006BB2D /* ImageCell.xib */; };
 		4B17A85A2815BE230006BB2D /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17A8572815BE230006BB2D /* TitleView.swift */; };
 		4B17A85B2815BE230006BB2D /* TitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B17A8582815BE230006BB2D /* TitleView.xib */; };
+		4B17A8612815BF670006BB2D /* ProfileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17A85D2815BF670006BB2D /* ProfileProvider.swift */; };
+		4B17A8622815BF670006BB2D /* ProfileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17A85E2815BF670006BB2D /* ProfileObject.swift */; };
+		4B17A8632815BF670006BB2D /* ProfilePropertyObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17A85F2815BF670006BB2D /* ProfilePropertyObject.swift */; };
+		4B17A8642815BF670006BB2D /* ProfileLikedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17A8602815BF670006BB2D /* ProfileLikedObject.swift */; };
 		4B1ED6252813BFB500674E6D /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1ED6242813BFB500674E6D /* ShareManager.swift */; };
 		4B3AAAD62806BCB500CBFE89 /* Notification.Nam+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */; };
 		4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */; };
@@ -124,6 +128,10 @@
 		4B17A8562815BE220006BB2D /* ImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		4B17A8572815BE230006BB2D /* TitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		4B17A8582815BE230006BB2D /* TitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleView.xib; sourceTree = "<group>"; };
+		4B17A85D2815BF670006BB2D /* ProfileProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProvider.swift; sourceTree = "<group>"; };
+		4B17A85E2815BF670006BB2D /* ProfileObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileObject.swift; sourceTree = "<group>"; };
+		4B17A85F2815BF670006BB2D /* ProfilePropertyObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePropertyObject.swift; sourceTree = "<group>"; };
+		4B17A8602815BF670006BB2D /* ProfileLikedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLikedObject.swift; sourceTree = "<group>"; };
 		4B1ED6242813BFB500674E6D /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		4B3AAAD52806BCB500CBFE89 /* Notification.Nam+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Nam+Extension.swift"; sourceTree = "<group>"; };
 		4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
@@ -258,6 +266,18 @@
 				4B060CC1280C66580055EDB2 /* SearchCollectionViewCell.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		4B17A85C2815BF670006BB2D /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				4B17A85D2815BF670006BB2D /* ProfileProvider.swift */,
+				4B17A85E2815BF670006BB2D /* ProfileObject.swift */,
+				4B17A85F2815BF670006BB2D /* ProfilePropertyObject.swift */,
+				4B17A8602815BF670006BB2D /* ProfileLikedObject.swift */,
+			);
+			name = Profile;
+			path = ../../../../workspace/temp/Profile;
 			sourceTree = "<group>";
 		};
 		4B3AAAE428081CC100CBFE89 /* Event */ = {
@@ -552,6 +572,7 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4B17A85C2815BF670006BB2D /* Profile */,
 				4B9788112811C8800003CC9F /* UniversalLink */,
 				4BA5E3B4280FB0E700D421D0 /* Detail */,
 				4BA5E390280E482F00D421D0 /* Search */,
@@ -860,6 +881,7 @@
 				4BC1073E27FA9DD40017B1B7 /* STTabBarViewController.swift in Sources */,
 				4BEAF1DC2814764B0094B90E /* MapDetailViewController.swift in Sources */,
 				4B4AA4402802AC4B0066C602 /* PushStreamingProvider.swift in Sources */,
+				4B17A8622815BF670006BB2D /* ProfileObject.swift in Sources */,
 				4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */,
 				4BDEC3492801F28000143E25 /* String+Extension.swift in Sources */,
 				4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */,
@@ -893,6 +915,7 @@
 				4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */,
 				4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */,
 				4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */,
+				4B17A8632815BF670006BB2D /* ProfilePropertyObject.swift in Sources */,
 				4B3AAAF1280873D400CBFE89 /* ProfileViewController.swift in Sources */,
 				4BC2BE4F27FC4207001FF31D /* Secret.swift in Sources */,
 				4BC0EE6828000B2000C5673B /* ChatViewController.swift in Sources */,
@@ -917,9 +940,11 @@
 				4BB6AC0628045F5D0061EDDE /* MapDataProvider.swift in Sources */,
 				4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */,
 				4BEAF1C92814714A0094B90E /* PlaceEventViewTitleCell.swift in Sources */,
+				4B17A8612815BF670006BB2D /* ProfileProvider.swift in Sources */,
 				4BEAF1D9281473A60094B90E /* PlaceEventViewImageCell.swift in Sources */,
 				4BA5E3AB280EC4D600D421D0 /* UIImageView+Extension.swift in Sources */,
 				4BC0EE6327FFB90700C5673B /* UITableView+Extension.swift in Sources */,
+				4B17A8642815BF670006BB2D /* ProfileLikedObject.swift in Sources */,
 				4BEAF1D5281471EF0094B90E /* PlaceEventViewReuseCell.swift in Sources */,
 				4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */,
 				4B1ED6252813BFB500674E6D /* ShareManager.swift in Sources */,

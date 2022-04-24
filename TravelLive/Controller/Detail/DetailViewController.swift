@@ -84,7 +84,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
             imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
-            imageCell.layoutCell(mainImage: detailPageImage, isLiked: allCommentData?.isLiked ?? Bool(), propertyId: propertyId ?? "")
+            imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId ?? "", isLiked: allCommentData?.isLiked ?? Bool())
             imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
             // ImageView gesture
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
