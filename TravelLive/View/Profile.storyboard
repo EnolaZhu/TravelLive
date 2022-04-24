@@ -35,18 +35,18 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProfileCollectionCell" id="x1W-Zf-S7e" customClass="ProfileCollectionCell" customModule="TravelLive" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="229" width="120" height="200"/>
+                                        <rect key="frame" x="0.0" y="229" width="120" height="120"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="TLh-P4-7I3">
-                                            <rect key="frame" x="0.0" y="0.0" width="120" height="200"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="G0m-hn-GlL">
-                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="200"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="120" id="eEN-rH-cXf"/>
-                                                        <constraint firstAttribute="height" constant="200" id="neu-Fe-0Gm"/>
-                                                        <constraint firstAttribute="width" secondItem="G0m-hn-GlL" secondAttribute="height" multiplier="12:20" id="xKm-WX-Qa3"/>
+                                                        <constraint firstAttribute="height" constant="120" id="neu-Fe-0Gm"/>
+                                                        <constraint firstAttribute="width" secondItem="G0m-hn-GlL" secondAttribute="height" multiplier="1:1" id="xKm-WX-Qa3"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
@@ -83,34 +83,23 @@
                                                 <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </buttonConfiguration>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGU-sj-2po">
-                                            <rect key="frame" x="338" y="177" width="44" height="44"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="44" id="SuU-aD-KEQ"/>
-                                                <constraint firstAttribute="width" constant="44" id="VtO-DE-M7Y"/>
-                                                <constraint firstAttribute="width" secondItem="fGU-sj-2po" secondAttribute="height" multiplier="1:1" id="a1q-tC-W3Y"/>
-                                            </constraints>
-                                            <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="plain" image="heart" title=""/>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kYY-jf-Q6C">
-                                            <rect key="frame" x="32" y="177" width="44" height="44"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="44" id="4xA-wk-bUd"/>
-                                                <constraint firstAttribute="height" constant="44" id="Oka-EB-PDO"/>
-                                                <constraint firstAttribute="width" secondItem="kYY-jf-Q6C" secondAttribute="height" multiplier="1:1" id="zAm-Pd-QpQ"/>
-                                            </constraints>
-                                            <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="plain" image="person" catalog="system"/>
-                                        </button>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vQp-ur-6YS">
+                                            <rect key="frame" x="0.0" y="192" width="414" height="32"/>
+                                            <segments>
+                                                <segment title="我的照片"/>
+                                                <segment title="我的喜歡"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="changeProfileProperty:" destination="rk0-g5-6au" eventType="valueChanged" id="Czn-Za-7kX"/>
+                                            </connections>
+                                        </segmentedControl>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="dEX-ST-0eg" firstAttribute="leading" secondItem="Cyv-jo-TpT" secondAttribute="trailing" constant="16" id="2Ki-Qr-owr"/>
-                                        <constraint firstItem="kYY-jf-Q6C" firstAttribute="leading" secondItem="rk0-g5-6au" secondAttribute="leading" constant="32" id="4lN-JH-dua"/>
                                         <constraint firstAttribute="bottom" secondItem="Cyv-jo-TpT" secondAttribute="bottom" constant="93" id="5Oq-xZ-0xE"/>
-                                        <constraint firstAttribute="bottom" secondItem="kYY-jf-Q6C" secondAttribute="bottom" constant="8" id="HBo-5P-PFF"/>
-                                        <constraint firstAttribute="bottom" secondItem="fGU-sj-2po" secondAttribute="bottom" constant="8" id="MvM-YY-Yy9"/>
-                                        <constraint firstAttribute="trailing" secondItem="fGU-sj-2po" secondAttribute="trailing" constant="32" id="hqt-IK-C1f"/>
+                                        <constraint firstAttribute="trailing" secondItem="vQp-ur-6YS" secondAttribute="trailing" id="F32-1N-4sL"/>
+                                        <constraint firstItem="vQp-ur-6YS" firstAttribute="leading" secondItem="rk0-g5-6au" secondAttribute="leading" id="Fge-iW-0UH"/>
+                                        <constraint firstAttribute="bottom" secondItem="vQp-ur-6YS" secondAttribute="bottom" constant="6" id="I1K-ez-X7D"/>
                                         <constraint firstItem="Cyv-jo-TpT" firstAttribute="centerX" secondItem="rk0-g5-6au" secondAttribute="centerX" id="iEB-8K-7Wt"/>
                                         <constraint firstAttribute="bottom" secondItem="dEX-ST-0eg" secondAttribute="bottom" constant="99" id="jv5-go-hCr"/>
                                         <constraint firstItem="Cyv-jo-TpT" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="top" constant="16" id="tXM-rU-Lu0"/>
@@ -118,9 +107,8 @@
                                     </constraints>
                                     <connections>
                                         <outlet property="avatarImageView" destination="Cyv-jo-TpT" id="4Xb-BI-b1D"/>
+                                        <outlet property="changePropertySegment" destination="vQp-ur-6YS" id="su6-HZ-DPe"/>
                                         <outlet property="editButton" destination="dEX-ST-0eg" id="nS4-tE-yOA"/>
-                                        <outlet property="likedPropertyButton" destination="fGU-sj-2po" id="5bA-z5-WAE"/>
-                                        <outlet property="profilePropertyButton" destination="kYY-jf-Q6C" id="ZCj-vX-J2C"/>
                                     </connections>
                                 </collectionReusableView>
                             </collectionView>
@@ -168,8 +156,6 @@
     </scenes>
     <resources>
         <image name="avatar" width="1011" height="1011"/>
-        <image name="heart" width="64" height="64"/>
-        <image name="person" catalog="system" width="128" height="117"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -12,8 +12,6 @@ class ProfileCollectionCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-//        profileImageView.image?.circularImage(50)
-        profileImageView.contentMode = .scaleAspectFit
     }
     
     func layoutCell(image: UIImage) {

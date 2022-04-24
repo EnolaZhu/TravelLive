@@ -30,7 +30,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
-
+        
         navigationItem.title = "個人"
         // Add advertisement
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
@@ -42,9 +42,9 @@ class ProfileViewController: UIViewController {
         profileView.delegate = self
         profileView.dataSource = self
         imageWidth = profileView.frame.width / 3 - 1
-    
+        
         profileView.contentInsetAdjustmentBehavior = .never
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
+        //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
         getUserInfo()
         getUserProperty()
     }
@@ -190,13 +190,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProfileCollectionCell.self), for: indexPath) as? ProfileCollectionCell else {
             fatalError("Couldn't create cell")
         }
-        cell.profileImageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageWidth)
         
-//        if propertyImages.isEmpty {
-//            cell.layoutCell(image: UIImage(named: "placeholder") ?? UIImage())
-//        } else {
-            cell.layoutCell(image: propertyImages[indexPath.row])
-//        }
+        cell.profileImageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageWidth)
+        cell.layoutCell(image: propertyImages[indexPath.row])
         cell.profileImageView.contentMode = .scaleAspectFill
         return cell
     }
@@ -206,6 +202,10 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         0
     }
 }
