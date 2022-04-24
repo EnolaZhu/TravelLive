@@ -10,8 +10,10 @@ import LFLiveKit
 import CoreLocation
 import Speech
 import ReplayKit
+import AVFoundation
+import Vision
 
-class PushViewController: UIViewController, LFLiveSessionDelegate {
+class PushViewController: UIViewController, LFLiveSessionDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     var date = Int(Date().timeIntervalSince1970)
     var longitude = Double()
     var latitude = Double()
@@ -29,6 +31,10 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     var task: SFSpeechRecognitionTask!
     var streamingUrl: PushStreamingObject?
     var click = true
+    // Hand Gesture Recognition
+    var captureDevice: AVCaptureDevice!
+    let captureSession = AVCaptureSession()
+    var requests = [VNRequest]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +57,8 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         view.addSubview(beautyButton)
         view.addSubview(startLiveButton)
         view.addSubview(recordButton)
+        // Hand Gesture Recognition
+        setupVision()
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,6 +68,8 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        // Hand Gesture Recognition
+        prepareCamera()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -403,6 +413,84 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             cancelSpeechRecognization()
             NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
         }
+    }
+    
+    // Hand Gesture Recognition
+    func setupVision() {
+        guard let visionModel = try? VNCoreMLModel(for: MyHandPoseClassifier(configuration: .init()).model)
+        else { fatalError("Can't load a Vision ML model.") }
+        let classificationRequest = VNCoreMLRequest(model: visionModel, completionHandler: self.handleClassification)
+        classificationRequest.imageCropAndScaleOption = .centerCrop
+        self.requests = [classificationRequest]
+    }
+    
+    func convertUIImageToCIImage(uiImage: UIImage) -> CIImage {
+        var ciImage = uiImage.ciImage
+        if ciImage == nil {
+            let cgImage = uiImage.cgImage
+            ciImage = self.convertCGImageToCIImage(cgImage: cgImage!)
+        }
+        return ciImage!
+    }
+    
+    func convertCGImageToCIImage(cgImage: CGImage) -> CIImage {
+        return CIImage.init(cgImage: cgImage)
+    }
+    
+    func prepareCamera() {
+        let availableDevices = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .front).devices
+        captureDevice = availableDevices.first
+        beginSession()
+    }
+    
+    func beginSession() {
+        do {
+            let captureDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
+            captureSession.addInput(captureDeviceInput)
+        } catch {
+            print("Could not create video device input")
+            return
+        }
+        
+        captureSession.beginConfiguration()
+        captureSession.sessionPreset = .vga640x480
+        
+        let dataOutput = AVCaptureVideoDataOutput()
+        dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
+        dataOutput.alwaysDiscardsLateVideoFrames = true
+        
+        if captureSession.canAddOutput(dataOutput) {
+            captureSession.addOutput(dataOutput)
+        }
+        
+        captureSession.commitConfiguration()
+        
+        let queue = DispatchQueue(label: "captureQueue")
+        dataOutput.setSampleBufferDelegate(self, queue: queue)
+        
+        captureSession.startRunning()
+    }
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        
+        guard let pb = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pb, options: [:])
+        
+        do {
+            try imageRequestHandler.perform(self.requests)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func handleClassification(request: VNRequest, error: Error?) {
+        guard let observations = request.results else { print("no results"); return }
+        let classifications = observations
+            .compactMap({$0 as? VNClassificationObservation})
+            .filter({$0.confidence > 0.5})
+            .map({$0.identifier})
+        
+        print(classifications)
     }
 }
 

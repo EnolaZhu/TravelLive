@@ -112,6 +112,7 @@
 		4BEAF1DC2814764B0094B90E /* MapDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */; };
 		4BEAF1DE281476BD0094B90E /* MapDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */; };
 		4BF82C97281520DE00635924 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BF82C96281520DD00635924 /* Assets.xcassets */; };
+		4BEAF1E12814CF6D0094B90E /* MyHandPoseClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1E02814CF6C0094B90E /* MyHandPoseClassifier.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -222,6 +223,7 @@
 		4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailViewController.swift; sourceTree = "<group>"; };
 		4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapDetailViewController.storyboard; sourceTree = "<group>"; };
 		4BF82C96281520DD00635924 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4BEAF1E02814CF6C0094B90E /* MyHandPoseClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MyHandPoseClassifier.mlmodel; sourceTree = "<group>"; };
 		68FED9196589F5A3DCFBDD4D /* Pods-TravelLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.release.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.release.xcconfig"; sourceTree = "<group>"; };
 		7058E26C63EAA7047446EE5B /* Pods_TravelLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B84252E6E16D9ACCFE58A916 /* Pods-TravelLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.debug.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.debug.xcconfig"; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 		4BC1073827FA9DD40017B1B7 /* TravelLive */ = {
 			isa = PBXGroup;
 			children = (
+				4BEAF1DF2814CEDF0094B90E /* MachineLearning */,
 				4B97880628105A440003CC9F /* LottieAnimation */,
 				4BA5E3AC280F0FEA00D421D0 /* TravelLive.entitlements */,
 				4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */,
@@ -570,6 +573,7 @@
 		4BC1075127FB46660017B1B7 /* PushStreaming */ = {
 			isa = PBXGroup;
 			children = (
+				4BEAF1E02814CF6C0094B90E /* MyHandPoseClassifier.mlmodel */,
 				4BC1075327FB470F0017B1B7 /* PushViewController.swift */,
 			);
 			path = PushStreaming;
@@ -657,6 +661,11 @@
 				4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */,
 			);
 			path = Map;
+		4BEAF1DF2814CEDF0094B90E /* MachineLearning */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MachineLearning;
 			sourceTree = "<group>";
 		};
 		7A913B85FE671E754022C81C /* Pods */ = {
@@ -856,6 +865,7 @@
 				4BEAF1C1281468950094B90E /* UIView+Extension.swift in Sources */,
 				4BA5E3BC280FCEB100D421D0 /* CommentViewController.swift in Sources */,
 				4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */,
+				4BEAF1E12814CF6D0094B90E /* MyHandPoseClassifier.mlmodel in Sources */,
 				4BD3736828041B9300141A29 /* PullStreamingViewController.swift in Sources */,
 				4BC1073E27FA9DD40017B1B7 /* STTabBarViewController.swift in Sources */,
 				4BEAF1DC2814764B0094B90E /* MapDetailViewController.swift in Sources */,
