@@ -99,7 +99,7 @@
 		4BDEC34C28028B6F00143E25 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDEC34B28028B6F00143E25 /* HTTPClient.swift */; };
 		4BF82C9A28154C2000635924 /* ProfileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF82C9928154C2000635924 /* ProfileProvider.swift */; };
 		4BF82C9C28154CA100635924 /* ProfileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF82C9B28154CA100635924 /* ProfileObject.swift */; };
-		4BF82C9E28154CB800635924 /* ProfilPropertyObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF82C9D28154CB800635924 /* ProfilPropertyObject.swift */; };
+		4BF82C9E28154CB800635924 /* ProfilePropertyObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF82C9D28154CB800635924 /* ProfilePropertyObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -197,7 +197,7 @@
 		4BDEC34B28028B6F00143E25 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		4BF82C9928154C2000635924 /* ProfileProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProvider.swift; sourceTree = "<group>"; };
 		4BF82C9B28154CA100635924 /* ProfileObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileObject.swift; sourceTree = "<group>"; };
-		4BF82C9D28154CB800635924 /* ProfilPropertyObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilPropertyObject.swift; sourceTree = "<group>"; };
+		4BF82C9D28154CB800635924 /* ProfilePropertyObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePropertyObject.swift; sourceTree = "<group>"; };
 		68FED9196589F5A3DCFBDD4D /* Pods-TravelLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.release.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.release.xcconfig"; sourceTree = "<group>"; };
 		7058E26C63EAA7047446EE5B /* Pods_TravelLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B84252E6E16D9ACCFE58A916 /* Pods-TravelLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.debug.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.debug.xcconfig"; sourceTree = "<group>"; };
@@ -610,7 +610,7 @@
 			children = (
 				4BF82C9928154C2000635924 /* ProfileProvider.swift */,
 				4BF82C9B28154CA100635924 /* ProfileObject.swift */,
-				4BF82C9D28154CB800635924 /* ProfilPropertyObject.swift */,
+				4BF82C9D28154CB800635924 /* ProfilePropertyObject.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -847,7 +847,7 @@
 				4BC0EE6027FF327800C5673B /* MessageCell.swift in Sources */,
 				4B3AAAED280825BB00CBFE89 /* Event.swift in Sources */,
 				4B9787FB280FEB490003CC9F /* CommentBody.swift in Sources */,
-				4BF82C9E28154CB800635924 /* ProfilPropertyObject.swift in Sources */,
+				4BF82C9E28154CB800635924 /* ProfilePropertyObject.swift in Sources */,
 				4BA5E3A1280E974100D421D0 /* DetailViewImageCell.swift in Sources */,
 				4B060CC0280C5DCA0055EDB2 /* ImageManager.swift in Sources */,
 				4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */,

@@ -8,7 +8,7 @@
 import Foundation
 
 class ProfileProvider {
-    static let share = ProfileProvider()
+    static let shared = ProfileProvider()
     
     func fetchUserData(userId: String, completion: @escaping (Result<ProfileObject>) -> Void) {
         let query = ConvertQuery.shared.getQueryString(keyValues: ("uid", userId))
@@ -31,7 +31,7 @@ class ProfileProvider {
         })
     }
     
-    func fetchUserPropertyData(userId: String, completion: @escaping (Result<ProfilPropertyObject>) -> Void) {
+    func fetchUserPropertyData(userId: String, completion: @escaping (Result<ProfilePropertyObject>) -> Void) {
         let query = ConvertQuery.shared.getQueryString(keyValues: ("uid", userId))
         let request = DataRequest.fetchUserProperty(query: query)
         
@@ -39,7 +39,7 @@ class ProfileProvider {
             switch data {
             case .success(let data):
                 do {
-                    let response = try JSONDecoder().decode(ProfilPropertyObject.self, from: data)
+                    let response = try JSONDecoder().decode(ProfilePropertyObject.self, from: data)
                     DispatchQueue.main.async {
                         completion(Result.success(response))
                     }

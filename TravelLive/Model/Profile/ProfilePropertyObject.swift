@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProfilPropertyObject: Decodable {
+struct ProfilePropertyObject: Decodable {
     let data: [Property]
 }
 

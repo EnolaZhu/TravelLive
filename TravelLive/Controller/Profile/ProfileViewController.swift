@@ -23,7 +23,9 @@ class ProfileViewController: UIViewController {
     let imagePickerController = UIImagePickerController()
     let userId = "Enola"
     fileprivate var imageWidth: CGFloat = 0
-    
+    var userPropertyData:  ProfilePropertyObject?
+    var avatarImage = UIImage()
+    var propertyImages = [UIImage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,14 +45,70 @@ class ProfileViewController: UIViewController {
     
         profileView.contentInsetAdjustmentBehavior = .never
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
+        getUserInfo()
+        getUserProperty()
     }
     
+    func getUserInfo() {
+        ProfileProvider.shared.fetchUserData(userId: userId) { [weak self] result in
+            switch result {
+            case .success(let data):
+                
+                ImageManager.shared.fetchStorageImage(imageUrl: data.avatar ?? "") { image in
+                    self?.avatarImage = image
+                    self?.profileView.reloadData()
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func getUserProperty() {
+        ProfileProvider.shared.fetchUserPropertyData(userId: userId) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.userPropertyData = data
+                guard let userPropertyData = self?.userPropertyData else { return }
+                
+                if userPropertyData.data.count > 0 {
+                    
+                    for index in 0...userPropertyData.data.count - 1 {
+                        if userPropertyData.data[index].thumbnailUrl == "" {
+                            self?.getImage(imageUrl: userPropertyData.data[index].fileUrl ?? "")
+                        } else {
+                            self?.getThumbnail(property: userPropertyData.data[index], index: index)
+                        }
+                    }
+                }
+                self?.profileView.reloadData()
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func getImage(imageUrl: String) {
+        // Image
+        ImageManager.shared.fetchStorageImage(imageUrl: imageUrl) { image in
+            self.propertyImages.append(image)
+            self.profileView.reloadData()
+        }
+    }
+    
+    private func getThumbnail(property: Property, index: Int) {
+        ImageManager.shared.fetchUserGIF(thumbnailUrl: property.thumbnailUrl) { gif in
+            self.propertyImages.append(gif)
+            self.profileView.reloadData()
+        }
+    }
     
     @objc func postImage(_ sender: UIButton) {
         imagePickerController.delegate = self
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             // 如果可以，指定 UIImagePickerController 的照片來源為 照片圖庫 (.photoLibrary)，並 present UIImagePickerController
-            
             imagePickerController.sourceType = .photoLibrary
             if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
                 imagePickerController.mediaTypes = mediaTypes
@@ -120,22 +178,26 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     // Set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
-        header.layoutProfileHeader(avatar: UIImage(named: "avatar") ?? UIImage())
+        header.layoutProfileHeader(avatar: avatarImage)
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        propertyImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProfileCollectionCell.self), for: indexPath) as? ProfileCollectionCell else {
             fatalError("Couldn't create cell")
         }
-        
         cell.profileImageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageWidth)
-        cell.layoutCell(image: UIImage(named: "placeholder") ?? UIImage())
-        cell.profileImageView.contentMode = .scaleAspectFit
+        
+//        if propertyImages.isEmpty {
+//            cell.layoutCell(image: UIImage(named: "placeholder") ?? UIImage())
+//        } else {
+            cell.layoutCell(image: propertyImages[indexPath.row])
+//        }
+        cell.profileImageView.contentMode = .scaleAspectFill
         return cell
     }
     

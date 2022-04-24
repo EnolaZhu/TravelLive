@@ -31,6 +31,8 @@ enum ImageAsset: String {
     case plus
     case stop
     case play
+    
+    case placeholder
 }
 
 extension UIImage {
