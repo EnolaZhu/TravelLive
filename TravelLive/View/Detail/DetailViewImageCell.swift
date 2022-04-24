@@ -15,6 +15,7 @@ class DetailViewImageCell: UITableViewCell {
     @IBOutlet weak var loveButton: UIButton!
     @IBOutlet weak var userAvatarimage: UIImageView!
     @IBOutlet weak var commentButton: UIButton!
+    var propertyId = String()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,15 +31,19 @@ class DetailViewImageCell: UITableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeHeart(_:)), name: .changeLoveButtonKey, object: nil)
     }
     
-    func layoutCell(mainImage: UIImage) {
+    func layoutCell(mainImage: UIImage, isLiked: Bool) {
         userUploadImageView.contentMode = .scaleAspectFill
         userUploadImageView.image = mainImage
         userAvatarimage.image = UIImage(named: "avatar")?.circularImage(22)
         userName.text = "Enola"
+        if isLiked {
+            loveButton.setImage(UIImage.asset(.theheart), for: .normal)
+        } else {
+            return
+        }
     }
     
     @objc func changeHeart(_ notification: NSNotification) {
-        
         if loveButton.hasImage(named: "theheart", for: .normal) {
             return
         } else {

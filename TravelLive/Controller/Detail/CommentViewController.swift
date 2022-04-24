@@ -18,6 +18,7 @@ class CommentViewController: UIViewController {
     @IBOutlet weak var closeCommentPageButton: UIButton!
     @IBOutlet weak var commentTextFied: UITextField!
     var clickCloseButton: CloseCommentView?
+    var propertyId = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
