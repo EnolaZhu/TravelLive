@@ -104,7 +104,7 @@ enum DataRequest: Request {
         case .fetchUserProperty(let query):
             return "/storage" + query
         case .fetchUserliked(let query):
-            return "/storage" + query
+            return "/like" + query
         }
     }
 }

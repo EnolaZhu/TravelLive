@@ -12,4 +12,6 @@ extension Notification.Name {
     public static let textNotificationKey = Notification.Name(rawValue: "text")
     public static let closePullingViewKey = Notification.Name(rawValue: "close")
     public static let changeLoveButtonKey = Notification.Name(rawValue: "love")
+    public static let showUserPropertyKey = Notification.Name(rawValue: "user")
+    public static let showLikedPropertyKey = Notification.Name(rawValue: "like")
 }

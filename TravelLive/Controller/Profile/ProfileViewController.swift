@@ -23,12 +23,19 @@ class ProfileViewController: UIViewController {
     let imagePickerController = UIImagePickerController()
     let userId = "Enola"
     fileprivate var imageWidth: CGFloat = 0
-    var userPropertyData:  ProfilePropertyObject?
+    var userPropertyData: ProfilePropertyObject?
+    var likedPropertyData: ProfileLikedObject?
     var avatarImage = UIImage()
     var propertyImages = [UIImage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Add observer of change images
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showUserProperty(_:)), name: .showUserPropertyKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showLikedProperty(_:)), name: .showLikedPropertyKey, object: nil)
+        
+        
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
         
         navigationItem.title = "個人"
@@ -66,6 +73,8 @@ class ProfileViewController: UIViewController {
     }
     
     func getUserProperty() {
+        propertyImages.removeAll()
+        
         ProfileProvider.shared.fetchUserPropertyData(userId: userId) { [weak self] result in
             switch result {
             case .success(let data):
@@ -76,13 +85,40 @@ class ProfileViewController: UIViewController {
                     
                     for index in 0...userPropertyData.data.count - 1 {
                         if userPropertyData.data[index].thumbnailUrl == "" {
-                            self?.getImage(imageUrl: userPropertyData.data[index].fileUrl ?? "")
+                            self?.getImage(imageUrl: userPropertyData.data[index].fileUrl)
                         } else {
-                            self?.getThumbnail(property: userPropertyData.data[index], index: index)
+                            self?.getUserThumbnail(property: userPropertyData.data[index], index: index)
                         }
                     }
                 }
                 self?.profileView.reloadData()
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func getLikedProperty() {
+        propertyImages.removeAll()
+        
+        ProfileProvider.shared.fetchUserLikedData(userId: userId) { [weak self] data in
+            switch data {
+            case .success(let data):
+                self?.likedPropertyData = data
+                guard let likedPropertyData = self?.likedPropertyData else { return }
+                
+                if likedPropertyData.data.count > 0 {
+                    
+                    for index in 0...likedPropertyData.data.count - 1 {
+                        if likedPropertyData.data[index].thumbnailUrl == "" {
+                            self?.getImage(imageUrl: likedPropertyData.data[index].fileUrl)
+                        } else {
+                            self?.getLikedThumbnail(likedProperty: likedPropertyData.data[index], index: index)
+                        }
+                    }
+                }
+//                self?.profileView.reloadData()
                 
             case .failure(let error):
                 print(error)
@@ -98,11 +134,26 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    private func getThumbnail(property: Property, index: Int) {
+    private func getUserThumbnail(property: Property, index: Int) {
         ImageManager.shared.fetchUserGIF(thumbnailUrl: property.thumbnailUrl) { gif in
             self.propertyImages.append(gif)
             self.profileView.reloadData()
         }
+    }
+    
+    private func getLikedThumbnail(likedProperty: Liked, index: Int) {
+        ImageManager.shared.fetchUserGIF(thumbnailUrl: likedProperty.thumbnailUrl) { gif in
+            self.propertyImages.append(gif)
+            self.profileView.reloadData()
+        }
+    }
+    
+    @objc func showUserProperty(_ notification: NSNotification) {
+        getUserProperty()
+    }
+    
+    @objc func showLikedProperty(_ notification: NSNotification) {
+        getLikedProperty()
     }
     
     @objc func postImage(_ sender: UIButton) {
