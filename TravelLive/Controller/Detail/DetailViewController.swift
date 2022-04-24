@@ -14,6 +14,7 @@ class DetailViewController: BaseViewController {
     let reportMaskView = UIView()
     let commentVC = CommentViewController()
     var allCommentData: CommentObject?
+    var propertyId: String?
     var detailPageImage = UIImage()
     var avatarImage = UIImage()
     
@@ -82,7 +83,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
             imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
-            imageCell.layoutCell(mainImage: detailPageImage)
+            imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId ?? "")
             // ImageView gesture
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
             imageCell.userUploadImageView.isUserInteractionEnabled = true

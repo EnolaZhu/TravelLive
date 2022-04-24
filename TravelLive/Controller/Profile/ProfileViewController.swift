@@ -10,7 +10,7 @@ import CoreServices
 
 class ProfileViewController: UIViewController {
     var postButton: UIButton = {
-        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 120, y: UIScreen.height - 430, width: 88, height: 88))
+        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
         postButton.setImage(UIImage.asset(.plus), for: UIControl.State())
         return postButton
