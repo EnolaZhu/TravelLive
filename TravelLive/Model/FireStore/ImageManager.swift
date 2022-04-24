@@ -30,9 +30,9 @@ class ImageManager {
         }
     }
     
-    func fetchStorageImage(imageUrl: String, completion: @escaping (UIImage) -> Void) {
+    func fetchImage(imageUrl: String, completion: @escaping (UIImage) -> Void) {
         self.downloadImage(with: imageUrl) { uiImage in
-            completion((uiImage ?? UIImage(named: "avatar"))!)
+            completion((uiImage ?? UIImage())!)
         }
     }
     

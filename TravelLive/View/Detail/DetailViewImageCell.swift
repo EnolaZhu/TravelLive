@@ -15,6 +15,7 @@ class DetailViewImageCell: UITableViewCell {
     @IBOutlet weak var loveButton: UIButton!
     @IBOutlet weak var userAvatarimage: UIImageView!
     @IBOutlet weak var commentButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
     
     var propertyId: String?
     
@@ -41,9 +42,9 @@ class DetailViewImageCell: UITableViewCell {
     }
     
     @objc func changeHeart(_ notification: NSNotification) {
-        
         if loveButton.hasImage(named: "theheart", for: .normal) {
             return
+            
         } else {
             DetailDataProvider.shared.postLike(propertyId: propertyId ?? "", userId: "Enola", isLiked: true)
             loveButton.setImage(UIImage.asset(.theheart), for: .normal)
