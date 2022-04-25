@@ -9,19 +9,11 @@ import UIKit
 import CoreServices
 import GoogleMobileAds
 
-class ProfileViewController: UIViewController, UICollectionViewDelegate {
-    static let headerKind = "headerKind"
+class ProfileViewController: UIViewController {
     
-    enum Section: Int {
-        case image = 0
-        case gif = 1
-    }
-    
-    @IBOutlet weak var payButton: UIButton!
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var postAssetButton: UIButton!
     @IBOutlet weak var bannerView: GADBannerView!
-    
+    @IBOutlet weak var profileView: UICollectionView!
+    let itemSize = CGSize(width: 125, height: 125)
     var postButton: UIButton = {
         let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
@@ -30,127 +22,149 @@ class ProfileViewController: UIViewController, UICollectionViewDelegate {
     }()
     let imagePickerController = UIImagePickerController()
     let userId = "Enola"
-    
-    var collection: UICollectionView! = nil
-    var dynamicAnimator: UIDynamicAnimator!
-    var dataSource: UICollectionViewDiffableDataSource<Section, Int>! = nil
+    fileprivate var imageWidth: CGFloat = 0
+    var userPropertyData: ProfilePropertyObject?
+    var likedPropertyData: ProfileLikedObject?
+    var avatarImage = UIImage()
+    var propertyImages = [UIImage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        
+        // Add observer of change images
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showUserProperty(_:)), name: .showUserPropertyKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showLikedProperty(_:)), name: .showLikedPropertyKey, object: nil)
+        
+        
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
-        payButton.addTarget(self, action: #selector(hideBanner(_:)), for: .touchUpInside)
-
+        
         navigationItem.title = "個人"
         // Add advertisement
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
-        // collection view
-        configureHierarchy()
-        configureDataSource()
+        
         view.addSubview(postButton)
+        
+        profileView.delegate = self
+        profileView.dataSource = self
+         
+        
+        profileView.contentInsetAdjustmentBehavior = .never
+        //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
+        getUserInfo()
+        getUserProperty()
     }
     
-    private func configureHierarchy() {
-        collection = UICollectionView(frame: CGRect(x: 0, y: 400, width: view.bounds.width, height: 300), collectionViewLayout: createLayout())
-        collection.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collection.backgroundColor = .systemBackground
-        collection.registerCellWithNib(identifier: String(describing: ImageCell.self), bundle: nil)
-        collection.register(UINib(nibName: "TitleView", bundle: nil),
-                            forSupplementaryViewOfKind: ProfileViewController.headerKind,
-                            withReuseIdentifier: TitleView.reuseIdentifier)
-        collection.delegate = self
-        view.addSubview(collection)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+        imageWidth = (UIScreen.width / 3).rounded()
     }
     
-    private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                              heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalHeight(0.8))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                         subitems: [item])
-        
-        
-        let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .absolute(50.0))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: ProfileViewController.headerKind, alignment: .top)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        
-        section.boundarySupplementaryItems = [header]
-        
-        let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 16
-        
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        let layout = UICollectionViewCompositionalLayout(section: section, configuration: config)
-
-        return layout
-    }
-
-    private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collection) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Int) -> UICollectionViewCell? in
-
-            // Get a cell of the desired kind.
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: String(describing: ImageCell.self),
-                for: indexPath) as? ImageCell else { fatalError("Cannot create new cell") }
-            if indexPath.section == 0 {
-                cell.backgroundColor = UIColor.primary
-            } else {
-                cell.backgroundColor = UIColor.blue
-            }
-            
-            // Populate the cell with our item description.
-//            cell.configureWith(text: "\(indexPath.row)", image: nil)
-
-            // Return the cell.
-            return cell
-        }
-            
-            dataSource.supplementaryViewProvider = {(collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
-
-                // Get a supplementary view of the desired kind.
-                if let titleView = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: kind,
-                    withReuseIdentifier: TitleView.reuseIdentifier,
-                    for: indexPath) as? TitleView {
-
-                    switch kind {
-                    case ProfileViewController.headerKind:
-                        titleView.eventTitleLbl.text = "Footer"
-                    default:
-                        ()
-                    }
-                    return titleView
-                } else {
-                    fatalError("Cannot create new supplementary")
+    private func getUserInfo() {
+        ProfileProvider.shared.fetchUserData(userId: userId) { [weak self] result in
+            switch result {
+            case .success(let data):
+                
+                ImageManager.shared.fetchImage(imageUrl: data.avatar) { image in
+                    self?.avatarImage = image
+                    self?.profileView.reloadData()
                 }
+                
+            case .failure(let error):
+                print(error)
+            }
         }
-
-        // initial data
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
-        snapshot.appendSections([.image])
-        snapshot.appendItems(Array(1..<15))
-        snapshot.appendSections([.gif])
-        snapshot.appendItems(Array(6..<37))
-        dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+    func getUserProperty() {
+        propertyImages.removeAll()
+        
+        ProfileProvider.shared.fetchUserPropertyData(userId: userId) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.userPropertyData = data
+                guard let userPropertyData = self?.userPropertyData else { return }
+                
+                if userPropertyData.data.count > 0 {
+                    
+                    for index in 0...userPropertyData.data.count - 1 {
+                        if userPropertyData.data[index].thumbnailUrl == "" {
+                            self?.getImage(imageUrl: userPropertyData.data[index].fileUrl)
+                        } else {
+                            self?.getUserThumbnail(property: userPropertyData.data[index], index: index)
+                        }
+                    }
+                }
+                self?.profileView.reloadData()
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
-    @objc func postImage(_ button: UIButton) {
+    func getLikedProperty() {
+        propertyImages.removeAll()
+        
+        ProfileProvider.shared.fetchUserLikedData(userId: userId) { [weak self] data in
+            switch data {
+            case .success(let data):
+                self?.likedPropertyData = data
+                guard let likedPropertyData = self?.likedPropertyData else { return }
+                
+                if likedPropertyData.data.count > 0 {
+                    
+                    for index in 0...likedPropertyData.data.count - 1 {
+                        if likedPropertyData.data[index].thumbnailUrl == "" {
+                            self?.getImage(imageUrl: likedPropertyData.data[index].fileUrl)
+                        } else {
+                            self?.getLikedThumbnail(likedProperty: likedPropertyData.data[index], index: index)
+                        }
+                    }
+                }
+//                self?.profileView.reloadData()
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func getImage(imageUrl: String) {
+        // Image
+        ImageManager.shared.fetchImage(imageUrl: imageUrl) { image in
+            self.propertyImages.append(image)
+            self.profileView.reloadData()
+        }
+    }
+    
+    private func getUserThumbnail(property: Property, index: Int) {
+        ImageManager.shared.fetchUserGIF(thumbnailUrl: property.thumbnailUrl) { gif in
+            self.propertyImages.append(gif)
+            self.profileView.reloadData()
+        }
+    }
+    
+    private func getLikedThumbnail(likedProperty: Liked, index: Int) {
+        ImageManager.shared.fetchUserGIF(thumbnailUrl: likedProperty.thumbnailUrl) { gif in
+            self.propertyImages.append(gif)
+            self.profileView.reloadData()
+        }
+    }
+    
+    @objc func showUserProperty(_ notification: NSNotification) {
+        getUserProperty()
+    }
+    
+    @objc func showLikedProperty(_ notification: NSNotification) {
+        getLikedProperty()
+    }
+    
+    @objc func postImage(_ sender: UIButton) {
         imagePickerController.delegate = self
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-
             // 如果可以，指定 UIImagePickerController 的照片來源為 照片圖庫 (.photoLibrary)，並 present UIImagePickerController
             imagePickerController.sourceType = .photoLibrary
             if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
@@ -186,7 +200,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "SSSSSS"
         let uploadTimestamp = Int(uploadDate.timeIntervalSince1970)
-        // TODO: Tag
+        
         let tag = "\(Int.random(in: 0...2))"
         let storageRefPath = userId + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
         
@@ -214,5 +228,53 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             }
         }
         imagePickerController.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    // Set up header
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
+        avatarImage = UIImage(named: "avatar") ?? UIImage()
+        avatarImage = avatarImage.circularImage(60) ?? UIImage()
+        header.layoutProfileHeader(avatar: avatarImage)
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        propertyImages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProfileCollectionCell.self), for: indexPath) as? ProfileCollectionCell else {
+            fatalError("Couldn't create cell")
+        }
+        
+//        cell.profileImageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageWidth)
+        cell.layoutCell(image: propertyImages[indexPath.row])
+//        cell.profileImageView.contentMode = .scaleAspectFill
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        itemSize
+//        return CGSize(width: imageWidth, height: imageWidth)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        0
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let image = propertyImages[indexPath.item]
+        let detailVC = DetailViewController()
+        detailVC.detailPageImage = image
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }

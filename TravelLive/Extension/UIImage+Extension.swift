@@ -32,6 +32,7 @@ enum ImageAsset: String {
     case stop
     case play
     
+    case placeholder
     // map icon
     case event
     case place

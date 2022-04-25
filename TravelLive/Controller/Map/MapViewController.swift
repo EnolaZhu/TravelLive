@@ -57,8 +57,7 @@ class MapViewController: UIViewController {
         }
         mapView.delegate = self
         
-        placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
-        eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
+        
         
         setUpContainerView()
         setUpPlaceButton()
@@ -72,6 +71,9 @@ class MapViewController: UIViewController {
         fetchStreamerData()
         tabBarController?.tabBar.isHidden = false
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
+        eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -158,10 +160,13 @@ class MapViewController: UIViewController {
             switch result {
             case .success(let places):
                 self?.eventData = places
-                guard let eventData = self?.eventData else { return }
-                for index in 0...eventData.data.count - 1 {
-                    ImageManager.shared.fetchImage(imageUrl: eventData.data[index].image) { image in
-                        self?.makeCustomMarker(latitude: Float(eventData.data[index].latitude), longitude: Float(eventData.data[index].longitude), pinImage: image, isStreamer: false)
+                guard let eventData = self?.placeData else { return }
+                if eventData.data.count > 0 {
+                    guard let eventData = self?.eventData else { return }
+                    for index in 0...eventData.data.count - 1 {
+                        ImageManager.shared.fetchImage(imageUrl: eventData.data[index].image) { image in
+                            self?.makeCustomMarker(latitude: Float(eventData.data[index].latitude), longitude: Float(eventData.data[index].longitude), pinImage: image, isStreamer: false)
+                        }
                     }
                 }
             case .failure:
@@ -178,10 +183,11 @@ class MapViewController: UIViewController {
             case .success(let places):
                 self?.placeData = places
                 guard let placeData = self?.placeData else { return }
-                
-                for index in 0...placeData.data.count - 1 {
-                    ImageManager.shared.fetchImage(imageUrl: placeData.data[index].image) { image in
-                        self?.makeCustomMarker(latitude: Float(placeData.data[index].latitude), longitude: Float(placeData.data[index].longitude), pinImage: image, isStreamer: false)
+                if placeData.data.count > 0 {
+                    for index in 0...placeData.data.count - 1 {
+                        ImageManager.shared.fetchImage(imageUrl: placeData.data[index].image) { image in
+                            self?.makeCustomMarker(latitude: Float(placeData.data[index].latitude), longitude: Float(placeData.data[index].longitude), pinImage: image, isStreamer: false)
+                        }
                     }
                 }
             case .failure:
@@ -215,6 +221,8 @@ class MapViewController: UIViewController {
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         
         if isStreamer {
+            marker.layer.borderWidth = 10
+            marker.layer.borderColor = UIColor.orange.cgColor
             marker.icon = resizedImage?.circularImage(44)
         } else {
             marker.icon = resizedImage

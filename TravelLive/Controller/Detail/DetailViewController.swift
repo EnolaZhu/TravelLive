@@ -14,9 +14,10 @@ class DetailViewController: BaseViewController {
     let reportMaskView = UIView()
     let commentVC = CommentViewController()
     var allCommentData: CommentObject?
-    var propertyId: String?
     var detailPageImage = UIImage()
     var avatarImage = UIImage()
+    var propertyId = String()
+    var isLiked = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,7 @@ class DetailViewController: BaseViewController {
         super.viewWillAppear(animated)
         // owner id 換成 property id   從 search 頁和圖片一起帶過來
         
-        fetchComment(propertyId: "Enola_1650378092481000_0", userId: "Enola")
+        fetchComment(propertyId: propertyId, userId: "Enola")
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -56,6 +57,8 @@ class DetailViewController: BaseViewController {
     }
     
     private func fetchComment(propertyId: String, userId: String) {
+        // TODO: 要改 ID
+//        propertyId = "Enola_1650378092481000_0"
         DetailDataProvider.shared.fetchCommentData(propertyId: propertyId, userId: userId) { [weak self] result in
             switch result {
             case .success(let data):
@@ -80,12 +83,15 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
             
+            imageCell.propertyId = propertyId
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
             imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
-
-            imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId ?? "")
+            imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool())
             imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
+            if isLiked {
+                imageCell.loveButton.setImage(UIImage(named: "theheart"), for: .normal)
+            }
             // ImageView gesture
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
             imageCell.userUploadImageView.isUserInteractionEnabled = true
@@ -127,7 +133,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         reportVC.view.frame = CGRect(x: 0, y: UIScreen.height, width: UIScreen.width, height: 202)
         view.addSubview(reportMaskView)
         // Animation
-        UIView.animate(withDuration: 1, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
+        UIView.animate(withDuration: 0.3, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
             reportVC.view.frame = CGRect(
                 x: 0,
                 y: CGFloat(UIScreen.height - CGFloat(250.0)),
@@ -142,6 +148,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc func showCommentPage(_ sender: UIButton) {
         view.addSubview(reportMaskView)
         commentVC.clickCloseButton = self
+        commentVC.propertyId = propertyId
         self.view.addSubview(commentVC.view)
         self.addChild(commentVC)
     }
@@ -153,11 +160,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     @objc func clickLoveButton(_ sender: UIButton) {
         if sender.hasImage(named: "theheart", for: .normal) {
-            DetailDataProvider.shared.postLike(propertyId: "Enola_1650378092481000_0", userId: "Enola", isLiked: false)
+            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: "Enola", isLiked: false)
             setUpHeartAnimation(name: "Heart break")
             sender.setImage(UIImage.asset(.emptyHeart), for: .normal)
         } else {
-            DetailDataProvider.shared.postLike(propertyId: "Enola_1650378092481000_0", userId: "Enola", isLiked: true)
+            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: "Enola", isLiked: true)
             setUpHeartAnimation(name: "Hearts moving")
             sender.setImage(UIImage.asset(.theheart), for: .normal)
         }
