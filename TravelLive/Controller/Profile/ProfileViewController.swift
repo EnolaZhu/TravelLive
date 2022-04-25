@@ -13,7 +13,7 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
-    let itemSize = CGSize(width: 50, height: 50)
+    let itemSize = CGSize(width: 125, height: 125)
     var postButton: UIButton = {
         let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
@@ -48,7 +48,7 @@ class ProfileViewController: UIViewController {
         
         profileView.delegate = self
         profileView.dataSource = self
-        imageWidth = profileView.frame.width / 3 - 1
+         
         
         profileView.contentInsetAdjustmentBehavior = .never
         //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
@@ -59,6 +59,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        imageWidth = (UIScreen.width / 3).rounded()
     }
     
     private func getUserInfo() {
@@ -249,18 +250,20 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             fatalError("Couldn't create cell")
         }
         
-        cell.profileImageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageWidth)
+//        cell.profileImageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageWidth)
         cell.layoutCell(image: propertyImages[indexPath.row])
 //        cell.profileImageView.contentMode = .scaleAspectFill
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: imageWidth, height: imageWidth)
+        itemSize
+//        return CGSize(width: imageWidth, height: imageWidth)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         0
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
