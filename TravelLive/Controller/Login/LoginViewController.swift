@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AuthenticationServices
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var authView: AuthView!
@@ -17,6 +18,15 @@ class LoginViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
         authView.loginWithAppleButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
+    }
+    
+    func login() {
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.performRequests()
     }
     
     @objc func redirectNewPage(_ notification: NSNotification) {
@@ -31,9 +41,35 @@ class LoginViewController: UIViewController {
     }
     
     @objc func loginWithApple() {
-        let mainTabVC = UIStoryboard.main.instantiateViewController(withIdentifier:
-        String(describing: TabBarViewController.self))
-        guard let tabVc = mainTabVC as? TabBarViewController else { return }
-        show(tabVc, sender: nil)
+        login()
+    }
+    
+    private func showMainView() {
+    let mainTabVC = UIStoryboard.main.instantiateViewController(withIdentifier:
+                                                                    String(describing: TabBarViewController.self))
+    guard let tabVc = mainTabVC as? TabBarViewController else { return }
+    show(tabVc, sender: nil)
+    }
+}
+
+extension LoginViewController: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            let userId = credential.user
+            let fullname = credential.fullName
+            let email = credential.email
+            let idToken = credential.identityToken
+            print("\(userId)")
+            print("\(fullname)")
+            print("\(email)")
+            print("\(idToken)")
+            guard let idToken = credential.identityToken else { return }
+            showMainView()
+            //            print("\(data: idToken, encoding: .utf8)")
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+    // Handle error.
     }
 }
