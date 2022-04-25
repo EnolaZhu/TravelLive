@@ -37,7 +37,7 @@ class EventViewController: UIViewController, UICollectionViewDelegate {
         collectionView.backgroundColor = .systemBackground
         collectionView.registerCellWithNib(identifier: String(describing: ImageCell.self), bundle: nil)
         collectionView.register(UINib(nibName: "TitleView", bundle: nil),
-                            forSupplementaryViewOfKind: ProfileViewController.headerKind,
+                            forSupplementaryViewOfKind: EventViewController.headerKind,
                             withReuseIdentifier: TitleView.reuseIdentifier)
         collectionView.delegate = self
     }
@@ -54,7 +54,7 @@ class EventViewController: UIViewController, UICollectionViewDelegate {
         
         let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                       heightDimension: .absolute(50.0))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: ProfileViewController.headerKind, alignment: .top)
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: EventViewController.headerKind, alignment: .top)
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -98,7 +98,7 @@ class EventViewController: UIViewController, UICollectionViewDelegate {
                     for: indexPath) as? TitleView {
 
                     switch kind {
-                    case ProfileViewController.headerKind:
+                    case EventViewController.headerKind:
                         titleView.eventTitleLbl.text = "Footer"
                     default:
                         ()
