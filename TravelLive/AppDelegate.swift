@@ -45,6 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        // Make all people subscribe topic "all"
+        NotificationManager.shared.subscribeTopic(topic: "all")
+        // 推出去版本請拿掉 test topic
+        NotificationManager.shared.subscribeTopic(topic: "test")
         
         let deviceTokenString = deviceToken.reduce("") {
             $0 + String(format: "%02x", $1)
