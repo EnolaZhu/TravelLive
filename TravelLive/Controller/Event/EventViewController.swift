@@ -13,8 +13,8 @@ class EventViewController: UIViewController, UICollectionViewDelegate {
     static let headerKind = "headerKind"
     
     enum Section: Int {
-        case image = 0
-        case gif = 1
+        case tainan = 0
+        case taizhong = 1
         case taipei = 2
     }
     
@@ -99,7 +99,7 @@ class EventViewController: UIViewController, UICollectionViewDelegate {
 
                     switch kind {
                     case EventViewController.headerKind:
-                        titleView.eventTitleLbl.text = "Footer"
+                        titleView.eventTitleLbl.text = "Place"
                     default:
                         ()
                     }
@@ -111,9 +111,9 @@ class EventViewController: UIViewController, UICollectionViewDelegate {
 
         // initial data
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
-        snapshot.appendSections([.image])
+        snapshot.appendSections([.tainan])
         snapshot.appendItems(Array(1..<5))
-        snapshot.appendSections([.gif])
+        snapshot.appendSections([.taizhong])
         snapshot.appendItems(Array(6..<12))
         snapshot.appendSections([.taipei])
         snapshot.appendItems(Array(13..<20))
