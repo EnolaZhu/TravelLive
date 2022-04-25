@@ -41,9 +41,7 @@ class DetailViewImageCell: UITableViewCell {
         
         if isLiked {
             loveButton.setImage(UIImage.asset(.theheart), for: .normal)
-        } else {
-            return
-        }
+        } 
         self.propertyId = propertyId
     }
     

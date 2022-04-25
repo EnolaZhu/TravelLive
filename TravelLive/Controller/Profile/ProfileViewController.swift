@@ -234,7 +234,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     // Set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
-//        avatarImage = UIImage(named: "avatar") ?? UIImage()
+        avatarImage = UIImage(named: "avatar") ?? UIImage()
         avatarImage = avatarImage.circularImage(60) ?? UIImage()
         header.layoutProfileHeader(avatar: avatarImage)
         return header
