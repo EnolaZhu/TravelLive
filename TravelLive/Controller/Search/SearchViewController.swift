@@ -7,26 +7,25 @@
 
 import UIKit
 import FirebaseStorage
-//GridLayoutDelegate
+import SwiftUI
+
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
-    
-    var images = [UIImage]()
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var gridLayout: GridLayout!
     
     var arrInstaBigCells = [Int]()
+    var images = [UIImage]()
     var searchDataObjc: SearchDataObject?
     let searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
-//    var gif = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.searchController = searchController
-        
-//        images = Array(repeatElement(gif, count: 99))
+        searchController.searchResultsUpdater = self
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
+        
         
         var tempStorage = false
         for _ in 1...21 {
@@ -38,7 +37,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
-        print(arrInstaBigCells)
         searchCollectionView.backgroundColor = .white
         searchCollectionView.dataSource = self
         searchCollectionView.delegate = self
@@ -48,19 +46,20 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         gridLayout.delegate = self
         gridLayout.itemSpacing = 3
         gridLayout.fixedDivisionCount = 3
-        
-        getSearchData()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        tabBarController?.tabBar.isHidden = false
+        images.removeAll()
+        getSearchData()
+        searchController.searchBar.text = ""
         searchController.searchBar.placeholder = "搜尋"
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-
+        
     }
     
     // MARK: - UICollectionViewDataSource
@@ -71,7 +70,9 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionViewCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
-        cell.imageView.image = images[indexPath.row]
+        if images.count > 0 {
+            cell.imageView.image = images[indexPath.row]
+        }
         return cell
     }
     
@@ -91,23 +92,24 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     // Fetch search data
     private func getSearchData() {
-        fetchSearchData(type: SearchQuery.image.rawValue)
-        fetchSearchData(type: SearchQuery.video.rawValue)
+        fetchSearchData(type: "")
     }
     
     private func fetchSearchData(type: String) {
-        searchDataProvider.fetchSearchData(type: type) { [weak self] result in
+        searchDataProvider.fetchSearchData(query: type) { [weak self] result in
             switch result {
             case .success(let data):
                 print("\(data)")
                 self?.searchDataObjc = data
                 guard let searchDataObjc = self?.searchDataObjc else { return }
                 if searchDataObjc.data.count > 0 {
+                    // placeholder
+                    self?.images = [UIImage](repeating: UIImage(named: "placeholder") ?? UIImage(), count: searchDataObjc.data.count)
                     for index in 0...searchDataObjc.data.count - 1 {
-                        if searchDataObjc.data[0].thumbnailUrl == "" {
-                            self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileUrl)
+                        if searchDataObjc.data[index].thumbnailUrl == "" {
+                            self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileUrl, index: index)
                         } else {
-                            self?.getThumbnail(searchData: searchDataObjc.data[index])
+                            self?.getThumbnail(searchData: searchDataObjc.data[index], index: index)
                         }
                     }
                 }
@@ -117,52 +119,45 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         }
     }
     
-    private func getImage(searchData: SearchData, imageUrl: String) {
+    private func getImage(searchData: SearchData, imageUrl: String, index: Int) {
         // Image
-        ImageManager.shared.fetchStorageImage(imageUrl: imageUrl) { image in
-            self.images.append(image)
-            self.searchCollectionView.reloadData()
+        ImageManager.shared.fetchImage(imageUrl: imageUrl) { image in
+            self.images[index] = image
+            self.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
     
-    private func getThumbnail(searchData: SearchData) {
+    private func getThumbnail(searchData: SearchData, index: Int) {
         // video GIF
         ImageManager.shared.fetchUserGIF(thumbnailUrl: searchData.thumbnailUrl) { gif in
-            self.images.append(gif)
-            self.searchCollectionView.reloadData()
+            self.images[index] = gif
+            self.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
 }
 
-extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate {
+extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, UISearchResultsUpdating {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = images[indexPath.item]
-        print("\(indexPath.item)")
         let detailVC = DetailViewController()
         detailVC.detailPageImage = image
+        detailVC.propertyId = searchDataObjc?.data[indexPath.row].propertyId ?? ""
         navigationController?.pushViewController(detailVC, animated: true)
     }
     
-    // 下滑隱藏 navigation bar,上拉出現 navigation bar
-//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        self.navigationController?.setNavigationBarHidden(true, animated: true)
-//    }
-//    
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if decelerate == false {
-//            self.navigationController?.setNavigationBarHidden(false, animated: true)
-//        }
-//    }
-//    
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        self.navigationController?.setNavigationBarHidden(false, animated: true)
-//    }
-//    
-//    
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        
-//    }
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {
+            return
+        }
+        
+        if text != "" {
+            images.removeAll()
+            fetchSearchData(type: "?tag=" + text)
+        } else {
+            print("Do nothing")
+        }
+    }
 }
 
 enum SearchQuery: String {

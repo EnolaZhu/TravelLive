@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -57,19 +57,19 @@
                         </constraints>
                         <color key="tintColor" systemColor="systemRedColor"/>
                         <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="plain" image="suit.heart.fill" catalog="system" title=""/>
+                        <buttonConfiguration key="configuration" style="plain" image="emptyHeart" title=""/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zhW-ut-ZZH">
-                        <rect key="frame" x="60" y="409" width="30" height="30"/>
+                        <rect key="frame" x="70" y="409" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="6GB-fg-Mld"/>
                             <constraint firstAttribute="height" constant="30" id="Mng-7N-78m"/>
                         </constraints>
                         <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="plain" image="send" title=""/>
+                        <buttonConfiguration key="configuration" style="plain" image="share" title=""/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MJv-zd-liO">
-                        <rect key="frame" x="95" y="404" width="48" height="40"/>
+                        <rect key="frame" x="330" y="404" width="48" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="X4f-qj-pus"/>
                         </constraints>
@@ -89,21 +89,23 @@
                     <constraint firstItem="LBJ-ic-zyH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="IIq-oh-Vi8"/>
                     <constraint firstAttribute="bottom" secondItem="LBJ-ic-zyH" secondAttribute="bottom" id="KnV-xl-EYb"/>
                     <constraint firstItem="706-2I-Hxf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Obi-3p-Ejj"/>
-                    <constraint firstItem="zhW-ut-ZZH" firstAttribute="leading" secondItem="LBJ-ic-zyH" secondAttribute="trailing" constant="5" id="PJu-0x-DmX"/>
+                    <constraint firstItem="zhW-ut-ZZH" firstAttribute="leading" secondItem="LBJ-ic-zyH" secondAttribute="trailing" constant="15" id="PJu-0x-DmX"/>
                     <constraint firstAttribute="trailing" secondItem="Sra-ti-o8l" secondAttribute="trailing" constant="20" id="SUt-Qe-Khf"/>
                     <constraint firstAttribute="bottom" secondItem="MJv-zd-liO" secondAttribute="bottom" id="avk-7A-IdD"/>
                     <constraint firstItem="i4r-If-eMK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="elY-Zw-XrM"/>
                     <constraint firstItem="i4r-If-eMK" firstAttribute="top" secondItem="Bv2-nt-MHw" secondAttribute="bottom" constant="31.5" id="hxf-3C-Avf"/>
                     <constraint firstItem="Bv2-nt-MHw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21.5" id="oT3-nY-kdW"/>
                     <constraint firstItem="zhW-ut-ZZH" firstAttribute="centerY" secondItem="MJv-zd-liO" secondAttribute="centerY" id="ot3-sj-2LM"/>
-                    <constraint firstItem="MJv-zd-liO" firstAttribute="leading" secondItem="zhW-ut-ZZH" secondAttribute="trailing" constant="5" id="tRz-fz-ran"/>
+                    <constraint firstItem="MJv-zd-liO" firstAttribute="leading" secondItem="zhW-ut-ZZH" secondAttribute="trailing" constant="230" id="tRz-fz-ran"/>
                     <constraint firstItem="MJv-zd-liO" firstAttribute="top" secondItem="i4r-If-eMK" secondAttribute="bottom" constant="10" id="vwH-wA-g3L"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="commentButton" destination="MJv-zd-liO" id="5IE-Ex-iyO"/>
                 <outlet property="loveButton" destination="LBJ-ic-zyH" id="bNH-Zk-O2P"/>
                 <outlet property="reportButton" destination="Sra-ti-o8l" id="yYh-KZ-O5p"/>
+                <outlet property="shareButton" destination="zhW-ut-ZZH" id="ft3-aa-LKY"/>
                 <outlet property="userAvatarimage" destination="706-2I-Hxf" id="PGp-Pc-mWg"/>
                 <outlet property="userName" destination="Bv2-nt-MHw" id="f6v-3j-ZZq"/>
                 <outlet property="userUploadImageView" destination="i4r-If-eMK" id="dkM-RM-nTo"/>
@@ -113,9 +115,9 @@
     </objects>
     <resources>
         <image name="chat" width="24" height="24"/>
+        <image name="emptyHeart" width="32" height="32"/>
         <image name="option" width="32" height="32"/>
-        <image name="send" width="16" height="16"/>
-        <image name="suit.heart.fill" catalog="system" width="128" height="109"/>
+        <image name="share" width="32" height="32"/>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

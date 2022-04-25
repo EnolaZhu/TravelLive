@@ -19,4 +19,8 @@ target 'TravelLive' do
   pod 'Kingfisher', '~> 7.0' 
   pod 'mobile-ffmpeg-full', '~> 4.4'
   pod 'Firebase/Messaging'
+  pod 'lottie-ios'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/DynamicLinks'
+  pod 'Google-Mobile-Ads-SDK'
 end

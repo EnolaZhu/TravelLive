@@ -8,9 +8,8 @@ import Foundation
 
 class SearchDataProvider {
     
-    func fetchSearchData(type: String, completion: @escaping (Result<SearchDataObject>) -> Void) {
-        let query = "?type=" + type
-        let request = GetDataRequest.fetchSearchData(query: query)
+    func fetchSearchData(query: String, completion: @escaping (Result<SearchDataObject>) -> Void) {
+        let request = DataRequest.fetchSearchData(query: query)
         HTTPClient.shared.request(request, completion: { data in
             switch data {
             case .success(let data):

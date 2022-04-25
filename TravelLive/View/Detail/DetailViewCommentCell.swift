@@ -9,21 +9,28 @@ import UIKit
 
 class DetailViewCommentCell: UITableViewCell {
 
+    @IBOutlet weak var reviewerAvatarImage: UIImageView!
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var reviewerName: UILabel!
+    @IBOutlet weak var reviewTimeLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.selectionStyle = .none
+        reviewerAvatarImage.makeRounded()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
-    func layoutCell(name: String, comment: String) {
+    
+    func layoutCell(name: String, comment: String, avatar: UIImage, time: String) {
+        let date = Date(timeIntervalSince1970: Double(time) ?? 0)
         reviewerName.text = name
         commentLabel.text = comment
+        reviewerAvatarImage.image = avatar
+        reviewTimeLabel.text = "\(date.currentUTCTimeZoneDate)"
     }
 }
