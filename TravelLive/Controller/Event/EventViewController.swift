@@ -22,12 +22,19 @@ class EventViewController: UIViewController, UICollectionViewDelegate {
     
     var dynamicAnimator: UIDynamicAnimator!
     var dataSource: UICollectionViewDiffableDataSource<Section, Int>! = nil
+    var specificPlaceData: PlaceDataObject?
+    var specificEventData: EventDataObject?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureHierarchy()
         configureDataSource()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getPlaceData(city: 0, limit: 5)
     }
     
     private func configureHierarchy() {
@@ -84,7 +91,7 @@ class EventViewController: UIViewController, UICollectionViewDelegate {
             } else {
                 cell.backgroundColor = UIColor.blue
             }
-            cell.propertyImageView.image = UIImage(named: "placeholder")
+//            cell.propertyImageView.image = UIImage(named: "placeholder")
             
             return cell
         }
@@ -126,4 +133,49 @@ extension EventViewController {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     
+    func getPlaceData(city: Int, limit: Int) {
+        
+        MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit)  { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.specificPlaceData = data
+                guard let specificPlaceData = self?.specificPlaceData else { return }
+                
+                if specificPlaceData.data.count > 0 {
+                    guard let specificPlaceData = self?.specificPlaceData else { return }
+                    for index in 0...specificPlaceData.data.count - 1 {
+                        ImageManager.shared.fetchImage(imageUrl: specificPlaceData.data[index].image) { image in
+                            print("success")
+                        }
+                    }
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func getEventData(city: Int, limit: Int) {
+        
+        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
+            switch result {
+                
+            case .success(let data):
+                self?.specificEventData = data
+                guard let specificEventData = self?.specificEventData else { return }
+                
+                if specificEventData.data.count > 0 {
+                    guard let specificEventData = self?.specificEventData else { return }
+                    for index in 0...specificEventData.data.count - 1 {
+                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { image in
+                            print("success")
+                        }
+                    }
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
