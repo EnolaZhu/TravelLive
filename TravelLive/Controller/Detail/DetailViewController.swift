@@ -17,6 +17,7 @@ class DetailViewController: BaseViewController {
     var detailPageImage = UIImage()
     var avatarImage = UIImage()
     var propertyId = String()
+    var isLiked = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,8 +85,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
             imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
-            imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId ?? "", isLiked: allCommentData?.isLiked ?? Bool())
+            imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool())
             imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
+            if isLiked {
+                imageCell.loveButton.setImage(UIImage(named: "theheart"), for: .normal)
+            }
             // ImageView gesture
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
             imageCell.userUploadImageView.isUserInteractionEnabled = true

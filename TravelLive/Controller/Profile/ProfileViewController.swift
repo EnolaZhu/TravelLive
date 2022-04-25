@@ -270,7 +270,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = propertyImages[indexPath.item]
-        print("\(indexPath.item)")
         let detailVC = DetailViewController()
         detailVC.detailPageImage = image
         navigationController?.pushViewController(detailVC, animated: true)
