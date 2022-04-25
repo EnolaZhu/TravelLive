@@ -46,7 +46,6 @@ class MyLocationViewController: UIViewController {
     view = mapView
 
     // Listen to the myLocation property of GMSMapView.
-    // swiftlint:disable closure_parameter_position
     observation = mapView.observe(\.myLocation, options: [.new]) {
       [weak self] mapView, _ in
       self?.location = mapView.myLocation

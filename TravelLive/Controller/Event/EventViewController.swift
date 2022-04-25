@@ -7,63 +7,123 @@
 
 import UIKit
 
-class EventViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class EventViewController: UIViewController, UICollectionViewDelegate {
+    
+    
+    static let headerKind = "headerKind"
+    
+    enum Section: Int {
+        case image = 0
+        case gif = 1
+        case taipei = 2
+    }
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    
-    fileprivate let items: [Event] = Event.buildCities()
+    var dynamicAnimator: UIDynamicAnimator!
+    var dataSource: UICollectionViewDiffableDataSource<Section, Int>! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.collectionViewLayout = EventCollectionViewFlowLayout(itemSize: EventCollectionViewCell.cellSize)
-        collectionView.decelerationRate = UIScrollView.DecelerationRate.fast
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.collectionViewLayout = EventCollectionViewFlowLayout(itemSize: CGSize(width: 250, height: 500))
+        
+        configureHierarchy()
+        configureDataSource()
     }
+    
+    private func configureHierarchy() {
+        
+        collectionView.collectionViewLayout = createLayout()
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.backgroundColor = .systemBackground
+        collectionView.registerCellWithNib(identifier: String(describing: ImageCell.self), bundle: nil)
+        collectionView.register(UINib(nibName: "TitleView", bundle: nil),
+                            forSupplementaryViewOfKind: EventViewController.headerKind,
+                            withReuseIdentifier: TitleView.reuseIdentifier)
+        collectionView.delegate = self
+    }
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                              heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalHeight(0.4))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+        
+        
+        let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .absolute(50.0))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: EventViewController.headerKind, alignment: .top)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        section.boundarySupplementaryItems = [header]
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 16
+        
+        section.orthogonalScrollingBehavior = .groupPaging
+        
+        let layout = UICollectionViewCompositionalLayout(section: section, configuration: config)
+
+        return layout
+    }
+
+    private func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Int) -> UICollectionViewCell? in
+
+            // Get a cell of the desired kind.
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: String(describing: ImageCell.self),
+                for: indexPath) as? ImageCell else { fatalError("Cannot create new cell") }
+            if indexPath.section == 0 {
+                cell.backgroundColor = UIColor.primary
+            } else {
+                cell.backgroundColor = UIColor.blue
+            }
+            cell.propertyImageView.image = UIImage(named: "placeholder")
+            
+            return cell
+        }
+            
+            dataSource.supplementaryViewProvider = {(collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
+
+                // Get a supplementary view of the desired kind.
+                if let titleView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: TitleView.reuseIdentifier,
+                    for: indexPath) as? TitleView {
+
+                    switch kind {
+                    case EventViewController.headerKind:
+                        titleView.eventTitleLbl.text = "Footer"
+                    default:
+                        ()
+                    }
+                    return titleView
+                } else {
+                    fatalError("Cannot create new supplementary")
+                }
+        }
+
+        // initial data
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+        snapshot.appendSections([.image])
+        snapshot.appendItems(Array(1..<5))
+        snapshot.appendSections([.gif])
+        snapshot.appendItems(Array(6..<12))
+        snapshot.appendSections([.taipei])
+        snapshot.appendItems(Array(13..<20))
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
 }
 extension EventViewController {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        items.count
-    }
-    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return 1
-    }
-    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EventCollectionViewCell.identifier, for: indexPath) as? EventCollectionViewCell
-//        else { fatalError("Couldn't create cell") }
-//        if indexPath.section == 0 {
-//            cell.configure(with: items[0], collectionView: collectionView, index: 0)
-//        } else if indexPath.section == 1 {
-//            cell.configure(with: items[1], collectionView: collectionView, index: 1)
-//        } else if indexPath.section == 2 {
-//            cell.configure(with: items[2], collectionView: collectionView, index: 2)
-//        }
-//        return cell
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        guard let selectedCell = collectionView.cellForItem(at: indexPath)! as? EventCollectionViewCell
-//        else { fatalError("Couldn't create cell") }
-//        selectedCell.toggle()
-//    }
-    // swiftlint:disable force_cast
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EventCollectionViewCell.identifier, for: indexPath) as! EventCollectionViewCell
-        if indexPath.section == 0 {
-            cell.configure(with: items[0], collectionView: collectionView, index: 0)
-        } else if indexPath.section == 1 {
-            cell.configure(with: items[1], collectionView: collectionView, index: 1)
-        } else if indexPath.section == 2 {
-            cell.configure(with: items[2], collectionView: collectionView, index: 2)
-        }
-        return cell
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCell = collectionView.cellForItem(at: indexPath)! as! EventCollectionViewCell
-        selectedCell.toggle()
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
+    
 }

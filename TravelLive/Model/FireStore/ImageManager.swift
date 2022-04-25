@@ -14,7 +14,7 @@ class ImageManager {
         imageView.kf.setImage(with: URL(string: url))
     }
     
-    func downloadImage(with urlString : String, imageCompletionHandler: @escaping (UIImage?) -> Void){
+    func downloadImage(with urlString : String, imageCompletionHandler: @escaping (UIImage?) -> Void) {
         guard let url = URL.init(string: urlString) else {
             return  imageCompletionHandler(nil)
         }
@@ -28,5 +28,16 @@ class ImageManager {
                 imageCompletionHandler(nil)
             }
         }
+    }
+    
+    func fetchImage(imageUrl: String, completion: @escaping (UIImage) -> Void) {
+        self.downloadImage(with: imageUrl) { uiImage in
+            completion((uiImage ?? UIImage())!)
+        }
+    }
+    
+    func fetchUserGIF(thumbnailUrl: String, completion: @escaping (UIImage) -> Void) {
+        let image = UIImage.gifImageWithURL(thumbnailUrl) ?? UIImage()
+        completion(image)
     }
 }
