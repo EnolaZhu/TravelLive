@@ -59,6 +59,7 @@
 		4B97880E28107C200003CC9F /* Heart break.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B97880D28107C200003CC9F /* Heart break.json */; };
 		4B9788102811C09F0003CC9F /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B97880F2811C09F0003CC9F /* URL+Extension.swift */; };
 		4B9788132811C89E0003CC9F /* UniversalLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9788122811C89E0003CC9F /* UniversalLinkManager.swift */; };
+		4BA4ED5D2817139800B158CA /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4ED5C2817139800B158CA /* NotificationManager.swift */; };
 		4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */; };
 		4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E393280E49F600D421D0 /* SearchDataObject.swift */; };
 		4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */; };
@@ -172,6 +173,7 @@
 		4B97880D28107C200003CC9F /* Heart break.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart break.json"; sourceTree = "<group>"; };
 		4B97880F2811C09F0003CC9F /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		4B9788122811C89E0003CC9F /* UniversalLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkManager.swift; sourceTree = "<group>"; };
+		4BA4ED5C2817139800B158CA /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataProvider.swift; sourceTree = "<group>"; };
 		4BA5E393280E49F600D421D0 /* SearchDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataObject.swift; sourceTree = "<group>"; };
 		4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
@@ -409,6 +411,14 @@
 			path = UniversalLink;
 			sourceTree = "<group>";
 		};
+		4BA4ED5B2817136500B158CA /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				4BA4ED5C2817139800B158CA /* NotificationManager.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		4BA5E390280E482F00D421D0 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -578,6 +588,7 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4BA4ED5B2817136500B158CA /* Notification */,
 				4B17A85C2815BF670006BB2D /* Profile */,
 				4B9788112811C8800003CC9F /* UniversalLink */,
 				4BA5E3B4280FB0E700D421D0 /* Detail */,
@@ -900,6 +911,7 @@
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,
 				4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */,
 				4BC1075427FB470F0017B1B7 /* PushViewController.swift in Sources */,
+				4BA4ED5D2817139800B158CA /* NotificationManager.swift in Sources */,
 				4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */,
 				4BA5E3B8280FB36300D421D0 /* DetailDataProvider.swift in Sources */,
 				4BC2BE5227FC45F3001FF31D /* MapViewController.swift in Sources */,
