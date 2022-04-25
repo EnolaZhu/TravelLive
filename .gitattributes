@@ -1,0 +1,2 @@
+TXLiteAVSDK_Professional filter=lfs diff=lfs merge=lfs -text
+*.pbxproj merge=union

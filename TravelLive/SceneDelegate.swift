@@ -6,17 +6,70 @@
 //
 
 import UIKit
+//import FirebaseDynamicLinks
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    func dynamicLinkToUniversalLink(dynamicLink: URL) {
+        UniversalLinkManager.manager.redirect(dynamicUrl: dynamicLink)
+    }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        // custom
+        if let url = connectionOptions.userActivities.first?.webpageURL {
+            dynamicLinkToUniversalLink(dynamicLink: url)
+        }
+        
+        // DynamicLinks
+//        if let userActivity = connectionOptions.userActivities.first, let url = userActivity.webpageURL {
+//                DynamicLinks.dynamicLinks().handleUniversalLink(url) { dynamicLink, error in
+//                    guard let dynamicLink = dynamicLink, let url = dynamicLink.url else { return }
+//                    self.parseDynamicLink(dynamicLink: url)
+//                }
+//            }
+        
+    }
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+//        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+//              let urlToOpen = userActivity.webpageURL else {
+//                  return
+//              }
+//        print(urlToOpen)
+        
+        // custom
+        guard let url = userActivity.webpageURL else { return }
+        dynamicLinkToUniversalLink(dynamicLink: url)
+        
+        // DynamicLinks
+//        guard let url = userActivity.webpageURL else { return }
+//            DynamicLinks.dynamicLinks().handleUniversalLink(url) { dynamicLink, error in
+//                guard let dynamicLink = dynamicLink, let url = dynamicLink.url else { return }
+//                self.parseDynamicLink(dynamicLink: url)
+//
+//
+//                // launch dynamic link code here...?
+//            }
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let urlContext = URLContexts.first else { return }
+
+        // custom
+        dynamicLinkToUniversalLink(dynamicLink: urlContext.url)
+        
+        // DynamicLinks
+//        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: urlContext.url) {
+//            guard let url = dynamicLink.url else { return }
+//            self.parseDynamicLink(dynamicLink: url)
+//        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -49,4 +102,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-

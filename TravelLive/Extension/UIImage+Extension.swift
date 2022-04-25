@@ -8,8 +8,8 @@
 import UIKit
 
 enum ImageAsset: String {
-    
     // push streming icon
+    // swiftlint:disable identifier_name
     case Icons_camera_beauty
     case Icons_camera_beauty_close
     case Icons_close_preview
@@ -23,9 +23,46 @@ enum ImageAsset: String {
     case Icons_shop
     // auth image
     case apple
+    // live animation
+    case heart
+    case theheart
+    case emptyHeart
+    // post button
+    case plus
+    case stop
+    case play
+    
+    case placeholder
+    // map icon
+    case event
+    case place
+    case mapIcon
 }
+
 extension UIImage {
     static func asset(_ asset: ImageAsset) -> UIImage? {
         return UIImage(named: asset.rawValue)
+    }
+}
+
+extension UIImage {
+    func circularImage(_ radius: CGFloat) -> UIImage? {
+            var imageView = UIImageView()
+            if self.size.width > self.size.height {
+                imageView.frame =  CGRect(x: 0, y: 0, width: self.size.width, height: self.size.width)
+                imageView.image = self
+                imageView.contentMode = .scaleAspectFit
+            } else { imageView = UIImageView(image: self) }
+            var layer: CALayer = CALayer()
+
+            layer = imageView.layer
+            layer.masksToBounds = true
+            layer.cornerRadius = radius
+            UIGraphicsBeginImageContext(imageView.bounds.size)
+            layer.render(in: UIGraphicsGetCurrentContext()!)
+            let roundedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+
+            return roundedImage
     }
 }
