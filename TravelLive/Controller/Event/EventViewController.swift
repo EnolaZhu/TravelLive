@@ -16,32 +16,40 @@ class EventViewController: UIViewController {
         EventCollectionViewController(),
         EventCollectionViewController(),
         EventCollectionViewController(),
-        EventCollectionViewController(),
     ]
+    var specificPlaceData: PlaceDataObject?
+    var specificEventData: EventDataObject?
+    var images: [UIImage] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupTableView()
-        
-
+        getPlaceData(city: 0, limit: 5)
+        getPlaceData(city: 1, limit: 5)
+        getPlaceData(city: 2, limit: 5)
+        getPlaceData(city: 3, limit: 5)
+//        getEventData(city: 4, limit: 20)
+        navigationItem.title = "景點"
     }
 
     func setupTableView() {
         let nib = UINib(nibName: String(describing: EventTableViewCell.self), bundle: nil)
 
         eventTableView.register(nib, forCellReuseIdentifier: String(describing: EventTableViewCell.self))
-
         eventTableView.dataSource = self
-
         eventTableView.delegate = self
 
-        eventTableView.backgroundColor = UIColor.orange
+        eventTableView.backgroundColor = UIColor.white
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
     }
 }
 
@@ -79,83 +87,58 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
         self.smallCollectionViewControllers[indexPath.row].didMove(toParent: self)
         
         eventTableViewCell.addSubview(smallCollectionViewControllers[indexPath.row].view)
+        smallCollectionViewControllers[indexPath.row].images = images
+        smallCollectionViewControllers[indexPath.row].specificPlaceData = specificPlaceData
     }
-    
 }
 
+extension EventViewController {
 
+    func getPlaceData(city: Int, limit: Int) {
 
+        MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit)  { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.specificPlaceData = data
+                guard let specificPlaceData = self?.specificPlaceData else { return }
 
+                if specificPlaceData.data.count > 0 {
+                    guard let specificPlaceData = self?.specificPlaceData else { return }
+                    for index in 0...specificPlaceData.data.count - 1 {
+                        ImageManager.shared.fetchImage(imageUrl: specificPlaceData.data[index].image) { [weak self] image in
+                            self?.images.append(image)
+                            self?.eventTableView.reloadData()
+                            print("success")
+                        }
+                    }
+                }
 
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 
+    func getEventData(city: Int, limit: Int) {
 
+        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
+            switch result {
 
+            case .success(let data):
+                self?.specificEventData = data
+                guard let specificEventData = self?.specificEventData else { return }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//extension EventViewController {
-//
-//    func getPlaceData(city: Int, limit: Int) {
-//
-//        MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit)  { [weak self] result in
-//            switch result {
-//            case .success(let data):
-//                self?.specificPlaceData = data
-//                guard let specificPlaceData = self?.specificPlaceData else { return }
-//
-//                if specificPlaceData.data.count > 0 {
-//                    guard let specificPlaceData = self?.specificPlaceData else { return }
-//                    for index in 0...specificPlaceData.data.count - 1 {
-//                        ImageManager.shared.fetchImage(imageUrl: specificPlaceData.data[index].image) { image in
-//                            print("success")
-//                        }
-//                    }
-//                }
-//
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
-//
-//    func getEventData(city: Int, limit: Int) {
-//
-//        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
-//            switch result {
-//
-//            case .success(let data):
-//                self?.specificEventData = data
-//                guard let specificEventData = self?.specificEventData else { return }
-//
-//                if specificEventData.data.count > 0 {
-//                    guard let specificEventData = self?.specificEventData else { return }
-//                    for index in 0...specificEventData.data.count - 1 {
-//                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { image in
-//                            print("success")
-//                        }
-//                    }
-//                }
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
-//}
+                if specificEventData.data.count > 0 {
+                    guard let specificEventData = self?.specificEventData else { return }
+                    for index in 0...specificEventData.data.count - 1 {
+                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { [weak self] image in
+                            print("success")
+                        }
+                    }
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+}

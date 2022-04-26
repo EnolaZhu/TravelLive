@@ -16,15 +16,15 @@ class EventCollectionViewCell: UICollectionViewCell {
         self.layer.cornerRadius = 20
     }
     
-    override var isSelected: Bool {
-        didSet {
-            if self.isSelected {
-                self.layer.borderColor = UIColor.primary.cgColor
-                self.layer.borderWidth = 10
-            } else {
-                self.layer.borderColor = UIColor.white.cgColor
-                self.layer.borderWidth = 5
-            }
-        }
-    }
+//    override var isSelected: Bool {
+//        didSet {
+//            if self.isSelected {
+//                self.layer.borderColor = UIColor.primary.cgColor
+//                self.layer.borderWidth = 5
+//            } else {
+//                self.layer.borderColor = UIColor.white.cgColor
+//                self.layer.borderWidth = 5
+//            }
+//        }
+//    }
 }
