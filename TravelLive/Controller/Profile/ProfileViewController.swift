@@ -124,8 +124,6 @@ class ProfileViewController: UIViewController {
                         }
                     }
                 }
-//                self?.profileView.reloadData()
-                
             case .failure(let error):
                 print(error)
             }
