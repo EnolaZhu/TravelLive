@@ -13,5 +13,10 @@ class ImageCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        layoutCell()
+    }
+    
+    func layoutCell() {
+        self.layer.cornerRadius = 60
     }
 }
