@@ -14,7 +14,11 @@ class EventCollectionViewController: UIViewController {
     
     var specificPlaceData: PlaceDataObject?
     var specificEventData: EventDataObject?
-    var images: [UIImage] = []
+    var images: [UIImage] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +58,7 @@ extension EventCollectionViewController: UICollectionViewDataSource, UICollectio
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        return 5
+        images.count
 
     }
 //swiftlint:disable force_cast identifier_name
@@ -63,11 +67,9 @@ extension EventCollectionViewController: UICollectionViewDataSource, UICollectio
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: EventCollectionViewCell.self), for: indexPath) as? EventCollectionViewCell else {
             fatalError("Couldn't create cell")
         }
-        if images.isEmpty {
-            
-        } else {
-            cell.eventImageView.image = images[indexPath.row]
-        }
+        
+        cell.eventImageView.image = images[indexPath.item]
+        
         return cell
     }
 }

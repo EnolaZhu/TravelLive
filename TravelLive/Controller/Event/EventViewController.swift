@@ -17,9 +17,6 @@ class EventViewController: UIViewController {
         EventCollectionViewController(),
         EventCollectionViewController(),
     ]
-    var specificPlaceData: PlaceDataObject?
-    var specificEventData: EventDataObject?
-    var images: [UIImage] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,28 +82,24 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
 
         self.addChild(self.smallCollectionViewControllers[indexPath.row])
         self.smallCollectionViewControllers[indexPath.row].didMove(toParent: self)
-        
         eventTableViewCell.addSubview(smallCollectionViewControllers[indexPath.row].view)
-        smallCollectionViewControllers[indexPath.row].images = images
-        smallCollectionViewControllers[indexPath.row].specificPlaceData = specificPlaceData
     }
 }
 
 extension EventViewController {
 
     func getPlaceData(city: Int, limit: Int) {
-
+        self.smallCollectionViewControllers[city].images.removeAll()
+        
         MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit)  { [weak self] result in
             switch result {
             case .success(let data):
-                self?.specificPlaceData = data
-                guard let specificPlaceData = self?.specificPlaceData else { return }
+                self?.smallCollectionViewControllers[city].specificPlaceData = data
 
-                if specificPlaceData.data.count > 0 {
-                    guard let specificPlaceData = self?.specificPlaceData else { return }
-                    for index in 0...specificPlaceData.data.count - 1 {
-                        ImageManager.shared.fetchImage(imageUrl: specificPlaceData.data[index].image) { [weak self] image in
-                            self?.images.append(image)
+                if data.data.count > 0 {
+                    for index in 0...data.data.count - 1 {
+                        ImageManager.shared.fetchImage(imageUrl: data.data[index].image) { [weak self] image in
+                            self?.smallCollectionViewControllers[city].images.append(image)
                             self?.eventTableView.reloadData()
                             print("success")
                         }
@@ -119,26 +112,26 @@ extension EventViewController {
         }
     }
 
-    func getEventData(city: Int, limit: Int) {
-
-        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
-            switch result {
-
-            case .success(let data):
-                self?.specificEventData = data
-                guard let specificEventData = self?.specificEventData else { return }
-
-                if specificEventData.data.count > 0 {
-                    guard let specificEventData = self?.specificEventData else { return }
-                    for index in 0...specificEventData.data.count - 1 {
-                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { [weak self] image in
-                            print("success")
-                        }
-                    }
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
+//    func getEventData(city: Int, limit: Int) {
+//
+//        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
+//            switch result {
+//
+//            case .success(let data):
+//                self?.specificEventData = data
+//                guard let specificEventData = self?.specificEventData else { return }
+//
+//                if specificEventData.data.count > 0 {
+//                    guard let specificEventData = self?.specificEventData else { return }
+//                    for index in 0...specificEventData.data.count - 1 {
+//                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { [weak self] image in
+//                            print("success")
+//                        }
+//                    }
+//                }
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+//    }
 }
