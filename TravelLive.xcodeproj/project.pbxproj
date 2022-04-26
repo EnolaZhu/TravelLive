@@ -60,6 +60,7 @@
 		4B9788102811C09F0003CC9F /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B97880F2811C09F0003CC9F /* URL+Extension.swift */; };
 		4B9788132811C89E0003CC9F /* UniversalLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9788122811C89E0003CC9F /* UniversalLinkManager.swift */; };
 		4BA4ED5D2817139800B158CA /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4ED5C2817139800B158CA /* NotificationManager.swift */; };
+		4BA4ED62281786C500B158CA /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4ED61281786C500B158CA /* UserData.swift */; };
 		4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */; };
 		4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E393280E49F600D421D0 /* SearchDataObject.swift */; };
 		4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */; };
@@ -174,6 +175,7 @@
 		4B97880F2811C09F0003CC9F /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		4B9788122811C89E0003CC9F /* UniversalLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkManager.swift; sourceTree = "<group>"; };
 		4BA4ED5C2817139800B158CA /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		4BA4ED61281786C500B158CA /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataProvider.swift; sourceTree = "<group>"; };
 		4BA5E393280E49F600D421D0 /* SearchDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataObject.swift; sourceTree = "<group>"; };
 		4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
@@ -419,6 +421,14 @@
 			path = Notification;
 			sourceTree = "<group>";
 		};
+		4BA4ED5E281784A200B158CA /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				4BA4ED61281786C500B158CA /* UserData.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		4BA5E390280E482F00D421D0 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -588,6 +598,7 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4BA4ED5E281784A200B158CA /* Login */,
 				4BA4ED5B2817136500B158CA /* Notification */,
 				4B17A85C2815BF670006BB2D /* Profile */,
 				4B9788112811C8800003CC9F /* UniversalLink */,
@@ -905,6 +916,7 @@
 				4B978805281057280003CC9F /* LikeBody.swift in Sources */,
 				4B3AAAE92808232C00CBFE89 /* EventCollectionViewCell.swift in Sources */,
 				4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */,
+				4BA4ED62281786C500B158CA /* UserData.swift in Sources */,
 				4B17A85A2815BE230006BB2D /* TitleView.swift in Sources */,
 				4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */,
 				4B035A0B2812748200017762 /* UICollectionView+Extension.swift in Sources */,

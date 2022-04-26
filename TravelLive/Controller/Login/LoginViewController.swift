@@ -14,6 +14,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var authView: AuthView!
     // swiftlint:disable trailing_whitespace
     fileprivate var currentNonce: String?
+    private var fullName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +42,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc func redirectNewPage(_ notification: NSNotification) {
-        if ((notification.userInfo?.keys.contains("live")) != nil) {
+        if notification.userInfo?.keys.contains("live") != nil {
             let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
             )
             
@@ -68,22 +69,22 @@ class LoginViewController: UIViewController {
         var result = ""
         var remainingLength = length
         
-        while(remainingLength > 0) {
+        while remainingLength > 0 {
             let randoms: [UInt8] = (0 ..< 16).map { _ in
                 var random: UInt8 = 0
                 let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
-                if (errorCode != errSecSuccess) {
+                if errorCode != errSecSuccess {
                     fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
                 }
                 return random
             }
             
             randoms.forEach { random in
-                if (remainingLength == 0) {
+                if remainingLength == 0 {
                     return
                 }
                 
-                if (random < charset.count) {
+                if random < charset.count {
                     result.append(charset[Int(random)])
                     remainingLength -= 1
                 }
@@ -104,8 +105,8 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
@@ -121,14 +122,9 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             }
             
             
-            let userId = appleIDCredential.user
-            let fullname = appleIDCredential.fullName
-            let email = appleIDCredential.email
-            let idToken = appleIDCredential.identityToken
-            print("\(userId)")
-            print("\(fullname)")
-            print("\(email)")
-            print("\(idToken)")
+            fullName = "\(String(describing: appleIDCredential.fullName?.givenName))" + "" + "\(String(describing: appleIDCredential.fullName?.familyName))"
+            // 取得使用者的 id、name
+            
             guard let idToken = appleIDCredential.identityToken else { return }
             print("\(idTokenString)")
             // 產生 Apple ID 登入的 Credential
@@ -148,19 +144,19 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         // 登入失敗，處理 Error
         switch error {
         case ASAuthorizationError.canceled:
-            customAlert(title: "使用者取消登入", message: "")
+            print("使用者取消登入")
             break
         case ASAuthorizationError.failed:
-            customAlert(title: "授權請求失敗", message: "")
+            print("授權請求失敗")
             break
         case ASAuthorizationError.invalidResponse:
-            customAlert(title: "授權請求無回應", message: "")
+            print("授權請求無回應")
             break
         case ASAuthorizationError.notHandled:
-            customAlert(title: "授權請求未處理", message: "")
+            print("授權請求未處理")
             break
         case ASAuthorizationError.unknown:
-            customAlert(title: "授權失敗，原因不知", message: "")
+            print("授權失敗，原因不知")
             break
         default:
             break
@@ -183,7 +179,7 @@ extension LoginViewController {
                 return
             }
             print("\(self.getFirebaseUserInfo())")
-            self.customAlert(title: "登入成功！", message: "")
+            print("登入成功！")
             self.showMainView()
         }
     }
@@ -196,7 +192,10 @@ extension LoginViewController {
             return
         }
         let uid = user.uid
-        let email = user.email
-        customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)")
+        let photo = user.photoURL
+        
+        
+        ProfileProvider.shared.postUserInfo(userID: Secret.userID.title, name: fullName ?? "")
+        ProfileProvider.shared.postUserAvatar(userID: uid, photoURL: "\(String(describing: photo))")
     }
 }
