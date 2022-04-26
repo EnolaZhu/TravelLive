@@ -22,6 +22,8 @@ enum DataRequest: Request {
     case fetchEventData(query: String)
     case postUserInfo(body: Data?)
     case postUserAvatar(body: Data?)
+    case deleteAccount(query: String)
+    case deleteProperty(query: String)
     
     var headers: [String: String]? {
         switch self {
@@ -50,6 +52,10 @@ enum DataRequest: Request {
         case .postUserInfo:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .postUserAvatar:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .deleteAccount:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .deleteProperty:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         }
     }
@@ -81,6 +87,10 @@ enum DataRequest: Request {
             return body
         case .postUserAvatar(let body):
             return body
+        case .deleteAccount:
+            return nil
+        case .deleteProperty:
+            return nil
         }
     }
     var method: String {
@@ -111,6 +121,10 @@ enum DataRequest: Request {
             return HTTPMethod.POST.rawValue
         case .postUserAvatar:
             return HTTPMethod.POST.rawValue
+        case .deleteAccount:
+            return HTTPMethod.DELETE.rawValue
+        case .deleteProperty:
+            return HTTPMethod.DELETE.rawValue
         }
     }
     var endPoint: String {
@@ -141,6 +155,10 @@ enum DataRequest: Request {
             return "/user"
         case .postUserAvatar:
             return "/avatar"
+        case .deleteAccount(let query):
+            return "/user" + query
+        case .deleteProperty(let query):
+            return "/storage" + query
         }
     }
 }
