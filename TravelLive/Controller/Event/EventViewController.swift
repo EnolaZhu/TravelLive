@@ -7,175 +7,155 @@
 
 import UIKit
 
-class EventViewController: UIViewController, UICollectionViewDelegate {
+class EventViewController: UIViewController {
+
+    @IBOutlet weak var eventTableView: UITableView!
     
-    
-    static let headerKind = "headerKind"
-    
-    enum Section: Int {
-        case tainan = 0
-        case taizhong = 1
-        case taipei = 2
-    }
-    
-    @IBOutlet weak var collectionView: UICollectionView!
-    
-    var dynamicAnimator: UIDynamicAnimator!
-    var dataSource: UICollectionViewDiffableDataSource<Section, Int>! = nil
-    var specificPlaceData: PlaceDataObject?
-    var specificEventData: EventDataObject?
-    
+    var smallCollectionViewControllers = [
+        EventCollectionViewController(),
+        EventCollectionViewController(),
+        EventCollectionViewController(),
+        EventCollectionViewController(),
+        EventCollectionViewController(),
+    ]
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupTableView()
         
-        configureHierarchy()
-        configureDataSource()
+
+    }
+
+    func setupTableView() {
+        let nib = UINib(nibName: String(describing: EventTableViewCell.self), bundle: nil)
+
+        eventTableView.register(nib, forCellReuseIdentifier: String(describing: EventTableViewCell.self))
+
+        eventTableView.dataSource = self
+
+        eventTableView.delegate = self
+
+        eventTableView.backgroundColor = UIColor.orange
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+}
+
+extension EventViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        return smallCollectionViewControllers.count
+
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+        return 300
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        getPlaceData(city: 0, limit: 5)
-    }
-    
-    private func configureHierarchy() {
-        
-        collectionView.collectionViewLayout = createLayout()
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .systemBackground
-        collectionView.registerCellWithNib(identifier: String(describing: ImageCell.self), bundle: nil)
-        collectionView.register(UINib(nibName: "TitleView", bundle: nil),
-                            forSupplementaryViewOfKind: EventViewController.headerKind,
-                            withReuseIdentifier: TitleView.reuseIdentifier)
-        collectionView.delegate = self
-    }
-    
-    private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                              heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalHeight(0.4))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                         subitems: [item])
+// swiftlint:disable force_cast identifier_name
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: EventTableViewCell.self)) as! EventTableViewCell
         
         
-        let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .absolute(50.0))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: EventViewController.headerKind, alignment: .top)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        
-        section.boundarySupplementaryItems = [header]
-        
-        let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 16
-        
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        let layout = UICollectionViewCompositionalLayout(section: section, configuration: config)
-
-        return layout
+        return eventTableViewCell
     }
 
-    private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Int) -> UICollectionViewCell? in
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let eventTableViewCell = cell as! EventTableViewCell
 
-            // Get a cell of the desired kind.
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: String(describing: ImageCell.self),
-                for: indexPath) as? ImageCell else { fatalError("Cannot create new cell") }
-            if indexPath.section == 0 {
-                cell.backgroundColor = UIColor.primary
-            } else {
-                cell.backgroundColor = UIColor.blue
-            }
-//            cell.propertyImageView.image = UIImage(named: "placeholder")
-            
-            return cell
-        }
-            
-            dataSource.supplementaryViewProvider = {(collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
+        self.smallCollectionViewControllers[indexPath.row].collectionView.frame = eventTableViewCell.bounds
 
-                // Get a supplementary view of the desired kind.
-                if let titleView = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: kind,
-                    withReuseIdentifier: TitleView.reuseIdentifier,
-                    for: indexPath) as? TitleView {
-
-                    switch kind {
-                    case EventViewController.headerKind:
-                        titleView.eventTitleLbl.text = "Place"
-                    default:
-                        ()
-                    }
-                    return titleView
-                } else {
-                    fatalError("Cannot create new supplementary")
-                }
-        }
-
-        // initial data
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
-        snapshot.appendSections([.tainan])
-        snapshot.appendItems(Array(1..<5))
-        snapshot.appendSections([.taizhong])
-        snapshot.appendItems(Array(6..<12))
-        snapshot.appendSections([.taipei])
-        snapshot.appendItems(Array(13..<20))
-        dataSource.apply(snapshot, animatingDifferences: true)
+        self.addChild(self.smallCollectionViewControllers[indexPath.row])
+        self.smallCollectionViewControllers[indexPath.row].didMove(toParent: self)
+        
+        eventTableViewCell.addSubview(smallCollectionViewControllers[indexPath.row].view)
     }
     
 }
-extension EventViewController {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-    }
-    
-    func getPlaceData(city: Int, limit: Int) {
-        
-        MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit)  { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.specificPlaceData = data
-                guard let specificPlaceData = self?.specificPlaceData else { return }
-                
-                if specificPlaceData.data.count > 0 {
-                    guard let specificPlaceData = self?.specificPlaceData else { return }
-                    for index in 0...specificPlaceData.data.count - 1 {
-                        ImageManager.shared.fetchImage(imageUrl: specificPlaceData.data[index].image) { image in
-                            print("success")
-                        }
-                    }
-                }
-                
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    func getEventData(city: Int, limit: Int) {
-        
-        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
-            switch result {
-                
-            case .success(let data):
-                self?.specificEventData = data
-                guard let specificEventData = self?.specificEventData else { return }
-                
-                if specificEventData.data.count > 0 {
-                    guard let specificEventData = self?.specificEventData else { return }
-                    for index in 0...specificEventData.data.count - 1 {
-                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { image in
-                            print("success")
-                        }
-                    }
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//extension EventViewController {
+//
+//    func getPlaceData(city: Int, limit: Int) {
+//
+//        MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit)  { [weak self] result in
+//            switch result {
+//            case .success(let data):
+//                self?.specificPlaceData = data
+//                guard let specificPlaceData = self?.specificPlaceData else { return }
+//
+//                if specificPlaceData.data.count > 0 {
+//                    guard let specificPlaceData = self?.specificPlaceData else { return }
+//                    for index in 0...specificPlaceData.data.count - 1 {
+//                        ImageManager.shared.fetchImage(imageUrl: specificPlaceData.data[index].image) { image in
+//                            print("success")
+//                        }
+//                    }
+//                }
+//
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+//    }
+//
+//    func getEventData(city: Int, limit: Int) {
+//
+//        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
+//            switch result {
+//
+//            case .success(let data):
+//                self?.specificEventData = data
+//                guard let specificEventData = self?.specificEventData else { return }
+//
+//                if specificEventData.data.count > 0 {
+//                    guard let specificEventData = self?.specificEventData else { return }
+//                    for index in 0...specificEventData.data.count - 1 {
+//                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { image in
+//                            print("success")
+//                        }
+//                    }
+//                }
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+//    }
+//}
