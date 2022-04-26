@@ -22,6 +22,12 @@ class LoginViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
         authView.loginWithAppleButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
+        
+        if Secret.userID.title == "" {
+            return
+        } else {
+            showMainView()
+        }
     }
     
     func customAlert(title: String, message: String) {
