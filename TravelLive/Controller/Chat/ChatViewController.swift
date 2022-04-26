@@ -46,7 +46,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
         super.viewDidLoad()
         setupChatView()
         // Setting up our PubNub object
-        let configuration = PNConfiguration(publishKey: Secret.pubNubPublishKey.rawValue, subscribeKey: Secret.pubNubSubscribeKey.rawValue)
+        let configuration = PNConfiguration(publishKey: Secret.pubNubPublishKey.title, subscribeKey: Secret.pubNubSubscribeKey.title)
         configuration.uuid = UUID().uuidString
         client = PubNub.clientWithConfiguration(configuration)
         client.addListener(self)

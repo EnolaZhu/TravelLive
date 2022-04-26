@@ -20,6 +20,8 @@ enum DataRequest: Request {
     case fetchUserliked(query: String)
     case fetchPlaceData(query: String)
     case fetchEventData(query: String)
+    case postUserInfo(body: Data?)
+    case postUserAvatar(body: Data?)
     
     var headers: [String: String]? {
         switch self {
@@ -44,6 +46,10 @@ enum DataRequest: Request {
         case .fetchPlaceData:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .fetchEventData:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .postUserInfo:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .postUserAvatar:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         }
     }
@@ -71,6 +77,10 @@ enum DataRequest: Request {
             return nil
         case .fetchEventData:
             return nil
+        case .postUserInfo(let body):
+            return body
+        case .postUserAvatar(let body):
+            return body
         }
     }
     var method: String {
@@ -97,6 +107,10 @@ enum DataRequest: Request {
             return HTTPMethod.GET.rawValue
         case .fetchEventData:
             return HTTPMethod.GET.rawValue
+        case .postUserInfo:
+            return HTTPMethod.POST.rawValue
+        case .postUserAvatar:
+            return HTTPMethod.POST.rawValue
         }
     }
     var endPoint: String {
@@ -123,6 +137,10 @@ enum DataRequest: Request {
             return "/place" + query
         case .fetchEventData(let query):
             return "/event" + query
+        case .postUserInfo:
+            return "/user"
+        case .postUserAvatar:
+            return "/avatar"
         }
     }
 }
