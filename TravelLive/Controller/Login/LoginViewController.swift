@@ -203,7 +203,6 @@ extension LoginViewController {
             return
         }
         
-        
         ProfileProvider.shared.postUserInfo(userID: userID, name: fullName ?? userID)
     }
 }

@@ -67,7 +67,7 @@ class ProfileViewController: UIViewController {
             switch result {
             case .success(let data):
                 
-                ImageManager.shared.fetchImage(imageUrl: data.avatar) { image in
+                ImageManager.shared.fetchImage(imageUrl: data.avatar) { [weak self] image in
                     self?.avatarImage = image
                     self?.profileView.reloadData()
                 }
@@ -132,9 +132,9 @@ class ProfileViewController: UIViewController {
     
     private func getImage(imageUrl: String) {
         // Image
-        ImageManager.shared.fetchImage(imageUrl: imageUrl) { image in
-            self.propertyImages.append(image)
-            self.profileView.reloadData()
+        ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
+            self?.propertyImages.append(image)
+            self?.profileView.reloadData()
         }
     }
     
@@ -247,11 +247,36 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProfileCollectionCell.self), for: indexPath) as? ProfileCollectionCell else {
             fatalError("Couldn't create cell")
         }
+        // ImageView gesture
+        let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        cell.profileImageView.isUserInteractionEnabled = true
+        cell.profileImageView.addGestureRecognizer(tapGestureRecognizer)
         
-//        cell.profileImageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageWidth)
         cell.layoutCell(image: propertyImages[indexPath.row])
-//        cell.profileImageView.contentMode = .scaleAspectFill
         return cell
+    }
+    
+    @objc func imageTapped(tapGestureRecognizer: UILongPressGestureRecognizer) {
+        // swiftlint:disable force_cast
+        _ = tapGestureRecognizer.view as! UIImageView
+        let point = tapGestureRecognizer.view?.convert(CGPoint.zero, to: profileView)
+        createDeleteAlert(index: point)
+    }
+    
+    private func createDeleteAlert(index: CGPoint?) {
+        let deleteAlert = UIAlertController(
+            title: "提示",
+            message: "你確定要刪除這張圖片嗎",
+            preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) -> Void in
+            guard let indexPath = self.profileView.indexPathForItem(at: index ?? CGPoint()) else { return }
+            print("Konw it:  \(String(describing: indexPath))")
+            self.propertyImages.remove(at: indexPath.row)
+            // TODO: 從 database 刪除圖片
+            self.profileView.reloadData()
+            })
+        deleteAlert.addAction(okAction)
+        self.present(deleteAlert, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
