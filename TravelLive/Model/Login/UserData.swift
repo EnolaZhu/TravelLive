@@ -8,6 +8,11 @@
 struct UserDataObject: Encodable {
     let userID: String
     let fullName: String
+    
+    enum CodingKeys: String, CodingKey {
+        case userID = "uid"
+        case fullName = "name"
+    }
 }
 
 struct UserAvatarObject: Encodable {

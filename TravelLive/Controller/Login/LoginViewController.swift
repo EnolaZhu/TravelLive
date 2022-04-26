@@ -23,11 +23,11 @@ class LoginViewController: UIViewController {
         
         authView.loginWithAppleButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
         
-        if Secret.userID.title == "" {
-            return
-        } else {
-            showMainView()
-        }
+//        if userID == "" {
+//            return
+//        } else {
+//            showMainView()
+//        }
     }
     
     func customAlert(title: String, message: String) {
@@ -201,7 +201,7 @@ extension LoginViewController {
         let photo = user.photoURL
         
         
-        ProfileProvider.shared.postUserInfo(userID: Secret.userID.title, name: fullName ?? "")
-        ProfileProvider.shared.postUserAvatar(userID: uid, photoURL: "\(String(describing: photo))")
+        ProfileProvider.shared.postUserInfo(userID: userID, name: fullName ?? "")
+//        ProfileProvider.shared.postUserAvatar(userID: uid, photoURL: "\(String(describing: photo))")
     }
 }
