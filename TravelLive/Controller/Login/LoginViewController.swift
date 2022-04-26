@@ -195,7 +195,7 @@ extension LoginViewController {
         let photo = user.photoURL
         
         
-        ProfileProvider.shared.postUserInfo(userID: Secret.userID.title, name: fullName ?? "")
+        ProfileProvider.shared.postUserInfo(userID: userID, name: fullName ?? "")
         ProfileProvider.shared.postUserAvatar(userID: uid, photoURL: "\(String(describing: photo))")
     }
 }

@@ -34,7 +34,8 @@ class ProfileViewController: UIViewController {
         // Add observer of change images
         NotificationCenter.default.addObserver(self, selector: #selector(self.showUserProperty(_:)), name: .showUserPropertyKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showLikedProperty(_:)), name: .showLikedPropertyKey, object: nil)
-        
+        // edit
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditNewViewKey, object: nil)
         
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
         
@@ -160,6 +161,23 @@ class ProfileViewController: UIViewController {
     
     @objc func showLikedProperty(_ notification: NSNotification) {
         getLikedProperty()
+    }
+    
+    @objc func showEditView(_ notification: NSNotification) {
+        createAlertSheet()
+    }
+    
+    private func createAlertSheet() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "編輯資料", style: .default, handler: { [weak self] _ in
+            
+        }))
+        alertController.addAction(UIAlertAction(title: "刪除賬號", style: .default, handler: { [weak self] _ in
+             print("delete")
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { [weak self] _ in
+        }))
+        self.present(alertController, animated: true)
     }
     
     @objc func postImage(_ sender: UIButton) {
