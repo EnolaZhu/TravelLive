@@ -57,7 +57,6 @@ class DetailViewController: BaseViewController {
     }
     
     private func fetchComment(propertyId: String, userId: String) {
-        // TODO: 要改 ID
 //        propertyId = "Enola_1650378092481000_0"
         DetailDataProvider.shared.fetchCommentData(propertyId: propertyId, userId: userId) { [weak self] result in
             switch result {
