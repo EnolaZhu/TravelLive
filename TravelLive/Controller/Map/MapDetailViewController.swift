@@ -50,11 +50,11 @@ extension MapDetailViewController: UITableViewDataSource {
             guard let placeEventViewImageCell = cell as? PlaceEventViewImageCell else { return cell }
             
             if detailPlaceData == nil {
-                ImageManager.shared.fetchImage(imageUrl: detailEventData?.image ?? "") { image in
+                ImageManager.shared.fetchImage(imageUrl: detailEventData?.image ?? "") { [weak self] image in
                     placeEventViewImageCell.layoutCell(image: image)
                 }
             } else {
-                ImageManager.shared.fetchImage(imageUrl: detailPlaceData?.image ?? "") { image in
+                ImageManager.shared.fetchImage(imageUrl: detailPlaceData?.image ?? "") { [weak self] image in
                     placeEventViewImageCell.layoutCell(image: image)
                 }
             }

@@ -68,7 +68,7 @@ class ProfileViewController: UIViewController {
             switch result {
             case .success(let data):
                 
-                ImageManager.shared.fetchImage(imageUrl: data.avatar) { image in
+                ImageManager.shared.fetchImage(imageUrl: data.avatar) { [weak self] image in
                     self?.avatarImage = image
                     self?.profileView.reloadData()
                 }
@@ -125,8 +125,6 @@ class ProfileViewController: UIViewController {
                         }
                     }
                 }
-//                self?.profileView.reloadData()
-                
             case .failure(let error):
                 print(error)
             }
@@ -135,9 +133,9 @@ class ProfileViewController: UIViewController {
     
     private func getImage(imageUrl: String) {
         // Image
-        ImageManager.shared.fetchImage(imageUrl: imageUrl) { image in
-            self.propertyImages.append(image)
-            self.profileView.reloadData()
+        ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
+            self?.propertyImages.append(image)
+            self?.profileView.reloadData()
         }
     }
     

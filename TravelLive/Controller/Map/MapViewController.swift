@@ -164,7 +164,7 @@ class MapViewController: UIViewController {
                 if eventData.data.count > 0 {
                     guard let eventData = self?.eventData else { return }
                     for index in 0...eventData.data.count - 1 {
-                        ImageManager.shared.fetchImage(imageUrl: eventData.data[index].image) { image in
+                        ImageManager.shared.fetchImage(imageUrl: eventData.data[index].image) { [weak self] image in
                             self?.makeCustomMarker(latitude: Float(eventData.data[index].latitude), longitude: Float(eventData.data[index].longitude), pinImage: image, isStreamer: false)
                         }
                     }
@@ -185,7 +185,7 @@ class MapViewController: UIViewController {
                 guard let placeData = self?.placeData else { return }
                 if placeData.data.count > 0 {
                     for index in 0...placeData.data.count - 1 {
-                        ImageManager.shared.fetchImage(imageUrl: placeData.data[index].image) { image in
+                        ImageManager.shared.fetchImage(imageUrl: placeData.data[index].image) { [weak self] image in
                             self?.makeCustomMarker(latitude: Float(placeData.data[index].latitude), longitude: Float(placeData.data[index].longitude), pinImage: image, isStreamer: false)
                         }
                     }
@@ -198,8 +198,8 @@ class MapViewController: UIViewController {
     
     
     private func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
-        ImageManager.shared.fetchImage(imageUrl: data.avatar) { image in
-            self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image, isStreamer: true)
+        ImageManager.shared.fetchImage(imageUrl: data.avatar) { [weak self] image in
+            self?.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image, isStreamer: true)
         }
     }
     

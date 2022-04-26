@@ -20,6 +20,8 @@ enum DataRequest: Request {
     case fetchUserliked(query: String)
     case fetchPlaceData(query: String)
     case fetchEventData(query: String)
+    case fetchSpecificPlaceData(query: String)
+    case fetchSpecificEventData(query: String)
     case postUserInfo(body: Data?)
     case postUserAvatar(body: Data?)
     case deleteAccount(query: String)
@@ -48,6 +50,10 @@ enum DataRequest: Request {
         case .fetchPlaceData:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .fetchEventData:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchSpecificPlaceData:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchSpecificEventData:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .postUserInfo:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
@@ -83,6 +89,10 @@ enum DataRequest: Request {
             return nil
         case .fetchEventData:
             return nil
+        case .fetchSpecificPlaceData:
+            return nil
+        case .fetchSpecificEventData:
+            return nil
         case .postUserInfo(let body):
             return body
         case .postUserAvatar(let body):
@@ -117,6 +127,10 @@ enum DataRequest: Request {
             return HTTPMethod.GET.rawValue
         case .fetchEventData:
             return HTTPMethod.GET.rawValue
+        case .fetchSpecificPlaceData:
+            return HTTPMethod.GET.rawValue
+        case .fetchSpecificEventData:
+            return HTTPMethod.GET.rawValue
         case .postUserInfo:
             return HTTPMethod.POST.rawValue
         case .postUserAvatar:
@@ -150,6 +164,10 @@ enum DataRequest: Request {
         case .fetchPlaceData(let query):
             return "/place" + query
         case .fetchEventData(let query):
+            return "/event" + query
+        case .fetchSpecificPlaceData(let query):
+            return "/place" + query
+        case .fetchSpecificEventData(let query):
             return "/event" + query
         case .postUserInfo:
             return "/user"

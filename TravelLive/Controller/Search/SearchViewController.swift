@@ -121,9 +121,9 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     private func getImage(searchData: SearchData, imageUrl: String, index: Int) {
         // Image
-        ImageManager.shared.fetchImage(imageUrl: imageUrl) { image in
-            self.images[index] = image
-            self.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+        ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
+            self?.images[index] = image
+            self?.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
     

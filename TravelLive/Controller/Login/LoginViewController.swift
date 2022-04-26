@@ -22,6 +22,12 @@ class LoginViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
         authView.loginWithAppleButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
+        
+        if userID == "" {
+            return
+        } else {
+            showMainView()
+        }
     }
     
     func customAlert(title: String, message: String) {
@@ -121,8 +127,13 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 return
             }
             
+            if fullName == nil {
+                fullName = userID
+            } else {
+                fullName = "\(String(describing: appleIDCredential.fullName?.givenName))" + "" + "\(String(describing: appleIDCredential.fullName?.familyName))"
+            }
             
-            fullName = "\(String(describing: appleIDCredential.fullName?.givenName))" + "" + "\(String(describing: appleIDCredential.fullName?.familyName))"
+//            fullName = "\(String(describing: appleIDCredential.fullName?.givenName))" + "" + "\(String(describing: appleIDCredential.fullName?.familyName))"
             // 取得使用者的 id、name
             
             guard let idToken = appleIDCredential.identityToken else { return }
@@ -191,11 +202,6 @@ extension LoginViewController {
             customAlert(title: "無法取得使用者資料！", message: "")
             return
         }
-        let uid = user.uid
-        let photo = user.photoURL
-        
-        
-        ProfileProvider.shared.postUserInfo(userID: userID, name: fullName ?? "")
-        ProfileProvider.shared.postUserAvatar(userID: uid, photoURL: "\(String(describing: photo))")
+        ProfileProvider.shared.postUserInfo(userID: userID, name: fullName ?? userID)
     }
 }
