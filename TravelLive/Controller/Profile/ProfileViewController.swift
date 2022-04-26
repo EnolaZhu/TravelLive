@@ -272,7 +272,12 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.profileImageView.isUserInteractionEnabled = true
         cell.profileImageView.addGestureRecognizer(tapGestureRecognizer)
         
-        cell.layoutCell(image: propertyImages[indexPath.row])
+        if propertyImages.isEmpty {
+            cell.layoutCell(image: UIImage(named: "placeholder") ?? UIImage())
+        } else {
+            cell.layoutCell(image: propertyImages[indexPath.row])
+        }
+        
         return cell
     }
     
