@@ -129,4 +129,18 @@ class ProfileProvider {
             }
         })
     }
+    
+    func postModifyUserInfo(userID: String, name: String) {
+        let body = UserDataObject(userID: userID, fullName: name)
+        let request = DataRequest.postUserInfo(body: try? JSONEncoder().encode(body))
+        
+        HTTPClient.shared.request(request, completion: { data in
+            switch data {
+            case .success(_):
+                print("Post user info successfully")
+            case .failure(let error):
+                print(error)
+            }
+        })
+    }
 }

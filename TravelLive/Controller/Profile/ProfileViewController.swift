@@ -41,8 +41,6 @@ class ProfileViewController: UIViewController {
         // Add observer of change images
         NotificationCenter.default.addObserver(self, selector: #selector(self.showUserProperty(_:)), name: .showUserPropertyKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showLikedProperty(_:)), name: .showLikedPropertyKey, object: nil)
-        // edit
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditNewViewKey, object: nil)
         
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
         
@@ -57,6 +55,8 @@ class ProfileViewController: UIViewController {
         profileView.delegate = self
         profileView.dataSource = self
          
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self, action: #selector(createAlertSheet))]
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.primary
         
         profileView.contentInsetAdjustmentBehavior = .never
         //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
@@ -114,7 +114,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func getLikedProperty() {
+    private func getLikedProperty() {
         propertyImages.removeAll()
         
         ProfileProvider.shared.fetchUserLikedData(userId: userId) { [weak self] data in
@@ -169,11 +169,12 @@ class ProfileViewController: UIViewController {
         getLikedProperty()
     }
     
-    @objc func showEditView(_ notification: NSNotification) {
-        createAlertSheet()
-    }
     
-    private func createAlertSheet() {
+//    @objc func showEditView(_ notification: NSNotification) {
+//        createAlertSheet()
+//    }
+    
+    @objc func createAlertSheet() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "編輯資料", style: .default, handler: { [weak self] _ in
             self?.createModifyNameAlert()
@@ -340,6 +341,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         let okAction = UIAlertAction(title: "完成", style: .default) { [unowned controller] _ in
            let displayName = controller.textFields?[0].text
             // TODO: post display name to database
+            ProfileProvider.shared.postModifyUserInfo(userID: userID, name: displayName ?? userID)
             self.displayName = displayName
         }
         
