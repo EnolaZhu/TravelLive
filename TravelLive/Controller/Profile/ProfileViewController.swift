@@ -22,7 +22,6 @@ class ProfileViewController: UIViewController {
         return postButton
     }()
     let imagePickerController = UIImagePickerController()
-    let userId = "Enola"
     fileprivate var imageWidth: CGFloat = 0
     var userPropertyData: ProfilePropertyObject?
     var likedPropertyData: ProfileLikedObject?
@@ -77,11 +76,11 @@ class ProfileViewController: UIViewController {
        }
     
     private func getUserInfo() {
-        ProfileProvider.shared.fetchUserData(userId: userId) { [weak self] result in
+        ProfileProvider.shared.fetchUserData(userId: userID) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.profileInfo = data
-                self?.displayName = data.userId
+                self?.displayName = data.name
                 ImageManager.shared.fetchImage(imageUrl: data.avatar) { [weak self] image in
                     self?.avatarImage = image
                     self?.profileView.reloadData()
@@ -96,7 +95,7 @@ class ProfileViewController: UIViewController {
     func getUserProperty() {
         propertyImages.removeAll()
         
-        ProfileProvider.shared.fetchUserPropertyData(userId: userId) { [weak self] result in
+        ProfileProvider.shared.fetchUserPropertyData(userId: userID) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.userPropertyData = data
@@ -123,7 +122,7 @@ class ProfileViewController: UIViewController {
     private func getLikedProperty() {
         propertyImages.removeAll()
         
-        ProfileProvider.shared.fetchUserLikedData(userId: userId) { [weak self] data in
+        ProfileProvider.shared.fetchUserLikedData(userId: userID) { [weak self] data in
             switch data {
             case .success(let data):
                 self?.likedPropertyData = data
@@ -188,9 +187,8 @@ class ProfileViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "登出", style: .default, handler: { [weak self] _ in
             self?.signOut()
         }))
-        alertController.addAction(UIAlertAction(title: "刪除賬號", style: .default, handler: { [weak self] _ in
-            // 先 Hard code Enola
-            ProfileProvider.shared.deleteAccount(userId: "Enola")
+        alertController.addAction(UIAlertAction(title: "刪除帳號", style: .default, handler: { [weak self] _ in
+            ProfileProvider.shared.deleteAccount(userId: userID)
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { [weak self] _ in
         }))
@@ -247,7 +245,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         let uploadTimestamp = Int(uploadDate.timeIntervalSince1970)
         
         let tag = "\(Int.random(in: 0...2))"
-        let storageRefPath = userId + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
+        let storageRefPath = userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             let imageUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
@@ -261,7 +259,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath)
             
             // Convert video type to GIF
-            let storageRefGifPath = "thumbnail_" + userId + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
+            let storageRefGifPath = "thumbnail_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
             GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
                 switch result {
                 case .success(let urlOfGIF):
@@ -280,8 +278,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     // Set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
-//        avatarImage = UIImage(named: "avatar") ?? UIImage()
-        avatarImage = avatarImage.circularImage(60) ?? UIImage()
         if displayName == nil {
             header.layoutProfileHeader(avatar: avatarImage, displayName: "")
         } else {
@@ -347,7 +343,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         let okAction = UIAlertAction(title: "完成", style: .default) { [unowned controller] _ in
            let displayName = controller.textFields?[0].text
             // TODO: post display name to database
-            ProfileProvider.shared.postModifyUserInfo(userID: userID, name: displayName ?? userID)
+            ProfileProvider.shared.putModifyUserInfo(userID: userID, name: displayName ?? userID)
             self.displayName = displayName
         }
         
