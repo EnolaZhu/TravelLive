@@ -41,6 +41,8 @@ class ProfileViewController: UIViewController {
         // Add observer of change images
         NotificationCenter.default.addObserver(self, selector: #selector(self.showUserProperty(_:)), name: .showUserPropertyKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showLikedProperty(_:)), name: .showLikedPropertyKey, object: nil)
+        // change avatar
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditAvatarViewKey, object: nil)
         
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
         
@@ -69,6 +71,10 @@ class ProfileViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
         imageWidth = (UIScreen.width / 3).rounded()
     }
+    
+    @objc func showEditView(_ notification: NSNotification) {
+           createAlertSheet()
+       }
     
     private func getUserInfo() {
         ProfileProvider.shared.fetchUserData(userId: userId) { [weak self] result in

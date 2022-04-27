@@ -12,9 +12,12 @@ class ProfileHeader: UICollectionReusableView {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var changePropertySegment: UISegmentedControl!
     @IBOutlet weak var displayNameLabel: UILabel!
+    @IBOutlet weak var editAvatarButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        editAvatarButton.addTarget(self, action: #selector(changeAvatar), for: .touchUpInside)
     }
     
     override func layoutSubviews() {
@@ -22,6 +25,10 @@ class ProfileHeader: UICollectionReusableView {
         avatarImageView.layer.cornerRadius = 60
         avatarImageView.clipsToBounds = true
     }
+    
+    @objc func changeAvatar(_ sender: UIButton) {
+            NotificationCenter.default.post(name: .showEditAvatarViewKey, object: nil)
+        }
     
     func layoutProfileHeader(avatar: UIImage, displayName: String) {
         
