@@ -156,7 +156,7 @@ class MapViewController: UIViewController {
     @objc func getEventData(_ sender: UIButton) {
         mapView.clear()
         showTypeOfMarker = "event"
-        mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+        mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
             switch result {
             case .success(let places):
                 self?.eventData = places
@@ -178,7 +178,7 @@ class MapViewController: UIViewController {
     @objc func getPlaceData(_ sender: UIButton) {
         mapView.clear()
         showTypeOfMarker = "place"
-        mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+        mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
             switch result {
             case .success(let places):
                 self?.placeData = places
@@ -212,7 +212,7 @@ class MapViewController: UIViewController {
         if isStreamer {
             size = CGSize(width: 88, height: 88)
         } else {
-            size = CGSize(width: 77, height: 77)
+            size = CGSize(width: 68, height: 68)
         }
         
         UIGraphicsBeginImageContext(size)
@@ -225,7 +225,7 @@ class MapViewController: UIViewController {
             marker.layer.borderColor = UIColor.orange.cgColor
             marker.icon = resizedImage?.circularImage(44)
         } else {
-            marker.icon = resizedImage
+            marker.icon = resizedImage?.circularImage(34)
         }
         marker.map = self.mapView
         mapView.selectedMarker = marker
