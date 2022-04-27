@@ -12,7 +12,7 @@ class ProfileHeader: UICollectionReusableView {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var changePropertySegment: UISegmentedControl!
-    @IBOutlet weak var profileWordLabel: UILabel!
+    @IBOutlet weak var displayNameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,10 +29,10 @@ class ProfileHeader: UICollectionReusableView {
         NotificationCenter.default.post(name: .showEditNewViewKey, object: nil)
     }
     
-    func layoutProfileHeader(avatar: UIImage) {
+    func layoutProfileHeader(avatar: UIImage, displayName: String) {
         
         avatarImageView.image = avatar
-        profileWordLabel.text = "Hello, world!"
+        displayNameLabel.text = displayName
     }
     
     @IBAction func changeProfileProperty(_ sender: UISegmentedControl) {

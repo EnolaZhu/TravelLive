@@ -114,8 +114,8 @@
                                     <connections>
                                         <outlet property="avatarImageView" destination="Cyv-jo-TpT" id="4Xb-BI-b1D"/>
                                         <outlet property="changePropertySegment" destination="vQp-ur-6YS" id="su6-HZ-DPe"/>
+                                        <outlet property="displayNameLabel" destination="yIq-4o-qCl" id="fTi-fk-eV7"/>
                                         <outlet property="editButton" destination="dEX-ST-0eg" id="nS4-tE-yOA"/>
-                                        <outlet property="profileWordLabel" destination="yIq-4o-qCl" id="aS0-4p-CS8"/>
                                     </connections>
                                 </collectionReusableView>
                             </collectionView>

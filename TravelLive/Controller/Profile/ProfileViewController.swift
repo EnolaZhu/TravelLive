@@ -28,6 +28,12 @@ class ProfileViewController: UIViewController {
     var likedPropertyData: ProfileLikedObject?
     var avatarImage = UIImage()
     var propertyImages = [UIImage]()
+    var profileInfo: ProfileObject?
+    var displayName: String? {
+        didSet {
+            profileView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +74,8 @@ class ProfileViewController: UIViewController {
         ProfileProvider.shared.fetchUserData(userId: userId) { [weak self] result in
             switch result {
             case .success(let data):
-                
+                self?.profileInfo = data
+                self?.displayName = data.userId
                 ImageManager.shared.fetchImage(imageUrl: data.avatar) { [weak self] image in
                     self?.avatarImage = image
                     self?.profileView.reloadData()
@@ -169,7 +176,7 @@ class ProfileViewController: UIViewController {
     private func createAlertSheet() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "編輯資料", style: .default, handler: { [weak self] _ in
-            
+            self?.createModifyNameAlert()
         }))
         alertController.addAction(UIAlertAction(title: "登出", style: .default, handler: { [weak self] _ in
             self?.signOut()
@@ -268,7 +275,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
 //        avatarImage = UIImage(named: "avatar") ?? UIImage()
         avatarImage = avatarImage.circularImage(60) ?? UIImage()
-        header.layoutProfileHeader(avatar: avatarImage)
+        if displayName == nil {
+            header.layoutProfileHeader(avatar: avatarImage, displayName: "")
+        } else {
+            header.layoutProfileHeader(avatar: avatarImage, displayName: displayName ?? "")
+        }
         return header
     }
     
@@ -318,6 +329,24 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             })
         deleteAlert.addAction(okAction)
         self.present(deleteAlert, animated: true, completion: nil)
+    }
+    
+    private func createModifyNameAlert() {
+        let controller = UIAlertController(title: "名字", message: "修改的名字只在 APP 內使用哦", preferredStyle: .alert)
+        controller.addTextField { textField in
+           textField.placeholder = "名字"
+        }
+        
+        let okAction = UIAlertAction(title: "完成", style: .default) { [unowned controller] _ in
+           let displayName = controller.textFields?[0].text
+            // TODO: post display name to database
+            self.displayName = displayName
+        }
+        
+        controller.addAction(okAction)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
