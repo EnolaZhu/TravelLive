@@ -175,7 +175,8 @@ class ProfileViewController: UIViewController {
             self?.signOut()
         }))
         alertController.addAction(UIAlertAction(title: "刪除賬號", style: .default, handler: { [weak self] _ in
-             print("delete")
+            // 先 Hard code Enola
+            ProfileProvider.shared.deleteAccount(userId: "Enola")
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { [weak self] _ in
         }))
@@ -209,11 +210,11 @@ class ProfileViewController: UIViewController {
     }
     
     func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
-        /// Create the temporary directory.
+        // Create the temporary directory.
         let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-        /// create a temporary file for us to copy the video to.
+        // create a temporary file for us to copy the video to.
         let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent(url.lastPathComponent ?? "")
-        /// Attempt the copy.
+        // Attempt the copy.
         do {
             try FileManager().copyItem(at: url.absoluteURL!, to: temporaryFileURL)
         } catch {
@@ -265,7 +266,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     // Set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
-        avatarImage = UIImage(named: "avatar") ?? UIImage()
+//        avatarImage = UIImage(named: "avatar") ?? UIImage()
         avatarImage = avatarImage.circularImage(60) ?? UIImage()
         header.layoutProfileHeader(avatar: avatarImage)
         return header
@@ -307,9 +308,12 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) -> Void in
             guard let indexPath = self.profileView.indexPathForItem(at: index ?? CGPoint()) else { return }
-            print("Konw it:  \(String(describing: indexPath))")
+            // delete image from local
             self.propertyImages.remove(at: indexPath.row)
-            // TODO: 從 database 刪除圖片
+            // delete image from database
+            ProfileProvider.shared.deleteSpecificProperty(propertyId: self.userPropertyData?.data[indexPath.row].propertyId ?? ""
+            )
+            
             self.profileView.reloadData()
             })
         deleteAlert.addAction(okAction)

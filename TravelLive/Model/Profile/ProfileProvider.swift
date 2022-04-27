@@ -74,50 +74,59 @@ class ProfileProvider {
     }
     
     func postUserInfo(userID: String, name: String) {
-        
         let body = UserDataObject(userID: userID, fullName: name)
-        
         let request = DataRequest.postUserInfo(body: try? JSONEncoder().encode(body))
         
         HTTPClient.shared.request(request, completion: { data in
-            
             switch data {
-                
-            case .success( _):
-                
+            case .success(_):
                 print("Post user info successfully")
-                
             case .failure(let error):
-                
                 print(error)
-                
             }
-            
         })
-        
     }
     
     func postUserAvatar(userID: String, photoURL: String) {
-        
         let body = UserAvatarObject(userID: userID, userPhoto: photoURL)
-        
         let request = DataRequest.postUserAvatar(body: try? JSONEncoder().encode(body))
         
         HTTPClient.shared.request(request, completion: { data in
-            
             switch data {
-                
-            case .success( _):
-                
+            case .success(_):
                 print("Post user avatar successfully")
-                
             case .failure(let error):
-                
                 print(error)
-                
             }
-            
         })
+    }
+    
+    // delete
+    func deleteSpecificProperty(propertyId: String) {
+        let query = ConvertQuery.shared.getQueryString(keyValues: ("id", propertyId))
+        let request = DataRequest.deleteProperty(query: query)
         
+        HTTPClient.shared.request(request, completion: { data in
+            switch data {
+            case .success(_):
+                print("Delete  successfully")
+            case .failure(let error):
+                print(error)
+            }
+        })
+    }
+    
+    func deleteAccount(userId: String) {
+        let query = ConvertQuery.shared.getQueryString(keyValues: ("uid", userId))
+        let request = DataRequest.deleteAccount(query: query)
+        
+        HTTPClient.shared.request(request, completion: { data in
+            switch data {
+            case .success( _):
+                print("Delete  successfully")
+            case .failure(let error):
+                print(error)
+            }
+        })
     }
 }
