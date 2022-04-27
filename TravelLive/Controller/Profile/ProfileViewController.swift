@@ -8,6 +8,7 @@
 import UIKit
 import CoreServices
 import GoogleMobileAds
+import FirebaseAuth
 
 class ProfileViewController: UIViewController {
     
@@ -170,12 +171,25 @@ class ProfileViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "編輯資料", style: .default, handler: { [weak self] _ in
             
         }))
+        alertController.addAction(UIAlertAction(title: "登出", style: .default, handler: { [weak self] _ in
+            self?.signOut()
+        }))
         alertController.addAction(UIAlertAction(title: "刪除賬號", style: .default, handler: { [weak self] _ in
              print("delete")
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { [weak self] _ in
         }))
         self.present(alertController, animated: true)
+    }
+    
+    // User sign out
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            userID = ""
+        } catch {
+            print(error)
+        }
     }
     
     @objc func postImage(_ sender: UIButton) {
