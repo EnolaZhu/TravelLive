@@ -202,7 +202,6 @@ extension LoginViewController {
             customAlert(title: "無法取得使用者資料！", message: "")
             return
         }
-        
         ProfileProvider.shared.postUserInfo(userID: userID, name: fullName ?? userID)
     }
 }

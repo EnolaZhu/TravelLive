@@ -10,12 +10,14 @@ import UIKit
 class ProfileHeader: UICollectionReusableView {
     
     @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var changePropertySegment: UISegmentedControl!
-    @IBOutlet weak var profileWordLabel: UILabel!
+    @IBOutlet weak var displayNameLabel: UILabel!
+    @IBOutlet weak var editAvatarButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        editAvatarButton.addTarget(self, action: #selector(changeAvatar), for: .touchUpInside)
     }
     
     override func layoutSubviews() {
@@ -24,10 +26,14 @@ class ProfileHeader: UICollectionReusableView {
         avatarImageView.clipsToBounds = true
     }
     
-    func layoutProfileHeader(avatar: UIImage) {
+    @objc func changeAvatar(_ sender: UIButton) {
+            NotificationCenter.default.post(name: .showEditAvatarViewKey, object: nil)
+        }
+    
+    func layoutProfileHeader(avatar: UIImage, displayName: String) {
         
         avatarImageView.image = avatar
-        profileWordLabel.text = "Hello, world!"
+        displayNameLabel.text = displayName
     }
     
     @IBAction func changeProfileProperty(_ sender: UISegmentedControl) {

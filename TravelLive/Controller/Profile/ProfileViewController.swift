@@ -8,6 +8,7 @@
 import UIKit
 import CoreServices
 import GoogleMobileAds
+import FirebaseAuth
 
 class ProfileViewController: UIViewController {
     
@@ -27,6 +28,12 @@ class ProfileViewController: UIViewController {
     var likedPropertyData: ProfileLikedObject?
     var avatarImage = UIImage()
     var propertyImages = [UIImage]()
+    var profileInfo: ProfileObject?
+    var displayName: String? {
+        didSet {
+            profileView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +41,8 @@ class ProfileViewController: UIViewController {
         // Add observer of change images
         NotificationCenter.default.addObserver(self, selector: #selector(self.showUserProperty(_:)), name: .showUserPropertyKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showLikedProperty(_:)), name: .showLikedPropertyKey, object: nil)
-        
+        // change avatar
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditAvatarViewKey, object: nil)
         
         postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
         
@@ -49,6 +57,8 @@ class ProfileViewController: UIViewController {
         profileView.delegate = self
         profileView.dataSource = self
          
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self, action: #selector(createAlertSheet))]
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.primary
         
         profileView.contentInsetAdjustmentBehavior = .never
         //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
@@ -62,11 +72,16 @@ class ProfileViewController: UIViewController {
         imageWidth = (UIScreen.width / 3).rounded()
     }
     
+    @objc func showEditView(_ notification: NSNotification) {
+           createAlertSheet()
+       }
+    
     private func getUserInfo() {
         ProfileProvider.shared.fetchUserData(userId: userId) { [weak self] result in
             switch result {
             case .success(let data):
-                
+                self?.profileInfo = data
+                self?.displayName = data.userId
                 ImageManager.shared.fetchImage(imageUrl: data.avatar) { [weak self] image in
                     self?.avatarImage = image
                     self?.profileView.reloadData()
@@ -105,7 +120,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func getLikedProperty() {
+    private func getLikedProperty() {
         propertyImages.removeAll()
         
         ProfileProvider.shared.fetchUserLikedData(userId: userId) { [weak self] data in
@@ -160,6 +175,38 @@ class ProfileViewController: UIViewController {
         getLikedProperty()
     }
     
+    
+//    @objc func showEditView(_ notification: NSNotification) {
+//        createAlertSheet()
+//    }
+    
+    @objc func createAlertSheet() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "編輯資料", style: .default, handler: { [weak self] _ in
+            self?.createModifyNameAlert()
+        }))
+        alertController.addAction(UIAlertAction(title: "登出", style: .default, handler: { [weak self] _ in
+            self?.signOut()
+        }))
+        alertController.addAction(UIAlertAction(title: "刪除賬號", style: .default, handler: { [weak self] _ in
+            // 先 Hard code Enola
+            ProfileProvider.shared.deleteAccount(userId: "Enola")
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { [weak self] _ in
+        }))
+        self.present(alertController, animated: true)
+    }
+    
+    // User sign out
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            userID = ""
+        } catch {
+            print(error)
+        }
+    }
+    
     @objc func postImage(_ sender: UIButton) {
         imagePickerController.delegate = self
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
@@ -177,11 +224,11 @@ class ProfileViewController: UIViewController {
     }
     
     func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
-        /// Create the temporary directory.
+        // Create the temporary directory.
         let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-        /// create a temporary file for us to copy the video to.
+        // create a temporary file for us to copy the video to.
         let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent(url.lastPathComponent ?? "")
-        /// Attempt the copy.
+        // Attempt the copy.
         do {
             try FileManager().copyItem(at: url.absoluteURL!, to: temporaryFileURL)
         } catch {
@@ -233,9 +280,13 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     // Set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
-        avatarImage = UIImage(named: "avatar") ?? UIImage()
+//        avatarImage = UIImage(named: "avatar") ?? UIImage()
         avatarImage = avatarImage.circularImage(60) ?? UIImage()
-        header.layoutProfileHeader(avatar: avatarImage)
+        if displayName == nil {
+            header.layoutProfileHeader(avatar: avatarImage, displayName: "")
+        } else {
+            header.layoutProfileHeader(avatar: avatarImage, displayName: displayName ?? "")
+        }
         return header
     }
     
@@ -252,7 +303,12 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.profileImageView.isUserInteractionEnabled = true
         cell.profileImageView.addGestureRecognizer(tapGestureRecognizer)
         
-        cell.layoutCell(image: propertyImages[indexPath.row])
+        if propertyImages.isEmpty {
+            cell.layoutCell(image: UIImage(named: "placeholder") ?? UIImage())
+        } else {
+            cell.layoutCell(image: propertyImages[indexPath.row])
+        }
+        
         return cell
     }
     
@@ -270,13 +326,35 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) -> Void in
             guard let indexPath = self.profileView.indexPathForItem(at: index ?? CGPoint()) else { return }
-            print("Konw it:  \(String(describing: indexPath))")
+            // delete image from local
             self.propertyImages.remove(at: indexPath.row)
-            // TODO: 從 database 刪除圖片
+            // delete image from database
+            ProfileProvider.shared.deleteSpecificProperty(propertyId: self.userPropertyData?.data[indexPath.row].propertyId ?? ""
+            )
+            
             self.profileView.reloadData()
             })
         deleteAlert.addAction(okAction)
         self.present(deleteAlert, animated: true, completion: nil)
+    }
+    
+    private func createModifyNameAlert() {
+        let controller = UIAlertController(title: "名字", message: "修改的名字只在 APP 內使用哦", preferredStyle: .alert)
+        controller.addTextField { textField in
+           textField.placeholder = "名字"
+        }
+        
+        let okAction = UIAlertAction(title: "完成", style: .default) { [unowned controller] _ in
+           let displayName = controller.textFields?[0].text
+            // TODO: post display name to database
+            ProfileProvider.shared.postModifyUserInfo(userID: userID, name: displayName ?? userID)
+            self.displayName = displayName
+        }
+        
+        controller.addAction(okAction)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
