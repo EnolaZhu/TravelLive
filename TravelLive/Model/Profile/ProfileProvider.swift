@@ -74,7 +74,7 @@ class ProfileProvider {
     }
     
     func postUserInfo(userID: String, name: String) {
-        let body = UserDataObject(userID: userID, fullName: name)
+        let body = UserDataObject(uid: userID, name: name)
         let request = DataRequest.postUserInfo(body: try? JSONEncoder().encode(body))
         
         HTTPClient.shared.request(request, completion: { data in
@@ -87,7 +87,7 @@ class ProfileProvider {
         })
     }
     
-    func postUserAvatar(userID: String, photoURL: String) {
+    func putUserAvatar(userID: String, photoURL: String) {
         let body = UserAvatarObject(userID: userID, userPhoto: photoURL)
         let request = DataRequest.postUserAvatar(body: try? JSONEncoder().encode(body))
         
@@ -130,9 +130,9 @@ class ProfileProvider {
         })
     }
     
-    func postModifyUserInfo(userID: String, name: String) {
-        let body = UserDataObject(userID: userID, fullName: name)
-        let request = DataRequest.postUserInfo(body: try? JSONEncoder().encode(body))
+    func putModifyUserInfo(userID: String, name: String) {
+        let body = UserDataObject(uid: userID, name: name)
+        let request = DataRequest.putUserInfo(body: try? JSONEncoder().encode(body))
         
         HTTPClient.shared.request(request, completion: { data in
             switch data {

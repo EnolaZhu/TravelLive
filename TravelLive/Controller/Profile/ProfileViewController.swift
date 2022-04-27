@@ -80,7 +80,7 @@ class ProfileViewController: UIViewController {
             switch result {
             case .success(let data):
                 self?.profileInfo = data
-                self?.displayName = data.userId
+                self?.displayName = data.name
                 ImageManager.shared.fetchImage(imageUrl: data.avatar) { [weak self] image in
                     self?.avatarImage = image
                     self?.profileView.reloadData()
@@ -343,7 +343,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         let okAction = UIAlertAction(title: "完成", style: .default) { [unowned controller] _ in
            let displayName = controller.textFields?[0].text
             // TODO: post display name to database
-            ProfileProvider.shared.postModifyUserInfo(userID: userID, name: displayName ?? userID)
+            ProfileProvider.shared.putModifyUserInfo(userID: userID, name: displayName ?? userID)
             self.displayName = displayName
         }
         

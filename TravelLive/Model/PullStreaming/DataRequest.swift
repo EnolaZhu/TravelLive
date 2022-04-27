@@ -26,6 +26,7 @@ enum DataRequest: Request {
     case postUserAvatar(body: Data?)
     case deleteAccount(query: String)
     case deleteProperty(query: String)
+    case putUserInfo(body: Data?)
     
     var headers: [String: String]? {
         switch self {
@@ -62,6 +63,8 @@ enum DataRequest: Request {
         case .deleteAccount:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .deleteProperty:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .putUserInfo:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         }
     }
@@ -101,6 +104,8 @@ enum DataRequest: Request {
             return nil
         case .deleteProperty:
             return nil
+        case .putUserInfo(let body):
+            return body
         }
     }
     var method: String {
@@ -134,11 +139,13 @@ enum DataRequest: Request {
         case .postUserInfo:
             return HTTPMethod.POST.rawValue
         case .postUserAvatar:
-            return HTTPMethod.POST.rawValue
+            return HTTPMethod.PUT.rawValue
         case .deleteAccount:
             return HTTPMethod.DELETE.rawValue
         case .deleteProperty:
             return HTTPMethod.DELETE.rawValue
+        case .putUserInfo:
+            return HTTPMethod.PUT.rawValue
         }
     }
     var endPoint: String {
@@ -177,6 +184,8 @@ enum DataRequest: Request {
             return "/user" + query
         case .deleteProperty(let query):
             return "/storage" + query
+        case .putUserInfo:
+            return "/user"
         }
     }
 }
