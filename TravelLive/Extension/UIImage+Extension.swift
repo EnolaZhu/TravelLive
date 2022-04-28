@@ -47,40 +47,38 @@ extension UIImage {
 
 extension UIImage {
     func circularImage(_ radius: CGFloat) -> UIImage? {
-            var imageView = UIImageView()
-            if self.size.width > self.size.height {
-                imageView.frame =  CGRect(x: 0, y: 0, width: self.size.width, height: self.size.width)
-                imageView.image = self
-                imageView.contentMode = .scaleAspectFit
-            } else { imageView = UIImageView(image: self) }
-            var layer: CALayer = CALayer()
-
-            layer = imageView.layer
-            layer.masksToBounds = true
-            layer.cornerRadius = radius
-            UIGraphicsBeginImageContext(imageView.bounds.size)
-            layer.render(in: UIGraphicsGetCurrentContext()!)
-            let roundedImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-
-            return roundedImage
+        var imageView = UIImageView()
+        if self.size.width > self.size.height {
+            imageView.frame =  CGRect(x: 0, y: 0, width: self.size.width, height: self.size.width)
+            imageView.image = self
+            imageView.contentMode = .scaleAspectFit
+        } else { imageView = UIImageView(image: self) }
+        var layer: CALayer = CALayer()
+        
+        layer = imageView.layer
+        layer.masksToBounds = true
+        layer.cornerRadius = radius
+        UIGraphicsBeginImageContext(imageView.bounds.size)
+        layer.render(in: UIGraphicsGetCurrentContext()!)
+        let roundedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return roundedImage
     }
     
     
-        func outline() -> UIImage? {
-
-            let size = CGSize(width: self.size.width, height: self.size.height)
-            UIGraphicsBeginImageContext(size)
-            let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-            self.draw(in: rect, blendMode: .normal, alpha: 1.0)
-            let context = UIGraphicsGetCurrentContext()
-            context?.setStrokeColor(red: 1, green: 0, blue: 0, alpha: 1)
-            context?.stroke(rect)
-            let newImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-
-            return newImage
-        }
-    
-    
+    func outline() -> UIImage? {
+        
+        let size = CGSize(width: self.size.width, height: self.size.height)
+        UIGraphicsBeginImageContext(size)
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        self.draw(in: rect, blendMode: .normal, alpha: 1.0)
+        let context = UIGraphicsGetCurrentContext()
+        context?.setStrokeColor(red: 1, green: 0, blue: 0, alpha: 1)
+        context?.stroke(rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
 }

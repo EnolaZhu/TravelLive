@@ -73,7 +73,6 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func showEditView(_ notification: NSNotification) {
-        //           createAlertSheet()
         self.openCameraActionSheet { cameraState in
             if let state = cameraState {
                 self.openImagePicker(with: state)
@@ -85,6 +84,10 @@ class ProfileViewController: UIViewController {
     private func presentCropViewController(_ image: UIImage) {
         let cropViewController = CropViewController(image: image) { [unowned self] croppedImage in
             self.avatarImage = croppedImage ?? UIImage()
+            
+            // Put user selected image to firebase
+            let imageBase64 = ConvertImageTOBase64Manager().convertImageToBase64String(image: croppedImage ?? UIImage())
+            ProfileProvider.shared.putUserAvatar(userID: userID, photoBase64: imageBase64)
         }
         self.present(cropViewController, animated: true, completion: nil)
     }
@@ -109,11 +112,11 @@ class ProfileViewController: UIViewController {
             case .success(let data):
                 self?.profileInfo = data
                 self?.displayName = data.name
-                ImageManager.shared.fetchImage(imageUrl: data.avatar) { [weak self] image in
+                
+                ImageManager.shared.fetchImageWithoutCache(imageUrl: data.avatar) { [weak self] image in
                     self?.avatarImage = image
                     self?.profileView.reloadData()
                 }
-                
             case .failure(let error):
                 print(error)
             }

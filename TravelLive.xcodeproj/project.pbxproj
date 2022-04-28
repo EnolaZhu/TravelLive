@@ -66,6 +66,7 @@
 		4BA36583281AE34800A2E724 /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA36582281AE34800A2E724 /* CropViewController.swift */; };
 		4BA36585281AE37200A2E724 /* CircleCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA36584281AE37200A2E724 /* CircleCropView.swift */; };
 		4BA36587281AE45F00A2E724 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA36586281AE45F00A2E724 /* ImagePicker.swift */; };
+		4BA3658A281AEB6900A2E724 /* ConvertImageTOBase64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA36589281AEB6900A2E724 /* ConvertImageTOBase64.swift */; };
 		4BA4ED5D2817139800B158CA /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4ED5C2817139800B158CA /* NotificationManager.swift */; };
 		4BA4ED62281786C500B158CA /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4ED61281786C500B158CA /* UserData.swift */; };
 		4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */; };
@@ -188,6 +189,7 @@
 		4BA36582281AE34800A2E724 /* CropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
 		4BA36584281AE37200A2E724 /* CircleCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCropView.swift; sourceTree = "<group>"; };
 		4BA36586281AE45F00A2E724 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		4BA36589281AEB6900A2E724 /* ConvertImageTOBase64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertImageTOBase64.swift; sourceTree = "<group>"; };
 		4BA4ED5C2817139800B158CA /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4BA4ED61281786C500B158CA /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataProvider.swift; sourceTree = "<group>"; };
@@ -432,6 +434,14 @@
 			path = UniversalLink;
 			sourceTree = "<group>";
 		};
+		4BA36588281AEB3C00A2E724 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				4BA36589281AEB6900A2E724 /* ConvertImageTOBase64.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		4BA4ED5B2817136500B158CA /* Notification */ = {
 			isa = PBXGroup;
 			children = (
@@ -617,6 +627,7 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4BA36588281AEB3C00A2E724 /* Image */,
 				4B6689652818E2AA003CA423 /* Profile */,
 				4BA4ED5E281784A200B158CA /* Login */,
 				4BA4ED5B2817136500B158CA /* Notification */,
@@ -941,6 +952,7 @@
 				4B17A85A2815BE230006BB2D /* TitleView.swift in Sources */,
 				4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */,
 				4B035A0B2812748200017762 /* UICollectionView+Extension.swift in Sources */,
+				4BA3658A281AEB6900A2E724 /* ConvertImageTOBase64.swift in Sources */,
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,
 				4B66E9462817B96C00BD62C6 /* EventCollectionViewController.swift in Sources */,
 				4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */,

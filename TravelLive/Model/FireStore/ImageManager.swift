@@ -6,6 +6,7 @@
 //
 
 import Kingfisher
+import UIKit
 
 class ImageManager {
     static let shared = ImageManager()
@@ -14,24 +15,41 @@ class ImageManager {
         imageView.kf.setImage(with: URL(string: url))
     }
     
-    func downloadImage(with urlString : String, imageCompletionHandler: @escaping (UIImage?) -> Void) {
+    func downloadImage(isAvatar: Bool, with urlString : String, imageCompletionHandler: @escaping (UIImage?) -> Void) {
         guard let url = URL.init(string: urlString) else {
             return  imageCompletionHandler(nil)
         }
         let resource = ImageResource(downloadURL: url)
         
-        KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { result in
-            switch result {
-            case .success(let value):
-                imageCompletionHandler(value.image)
-            case .failure:
-                imageCompletionHandler(nil)
+        if isAvatar {
+            KingfisherManager.shared.retrieveImage(with: resource, options: [.forceRefresh], progressBlock: nil) { result in
+                switch result {
+                case .success(let value):
+                    imageCompletionHandler(value.image)
+                case .failure:
+                    imageCompletionHandler(nil)
+                }
+            }
+        } else {
+            KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { result in
+                switch result {
+                case .success(let value):
+                    imageCompletionHandler(value.image)
+                case .failure:
+                    imageCompletionHandler(nil)
+                }
             }
         }
     }
     
     func fetchImage(imageUrl: String, completion: @escaping (UIImage) -> Void) {
-        self.downloadImage(with: imageUrl) { uiImage in
+        self.downloadImage(isAvatar: false, with: imageUrl) { uiImage in
+            completion((uiImage ?? UIImage())!)
+        }
+    }
+    
+    func fetchImageWithoutCache(imageUrl: String, completion: @escaping (UIImage) -> Void) {
+        self.downloadImage(isAvatar: true, with: imageUrl) { uiImage in
             completion((uiImage ?? UIImage())!)
         }
     }
