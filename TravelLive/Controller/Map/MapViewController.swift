@@ -36,9 +36,7 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
-        eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
-        streamButton.setImage(UIImage.asset(.Icons_live), for: UIControl.State())
+        setUpButtons()
         
         // Location
         self.locationManager.requestAlwaysAuthorization()
@@ -139,12 +137,21 @@ class MapViewController: UIViewController {
         )
     }
     
+    private func setUpButtons() {
+        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+        setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
+        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
+    }
+    
+   
+    
     @objc func getStreamerData(_ sender: UIButton) {
         fetchStreamerData()
         isButtonSelected.toggle()
         changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.Icons_live)!)
-        placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
-        eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
+        
+        setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
+        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
     }
     
     private func fetchStreamerData() {
@@ -180,8 +187,9 @@ class MapViewController: UIViewController {
     @objc func getEventData(_ sender: UIButton) {
         isButtonSelected.toggle()
         changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.event)!)
-        placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
-        streamButton.setImage(UIImage.asset(.Icons_live), for: UIControl.State())
+        
+        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
         
         mapView.clear()
         showTypeOfMarker = "event"
@@ -207,8 +215,9 @@ class MapViewController: UIViewController {
     @objc func getPlaceData(_ sender: UIButton) {
         isButtonSelected.toggle()
         changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.place)!)
-        eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
-        streamButton.setImage(UIImage.asset(.Icons_live), for: UIControl.State())
+        
+        setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
+        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
         
         mapView.clear()
         showTypeOfMarker = "place"

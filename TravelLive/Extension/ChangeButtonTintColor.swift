@@ -20,3 +20,8 @@ func changeButtonTintColor(_ button: UIButton, _ isButtonSelected: Bool, _ image
         button.tintColor = UIColor.secondary
     }
 }
+
+func setUpButtonBasicColor(_ button: UIButton, _ image: UIImage, color: UIColor) {
+    button.setImage(image.withRenderingMode(.alwaysTemplate), for: UIControl.State())
+    button.tintColor = color
+}

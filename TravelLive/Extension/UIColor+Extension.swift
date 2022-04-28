@@ -9,11 +9,16 @@ import UIKit
 
 private enum CustomColor: String {
     case primary = "EA444E"
+    case secondary = "#949494"
 }
 
 extension UIColor {
     static var primary: UIColor {
         return UIColor.hexStringToUIColor(hex: CustomColor.primary.rawValue)
+    }
+    
+    static var secondary: UIColor {
+        return UIColor.hexStringToUIColor(hex: CustomColor.secondary.rawValue)
     }
 
     static func hexStringToUIColor(hex: String) -> UIColor {
