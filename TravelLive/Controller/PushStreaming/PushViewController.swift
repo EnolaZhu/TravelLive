@@ -64,8 +64,6 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {

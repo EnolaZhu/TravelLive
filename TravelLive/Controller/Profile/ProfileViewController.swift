@@ -14,7 +14,7 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
-//    let itemSize = CGSize(width: 125, height: 125)
+    //    let itemSize = CGSize(width: 125, height: 125)
     var postButton: UIButton = {
         let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
@@ -33,6 +33,7 @@ class ProfileViewController: UIViewController {
             profileView.reloadData()
         }
     }
+    var imagePicker: ImagePicker!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +56,7 @@ class ProfileViewController: UIViewController {
         
         profileView.delegate = self
         profileView.dataSource = self
-         
+        
         navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self, action: #selector(createAlertSheet))]
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.primary
         
@@ -72,8 +73,38 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func showEditView(_ notification: NSNotification) {
-           createAlertSheet()
-       }
+        self.openCameraActionSheet { cameraState in
+            if let state = cameraState {
+                self.openImagePicker(with: state)
+            }
+        }
+    }
+    
+    // show selected image
+    private func presentCropViewController(_ image: UIImage) {
+        let cropViewController = CropViewController(image: image) { [unowned self] croppedImage in
+            self.avatarImage = croppedImage ?? UIImage()
+            
+            // Put user selected image to firebase
+            let imageBase64 = ConvertImageTOBase64Manager().convertImageToBase64String(image: croppedImage ?? UIImage())
+            ProfileProvider.shared.putUserAvatar(userID: userID, photoBase64: imageBase64)
+        }
+        self.present(cropViewController, animated: true, completion: nil)
+    }
+    
+    /// async 取回選擇的 image
+    private func openImagePicker(with state: CameraState) {
+        self.imagePicker = ImagePicker(fromController: self, state: state, compltionClouser: { [unowned self] pickupResult in
+            switch pickupResult {
+            case .success(let selectedImage):
+                DispatchQueue.main.async {
+                    self.presentCropViewController(selectedImage)
+                }
+            case .error(let message):
+                self.presentAlertMessage(message: message)
+            }
+        })
+    }
     
     private func getUserInfo() {
         ProfileProvider.shared.fetchUserData(userId: userID) { [weak self] result in
@@ -81,11 +112,11 @@ class ProfileViewController: UIViewController {
             case .success(let data):
                 self?.profileInfo = data
                 self?.displayName = data.name
-                ImageManager.shared.fetchImage(imageUrl: data.avatar) { [weak self] image in
+                
+                ImageManager.shared.fetchImageWithoutCache(imageUrl: data.avatar) { [weak self] image in
                     self?.avatarImage = image
                     self?.profileView.reloadData()
                 }
-                
             case .failure(let error):
                 print(error)
             }
@@ -273,6 +304,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     // Set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
+        
         if displayName == nil {
             header.layoutProfileHeader(avatar: avatarImage, displayName: "")
         } else {
@@ -324,7 +356,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             )
             
             self.profileView.reloadData()
-            })
+        })
         deleteAlert.addAction(okAction)
         self.present(deleteAlert, animated: true, completion: nil)
     }
@@ -332,12 +364,12 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     private func createModifyNameAlert() {
         let controller = UIAlertController(title: "名字", message: "修改的名字只在 APP 內使用哦", preferredStyle: .alert)
         controller.addTextField { textField in
-           textField.placeholder = "名字"
+            textField.placeholder = "名字"
         }
         
         let okAction = UIAlertAction(title: "完成", style: .default) { [unowned controller] _ in
-           let displayName = controller.textFields?[0].text
-            // TODO: post display name to database
+            let displayName = controller.textFields?[0].text
+            
             ProfileProvider.shared.putModifyUserInfo(userID: userID, name: displayName ?? userID)
             self.displayName = displayName
         }
@@ -349,7 +381,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        itemSize
+        //        itemSize
         return CGSize(width: imageWidth, height: imageWidth)
     }
     
@@ -368,5 +400,46 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         let detailVC = DetailViewController()
         detailVC.detailPageImage = image
         navigationController?.pushViewController(detailVC, animated: true)
+    }
+}
+
+extension ProfileViewController {
+    func openCameraActionSheet(compltion:@escaping (CameraState?) -> Void) {
+        let cameraActionSheet = UIAlertController(title: "", message: "選項", preferredStyle: .actionSheet)
+        
+        let cameraAction = UIAlertAction(title: "相機", style: .default) { _ in
+            compltion(.camera)
+        }
+        
+        let gallaryAction = UIAlertAction(title: "相冊", style: .default) { _ in
+            compltion(.gallary)
+        }
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel) { _ in
+            compltion(nil)
+        }
+        cameraActionSheet.addAction(cameraAction)
+        cameraActionSheet.addAction(gallaryAction)
+        cameraActionSheet.addAction(cancelAction)
+        
+        if let popoverController = cameraActionSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+        }
+        
+        self.present(cameraActionSheet, animated: true, completion: nil)
+    }
+    
+    // Error alert
+    func presentAlertMessage(title: String = "Alert", message: String, okclick: (() -> Void)? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] _ in
+            if okclick != nil {
+                okclick!()
+            }
+        }
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true) {
+        }
     }
 }

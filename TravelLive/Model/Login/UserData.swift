@@ -11,6 +11,6 @@ struct UserDataObject: Encodable {
 }
 
 struct UserAvatarObject: Encodable {
-    let userID: String
-    let userPhoto: String
+    let uid: String
+    let base64: String
 }

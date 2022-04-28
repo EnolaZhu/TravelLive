@@ -63,6 +63,10 @@
 		4B97880E28107C200003CC9F /* Heart break.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B97880D28107C200003CC9F /* Heart break.json */; };
 		4B9788102811C09F0003CC9F /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B97880F2811C09F0003CC9F /* URL+Extension.swift */; };
 		4B9788132811C89E0003CC9F /* UniversalLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9788122811C89E0003CC9F /* UniversalLinkManager.swift */; };
+		4BA36583281AE34800A2E724 /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA36582281AE34800A2E724 /* CropViewController.swift */; };
+		4BA36585281AE37200A2E724 /* CircleCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA36584281AE37200A2E724 /* CircleCropView.swift */; };
+		4BA36587281AE45F00A2E724 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA36586281AE45F00A2E724 /* ImagePicker.swift */; };
+		4BA3658A281AEB6900A2E724 /* ConvertImageTOBase64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA36589281AEB6900A2E724 /* ConvertImageTOBase64.swift */; };
 		4BA4ED5D2817139800B158CA /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4ED5C2817139800B158CA /* NotificationManager.swift */; };
 		4BA4ED62281786C500B158CA /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4ED61281786C500B158CA /* UserData.swift */; };
 		4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */; };
@@ -182,6 +186,10 @@
 		4B97880D28107C200003CC9F /* Heart break.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart break.json"; sourceTree = "<group>"; };
 		4B97880F2811C09F0003CC9F /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		4B9788122811C89E0003CC9F /* UniversalLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkManager.swift; sourceTree = "<group>"; };
+		4BA36582281AE34800A2E724 /* CropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
+		4BA36584281AE37200A2E724 /* CircleCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCropView.swift; sourceTree = "<group>"; };
+		4BA36586281AE45F00A2E724 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		4BA36589281AEB6900A2E724 /* ConvertImageTOBase64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertImageTOBase64.swift; sourceTree = "<group>"; };
 		4BA4ED5C2817139800B158CA /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4BA4ED61281786C500B158CA /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		4BA5E391280E484B00D421D0 /* SearchDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataProvider.swift; sourceTree = "<group>"; };
@@ -267,6 +275,7 @@
 		4B0359F528125EC100017762 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				4BA36584281AE37200A2E724 /* CircleCropView.swift */,
 				4B17A8562815BE220006BB2D /* ImageCell.xib */,
 				4B17A8572815BE230006BB2D /* TitleView.swift */,
 				4B17A88D2815C6C60006BB2D /* ProfileCollectionCell.swift */,
@@ -319,6 +328,7 @@
 			isa = PBXGroup;
 			children = (
 				4B3AAAF0280873D400CBFE89 /* ProfileViewController.swift */,
+				4BA36582281AE34800A2E724 /* CropViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -400,6 +410,7 @@
 				4B6689692818E2F6003CA423 /* ProfileObject.swift */,
 				4B6689662818E2F6003CA423 /* ProfilePropertyObject.swift */,
 				4B6689672818E2F6003CA423 /* ProfileProvider.swift */,
+				4BA36586281AE45F00A2E724 /* ImagePicker.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -421,6 +432,14 @@
 				4B1ED6242813BFB500674E6D /* ShareManager.swift */,
 			);
 			path = UniversalLink;
+			sourceTree = "<group>";
+		};
+		4BA36588281AEB3C00A2E724 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				4BA36589281AEB6900A2E724 /* ConvertImageTOBase64.swift */,
+			);
+			path = Image;
 			sourceTree = "<group>";
 		};
 		4BA4ED5B2817136500B158CA /* Notification */ = {
@@ -608,6 +627,7 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4BA36588281AEB3C00A2E724 /* Image */,
 				4B6689652818E2AA003CA423 /* Profile */,
 				4BA4ED5E281784A200B158CA /* Login */,
 				4BA4ED5B2817136500B158CA /* Notification */,
@@ -932,6 +952,7 @@
 				4B17A85A2815BE230006BB2D /* TitleView.swift in Sources */,
 				4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */,
 				4B035A0B2812748200017762 /* UICollectionView+Extension.swift in Sources */,
+				4BA3658A281AEB6900A2E724 /* ConvertImageTOBase64.swift in Sources */,
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,
 				4B66E9462817B96C00BD62C6 /* EventCollectionViewController.swift in Sources */,
 				4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */,
@@ -944,8 +965,10 @@
 				4B060CBC280BD3020055EDB2 /* GridLayout.swift in Sources */,
 				4B17A8902815C6C60006BB2D /* ProfileHeader.swift in Sources */,
 				4B17A8892815C6880006BB2D /* DetailViewCommentCell.swift in Sources */,
+				4BA36587281AE45F00A2E724 /* ImagePicker.swift in Sources */,
 				4BC0EE6B28000D0800C5673B /* BaseViewController.swift in Sources */,
 				4B66896A2818E2F6003CA423 /* ProfilePropertyObject.swift in Sources */,
+				4BA36585281AE37200A2E724 /* CircleCropView.swift in Sources */,
 				4BC1076927FBF0390017B1B7 /* UIImage+Extension.swift in Sources */,
 				4BC1073C27FA9DD40017B1B7 /* SceneDelegate.swift in Sources */,
 				4B9788102811C09F0003CC9F /* URL+Extension.swift in Sources */,
@@ -981,6 +1004,7 @@
 				4BDEC34C28028B6F00143E25 /* HTTPClient.swift in Sources */,
 				4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */,
 				4B4AA43B280294BE0066C602 /* Parser.swift in Sources */,
+				4BA36583281AE34800A2E724 /* CropViewController.swift in Sources */,
 				4BB5A92D280DAD6E00739C61 /* GIFManager.swift in Sources */,
 				4B3AAAD62806BCB500CBFE89 /* Notification.Name+Extension.swift in Sources */,
 				4B66897E281A7299003CA423 /* ChangeButtonTintColor.swift in Sources */,
