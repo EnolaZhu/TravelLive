@@ -39,7 +39,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var loadingMore = false
     var client: PubNub!
     var channelName = "Channel Name"
-    var username = "Enola"
     var textsOfSTT = [String]()
     
     override func viewDidLoad() {
@@ -112,7 +111,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
             let messageString: String = inputTextfield.text!
             let messageObject: [String: Any] =
             [ "message": messageString,
-              "username": username,
+              "username": userID,
               "uuid": client.uuid()
             ]
             

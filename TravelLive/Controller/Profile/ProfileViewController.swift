@@ -25,7 +25,7 @@ class ProfileViewController: UIViewController {
     fileprivate var imageWidth: CGFloat = 0
     var userPropertyData: ProfilePropertyObject?
     var likedPropertyData: ProfileLikedObject?
-    var avatarImage = UIImage()
+    var avatarImage: UIImage?
     var propertyImages = [UIImage]()
     var profileInfo: ProfileObject?
     var displayName: String? {
@@ -70,6 +70,8 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         imageWidth = ((UIScreen.width - 4) / 3)  - 2
+        getUserInfo()
+        getUserProperty()
     }
     
     @objc func showEditView(_ notification: NSNotification) {
@@ -306,9 +308,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
         
         if displayName == nil {
-            header.layoutProfileHeader(avatar: avatarImage, displayName: "")
+            header.layoutProfileHeader(avatar: (avatarImage ?? UIImage(named: "placeholder"))!, displayName: "")
         } else {
-            header.layoutProfileHeader(avatar: avatarImage, displayName: displayName ?? "")
+            header.layoutProfileHeader(avatar: (avatarImage ?? UIImage(named: "placeholder"))!, displayName: displayName ?? "")
         }
         return header
     }
@@ -318,6 +320,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProfileCollectionCell.self), for: indexPath) as? ProfileCollectionCell else {
             fatalError("Couldn't create cell")
         }
@@ -354,7 +357,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             // delete image from database
             ProfileProvider.shared.deleteSpecificProperty(propertyId: self.userPropertyData?.data[indexPath.row].propertyId ?? ""
             )
-            
             self.profileView.reloadData()
         })
         deleteAlert.addAction(okAction)
@@ -398,6 +400,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = propertyImages[indexPath.item]
         let detailVC = DetailViewController()
+        //TODO: 判斷 liked 和 property
+        detailVC.propertyId = userPropertyData?.data[indexPath.row].propertyId ?? ""
+        detailVC.imageOwnerName = userPropertyData?.data[indexPath.row].name ?? ""
         detailVC.detailPageImage = image
         navigationController?.pushViewController(detailVC, animated: true)
     }
@@ -426,7 +431,6 @@ extension ProfileViewController {
             popoverController.sourceView = self.view
             popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
         }
-        
         self.present(cameraActionSheet, animated: true, completion: nil)
     }
     

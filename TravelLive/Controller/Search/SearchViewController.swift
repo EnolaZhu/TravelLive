@@ -143,6 +143,7 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
         let detailVC = DetailViewController()
         detailVC.detailPageImage = image
         detailVC.propertyId = searchDataObjc?.data[indexPath.row].propertyId ?? ""
+        detailVC.imageOwnerName = searchDataObjc?.data[indexPath.row].name ?? ""
         navigationController?.pushViewController(detailVC, animated: true)
     }
     

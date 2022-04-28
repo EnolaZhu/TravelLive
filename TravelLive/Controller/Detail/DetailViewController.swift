@@ -17,6 +17,7 @@ class DetailViewController: BaseViewController {
     var detailPageImage = UIImage()
     var avatarImage = UIImage()
     var propertyId = String()
+    var imageOwnerName = String()
     var isLiked = Bool()
     
     override func viewDidLoad() {
@@ -38,7 +39,7 @@ class DetailViewController: BaseViewController {
         super.viewWillAppear(animated)
         // owner id 換成 property id   從 search 頁和圖片一起帶過來
         
-        fetchComment(propertyId: propertyId, userId: "Enola")
+        fetchComment(propertyId: propertyId, userId: userID)
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -107,7 +108,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                 ImageManager.shared.fetchImage(imageUrl: allCommentData?.message[indexPath.row - 1].avatar ?? "") { [weak self] image in
                     self?.avatarImage = image
                 }
-                commentCell.layoutCell(name: allCommentData?.message[indexPath.row - 1].reviewerId ?? "", comment: allCommentData?.message[indexPath.row - 1].message ?? "", avatar: avatarImage, time: allCommentData?.message[indexPath.row - 1].timestamp ?? "")
+                commentCell.layoutCell(name: allCommentData?.message[indexPath.row - 1].name ?? "", comment: allCommentData?.message[indexPath.row - 1].message ?? "", avatar: avatarImage, time: allCommentData?.message[indexPath.row - 1].timestamp ?? "")
             }
             return commentCell
         }
@@ -159,11 +160,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     @objc func clickLoveButton(_ sender: UIButton) {
         if sender.hasImage(named: "theheart", for: .normal) {
-            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: "Enola", isLiked: false)
+            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
             setUpHeartAnimation(name: "Heart break")
             sender.setImage(UIImage.asset(.emptyHeart), for: .normal)
         } else {
-            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: "Enola", isLiked: true)
+            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: true)
             setUpHeartAnimation(name: "Hearts moving")
             sender.setImage(UIImage.asset(.theheart), for: .normal)
         }
