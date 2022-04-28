@@ -87,8 +87,8 @@ class ProfileProvider {
         })
     }
     
-    func putUserAvatar(userID: String, photoURL: String) {
-        let body = UserAvatarObject(userID: userID, userPhoto: photoURL)
+    func putUserAvatar(userID: String, photoBase64: String) {
+        let body = UserAvatarObject(uid: userID, base64: photoBase64)
         let request = DataRequest.postUserAvatar(body: try? JSONEncoder().encode(body))
         
         HTTPClient.shared.request(request, completion: { data in
