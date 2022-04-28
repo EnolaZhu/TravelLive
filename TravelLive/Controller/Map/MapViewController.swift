@@ -31,11 +31,11 @@ class MapViewController: UIViewController {
     let eventButton = UIButton()
     let streamButton = UIButton()
     var showTypeOfMarker = String()
+    var isButtonSelected = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // setting button
         placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
         eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
         streamButton.setImage(UIImage.asset(.Icons_live), for: UIControl.State())
@@ -59,8 +59,6 @@ class MapViewController: UIViewController {
         }
         mapView.delegate = self
         
-        
-        
         setUpContainerView()
         setUpStreamButton()
         setUpPlaceButton()
@@ -77,7 +75,7 @@ class MapViewController: UIViewController {
         
         placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
-        streamButton.addTarget(self, action: #selector(fetchStreamerData), for: .touchUpInside)
+        streamButton.addTarget(self, action: #selector(getStreamerData), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -141,9 +139,18 @@ class MapViewController: UIViewController {
         )
     }
     
-    @objc private func fetchStreamerData() {
+    @objc func getStreamerData(_ sender: UIButton) {
+        fetchStreamerData()
+        isButtonSelected.toggle()
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.Icons_live)!)
+        placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
+        eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
+    }
+    
+    private func fetchStreamerData() {
         mapView.clear()
-        showTypeOfMarker = "streamer "
+        showTypeOfMarker = "streamer"
+        
         mapDataProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
                 
@@ -171,6 +178,11 @@ class MapViewController: UIViewController {
     }
     
     @objc func getEventData(_ sender: UIButton) {
+        isButtonSelected.toggle()
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.event)!)
+        placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
+        streamButton.setImage(UIImage.asset(.Icons_live), for: UIControl.State())
+        
         mapView.clear()
         showTypeOfMarker = "event"
         mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
@@ -193,6 +205,11 @@ class MapViewController: UIViewController {
     }
     
     @objc func getPlaceData(_ sender: UIButton) {
+        isButtonSelected.toggle()
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.place)!)
+        eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
+        streamButton.setImage(UIImage.asset(.Icons_live), for: UIControl.State())
+        
         mapView.clear()
         showTypeOfMarker = "place"
         mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
@@ -306,29 +323,5 @@ extension MapViewController: CLLocationManagerDelegate {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         longitude = locValue.longitude
         latitude = locValue.latitude
-    }
-    
-    func round(image: UIImage) -> UIImage {
-        let imageWidth = image.size.width
-        let imageHeight = image.size.height
-
-        let diameter = min(imageWidth, imageHeight)
-        let isLandscape = imageWidth > imageHeight
-
-        let xOffset = isLandscape ? (imageWidth - diameter) / 2 : 0
-        let yOffset = isLandscape ? 0 : (imageHeight - diameter) / 2
-
-        let imageSize = CGSize(width: diameter, height: diameter)
-
-        return UIGraphicsImageRenderer(size: imageSize).image { _ in
-
-            let ovalPath = UIBezierPath(ovalIn: CGRect(origin: .zero, size: imageSize))
-            ovalPath.addClip()
-            image.draw(at: CGPoint(x: -xOffset, y: -yOffset))
-            UIColor.white.setStroke()
-//            ovalPath.lineWidth = diameter / 50
-            ovalPath.lineWidth = 2
-            ovalPath.stroke()
-        }
     }
 }
