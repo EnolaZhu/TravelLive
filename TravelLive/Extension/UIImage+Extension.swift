@@ -65,4 +65,22 @@ extension UIImage {
 
             return roundedImage
     }
+    
+    
+        func outline() -> UIImage? {
+
+            let size = CGSize(width: self.size.width, height: self.size.height)
+            UIGraphicsBeginImageContext(size)
+            let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            self.draw(in: rect, blendMode: .normal, alpha: 1.0)
+            let context = UIGraphicsGetCurrentContext()
+            context?.setStrokeColor(red: 1, green: 0, blue: 0, alpha: 1)
+            context?.stroke(rect)
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+
+            return newImage
+        }
+    
+    
 }

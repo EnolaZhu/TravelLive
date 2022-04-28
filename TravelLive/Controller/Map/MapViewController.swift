@@ -29,14 +29,14 @@ class MapViewController: UIViewController {
     var containerView = UIView()
     let placeButton = UIButton()
     let eventButton = UIButton()
+    let streamButton = UIButton()
     var showTypeOfMarker = String()
+    var isButtonSelected = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // fake button
         
-        placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
-        eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
+        setUpButtons()
         
         // Location
         self.locationManager.requestAlwaysAuthorization()
@@ -57,9 +57,8 @@ class MapViewController: UIViewController {
         }
         mapView.delegate = self
         
-        
-        
         setUpContainerView()
+        setUpStreamButton()
         setUpPlaceButton()
         setUpEventButton()
     }
@@ -74,6 +73,7 @@ class MapViewController: UIViewController {
         
         placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
+        streamButton.addTarget(self, action: #selector(getStreamerData), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -96,7 +96,7 @@ class MapViewController: UIViewController {
         view.addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
-            [containerView.widthAnchor.constraint(equalToConstant: 150),
+            [containerView.widthAnchor.constraint(equalToConstant: 200),
              containerView.heightAnchor.constraint(equalToConstant: 50),
              containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
              containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30)]
@@ -111,7 +111,18 @@ class MapViewController: UIViewController {
             [placeButton.widthAnchor.constraint(equalToConstant: 44),
              placeButton.heightAnchor.constraint(equalToConstant: 44),
              placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
-             placeButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 25)]
+             placeButton.leftAnchor.constraint(equalTo: streamButton.rightAnchor, constant: 10)]
+        )
+    }
+    
+    private func setUpStreamButton() {
+        containerView.addSubview(streamButton)
+        streamButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [streamButton.widthAnchor.constraint(equalToConstant: 44),
+             streamButton.heightAnchor.constraint(equalToConstant: 44),
+             streamButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+             streamButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 25)]
         )
     }
     
@@ -126,7 +137,27 @@ class MapViewController: UIViewController {
         )
     }
     
+    private func setUpButtons() {
+        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+        setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
+        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
+    }
+    
+   
+    
+    @objc func getStreamerData(_ sender: UIButton) {
+        fetchStreamerData()
+        isButtonSelected.toggle()
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.Icons_live)!)
+        
+        setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
+        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+    }
+    
     private func fetchStreamerData() {
+        mapView.clear()
+        showTypeOfMarker = "streamer"
+        
         mapDataProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
                 
@@ -154,9 +185,15 @@ class MapViewController: UIViewController {
     }
     
     @objc func getEventData(_ sender: UIButton) {
+        isButtonSelected.toggle()
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.event)!)
+        
+        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
+        
         mapView.clear()
         showTypeOfMarker = "event"
-        mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+        mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
             switch result {
             case .success(let places):
                 self?.eventData = places
@@ -176,9 +213,15 @@ class MapViewController: UIViewController {
     }
     
     @objc func getPlaceData(_ sender: UIButton) {
+        isButtonSelected.toggle()
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.place)!)
+        
+        setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
+        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
+        
         mapView.clear()
         showTypeOfMarker = "place"
-        mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+        mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
             switch result {
             case .success(let places):
                 self?.placeData = places
@@ -207,28 +250,28 @@ class MapViewController: UIViewController {
         let marker = GMSMarker()
         
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
-        
-        var size = CGSize()
-        if isStreamer {
-            size = CGSize(width: 88, height: 88)
-        } else {
-            size = CGSize(width: 77, height: 77)
-        }
-        
-        UIGraphicsBeginImageContext(size)
-        
-        pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        var rect = CGRect()
         
         if isStreamer {
-            marker.layer.borderWidth = 10
-            marker.layer.borderColor = UIColor.orange.cgColor
-            marker.icon = resizedImage?.circularImage(44)
+            rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         } else {
-            marker.icon = resizedImage
+            rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         }
+        
+        let imageView = UIImageView(frame: rect)
+        imageView.layer.cornerRadius = imageView.frame.size.width / 2
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 4
+        
+        if isStreamer {
+            imageView.layer.borderColor = UIColor.primary.cgColor
+        } else {
+            imageView.layer.borderColor = UIColor.white.cgColor
+        }
+        
+        imageView.image = pinImage
+        marker.iconView = imageView
         marker.map = self.mapView
-        mapView.selectedMarker = marker
     }
 }
 

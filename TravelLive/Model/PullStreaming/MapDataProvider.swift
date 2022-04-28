@@ -31,13 +31,14 @@ class MapDataProvider {
         })
     }
     
-    func fetchPlaceInfo(latitude: Double, longitude: Double, completion: @escaping (Result<PlaceDataObject>) -> Void) {
-        let query = ConvertQuery.shared.getQueryString(keyValues: ("latitude", "\(latitude)"), ("longitude", "\(longitude)"))
+    func fetchPlaceInfo(latitude: Double, longitude: Double, limit: Int, completion: @escaping (Result<PlaceDataObject>) -> Void) {
+        let query = ConvertQuery.shared.getQueryString(keyValues: ("latitude", "\(latitude)"), ("longitude", "\(longitude)"), ("limit", "\(limit)"))
         let request = DataRequest.fetchPlaceData(query: query)
         
         HTTPClient.shared.request(request, completion: { data in
             switch data {
             case .success(let data):
+                print("\(data)")
                 do {
                     let response = try JSONDecoder().decode(PlaceDataObject.self, from: data)
                     DispatchQueue.main.async {
@@ -52,9 +53,9 @@ class MapDataProvider {
         })
     }
     
-    func fetchEventInfo(latitude: Double, longitude: Double, completion: @escaping (Result<EventDataObject>) -> Void) {
-        let query = ConvertQuery.shared.getQueryString(keyValues: ("latitude", "\(latitude)"), ("longitude", "\(longitude)"))
-        let request = DataRequest.fetchPlaceData(query: query)
+    func fetchEventInfo(latitude: Double, longitude: Double, limit: Int, completion: @escaping (Result<EventDataObject>) -> Void) {
+        let query = ConvertQuery.shared.getQueryString(keyValues: ("latitude", "\(latitude)"), ("longitude", "\(longitude)"), ("limit", "\(limit)"))
+        let request = DataRequest.fetchEventData(query: query)
         
         HTTPClient.shared.request(request, completion: { data in
             switch data {

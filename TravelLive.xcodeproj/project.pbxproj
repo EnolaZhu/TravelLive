@@ -46,6 +46,7 @@
 		4B66896B2818E2F6003CA423 /* ProfileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6689672818E2F6003CA423 /* ProfileProvider.swift */; };
 		4B66896C2818E2F6003CA423 /* ProfileLikedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6689682818E2F6003CA423 /* ProfileLikedObject.swift */; };
 		4B66896D2818E2F6003CA423 /* ProfileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6689692818E2F6003CA423 /* ProfileObject.swift */; };
+		4B66897E281A7299003CA423 /* ChangeButtonTintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B66897D281A7299003CA423 /* ChangeButtonTintColor.swift */; };
 		4B66E9462817B96C00BD62C6 /* EventCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B66E9452817B96C00BD62C6 /* EventCollectionViewController.swift */; };
 		4B66E9492817BB0400BD62C6 /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B66E9472817BB0400BD62C6 /* EventCollectionViewCell.swift */; };
 		4B66E94A2817BB0400BD62C6 /* EventCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B66E9482817BB0400BD62C6 /* EventCollectionViewCell.xib */; };
@@ -164,6 +165,7 @@
 		4B6689672818E2F6003CA423 /* ProfileProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProvider.swift; sourceTree = "<group>"; };
 		4B6689682818E2F6003CA423 /* ProfileLikedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLikedObject.swift; sourceTree = "<group>"; };
 		4B6689692818E2F6003CA423 /* ProfileObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileObject.swift; sourceTree = "<group>"; };
+		4B66897D281A7299003CA423 /* ChangeButtonTintColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeButtonTintColor.swift; sourceTree = "<group>"; };
 		4B66E9452817B96C00BD62C6 /* EventCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewController.swift; sourceTree = "<group>"; };
 		4B66E9472817BB0400BD62C6 /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
 		4B66E9482817BB0400BD62C6 /* EventCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -662,6 +664,7 @@
 				4B97880F2811C09F0003CC9F /* URL+Extension.swift */,
 				4B035A0A2812748200017762 /* UICollectionView+Extension.swift */,
 				4BEAF1C0281468950094B90E /* UIView+Extension.swift */,
+				4B66897D281A7299003CA423 /* ChangeButtonTintColor.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -980,6 +983,7 @@
 				4B4AA43B280294BE0066C602 /* Parser.swift in Sources */,
 				4BB5A92D280DAD6E00739C61 /* GIFManager.swift in Sources */,
 				4B3AAAD62806BCB500CBFE89 /* Notification.Name+Extension.swift in Sources */,
+				4B66897E281A7299003CA423 /* ChangeButtonTintColor.swift in Sources */,
 				4B4AA43628028E7B0066C602 /* Constant.swift in Sources */,
 				4BB6AC0628045F5D0061EDDE /* MapDataProvider.swift in Sources */,
 				4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */,
