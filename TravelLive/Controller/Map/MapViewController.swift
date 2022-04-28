@@ -29,14 +29,16 @@ class MapViewController: UIViewController {
     var containerView = UIView()
     let placeButton = UIButton()
     let eventButton = UIButton()
+    let streamButton = UIButton()
     var showTypeOfMarker = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // fake button
         
+        // setting button
         placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
         eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
+        streamButton.setImage(UIImage.asset(.Icons_live), for: UIControl.State())
         
         // Location
         self.locationManager.requestAlwaysAuthorization()
@@ -60,6 +62,7 @@ class MapViewController: UIViewController {
         
         
         setUpContainerView()
+        setUpStreamButton()
         setUpPlaceButton()
         setUpEventButton()
     }
@@ -74,6 +77,7 @@ class MapViewController: UIViewController {
         
         placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
+        streamButton.addTarget(self, action: #selector(fetchStreamerData), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -96,7 +100,7 @@ class MapViewController: UIViewController {
         view.addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
-            [containerView.widthAnchor.constraint(equalToConstant: 150),
+            [containerView.widthAnchor.constraint(equalToConstant: 200),
              containerView.heightAnchor.constraint(equalToConstant: 50),
              containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
              containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30)]
@@ -111,7 +115,18 @@ class MapViewController: UIViewController {
             [placeButton.widthAnchor.constraint(equalToConstant: 44),
              placeButton.heightAnchor.constraint(equalToConstant: 44),
              placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
-             placeButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 25)]
+             placeButton.leftAnchor.constraint(equalTo: streamButton.rightAnchor, constant: 10)]
+        )
+    }
+    
+    private func setUpStreamButton() {
+        containerView.addSubview(streamButton)
+        streamButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [streamButton.widthAnchor.constraint(equalToConstant: 44),
+             streamButton.heightAnchor.constraint(equalToConstant: 44),
+             streamButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+             streamButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 25)]
         )
     }
     
@@ -126,7 +141,9 @@ class MapViewController: UIViewController {
         )
     }
     
-    private func fetchStreamerData() {
+    @objc private func fetchStreamerData() {
+        mapView.clear()
+        showTypeOfMarker = "streamer "
         mapDataProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
                 
