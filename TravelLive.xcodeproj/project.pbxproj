@@ -273,6 +273,7 @@
 		4B0359F528125EC100017762 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				4BA36584281AE37200A2E724 /* CircleCropView.swift */,
 				4B17A8562815BE220006BB2D /* ImageCell.xib */,
 				4B17A8572815BE230006BB2D /* TitleView.swift */,
 				4B17A88D2815C6C60006BB2D /* ProfileCollectionCell.swift */,
@@ -326,8 +327,6 @@
 			children = (
 				4B3AAAF0280873D400CBFE89 /* ProfileViewController.swift */,
 				4BA36582281AE34800A2E724 /* CropViewController.swift */,
-				4BA36584281AE37200A2E724 /* CircleCropView.swift */,
-				4BA36586281AE45F00A2E724 /* ImagePicker.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -409,6 +408,7 @@
 				4B6689692818E2F6003CA423 /* ProfileObject.swift */,
 				4B6689662818E2F6003CA423 /* ProfilePropertyObject.swift */,
 				4B6689672818E2F6003CA423 /* ProfileProvider.swift */,
+				4BA36586281AE45F00A2E724 /* ImagePicker.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
