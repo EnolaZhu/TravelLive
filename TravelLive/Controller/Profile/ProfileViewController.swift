@@ -14,7 +14,7 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
-    let itemSize = CGSize(width: 125, height: 125)
+//    let itemSize = CGSize(width: 125, height: 125)
     var postButton: UIButton = {
         let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
@@ -68,7 +68,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
-        imageWidth = (UIScreen.width / 3).rounded()
+        imageWidth = ((UIScreen.width - 4) / 3)  - 2
     }
     
     @objc func showEditView(_ notification: NSNotification) {
@@ -173,11 +173,6 @@ class ProfileViewController: UIViewController {
     @objc func showLikedProperty(_ notification: NSNotification) {
         getLikedProperty()
     }
-    
-    
-//    @objc func showEditView(_ notification: NSNotification) {
-//        createAlertSheet()
-//    }
     
     @objc func createAlertSheet() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -354,17 +349,17 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        itemSize
-//        return CGSize(width: imageWidth, height: imageWidth)
+//        itemSize
+        return CGSize(width: imageWidth, height: imageWidth)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        2
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        2
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

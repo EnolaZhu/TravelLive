@@ -25,7 +25,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XVc-Wf-PXs">
-                                <rect key="frame" x="0.0" y="88" width="414" height="724"/>
+                                <rect key="frame" x="2" y="88" width="410" height="724"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="W2S-Wn-d0X">
                                     <size key="itemSize" width="128" height="128"/>
@@ -58,11 +58,11 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="ProfileHeader" id="rk0-g5-6au" customClass="ProfileHeader" customModule="TravelLive" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="229"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="410" height="229"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cyv-jo-TpT">
-                                            <rect key="frame" x="147" y="16" width="120" height="120"/>
+                                            <rect key="frame" x="145" y="16" width="120" height="120"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="120" id="Ead-9b-DR8"/>
                                                 <constraint firstAttribute="width" secondItem="Cyv-jo-TpT" secondAttribute="height" multiplier="1:1" id="Ey1-K0-vB8"/>
@@ -70,7 +70,7 @@
                                             </constraints>
                                         </imageView>
                                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vQp-ur-6YS">
-                                            <rect key="frame" x="0.0" y="192" width="414" height="32"/>
+                                            <rect key="frame" x="0.0" y="192" width="410" height="32"/>
                                             <segments>
                                                 <segment title="我的照片"/>
                                                 <segment title="我的喜歡"/>
@@ -80,7 +80,7 @@
                                             </connections>
                                         </segmentedControl>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIq-4o-qCl">
-                                            <rect key="frame" x="108" y="146" width="198" height="21"/>
+                                            <rect key="frame" x="108" y="146" width="194" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -122,8 +122,8 @@
                         <constraints>
                             <constraint firstItem="feO-Dq-xDI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="8RG-u8-6ey"/>
                             <constraint firstItem="feO-Dq-xDI" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="elD-EM-HGp"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="XVc-Wf-PXs" secondAttribute="trailing" id="ge6-CN-FJL"/>
-                            <constraint firstItem="XVc-Wf-PXs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="l7g-eX-sE8"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="XVc-Wf-PXs" secondAttribute="trailing" constant="2" id="ge6-CN-FJL"/>
+                            <constraint firstItem="XVc-Wf-PXs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="2" id="l7g-eX-sE8"/>
                             <constraint firstItem="XVc-Wf-PXs" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="topMargin" id="mYq-2P-EjR"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="feO-Dq-xDI" secondAttribute="trailing" id="stv-1P-5Wf"/>
                             <constraint firstItem="feO-Dq-xDI" firstAttribute="top" secondItem="XVc-Wf-PXs" secondAttribute="bottom" id="tUX-ez-lwz"/>
