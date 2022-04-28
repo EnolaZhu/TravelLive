@@ -224,28 +224,28 @@ class MapViewController: UIViewController {
         let marker = GMSMarker()
         
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
-        
-        var size = CGSize()
-        if isStreamer {
-            size = CGSize(width: 88, height: 88)
-        } else {
-            size = CGSize(width: 68, height: 68)
-        }
-        
-        UIGraphicsBeginImageContext(size)
-        
-        pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        var rect = CGRect()
         
         if isStreamer {
-            marker.layer.borderWidth = 10
-            marker.layer.borderColor = UIColor.orange.cgColor
-            marker.icon = resizedImage?.circularImage(44)
+            rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         } else {
-            marker.icon = resizedImage?.circularImage(34)
+            rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         }
+        
+        let imageView = UIImageView(frame: rect)
+        imageView.layer.cornerRadius = imageView.frame.size.width / 2
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 4
+        
+        if isStreamer {
+            imageView.layer.borderColor = UIColor.primary.cgColor
+        } else {
+            imageView.layer.borderColor = UIColor.white.cgColor
+        }
+        
+        imageView.image = pinImage
+        marker.iconView = imageView
         marker.map = self.mapView
-        mapView.selectedMarker = marker
     }
 }
 
@@ -306,5 +306,29 @@ extension MapViewController: CLLocationManagerDelegate {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         longitude = locValue.longitude
         latitude = locValue.latitude
+    }
+    
+    func round(image: UIImage) -> UIImage {
+        let imageWidth = image.size.width
+        let imageHeight = image.size.height
+
+        let diameter = min(imageWidth, imageHeight)
+        let isLandscape = imageWidth > imageHeight
+
+        let xOffset = isLandscape ? (imageWidth - diameter) / 2 : 0
+        let yOffset = isLandscape ? 0 : (imageHeight - diameter) / 2
+
+        let imageSize = CGSize(width: diameter, height: diameter)
+
+        return UIGraphicsImageRenderer(size: imageSize).image { _ in
+
+            let ovalPath = UIBezierPath(ovalIn: CGRect(origin: .zero, size: imageSize))
+            ovalPath.addClip()
+            image.draw(at: CGPoint(x: -xOffset, y: -yOffset))
+            UIColor.white.setStroke()
+//            ovalPath.lineWidth = diameter / 50
+            ovalPath.lineWidth = 2
+            ovalPath.stroke()
+        }
     }
 }
