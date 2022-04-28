@@ -21,7 +21,6 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     override func layoutSubviews() {
-        avatarImageView.layer.borderWidth = 1.0
         avatarImageView.layer.cornerRadius = 60
         avatarImageView.clipsToBounds = true
     }
