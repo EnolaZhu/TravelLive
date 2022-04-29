@@ -60,7 +60,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
     
     // MARK: - UICollectionViewDataSource
@@ -142,11 +141,12 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = images[indexPath.item]
         let detailVC = DetailViewController()
-        //TODO: 缺少detailVC.avatarImage
+        
         detailVC.detailData = searchDataObjc?.data[indexPath.row]
         detailVC.detailPageImage = image
         detailVC.propertyId = searchDataObjc?.data[indexPath.row].propertyId ?? ""
         detailVC.imageOwnerName = searchDataObjc?.data[indexPath.row].name ?? ""
+        
         navigationController?.pushViewController(detailVC, animated: true)
     }
     
@@ -154,7 +154,6 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
         guard let text = searchController.searchBar.text else {
             return
         }
-        
         if text != "" {
             images.removeAll()
             fetchSearchData(type: "?tag=" + text)

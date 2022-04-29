@@ -16,11 +16,17 @@ class DetailViewController: BaseViewController {
     var allCommentData: CommentObject?
     var detailData: SearchData?
     var detailPageImage = UIImage()
-    var avatarImage: UIImage?
+    var avatarImage: UIImage? {
+        didSet {
+            detailTableView.reloadData()
+        }
+    }
+    var avatarUrl: String?
     var propertyId = String()
     var imageOwnerName = String()
     var isLiked = Bool()
     var placeHolderImage = UIImage(named: "placeholder")
+    var isFromProfile = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +42,12 @@ class DetailViewController: BaseViewController {
         
         setUpTableView()
         setUpMaskView()
-        getOwnerAvatar(detailData?.avatar ?? "")
+        
+        if isFromProfile {
+            getOwnerAvatar(avatarUrl ?? "")
+        } else {
+            getOwnerAvatar(detailData?.avatar ?? "")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,7 +89,6 @@ class DetailViewController: BaseViewController {
     private func getOwnerAvatar(_ imageUrl: String) {
         ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
             self?.avatarImage = image
-            self?.detailTableView.reloadData()
         }
     }
 }

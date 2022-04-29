@@ -8,7 +8,7 @@
 import Foundation
 
 struct ProfilePropertyObject: Decodable {
-    let data: [Property]
+    var data: [Property]
 }
 
 struct Property: Decodable {

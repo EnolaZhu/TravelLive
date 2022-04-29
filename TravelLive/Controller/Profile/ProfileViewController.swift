@@ -23,7 +23,6 @@ class ProfileViewController: UIViewController {
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
     var userPropertyData: ProfilePropertyObject?
-    var likedPropertyData: ProfileLikedObject?
     var propertyImages = [UIImage]()
     var profileInfo: ProfileObject?
     var imagePicker: ImagePicker!
@@ -66,7 +65,6 @@ class ProfileViewController: UIViewController {
             postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
             
             view.addSubview(postButton)
-            
             navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu), style: .plain, target: self, action: #selector(createAlertSheet))]
         }
     }
@@ -160,20 +158,21 @@ class ProfileViewController: UIViewController {
     
     private func getLikedProperty() {
         propertyImages.removeAll()
+        userPropertyData?.data.removeAll()
         
         ProfileProvider.shared.fetchUserLikedData(userId: userID) { [weak self] data in
             switch data {
             case .success(let data):
-                self?.likedPropertyData = data
-                guard let likedPropertyData = self?.likedPropertyData else { return }
+                self?.userPropertyData = data
+                guard let userPropertyData = self?.userPropertyData else { return }
                 
-                if likedPropertyData.data.count > 0 {
+                if userPropertyData.data.count > 0 {
                     
-                    for index in 0...likedPropertyData.data.count - 1 {
-                        if likedPropertyData.data[index].thumbnailUrl == "" {
-                            self?.getImage(imageUrl: likedPropertyData.data[index].fileUrl)
+                    for index in 0...userPropertyData.data.count - 1 {
+                        if userPropertyData.data[index].thumbnailUrl == "" {
+                            self?.getImage(imageUrl: userPropertyData.data[index].fileUrl)
                         } else {
-                            self?.getLikedThumbnail(likedProperty: likedPropertyData.data[index], index: index)
+                            self?.getUserThumbnail(property: userPropertyData.data[index], index: index)
                         }
                     }
                 }
@@ -184,7 +183,6 @@ class ProfileViewController: UIViewController {
     }
     
     private func getImage(imageUrl: String) {
-        // Image
         ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
             self?.propertyImages.append(image)
             self?.profileView.reloadData()
@@ -193,13 +191,6 @@ class ProfileViewController: UIViewController {
     
     private func getUserThumbnail(property: Property, index: Int) {
         ImageManager.shared.fetchUserGIF(thumbnailUrl: property.thumbnailUrl) { [weak self] gif in
-            self?.propertyImages.append(gif)
-            self?.profileView.reloadData()
-        }
-    }
-    
-    private func getLikedThumbnail(likedProperty: Liked, index: Int) {
-        ImageManager.shared.fetchUserGIF(thumbnailUrl: likedProperty.thumbnailUrl) { [weak self] gif in
             self?.propertyImages.append(gif)
             self?.profileView.reloadData()
         }
@@ -420,12 +411,13 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = propertyImages[indexPath.item]
         let detailVC = DetailViewController()
-        //TODO: 判斷 liked 和 property
+        
         detailVC.propertyId = userPropertyData?.data[indexPath.row].propertyId ?? ""
         detailVC.imageOwnerName = userPropertyData?.data[indexPath.row].name ?? ""
         detailVC.detailPageImage = image
-//        朱辛夷ssss
-//        detailVC.avatarImage = userPropertyData?.data[indexPath.row].hfjhf
+        detailVC.avatarUrl = userPropertyData?.data[indexPath.row].avatar
+        detailVC.isFromProfile = true
+        
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
