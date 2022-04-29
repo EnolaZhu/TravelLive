@@ -14,6 +14,7 @@ class DetailViewController: BaseViewController {
     let reportMaskView = UIView()
     let commentVC = CommentViewController()
     var allCommentData: CommentObject?
+    var detailData: SearchData?
     var detailPageImage = UIImage()
     var avatarImage = UIImage()
     var propertyId = String()
@@ -30,6 +31,7 @@ class DetailViewController: BaseViewController {
         detailTableView.delegate = self
         detailTableView.dataSource = self
         detailTableView.separatorStyle = .none
+        self.navigationController?.navigationBar.tintColor = UIColor.black
         
         setUpTableView()
         setUpMaskView()
@@ -89,14 +91,19 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             
             imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
             
-            imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool(), imageOwnerName:  imageOwnerName)
+            imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool(), imageOwnerName: imageOwnerName)
             
             if isLiked {
                 imageCell.loveButton.setImage(UIImage(named: "theheart"), for: .normal)
             }
+            
+            // Avatar gesture
+            let tapAvatarGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(avatarTapped(tapGestureRecognizer:)))
             // ImageView gesture
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
             imageCell.userUploadImageView.isUserInteractionEnabled = true
+            imageCell.userAvatarimage.isUserInteractionEnabled = true
+            imageCell.userAvatarimage.addGestureRecognizer(tapAvatarGestureRecognizer)
             imageCell.userUploadImageView.addGestureRecognizer(tapGestureRecognizer)
             
             return imageCell
@@ -122,6 +129,18 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, ifPulling: false)
         // change heart button
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
+    }
+    
+    @objc func avatarTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let profileViewController = UIStoryboard.profile.instantiateViewController(withIdentifier:
+            String(describing: ProfileViewController.self)
+        )
+
+        guard let profileVC = profileViewController as? ProfileViewController else { return }
+        profileVC.isFromOther = true
+//        detailData?.uid 要去的人的 id
+//        detailData?.propertyId
+        show(profileVC, sender: nil)
     }
     
     @objc func shareLink(_ sender: UIButton) {
