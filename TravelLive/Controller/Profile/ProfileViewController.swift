@@ -227,6 +227,8 @@ class ProfileViewController: UIViewController {
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
+        
+        alertController.view.tintColor = UIColor.black
         self.present(alertController, animated: true)
     }
     
@@ -338,7 +340,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         // ImageView gesture
         let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        cell.profileImageView.isUserInteractionEnabled = true
+        if isFromOther {
+            cell.profileImageView.isUserInteractionEnabled = false
+        } else {
+            cell.profileImageView.isUserInteractionEnabled = true
+        }
         cell.profileImageView.addGestureRecognizer(tapGestureRecognizer)
         
         if propertyImages.isEmpty {
@@ -362,7 +368,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             title: "提示",
             message: "你確定要刪除這張圖片嗎",
             preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) -> Void in
+        let okAction = UIAlertAction(title: "確定", style: .default, handler: { (action: UIAlertAction!) -> Void in
             guard let indexPath = self.profileView.indexPathForItem(at: index ?? CGPoint()) else { return }
             // delete image from local
             self.propertyImages.remove(at: indexPath.row)
@@ -371,6 +377,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             )
             self.profileView.reloadData()
         })
+        deleteAlert.view.tintColor = UIColor.black
+        deleteAlert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         deleteAlert.addAction(okAction)
         self.present(deleteAlert, animated: true, completion: nil)
     }
@@ -388,6 +396,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             self.displayName = displayName
         }
         
+        controller.view.tintColor = UIColor.black
         controller.addAction(okAction)
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         controller.addAction(cancelAction)
