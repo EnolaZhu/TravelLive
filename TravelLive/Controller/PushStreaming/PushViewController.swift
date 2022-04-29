@@ -15,9 +15,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     var date = Int(Date().timeIntervalSince1970)
     var longitude = Double()
     var latitude = Double()
-    var timer = Timer()
+    var postStreamerInfoTimer = Timer()
+    var recordingLimitTimer = Timer()
     private let secondDayMillis = 86400
     private let time = 1000 * 3 * 60
+    private var recordingSeconds = 0
     let pushStreamingProvider = PushStreamingProvider()
     let locationManager = CLLocationManager()
     // STT
@@ -28,6 +30,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     var streamingUrl: PushStreamingObject?
     var startButton = UIButton()
     var click = true
+    // record
+    var recordingTime = Int()
+    let record = RPScreenRecorder.shared()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +44,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        // Timer
-        //        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
+        
+        
+        // check if streamer is streaming by 5s
+        //        postStreamerInfoTimer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         session.delegate = self
-//        session.preView = view
-//        addPushPreview()
-//        setUpStarButton()
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,7 +71,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // 將timer的執行緒停止
-        timer.invalidate()
+        postStreamerInfoTimer.invalidate()
         // Cancel STT
         //        if task != nil {
         //            cancelSpeechRecognization()
@@ -302,7 +306,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         return recordButton
     }()
     
-    // 開始直播
+    // 結束直播
     var stopLiveButton: UIButton = {
         let stopLiveButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 280, width: 44, height: 44))
         stopLiveButton.layer.cornerRadius = 22
@@ -312,7 +316,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         stopLiveButton.backgroundColor = UIColor.primary
         return stopLiveButton
     }()
-//    在做開播的 button
+
     func setUpStarButton() {
         view.addSubview(startButton)
         startButton.translatesAutoresizingMaskIntoConstraints = false
@@ -372,10 +376,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // close
     @objc func didTappedCloseButton(_ button: UIButton) {
-        print("close!")
         session.stopLive()
         deletePushStreming()
 //        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
+        
+        // Make into map view
         view.removeFromSuperview()
         tabBarController?.selectedIndex = 0
         //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
@@ -389,6 +394,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // record
     @objc func didTappedRecordButton(_ button: UIButton) {
         // swiftlint:disable force_cast identifier_name
+        // Limit streamer recording time
+        recordingLimitTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementSeconds), userInfo: nil, repeats: true)
+        
         // change button image
         click = !click
         if click {
@@ -397,17 +405,31 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             recordButton.setImage(UIImage.asset(.stop), for: .normal)
         }
         // start record
-        let record = RPScreenRecorder.shared()
+        
         guard record.isAvailable else {
             print("ReplayKit unavailable")
             return
         }
         if record.isRecording {
-            RecordManager.record.stopRecording(button, record, self)
+            RecordManager.record.stopRecording(record, self) { result in
+                
+            }
         } else {
             RecordManager.record.startRecording(button, record)
         }
     }
+    
+    
+    @objc func incrementSeconds() {
+        recordingSeconds += 1
+        if recordingSeconds == 10 {
+            RecordManager.record.stopRecording(record, self) { result in
+                // 增加停止提醒
+            }
+                
+            }
+        }
+    
     
     @objc func postPushStreamingInfo() {
         pushStreamingProvider.postPushStreamingInfo(streamerId: userID, longitude: longitude, latitude: latitude) { [weak self] result in

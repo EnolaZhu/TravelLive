@@ -117,7 +117,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         // swiftlint:disable force_cast
         _ = tapGestureRecognizer.view as! UIImageView
-        setUpHeartAnimation(name: "Hearts moving")
+        LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, ifPulling: false)
         // change heart button
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
     }
@@ -161,28 +161,14 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc func clickLoveButton(_ sender: UIButton) {
         if sender.hasImage(named: "theheart", for: .normal) {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
-            setUpHeartAnimation(name: "Heart break")
+            
+            LottieAnimationManager.shared.setUplottieAnimation(name: "Heart break", excitTime: 4, view: self.view, ifPulling: false)
+            
             sender.setImage(UIImage.asset(.emptyHeart), for: .normal)
         } else {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: true)
-            setUpHeartAnimation(name: "Hearts moving")
+            LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, ifPulling: false)
             sender.setImage(UIImage.asset(.theheart), for: .normal)
-        }
-    }
-    
-    func setUpHeartAnimation(name: String) {
-        let animationView = AnimationView(name: name)
-        animationView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
-        animationView.center = self.view.center
-        animationView.contentMode = .scaleAspectFit
-        animationView.loopMode = .playOnce
-        animationView.animationSpeed = 4
-        view.addSubview(animationView)
-        animationView.play()
-        animationView.play { isCompleted in
-            if isCompleted {
-                animationView.removeFromSuperview()
-            }
         }
     }
 }
