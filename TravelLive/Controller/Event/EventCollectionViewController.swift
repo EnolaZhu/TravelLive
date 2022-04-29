@@ -24,6 +24,7 @@ class EventCollectionViewController: UIViewController {
         super.viewDidLoad()
 
         setupCollectionView()
+        collectionView.showsHorizontalScrollIndicator = false
     }
 
     init() {
@@ -61,7 +62,7 @@ extension EventCollectionViewController: UICollectionViewDataSource, UICollectio
         images.count
 
     }
-//swiftlint:disable force_cast identifier_name
+    // swiftlint:disable force_cast identifier_name
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: EventCollectionViewCell.self), for: indexPath) as? EventCollectionViewCell else {
@@ -78,7 +79,7 @@ extension EventCollectionViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let itemSize = CGSize(width: UIScreen.width / 2, height: self.collectionView.frame.height)
+        let itemSize = CGSize(width: self.collectionView.frame.height, height: self.collectionView.frame.height)
 
         return itemSize
     }
@@ -103,13 +104,7 @@ extension EventCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if indexPath.row == nil {
-//            return
-//        } else {
-          print(indexPath.row)
           createDetailView(detailEventData: nil, detailPlaceData: specificPlaceData?.data[indexPath.row])
-          print(indexPath.row)
-//        }
     }
     
     private func createDetailView(detailEventData: Event?, detailPlaceData: Place?) {

@@ -37,6 +37,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
+        searchCollectionView.showsVerticalScrollIndicator = false
         searchCollectionView.backgroundColor = .white
         searchCollectionView.dataSource = self
         searchCollectionView.delegate = self
