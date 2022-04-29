@@ -16,6 +16,7 @@ class ReportViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var reportButton: UIButton!
     var clickCloseButton: CloseMaskView?
+    var propertyOwnerId = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +37,7 @@ class ReportViewController: UIViewController {
     }
     
     @objc func report(_ sender: UIButton) {
-        //TODO: response error
-        DetailDataProvider.shared.postBanData(reason: "內容違規", userId: userID, whistleblowerId: "Enora")
+        DetailDataProvider.shared.postBanData(reason: "內容違規", userId: propertyOwnerId, whistleblowerId: userID)
         closeReportView()
     }
     
