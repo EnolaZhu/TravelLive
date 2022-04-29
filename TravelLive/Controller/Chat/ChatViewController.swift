@@ -93,7 +93,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
         let okAction = UIAlertAction(title: "好~", style: .default, handler: { (action: UIAlertAction!) -> Void in
             self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
             self.navigationController?.popToRootViewController(animated: true)
-            })
+        })
         CloseAlertController.addAction(okAction)
         self.present(CloseAlertController, animated: true, completion: nil)
     }
@@ -131,23 +131,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
         }
     }
     
-    func createAnimation() {
-        let animationView = AnimationView(name: "Heart falling")
-        animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
-        animationView.center = self.view.center
-        animationView.contentMode = .scaleAspectFill
-        animationView.loopMode = .playOnce
-        animationView.animationSpeed = 1.5
-        animationView.currentTime = 2
-        view.addSubview(animationView)
-        animationView.play()
-        animationView.play { isCompleted in
-            if isCompleted {
-                animationView.removeFromSuperview()
-            }
-        }
-    }
-    
     func addHiistory(start: NSNumber?, end: NSNumber?, limit: UInt) {
         client.historyForChannel(channelName, start: start, end: end, limit: limit) { result, status in
             if result != nil && status == nil {
@@ -174,14 +157,15 @@ class ChatViewController: BaseViewController, PNEventsListener {
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
         if channelName == message.data.channel {
             guard let theMessage = message.data.message as? [String: String] else { return }
+            
             if theMessage["username"] == "animation" {
-                createAnimation()
+                LottieAnimationManager.shared.setUplottieAnimation(name: "Heart falling", excitTime: 3, view: self.view, ifPulling: true)
+                
             } else if theMessage["username"] == "STT" {
                 caption.text = theMessage["message"]
             } else if theMessage["username"] == "close" {
                 createCloseAlert()
-            }
-            else {
+            } else {
                 messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
             }
         }
