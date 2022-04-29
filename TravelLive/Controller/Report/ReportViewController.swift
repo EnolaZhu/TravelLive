@@ -27,6 +27,8 @@ class ReportViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         cancelButton.backgroundColor = UIColor.white
         reportButton.backgroundColor = UIColor.white
+        
+        self.view.roundCorners(cornerRadius: 25)
     }
     
     @objc func cancelReport(_ sender: UIButton) {

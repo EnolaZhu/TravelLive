@@ -22,8 +22,18 @@ class CommentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        commentTextFied.placeholder = "評論"
+        commentTextFied.backgroundColor = UIColor.lightGray
+        commentView.roundCorners(cornerRadius: 20)
         commentView.backgroundColor = UIColor.white
+        setUpButton()
+    }
+    
+    func setUpButton() {
+        closeCommentPageButton.setImage(UIImage.asset(.close), for: .normal)
         closeCommentPageButton.addTarget(self, action: #selector(closeCommentPage(_:)), for: .touchUpInside)
+        publishButton.setImage(UIImage.asset(.add), for: .normal)
         publishButton.addTarget(self, action: #selector(publishComment(_:)), for: .touchUpInside)
     }
     
