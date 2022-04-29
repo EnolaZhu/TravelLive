@@ -25,7 +25,7 @@ enum PushStreamingRequest: Request {
             return body
         case .stopPushStreaming(let id):
             let dict = [
-                "streamer_id": id
+                "uid": id
             ] as [String: Any]
             return try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
         }

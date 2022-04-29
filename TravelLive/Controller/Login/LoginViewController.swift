@@ -127,13 +127,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 return
             }
             
-            if fullName == nil {
-                fullName = userID
-            } else {
-                fullName = "\(String(describing: appleIDCredential.fullName?.givenName))" + "" + "\(String(describing: appleIDCredential.fullName?.familyName))"
-            }
-            
+            guard let givenName = appleIDCredential.fullName?.givenName else { return }
+            guard let familyName = appleIDCredential.fullName?.familyName else { return }
+            fullName = givenName + " " + familyName
 //            fullName = "\(String(describing: appleIDCredential.fullName?.givenName))" + "" + "\(String(describing: appleIDCredential.fullName?.familyName))"
+            
             // 取得使用者的 id、name
             
             guard let idToken = appleIDCredential.identityToken else { return }
@@ -141,7 +139,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             // 產生 Apple ID 登入的 Credential
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             
-            showMainView()
+//            showMainView()
             // 與 Firebase Auth 進行串接
             firebaseSignInWithApple(credential: credential)
         }
@@ -191,6 +189,7 @@ extension LoginViewController {
             }
             print("\(self.getFirebaseUserInfo())")
             print("登入成功！")
+            self.getFirebaseUserInfo()
             self.showMainView()
         }
     }
@@ -202,6 +201,7 @@ extension LoginViewController {
             customAlert(title: "無法取得使用者資料！", message: "")
             return
         }
-        ProfileProvider.shared.postUserInfo(userID: userID, name: fullName ?? userID)
+        let userid = currentUser?.uid ?? userID
+        ProfileProvider.shared.postUserInfo(userID: userid, name: fullName ?? userID)
     }
 }

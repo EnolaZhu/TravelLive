@@ -50,7 +50,7 @@ class DetailViewImageCell: UITableViewCell {
             return
             
         } else {
-            DetailDataProvider.shared.postLike(propertyId: propertyId ?? "", userId: "Enola", isLiked: true)
+            DetailDataProvider.shared.postLike(propertyId: propertyId ?? "", userId: userID, isLiked: true)
             loveButton.setImage(UIImage.asset(.theheart), for: .normal)
         }
     }

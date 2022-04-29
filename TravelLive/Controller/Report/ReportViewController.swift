@@ -35,7 +35,7 @@ class ReportViewController: UIViewController {
     
     @objc func report(_ sender: UIButton) {
         //TODO: response error
-        DetailDataProvider.shared.postBanData(reason: "內容違規", userId: "Enola", whistleblowerId: "Enora")
+        DetailDataProvider.shared.postBanData(reason: "內容違規", userId: userID, whistleblowerId: "Enora")
         closeReportView()
     }
     

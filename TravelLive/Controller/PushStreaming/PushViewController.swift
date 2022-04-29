@@ -18,8 +18,6 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     var timer = Timer()
     private let secondDayMillis = 86400
     private let time = 1000 * 3 * 60
-    // Hard code streamerID
-    let streamerId = "Enola"
     let pushStreamingProvider = PushStreamingProvider()
     let locationManager = CLLocationManager()
     // STT
@@ -412,7 +410,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }
     
     @objc func postPushStreamingInfo() {
-        pushStreamingProvider.postPushStreamingInfo(streamerId: streamerId, longitude: longitude, latitude: latitude) { [weak self] result in
+        pushStreamingProvider.postPushStreamingInfo(streamerId: userID, longitude: longitude, latitude: latitude) { [weak self] result in
             switch result {
             case .success(let url):
                 self?.streamingUrl = url
@@ -424,7 +422,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }
     
     func deletePushStreming() {
-        pushStreamingProvider.deletePushStreamingInfo(streamerId: streamerId) { [weak self] result in
+        pushStreamingProvider.deletePushStreamingInfo(streamerId: userID) { [weak self] result in
             print("delete success")
         }
     }

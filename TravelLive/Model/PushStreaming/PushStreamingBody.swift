@@ -13,7 +13,7 @@ struct PushStreamingBody: Encodable {
     let latitude: Double
     
     enum CodingKeys: String, CodingKey {
-        case streamerId = "streamer_id", longitude, latitude
+        case streamerId = "uid", longitude, latitude
     }
 }
 

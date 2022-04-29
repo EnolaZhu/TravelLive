@@ -16,6 +16,7 @@ struct SearchDataObject: Decodable {
 struct SearchData: Decodable {
     var propertyId: String
     var uid: String
+    var name: String
     var tag: [String]
     var type: String
     var format: String
@@ -24,7 +25,7 @@ struct SearchData: Decodable {
     var timestamp: String
     
     enum CodingKeys: String, CodingKey {
-        case uid, tag, type, format, timestamp
+        case uid, name, tag, type, format, timestamp
         case fileUrl = "file_url"
         case thumbnailUrl = "thumbnail_url"
         case propertyId = "id"

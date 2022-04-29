@@ -19,11 +19,13 @@ struct CommentObject: Decodable {
 
 struct Message: Decodable {
     let reviewerId: String
+    let name: String?
     let avatar: String
     let message: String
     let timestamp: String
     
     enum CodingKeys: String, CodingKey {
+        case name
         case avatar
         case message
         case timestamp
