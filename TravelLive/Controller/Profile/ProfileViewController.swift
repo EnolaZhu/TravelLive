@@ -14,7 +14,6 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
-    //    let itemSize = CGSize(width: 125, height: 125)
     var postButton: UIButton = {
         let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
@@ -25,7 +24,11 @@ class ProfileViewController: UIViewController {
     fileprivate var imageWidth: CGFloat = 0
     var userPropertyData: ProfilePropertyObject?
     var likedPropertyData: ProfileLikedObject?
-    var avatarImage: UIImage?
+    var avatarImage: UIImage? {
+        didSet {
+            profileView.reloadData()
+        }
+    }
     var propertyImages = [UIImage]()
     var profileInfo: ProfileObject?
     var displayName: String? {
@@ -57,13 +60,13 @@ class ProfileViewController: UIViewController {
         profileView.delegate = self
         profileView.dataSource = self
         
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self, action: #selector(createAlertSheet))]
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu), style: .plain, target: self, action: #selector(createAlertSheet))]
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.primary
         
         profileView.contentInsetAdjustmentBehavior = .never
         //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
-        getUserInfo()
-        getUserProperty()
+//        getUserInfo()
+//        getUserProperty()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,7 +97,7 @@ class ProfileViewController: UIViewController {
         self.present(cropViewController, animated: true, completion: nil)
     }
     
-    /// async 取回選擇的 image
+    // async 取回選擇的 image
     private func openImagePicker(with state: CameraState) {
         self.imagePicker = ImagePicker(fromController: self, state: state, compltionClouser: { [unowned self] pickupResult in
             switch pickupResult {

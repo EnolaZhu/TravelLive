@@ -37,6 +37,8 @@ enum ImageAsset: String {
     case event
     case place
     case mapIcon
+    // profile
+    case menu
 }
 
 extension UIImage {
