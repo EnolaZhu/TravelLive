@@ -127,6 +127,9 @@
 		4BEAF1DA281473A60094B90E /* PlaceEventViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */; };
 		4BEAF1DC2814764B0094B90E /* MapDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */; };
 		4BEAF1DE281476BD0094B90E /* MapDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */; };
+		4BEFEF88281BA5100039F601 /* Success.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BEFEF87281BA5100039F601 /* Success.json */; };
+		4BEFEF8A281BA5630039F601 /* Fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BEFEF89281BA5630039F601 /* Fail.json */; };
+		4BEFEF8C281BA5EB0039F601 /* LottieAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */; };
 		4BF82C97281520DE00635924 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BF82C96281520DD00635924 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -253,6 +256,9 @@
 		4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceEventViewImageCell.xib; sourceTree = "<group>"; };
 		4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailViewController.swift; sourceTree = "<group>"; };
 		4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapDetailViewController.storyboard; sourceTree = "<group>"; };
+		4BEFEF87281BA5100039F601 /* Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Success.json; sourceTree = "<group>"; };
+		4BEFEF89281BA5630039F601 /* Fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Fail.json; sourceTree = "<group>"; };
+		4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationManager.swift; sourceTree = "<group>"; };
 		4BF82C96281520DD00635924 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68FED9196589F5A3DCFBDD4D /* Pods-TravelLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.release.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.release.xcconfig"; sourceTree = "<group>"; };
 		7058E26C63EAA7047446EE5B /* Pods_TravelLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -420,6 +426,8 @@
 			children = (
 				4B97880728105A7A0003CC9F /* Heart falling.json */,
 				4B97880D28107C200003CC9F /* Heart break.json */,
+				4BEFEF87281BA5100039F601 /* Success.json */,
+				4BEFEF89281BA5630039F601 /* Fail.json */,
 				4B978800281008740003CC9F /* Hearts moving.json */,
 			);
 			path = LottieAnimation;
@@ -685,6 +693,7 @@
 				4B035A0A2812748200017762 /* UICollectionView+Extension.swift */,
 				4BEAF1C0281468950094B90E /* UIView+Extension.swift */,
 				4B66897D281A7299003CA423 /* ChangeButtonTintColor.swift */,
+				4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -847,6 +856,8 @@
 				4B17A8592815BE230006BB2D /* ImageCell.xib in Resources */,
 				4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */,
 				4B97880828105A7A0003CC9F /* Heart falling.json in Resources */,
+				4BEFEF8A281BA5630039F601 /* Fail.json in Resources */,
+				4BEFEF88281BA5100039F601 /* Success.json in Resources */,
 				4B17A88B2815C6880006BB2D /* DetailViewCommentCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -946,6 +957,7 @@
 				4BDEC3492801F28000143E25 /* String+Extension.swift in Sources */,
 				4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */,
 				4BEAF1D1281471810094B90E /* PlaceEventViewContentCell.swift in Sources */,
+				4BEFEF8C281BA5EB0039F601 /* LottieAnimationManager.swift in Sources */,
 				4B978805281057280003CC9F /* LikeBody.swift in Sources */,
 				4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */,
 				4BA4ED62281786C500B158CA /* UserData.swift in Sources */,

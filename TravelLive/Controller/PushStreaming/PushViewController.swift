@@ -33,6 +33,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     // record
     var recordingTime = Int()
     let record = RPScreenRecorder.shared()
+    let imagePickerController = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -221,9 +222,14 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         }
         request?.endAudio()
         request?.shouldReportPartialResults = false
-        task.finish()
-        task.cancel()
-        task = nil
+        
+        if task == nil{
+            return
+        } else {
+            task.finish()
+            task.cancel()
+            task = nil
+        }
     }
     
     // MARK: - Callbacks
@@ -412,7 +418,12 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         }
         if record.isRecording {
             RecordManager.record.stopRecording(record, self) { result in
-                
+                switch result {
+                case .success(_):
+                    LottieAnimationManager.shared.setUplottieAnimation(name: "Success", excitTime: 1, view: self.view, ifPulling: false)
+                case .failure(_):
+                    LottieAnimationManager.shared.setUplottieAnimation(name: "Fail", excitTime: 1, view: self.view, ifPulling: false)
+                }
             }
         } else {
             RecordManager.record.startRecording(button, record)
@@ -423,13 +434,32 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     @objc func incrementSeconds() {
         recordingSeconds += 1
         if recordingSeconds == 10 {
-            RecordManager.record.stopRecording(record, self) { result in
+            // Stop timer
+            recordingLimitTimer.invalidate()
+            
+            RecordManager.record.stopRecording(record, self) { [weak self] result in
                 // 增加停止提醒
-            }
                 
+                switch result {
+                case .success(_):
+                    self?.createRecordDoneAlert(message: "錄製時間已到")
+                    
+                    LottieAnimationManager.shared.setUplottieAnimation(name: "Success", excitTime: 1, view: self?.view ?? UIView(), ifPulling: false)
+                case .failure(_):
+                    LottieAnimationManager.shared.setUplottieAnimation(name: "Fail", excitTime: 1, view: self?.view ?? UIView(), ifPulling: false)
+                }
             }
         }
+    }
     
+    
+    func createRecordDoneAlert(message: String) {
+            let controller = UIAlertController.init(title: "提示", message: message, preferredStyle: .alert)
+            controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                controller.dismiss(animated: true, completion: nil)
+            }))
+            self.present(controller, animated: true, completion: nil)
+    }
     
     @objc func postPushStreamingInfo() {
         pushStreamingProvider.postPushStreamingInfo(streamerId: userID, longitude: longitude, latitude: latitude) { [weak self] result in
@@ -489,4 +519,8 @@ extension PushViewController: CLLocationManagerDelegate, RPPreviewViewController
     func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
         previewController.dismiss(animated: true, completion: nil)
     }
+}
+
+extension PushViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
 }

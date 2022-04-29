@@ -159,7 +159,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
             guard let theMessage = message.data.message as? [String: String] else { return }
             
             if theMessage["username"] == "animation" {
-                LottieAnimationManager.shared.setUplottieAnimation(name: "Heart falling", excitTime: 1, view: self.view, ifPulling: true)
+                LottieAnimationManager.shared.setUplottieAnimation(name: "Heart falling", excitTime: 3, view: self.view, ifPulling: true)
                 
             } else if theMessage["username"] == "STT" {
                 caption.text = theMessage["message"]

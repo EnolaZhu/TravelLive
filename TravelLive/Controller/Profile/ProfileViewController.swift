@@ -65,8 +65,8 @@ class ProfileViewController: UIViewController {
         
         profileView.contentInsetAdjustmentBehavior = .never
         //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
-//        getUserInfo()
-//        getUserProperty()
+        //        getUserInfo()
+        //        getUserProperty()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -189,16 +189,16 @@ class ProfileViewController: UIViewController {
     }
     
     private func getUserThumbnail(property: Property, index: Int) {
-        ImageManager.shared.fetchUserGIF(thumbnailUrl: property.thumbnailUrl) { gif in
-            self.propertyImages.append(gif)
-            self.profileView.reloadData()
+        ImageManager.shared.fetchUserGIF(thumbnailUrl: property.thumbnailUrl) { [weak self] gif in
+            self?.propertyImages.append(gif)
+            self?.profileView.reloadData()
         }
     }
     
     private func getLikedThumbnail(likedProperty: Liked, index: Int) {
-        ImageManager.shared.fetchUserGIF(thumbnailUrl: likedProperty.thumbnailUrl) { gif in
-            self.propertyImages.append(gif)
-            self.profileView.reloadData()
+        ImageManager.shared.fetchUserGIF(thumbnailUrl: likedProperty.thumbnailUrl) { [weak self] gif in
+            self?.propertyImages.append(gif)
+            self?.profileView.reloadData()
         }
     }
     
@@ -218,10 +218,10 @@ class ProfileViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "登出", style: .default, handler: { [weak self] _ in
             self?.signOut()
         }))
-        alertController.addAction(UIAlertAction(title: "刪除帳號", style: .default, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "刪除帳號", style: .default, handler: { _ in
             ProfileProvider.shared.deleteAccount(userId: userID)
         }))
-        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
         self.present(alertController, animated: true)
     }
@@ -268,7 +268,6 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    //    swiftlint: disable identifier_name
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let uploadDate = Date()
         let dateFormat = DateFormatter()
@@ -439,6 +438,7 @@ extension ProfileViewController {
     
     // Error alert
     func presentAlertMessage(title: String = "Alert", message: String, okclick: (() -> Void)? = nil) {
+        
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] _ in
             if okclick != nil {

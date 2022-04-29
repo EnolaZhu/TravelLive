@@ -16,11 +16,13 @@ class LottieAnimationManager {
         
         if ifPulling{
             animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
+            animationView.contentMode = .scaleAspectFill
         } else {
             animationView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
+            animationView.contentMode = .scaleAspectFit
         }
         animationView.center = view.center
-        animationView.contentMode = .scaleAspectFit
+        
         animationView.loopMode = .playOnce
         animationView.animationSpeed = 4
         view.addSubview(animationView)
