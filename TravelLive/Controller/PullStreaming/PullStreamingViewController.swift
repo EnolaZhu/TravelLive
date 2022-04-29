@@ -21,6 +21,7 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
         addChatView()
         createAnimationButton()
         loveButton.addTarget(self, action: #selector(click), for: .touchUpInside)
+        self.navigationController?.navigationBar.tintColor = UIColor.black
     }
     
     override func didReceiveMemoryWarning() {

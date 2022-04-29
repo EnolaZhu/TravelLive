@@ -17,6 +17,9 @@ class ProfileHeader: UICollectionReusableView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        changePropertySegment.backgroundColor = UIColor.white
+        changePropertySegment.selectedSegmentTintColor = UIColor.primary
+        
         editAvatarButton.addTarget(self, action: #selector(changeAvatar), for: .touchUpInside)
     }
     
@@ -30,9 +33,13 @@ class ProfileHeader: UICollectionReusableView {
         }
     
     func layoutProfileHeader(avatar: UIImage, displayName: String) {
-        
         avatarImageView.image = avatar
         displayNameLabel.text = displayName
+    }
+    
+    func layoutSegment(firstSegmentTitle: String, secondSegmentTitle: String) {
+        changePropertySegment.setTitle(firstSegmentTitle, forSegmentAt: 0)
+        changePropertySegment.setTitle(secondSegmentTitle, forSegmentAt: 1)
     }
     
     @IBAction func changeProfileProperty(_ sender: UISegmentedControl) {
