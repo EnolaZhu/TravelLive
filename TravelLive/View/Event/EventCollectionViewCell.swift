@@ -13,7 +13,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.layer.cornerRadius = 20
+        self.layer.cornerRadius = 18
     }
     
 //    override var isSelected: Bool {

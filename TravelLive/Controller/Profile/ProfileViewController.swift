@@ -64,6 +64,7 @@ class ProfileViewController: UIViewController {
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.primary
         
         profileView.contentInsetAdjustmentBehavior = .never
+        profileView.showsVerticalScrollIndicator = false
         //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
         //        getUserInfo()
         //        getUserProperty()

@@ -26,8 +26,9 @@ class EventViewController: UIViewController {
         getPlaceData(city: 1, limit: 5)
         getPlaceData(city: 2, limit: 5)
         getPlaceData(city: 3, limit: 5)
-//        getEventData(city: 4, limit: 20)
+        
         navigationItem.title = "景點"
+        eventTableView.showsVerticalScrollIndicator = false
     }
 
     func setupTableView() {
