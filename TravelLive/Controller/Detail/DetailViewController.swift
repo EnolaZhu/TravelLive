@@ -16,10 +16,11 @@ class DetailViewController: BaseViewController {
     var allCommentData: CommentObject?
     var detailData: SearchData?
     var detailPageImage = UIImage()
-    var avatarImage = UIImage()
+    var avatarImage: UIImage?
     var propertyId = String()
     var imageOwnerName = String()
     var isLiked = Bool()
+    var placeHolderImage = UIImage(named: "placeholder")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,7 @@ class DetailViewController: BaseViewController {
         
         setUpTableView()
         setUpMaskView()
+        getOwnerAvatar(detailData?.avatar ?? "")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,7 +62,6 @@ class DetailViewController: BaseViewController {
     }
     
     private func fetchComment(propertyId: String, userId: String) {
-//        propertyId = "Enola_1650378092481000_0"
         DetailDataProvider.shared.fetchCommentData(propertyId: propertyId, userId: userId) { [weak self] result in
             switch result {
             case .success(let data):
@@ -71,6 +72,13 @@ class DetailViewController: BaseViewController {
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+    
+    private func getOwnerAvatar(_ imageUrl: String) {
+        ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
+            self?.avatarImage = image
+            self?.detailTableView.reloadData()
         }
     }
 }
@@ -84,14 +92,13 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
-//            imageCell.userAvatarimage 朱辛夷
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
             imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
             
             imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
             
-            imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool(), imageOwnerName: imageOwnerName)
+            imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool(), imageOwnerName: imageOwnerName, avatar: (avatarImage ?? placeHolderImage)!)
             
             if isLiked {
                 imageCell.loveButton.setImage(UIImage(named: "theheart"), for: .normal)
@@ -117,7 +124,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                 ImageManager.shared.fetchImage(imageUrl: allCommentData?.message[indexPath.row - 1].avatar ?? "") { [weak self] image in
                     self?.avatarImage = image
                 }
-                commentCell.layoutCell(name: allCommentData?.message[indexPath.row - 1].name ?? "", comment: allCommentData?.message[indexPath.row - 1].message ?? "", avatar: avatarImage, time: allCommentData?.message[indexPath.row - 1].timestamp ?? "")
+                commentCell.layoutCell(name: allCommentData?.message[indexPath.row - 1].name ?? "", comment: allCommentData?.message[indexPath.row - 1].message ?? "", avatar: (avatarImage ?? placeHolderImage)!, time: allCommentData?.message[indexPath.row - 1].timestamp ?? "")
             }
             return commentCell
         }
@@ -138,8 +145,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
 
         guard let profileVC = profileViewController as? ProfileViewController else { return }
         profileVC.isFromOther = true
-//        detailData?.uid 要去的人的 id
-//        detailData?.propertyId
         show(profileVC, sender: nil)
     }
     
@@ -150,6 +155,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     @objc func showReportPage(_ sender: UIButton) {
         let reportVC = ReportViewController()
+        reportVC.propertyOwnerId = detailData?.ownerId ?? ""
         reportVC.clickCloseButton = self
         reportVC.view.frame = CGRect(x: 0, y: UIScreen.height, width: UIScreen.width, height: 202)
         view.addSubview(reportMaskView)

@@ -33,10 +33,10 @@ class DetailViewImageCell: UITableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeHeart(_:)), name: .changeLoveButtonKey, object: nil)
     }
     
-    func layoutCell(mainImage: UIImage, propertyId: String, isLiked: Bool, imageOwnerName: String) {
+    func layoutCell(mainImage: UIImage, propertyId: String, isLiked: Bool, imageOwnerName: String, avatar: UIImage) {
         userUploadImageView.contentMode = .scaleAspectFill
         userUploadImageView.image = mainImage
-        userAvatarimage.image = UIImage(named: "avatar")?.circularImage(22)
+        userAvatarimage.image = avatar.circularImage(22)
         userName.text = imageOwnerName
         
         if isLiked {

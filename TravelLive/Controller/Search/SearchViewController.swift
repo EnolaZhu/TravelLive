@@ -144,7 +144,6 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
         let detailVC = DetailViewController()
         //TODO: 缺少detailVC.avatarImage
         detailVC.detailData = searchDataObjc?.data[indexPath.row]
-        detailVC.avatarImage = UIImage(named: "avatar")!
         detailVC.detailPageImage = image
         detailVC.propertyId = searchDataObjc?.data[indexPath.row].propertyId ?? ""
         detailVC.imageOwnerName = searchDataObjc?.data[indexPath.row].name ?? ""

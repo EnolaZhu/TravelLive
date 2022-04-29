@@ -69,14 +69,13 @@ class ProfileViewController: UIViewController {
             
             navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu), style: .plain, target: self, action: #selector(createAlertSheet))]
         }
-        //        getUserInfo()
-        //        getUserProperty()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         imageWidth = ((UIScreen.width - 4) / 3)  - 2
+        
         getUserInfo()
         getUserProperty()
     }
@@ -318,7 +317,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         header.layoutSegment(firstSegmentTitle: "我的照片", secondSegmentTitle: "我的喜歡")
         if isFromOther {
             header.editAvatarButton.isHidden = true
-            header.layoutSegment(firstSegmentTitle: "照片", secondSegmentTitle: "喜歡")
+            header.changePropertySegment.isHidden = true
         }
         
         if displayName == nil {
@@ -425,6 +424,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         detailVC.propertyId = userPropertyData?.data[indexPath.row].propertyId ?? ""
         detailVC.imageOwnerName = userPropertyData?.data[indexPath.row].name ?? ""
         detailVC.detailPageImage = image
+//        朱辛夷ssss
+//        detailVC.avatarImage = userPropertyData?.data[indexPath.row].hfjhf
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
