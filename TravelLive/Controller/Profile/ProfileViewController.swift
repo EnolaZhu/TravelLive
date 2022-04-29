@@ -24,20 +24,20 @@ class ProfileViewController: UIViewController {
     fileprivate var imageWidth: CGFloat = 0
     var userPropertyData: ProfilePropertyObject?
     var likedPropertyData: ProfileLikedObject?
-    var avatarImage: UIImage? {
-        didSet {
-            profileView.reloadData()
-        }
-    }
     var propertyImages = [UIImage]()
     var profileInfo: ProfileObject?
+    var imagePicker: ImagePicker!
+    var isFromOther = false
     var displayName: String? {
         didSet {
             profileView.reloadData()
         }
     }
-    var imagePicker: ImagePicker!
-    var isFromOther = false
+    var avatarImage: UIImage? {
+        didSet {
+            profileView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
