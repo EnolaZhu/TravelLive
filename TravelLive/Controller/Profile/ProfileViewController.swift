@@ -37,6 +37,7 @@ class ProfileViewController: UIViewController {
         }
     }
     var imagePicker: ImagePicker!
+    var isFromOther = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,25 +48,27 @@ class ProfileViewController: UIViewController {
         // change avatar
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditAvatarViewKey, object: nil)
         
-        postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
-        
         navigationItem.title = "個人"
         // Add advertisement
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         
-        view.addSubview(postButton)
-        
         profileView.delegate = self
         profileView.dataSource = self
         
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu), style: .plain, target: self, action: #selector(createAlertSheet))]
-        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.primary
-        
         profileView.contentInsetAdjustmentBehavior = .never
         profileView.showsVerticalScrollIndicator = false
-        //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.asset(.plus), style: .plain, target: nil, action: #selector(postImage))
+        
+        if isFromOther {
+            
+        } else {
+            postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
+            
+            view.addSubview(postButton)
+            
+            navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu), style: .plain, target: self, action: #selector(createAlertSheet))]
+        }
         //        getUserInfo()
         //        getUserProperty()
     }
@@ -309,6 +312,12 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     // Set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
+        
+        header.layoutSegment(firstSegmentTitle: "我的照片", secondSegmentTitle: "我的喜歡")
+        if isFromOther {
+            header.editAvatarButton.isHidden = true
+            header.layoutSegment(firstSegmentTitle: "照片", secondSegmentTitle: "喜歡")
+        }
         
         if displayName == nil {
             header.layoutProfileHeader(avatar: (avatarImage ?? UIImage(named: "placeholder"))!, displayName: "")
