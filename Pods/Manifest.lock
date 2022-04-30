@@ -101,6 +101,69 @@ PODS:
   - GoogleMaps/Base (6.1.1)
   - GoogleMaps/Maps (6.1.1):
     - GoogleMaps/Base
+  - GoogleMLKit/ImageLabeling (2.6.0):
+    - GoogleMLKit/MLKitCore
+    - MLKitImageLabeling (~> 1.5.0)
+  - GoogleMLKit/MLKitCore (2.6.0):
+    - MLKitCommon (~> 5.0.0)
+  - GoogleToolboxForMac (2.3.2):
+    - GoogleToolboxForMac/Core (= 2.3.2)
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+    - GoogleToolboxForMac/GeometryUtils (= 2.3.2)
+    - GoogleToolboxForMac/KVO (= 2.3.2)
+    - GoogleToolboxForMac/Logger (= 2.3.2)
+    - "GoogleToolboxForMac/NSData+zlib (= 2.3.2)"
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (= 2.3.2)"
+    - "GoogleToolboxForMac/NSFileHandle+UniqueName (= 2.3.2)"
+    - "GoogleToolboxForMac/NSScanner+JSON (= 2.3.2)"
+    - "GoogleToolboxForMac/NSString+HTML (= 2.3.2)"
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.3.2)"
+    - "GoogleToolboxForMac/NSString+XML (= 2.3.2)"
+    - "GoogleToolboxForMac/NSThread+Blocks (= 2.3.2)"
+    - GoogleToolboxForMac/Regex (= 2.3.2)
+    - GoogleToolboxForMac/StringEncoding (= 2.3.2)
+    - GoogleToolboxForMac/SystemVersion (= 2.3.2)
+    - GoogleToolboxForMac/URLBuilder (= 2.3.2)
+  - GoogleToolboxForMac/Core (2.3.2):
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - GoogleToolboxForMac/DebugUtils (2.3.2):
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - GoogleToolboxForMac/Defines (2.3.2)
+  - GoogleToolboxForMac/GeometryUtils (2.3.2):
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - GoogleToolboxForMac/KVO (2.3.2):
+    - GoogleToolboxForMac/Core (= 2.3.2)
+    - GoogleToolboxForMac/DebugUtils (= 2.3.2)
+  - GoogleToolboxForMac/Logger (2.3.2):
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - "GoogleToolboxForMac/NSData+zlib (2.3.2)":
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.3.2)":
+    - GoogleToolboxForMac/DebugUtils (= 2.3.2)
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.3.2)"
+  - "GoogleToolboxForMac/NSFileHandle+UniqueName (2.3.2)":
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - "GoogleToolboxForMac/NSScanner+JSON (2.3.2)":
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - "GoogleToolboxForMac/NSString+HTML (2.3.2)":
+    - GoogleToolboxForMac/Core (= 2.3.2)
+  - "GoogleToolboxForMac/NSString+URLArguments (2.3.2)"
+  - "GoogleToolboxForMac/NSString+XML (2.3.2)":
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - "GoogleToolboxForMac/NSThread+Blocks (2.3.2)":
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - GoogleToolboxForMac/Regex (2.3.2):
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - GoogleToolboxForMac/StringEncoding (2.3.2):
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - GoogleToolboxForMac/SystemVersion (2.3.2):
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - GoogleToolboxForMac/URLBuilder (2.3.2):
+    - GoogleToolboxForMac/Core (= 2.3.2)
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (= 2.3.2)"
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.3.2)"
   - GoogleUserMessagingPlatform (2.0.0)
   - GoogleUtilities/AppDelegateSwizzler (7.7.0):
     - GoogleUtilities/Environment
@@ -121,11 +184,46 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
+  - GoogleUtilitiesComponents (1.1.0):
+    - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.7.1)
   - IQKeyboardManagerSwift (6.5.9)
   - Kingfisher (7.2.1)
   - LFLiveKit (2.6)
   - lottie-ios (3.3.0)
+  - MLImage (1.0.0-beta2)
+  - MLKitCommon (5.0.0):
+    - GoogleDataTransport (~> 9.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
+    - GoogleUtilities/UserDefaults (~> 7.0)
+    - GoogleUtilitiesComponents (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+    - Protobuf (~> 3.12)
+  - MLKitImageLabeling (1.5.0):
+    - MLKitCommon (~> 5.0)
+    - MLKitImageLabelingCommon (~> 3.0)
+    - MLKitVision (~> 3.0)
+    - MLKitVisionKit (~> 4.0)
+  - MLKitImageLabelingCommon (3.0.0):
+    - MLKitCommon (~> 5.0)
+    - MLKitVision (~> 3.0)
+  - MLKitObjectDetectionCommon (3.0.0):
+    - MLKitCommon (~> 5.0)
+    - MLKitVision (~> 3.0)
+  - MLKitVision (3.0.0):
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - GTMSessionFetcher/Core (~> 1.1)
+    - MLImage (= 1.0.0-beta2)
+    - MLKitCommon (~> 5.0)
+    - Protobuf (~> 3.12)
+  - MLKitVisionKit (4.0.0):
+    - MLKitCommon (~> 5.0)
+    - MLKitImageLabelingCommon (~> 3.0)
+    - MLKitObjectDetectionCommon (~> 3.0)
+    - MLKitVision (~> 3.0)
   - mobile-ffmpeg-full (4.4)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
@@ -133,6 +231,7 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (2.1.0)
+  - Protobuf (3.20.1)
   - PubNub (4.17.0):
     - PubNub/Core (= 4.17.0)
   - PubNub/Core (4.17.0)
@@ -149,6 +248,8 @@ DEPENDENCIES:
   - Firebase/Storage
   - Google-Mobile-Ads-SDK
   - GoogleMaps
+  - GoogleMLKit/ImageLabeling (= 2.6.0)
+  - GoogleToolboxForMac (~> 2.3)
   - IQKeyboardManagerSwift
   - Kingfisher (~> 7.0)
   - LFLiveKit
@@ -174,16 +275,27 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleMaps
+    - GoogleMLKit
+    - GoogleToolboxForMac
     - GoogleUserMessagingPlatform
     - GoogleUtilities
+    - GoogleUtilitiesComponents
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
     - Kingfisher
     - LFLiveKit
     - lottie-ios
+    - MLImage
+    - MLKitCommon
+    - MLKitImageLabeling
+    - MLKitImageLabelingCommon
+    - MLKitObjectDetectionCommon
+    - MLKitVision
+    - MLKitVisionKit
     - mobile-ffmpeg-full
     - nanopb
     - PromisesObjC
+    - Protobuf
     - PubNub
     - SnapKit
     - SwiftLint
@@ -203,21 +315,32 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 4c19f031220c72464d460c9daa1fb5d1acce958e
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleMaps: 94e6e0851beece6678af9f508f4918b7a7c61722
+  GoogleMLKit: 755661c46990a85e42278015f26400286d98ad95
+  GoogleToolboxForMac: 8bef7c7c5cf7291c687cf5354f39f9db6399ad34
   GoogleUserMessagingPlatform: ab890ce5f6620f293a21b6bdd82e416a2c73aeca
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
+  GoogleUtilitiesComponents: 679b2c881db3b615a2777504623df6122dd20afe
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
   Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
   LFLiveKit: 2219563721f8aa0f188effc3395a06e2d53b23f2
   lottie-ios: 6ac74dcc09904798f59b18cb3075c089d76be9ae
+  MLImage: a454f9f8ecfd537783a12f9488f5be1a68820829
+  MLKitCommon: 3bc17c6f7d25ce3660f030350b46ae7ec9ebca6e
+  MLKitImageLabeling: 8e19e6cea9b220c5ae6beb85e2c0b14c370fdb3a
+  MLKitImageLabelingCommon: 9916b03956a3a647ebc7471a12b1eb0798ae84f8
+  MLKitObjectDetectionCommon: 81d8ef93327005779a05fb6f2d74b0b0ef8840b1
+  MLKitVision: e87dc3f2e456a6ab32361ebd985e078dd2746143
+  MLKitVisionKit: 68c122ceb9b2fe1a05ffe09341c750d566c77170
   mobile-ffmpeg-full: 505c583d91ac1c4fb2b015787e69d83f83fb8f29
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
+  Protobuf: b60ec2f51ad74765f44d0c09d2e0579d7de21745
   PubNub: 306896876c3089884067609ff25d628a547d2942
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
   TXLiteAVSDK_Professional: 645670c9d1bbabb88e8dff998fb097a22fe71208
 
-PODFILE CHECKSUM: 2fb52cb17ad9254ed208657dfbd6e7ebe7b165d0
+PODFILE CHECKSUM: 8b93f65cd34dcb59041b525846e90488f621cb45
 
 COCOAPODS: 1.11.3

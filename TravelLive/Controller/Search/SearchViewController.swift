@@ -18,6 +18,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     var searchDataObjc: SearchDataObject?
     let searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
+    var showNoResultLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,6 +103,11 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 print("\(data)")
                 self?.searchDataObjc = data
                 guard let searchDataObjc = self?.searchDataObjc else { return }
+                if searchDataObjc.data.isEmpty {
+                    print("沒結果")
+                    self?.searchCollectionView.reloadData()
+                }
+                
                 if searchDataObjc.data.count > 0 {
                     // placeholder
                     self?.images = [UIImage](repeating: UIImage(named: "placeholder") ?? UIImage(), count: searchDataObjc.data.count)
@@ -133,6 +139,21 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             self.images[index] = gif
             self.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
+    }
+    
+    private func setUpNoResultLabel() {
+        view.addSubview(showNoResultLabel)
+        
+        showNoResultLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            showNoResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            showNoResultLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            showNoResultLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50),
+            showNoResultLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50)
+        ])
+        showNoResultLabel.text = "暫無搜尋結果"
+        showNoResultLabel.textColor = UIColor.gray
+        showNoResultLabel.contentMode = .center
     }
 }
 
