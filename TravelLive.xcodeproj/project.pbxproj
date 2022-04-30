@@ -130,6 +130,7 @@
 		4BEFEF88281BA5100039F601 /* Success.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BEFEF87281BA5100039F601 /* Success.json */; };
 		4BEFEF8A281BA5630039F601 /* Fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BEFEF89281BA5630039F601 /* Fail.json */; };
 		4BEFEF8C281BA5EB0039F601 /* LottieAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */; };
+		4BEFEF90281C56F90039F601 /* ImageLabelingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEFEF8F281C56F90039F601 /* ImageLabelingManager.swift */; };
 		4BF82C97281520DE00635924 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BF82C96281520DD00635924 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -259,6 +260,7 @@
 		4BEFEF87281BA5100039F601 /* Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Success.json; sourceTree = "<group>"; };
 		4BEFEF89281BA5630039F601 /* Fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Fail.json; sourceTree = "<group>"; };
 		4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationManager.swift; sourceTree = "<group>"; };
+		4BEFEF8F281C56F90039F601 /* ImageLabelingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabelingManager.swift; sourceTree = "<group>"; };
 		4BF82C96281520DD00635924 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68FED9196589F5A3DCFBDD4D /* Pods-TravelLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelLive.release.xcconfig"; path = "Target Support Files/Pods-TravelLive/Pods-TravelLive.release.xcconfig"; sourceTree = "<group>"; };
 		7058E26C63EAA7047446EE5B /* Pods_TravelLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -446,6 +448,7 @@
 			isa = PBXGroup;
 			children = (
 				4BA36589281AEB6900A2E724 /* ConvertImageTOBase64.swift */,
+				4BEFEF8F281C56F90039F601 /* ImageLabelingManager.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -1016,6 +1019,7 @@
 				4BDEC34C28028B6F00143E25 /* HTTPClient.swift in Sources */,
 				4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */,
 				4B4AA43B280294BE0066C602 /* Parser.swift in Sources */,
+				4BEFEF90281C56F90039F601 /* ImageLabelingManager.swift in Sources */,
 				4BA36583281AE34800A2E724 /* CropViewController.swift in Sources */,
 				4BB5A92D280DAD6E00739C61 /* GIFManager.swift in Sources */,
 				4B3AAAD62806BCB500CBFE89 /* Notification.Name+Extension.swift in Sources */,
@@ -1206,7 +1210,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.enola.TravelLive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1242,7 +1246,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.enola.TravelLive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
