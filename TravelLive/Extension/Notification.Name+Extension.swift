@@ -16,4 +16,5 @@ extension Notification.Name {
     public static let showLikedPropertyKey = Notification.Name(rawValue: "like")
     public static let redirectNewViewKey = Notification.Name(rawValue: "redirect")
     public static let showEditAvatarViewKey = Notification.Name(rawValue: "edit")
+    public static let defaultSegmentIndexKey = Notification.Name(rawValue: "default")
 }

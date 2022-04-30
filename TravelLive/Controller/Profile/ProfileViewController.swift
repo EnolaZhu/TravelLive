@@ -23,7 +23,11 @@ class ProfileViewController: UIViewController {
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
     var userPropertyData: ProfilePropertyObject?
-    var propertyImages = [UIImage]()
+    var propertyImages = [UIImage]() {
+        didSet {
+            profileView.reloadData()
+        }
+    }
     var profileInfo: ProfileObject?
     var imagePicker: ImagePicker!
     var isFromOther = false
@@ -73,9 +77,11 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         imageWidth = ((UIScreen.width - 4) / 3)  - 2
-        
         getUserInfo()
         getUserProperty()
+        
+        // default segment index
+        NotificationCenter.default.post(name: .defaultSegmentIndexKey, object: nil, userInfo: nil)
     }
     
     @objc func showEditView(_ notification: NSNotification) {
