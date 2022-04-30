@@ -14,7 +14,7 @@ class LottieAnimationManager {
     func setUplottieAnimation(name: String, excitTime: Int, view: UIView, ifPulling: Bool) {
         let animationView = AnimationView(name: name)
         
-        if ifPulling{
+        if ifPulling {
             animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
             animationView.contentMode = .scaleAspectFill
         } else {

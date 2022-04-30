@@ -46,7 +46,6 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             locationManager.startUpdatingLocation()
         }
         
-        
         // check if streamer is streaming by 5s
         //        postStreamerInfoTimer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         session.delegate = self
@@ -62,7 +61,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         
         session.preView = view
         addPushPreview()
-        setUpStarButton()
+        view.addSubview(closeButton)
+        closeButton.addTarget(self, action: #selector(didTappedCloseButton(_:)), for: .touchUpInside)
+        setUpStartButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -96,7 +97,6 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         cameraButton.addTarget(self, action: #selector(didTappedCameraButton(_:)), for: .touchUpInside)
         beautyButton.addTarget(self, action: #selector(didTappedBeautyButton(_:)), for: .touchUpInside)
         stopLiveButton.addTarget(self, action: #selector(didTappedStopLiveButton(_:)), for: .touchUpInside)
-        closeButton.addTarget(self, action: #selector(didTappedCloseButton(_:)), for: .touchUpInside)
         recordButton.addTarget(self, action: #selector(didTappedRecordButton(_:)), for: .touchUpInside)
     }
     
@@ -323,7 +323,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         return stopLiveButton
     }()
 
-    func setUpStarButton() {
+    func setUpStartButton() {
         view.addSubview(startButton)
         startButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -353,9 +353,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         //        startSpeechRecognization()
         postPushStreamingInfo()
         startButton.isHidden = true
+        closeButton.isHidden = true
         addChatView()
         view.addSubview(cameraButton)
-        view.addSubview(closeButton)
         view.addSubview(beautyButton)
         view.addSubview(recordButton)
         view.addSubview(stopLiveButton)
