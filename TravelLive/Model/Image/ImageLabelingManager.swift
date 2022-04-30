@@ -12,13 +12,14 @@ import MLKitImageLabeling
 import MLKitImageLabelingCommon
 
 class ImageLabelingManager {
+    static let shared = ImageLabelingManager()
     
     func getImageLabel(inputImage: UIImage, label: @escaping ([ImageLabel]) -> Void) {
         let visionImage = VisionImage(image: inputImage)
         visionImage.orientation = inputImage.imageOrientation
         
         let options = ImageLabelerOptions()
-        options.confidenceThreshold = 0.8
+        options.confidenceThreshold = 0.7
         let labeler = ImageLabeler.imageLabeler(options: options)
         
         labeler.process(visionImage) { labels, error in

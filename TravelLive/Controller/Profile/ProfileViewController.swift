@@ -270,13 +270,21 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         dateFormat.dateFormat = "SSSSSS"
         let uploadTimestamp = Int(uploadDate.timeIntervalSince1970)
         
-        let tag = "\(Int.random(in: 0...2))"
-        let storageRefPath = userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
+        var result = String()
+        let storageRefPath = userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            let imageUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
-            guard let imgUrl = imageUrl else { return }
-            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPath)
+            // Image Labeling
+            ImageLabelingManager.shared.getImageLabel(inputImage: pickedImage) { [weak self] data in
+                for index in 0..<data.count {
+                    result += data[index].text.lowercased() + (index == data.count - 1 ? "" : "&")
+                }
+                let storageRefPathWithTag = storageRefPath + (result.isEmpty ? "" : ("_" + result))
+                
+                let imageUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
+                guard let imgUrl = imageUrl else { return }
+                PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPathWithTag)
+            }
         }
         
         if let mediaUrl = info[.mediaURL] as? URL {
@@ -285,7 +293,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath)
             
             // Convert video type to GIF
-            let storageRefGifPath = "thumbnail_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + tag
+            let storageRefGifPath = "thumbnail_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + result
             GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
                 switch result {
                 case .success(let urlOfGIF):
