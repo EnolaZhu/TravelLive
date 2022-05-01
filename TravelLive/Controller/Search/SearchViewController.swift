@@ -15,7 +15,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     var arrInstaBigCells = [Int]()
     var images = [UIImage]()
     var searchDataObjc: SearchDataObject?
-    let searchController = UISearchController()
+    var searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
     var showNoResultLabel = UILabel()
     
@@ -25,7 +25,8 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         searchController.searchResultsUpdater = self
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
-        
+        // Fix searchbar hidden when change view
+        navigationItem.hidesSearchBarWhenScrolling = false
         
         var tempStorage = false
         for _ in 1...21 {
@@ -37,8 +38,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchCollectionView.showsVerticalScrollIndicator = false
         searchCollectionView.backgroundColor = .white
         searchCollectionView.dataSource = self
         searchCollectionView.delegate = self
@@ -58,7 +57,10 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         getSearchData()
         searchController.searchBar.text = ""
         searchController.searchBar.placeholder = "搜尋"
-        searchController.hidesNavigationBarDuringPresentation = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
     override func didReceiveMemoryWarning() {
