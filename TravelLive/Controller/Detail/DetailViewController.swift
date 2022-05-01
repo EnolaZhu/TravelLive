@@ -18,11 +18,7 @@ class DetailViewController: BaseViewController {
     var allCommentData: CommentObject?
     var detailData: SearchData?
     var detailPageImage = UIImage()
-    var avatarImage: UIImage? {
-        didSet {
-            detailTableView.reloadData()
-        }
-    }
+    var avatarImage: UIImage?
     var avatarUrl: String?
     var propertyId = String()
     var imageOwnerName = String()
@@ -33,6 +29,9 @@ class DetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        detailTableView.delegate = self
+        detailTableView.dataSource = self
         
         setUpMaskView()
         setUpTableView()
@@ -57,8 +56,7 @@ class DetailViewController: BaseViewController {
     private func setUpTableView() {
         detailTableView.rowHeight = UITableView.automaticDimension
         detailTableView.estimatedRowHeight = 200.0
-        detailTableView.delegate = self
-        detailTableView.dataSource = self
+        
         detailTableView.separatorStyle = .none
         
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewImageCell.self), bundle: nil)

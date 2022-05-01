@@ -283,9 +283,10 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             // Image Labeling
             ImageLabelingManager.shared.getImageLabel(inputImage: pickedImage) { [weak self] data in
                 for index in 0..<data.count {
-                    result += data[index].text.lowercased() + (index == data.count - 1 ? "" : "&")
+                    result += data[index].text.lowercased() + (index == data.count - 1 ? "" : ",")
                 }
-                let storageRefPathWithTag = storageRefPath + (result.isEmpty ? "" : ("_" + result))
+                var storageRefPathWithTag = storageRefPath + (result.isEmpty ? "" : ("_" + result))
+                storageRefPathWithTag = storageRefPathWithTag.replacingOccurrences(of: " ", with: "")
                 
                 let imageUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
                 guard let imgUrl = imageUrl else { return }
