@@ -25,5 +25,5 @@ target 'TravelLive' do
   pod 'Google-Mobile-Ads-SDK'
   pod 'GoogleMLKit/ImageLabeling', '2.6.0'
   pod 'GoogleToolboxForMac', '~> 2.3'
-  pod 'Toast-Swift', '~> 5.0.1'		
+  pod 'Toast-Swift', '~> 5.0.1'
 end

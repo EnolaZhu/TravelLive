@@ -126,6 +126,9 @@
 		4BEAF1DA281473A60094B90E /* PlaceEventViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */; };
 		4BEAF1DC2814764B0094B90E /* MapDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */; };
 		4BEAF1DE281476BD0094B90E /* MapDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */; };
+		4BEC55A7281DA65B00126786 /* StringProtocol+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEC55A6281DA65B00126786 /* StringProtocol+Extension.swift */; };
+		4BEC55A9281DA7E600126786 /* String.Index+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEC55A8281DA7E600126786 /* String.Index+Extension.swift */; };
+		4BEC55AB281DA86100126786 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEC55AA281DA86100126786 /* Collection+Extension.swift */; };
 		4BEC55AF281E2D3D00126786 /* DetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BEC55AE281E2D3D00126786 /* DetailViewController.storyboard */; };
 		4BEFEF88281BA5100039F601 /* Success.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BEFEF87281BA5100039F601 /* Success.json */; };
 		4BEFEF8A281BA5630039F601 /* Fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BEFEF89281BA5630039F601 /* Fail.json */; };
@@ -256,6 +259,9 @@
 		4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceEventViewImageCell.xib; sourceTree = "<group>"; };
 		4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailViewController.swift; sourceTree = "<group>"; };
 		4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapDetailViewController.storyboard; sourceTree = "<group>"; };
+		4BEC55A6281DA65B00126786 /* StringProtocol+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringProtocol+Extension.swift"; sourceTree = "<group>"; };
+		4BEC55A8281DA7E600126786 /* String.Index+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String.Index+Extension.swift"; sourceTree = "<group>"; };
+		4BEC55AA281DA86100126786 /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
 		4BEC55AE281E2D3D00126786 /* DetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailViewController.storyboard; sourceTree = "<group>"; };
 		4BEFEF87281BA5100039F601 /* Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Success.json; sourceTree = "<group>"; };
 		4BEFEF89281BA5630039F601 /* Fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Fail.json; sourceTree = "<group>"; };
@@ -679,6 +685,8 @@
 			isa = PBXGroup;
 			children = (
 				4BC1075C27FB51870017B1B7 /* UIStoryboard+Extension.swift */,
+				4BEC55AA281DA86100126786 /* Collection+Extension.swift */,
+				4BEC55A6281DA65B00126786 /* StringProtocol+Extension.swift */,
 				4BC1076827FBF0390017B1B7 /* UIImage+Extension.swift */,
 				4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */,
 				4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */,
@@ -697,6 +705,7 @@
 				4BEAF1C0281468950094B90E /* UIView+Extension.swift */,
 				4B66897D281A7299003CA423 /* ChangeButtonTintColor.swift */,
 				4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */,
+				4BEC55A8281DA7E600126786 /* String.Index+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -952,6 +961,7 @@
 			files = (
 				4BEAF1C1281468950094B90E /* UIView+Extension.swift in Sources */,
 				4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */,
+				4BEC55AB281DA86100126786 /* Collection+Extension.swift in Sources */,
 				4BD3736828041B9300141A29 /* PullStreamingViewController.swift in Sources */,
 				4BC1073E27FA9DD40017B1B7 /* STTabBarViewController.swift in Sources */,
 				4BEAF1DC2814764B0094B90E /* MapDetailViewController.swift in Sources */,
@@ -971,6 +981,7 @@
 				4BC1073A27FA9DD40017B1B7 /* AppDelegate.swift in Sources */,
 				4B66E9462817B96C00BD62C6 /* EventCollectionViewController.swift in Sources */,
 				4BB6AC08280466380061EDDE /* StreamerDataObject.swift in Sources */,
+				4BEC55A7281DA65B00126786 /* StringProtocol+Extension.swift in Sources */,
 				4BC1075427FB470F0017B1B7 /* PushViewController.swift in Sources */,
 				4BA4ED5D2817139800B158CA /* NotificationManager.swift in Sources */,
 				4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */,
@@ -997,6 +1008,7 @@
 				4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */,
 				4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */,
 				4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */,
+				4BEC55A9281DA7E600126786 /* String.Index+Extension.swift in Sources */,
 				4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */,
 				4B3AAAF1280873D400CBFE89 /* ProfileViewController.swift in Sources */,
 				4BC2BE4F27FC4207001FF31D /* Secret.swift in Sources */,

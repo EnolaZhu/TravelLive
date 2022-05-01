@@ -34,41 +34,54 @@ class ChatViewController: BaseViewController, PNEventsListener {
             scroolRowToNewestRow(chatView)
         }
     }
+    
+    private let intervalSendPubnub = 500
+    private let sendPubnubThreshold = 2000
+    
     var noMoreMessages = false
     var earliestMessageTime: NSNumber = -1
     var loadingMore = false
     var client: PubNub!
-    var channelName = "Channel Name"
+    //TODO: Change name
+    var channelName = "userID"
     var textsOfSTT = [String]()
+    var sendPubNubTimer = Timer()
+    private var totalTime = 0
+    var isFromStreamer = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChatView()
+        caption.backgroundColor = UIColor.primary
         // Setting up our PubNub object
         let configuration = PNConfiguration(publishKey: Secret.pubNubPublishKey.title, subscribeKey: Secret.pubNubSubscribeKey.title)
         configuration.uuid = UUID().uuidString
         client = PubNub.clientWithConfiguration(configuration)
         client.addListener(self)
         client.subscribeToChannels([channelName], withPresence: true)
+        
         // Add observer for animation
         NotificationCenter.default.addObserver(self, selector: #selector(self.showAnimation(_:)), name: .animationNotificationKey, object: nil)
         // Add observer for STT text
         NotificationCenter.default.addObserver(self, selector: #selector(self.getStreamerText(_:)), name: .textNotificationKey, object: nil)
         // Add streamer close live observer
         NotificationCenter.default.addObserver(self, selector: #selector(self.closePullingView(_:)), name: .closePullingViewKey, object: nil)
+        
+        if isFromStreamer {
+            initTimer()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         // Clear caption
         caption.text = ""
     }
     
     @objc func getStreamerText(_ notification: NSNotification) {
         if let text = notification.userInfo?["streamer"] as? String {
-            self.client.publish(["message": text,
-                                 "username": "STT",
-                                 "uuid": self.client.uuid()
-                                ], toChannel: channelName) { status in
-                print(status.data.information)
-            }
-            print(textsOfSTT)
+            caption.text = (caption.text ?? "") + text
         }
     }
     
@@ -106,7 +119,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
         publishMessage()
     }
     
-    func publishMessage() {
+    private func publishMessage() {
         if inputTextfield.text != "" || inputTextfield.text != nil {
             let messageString: String = inputTextfield.text!
             let messageObject: [String: Any] =
@@ -122,7 +135,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
         }
     }
     
-    func publishAnimation() {
+    private func publishAnimation() {
         client.publish(["message": "heart",
                         "username": "animation",
                         "uuid": client.uuid()
@@ -130,30 +143,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
             print(status.data.information)
         }
     }
-    
-    func addHiistory(start: NSNumber?, end: NSNumber?, limit: UInt) {
-        client.historyForChannel(channelName, start: start, end: end, limit: limit) { result, status in
-            if result != nil && status == nil {
-                if result!.data.start == 0 && result?.data.end == 0 {
-                    self.noMoreMessages = true
-                    return
-                }
-                self.earliestMessageTime = result!.data.start
-                guard let messageDict = result!.data.messages as? [[String: String]] else { return }
-                
-                for theMessage in messageDict {
-                    let message = Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]! )
-                    self.messages.append(message)
-                }
-                self.loadingMore = false
-            } else if status !=  nil {
-                print(status!.category)
-            } else {
-                print("everything is nil whaat")
-            }
-        }
-    }
-    
+
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
         if channelName == message.data.channel {
             guard let theMessage = message.data.message as? [String: String] else { return }
@@ -162,7 +152,10 @@ class ChatViewController: BaseViewController, PNEventsListener {
                 LottieAnimationManager.shared.setUplottieAnimation(name: "Heart falling", excitTime: 3, view: self.view, ifPulling: true)
                 
             } else if theMessage["username"] == "STT" {
-                caption.text = theMessage["message"]
+                print("receive = " + (theMessage["message"] ?? ""))
+                if !isFromStreamer {
+                    caption.text = theMessage["message"] ?? ""
+                }
             } else if theMessage["username"] == "close" {
                 createCloseAlert()
             } else {
@@ -172,9 +165,38 @@ class ChatViewController: BaseViewController, PNEventsListener {
         print("Received message in Channel:", message.data.message!)
     }
     
-    func scroolRowToNewestRow(_ tableView: UITableView) {
+    private func scroolRowToNewestRow(_ tableView: UITableView) {
         let indexPath = IndexPath(row: messages.count - 1, section: 0)
         tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+    }
+    
+    private func initTimer() {
+        sendPubNubTimer = Timer.scheduledTimer(timeInterval: Double(intervalSendPubnub) / 1000, target: self, selector: #selector(requestSendPubNub), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func requestSendPubNub() {
+        totalTime += intervalSendPubnub
+        if totalTime > sendPubnubThreshold {
+            if caption.text?.isEmpty == true {
+                totalTime = 0
+            } else {
+                sendPubNub(message: caption.text ?? "")
+                caption.text = ""
+            }
+        }
+    }
+    
+    private func sendPubNub(message: String) {
+        if !message.isEmpty {
+            print("send message = " + message)
+            self.client.publish(["message": message,
+                                 "username": "STT",
+                                 "uuid": self.client.uuid()
+                                ], toChannel: channelName) { status in
+                print(status.data.information)
+            }
+            totalTime = 0
+        }
     }
 }
 
