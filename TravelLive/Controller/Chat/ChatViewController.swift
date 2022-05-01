@@ -47,6 +47,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var textsOfSTT = [String]()
     var sendPubNubTimer = Timer()
     private var totalTime = 0
+    private var isFromStreamer = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +67,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
         // Add streamer close live observer
         NotificationCenter.default.addObserver(self, selector: #selector(self.closePullingView(_:)), name: .closePullingViewKey, object: nil)
         
-        if isStreamer() {
+        if isFromStreamer {
             initTimer()
         }
     }
@@ -80,17 +81,8 @@ class ChatViewController: BaseViewController, PNEventsListener {
     
     @objc func getStreamerText(_ notification: NSNotification) {
         if let text = notification.userInfo?["streamer"] as? String {
-//            self.client.publish(["message": text,
-//                                 "username": "STT",
-//                                 "uuid": self.client.uuid()
-//                                ], toChannel: channelName) { status in
-//                print(status.data.information)
-//            }
-//            print(textsOfSTT)
-            print("getStreamerText=" + text)
             caption.text = (caption.text ?? "") + text
         }
-        
     }
     
     @objc func showAnimation(_ notification: NSNotification) {
@@ -127,7 +119,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
         publishMessage()
     }
     
-    func publishMessage() {
+    private func publishMessage() {
         if inputTextfield.text != "" || inputTextfield.text != nil {
             let messageString: String = inputTextfield.text!
             let messageObject: [String: Any] =
@@ -143,7 +135,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
         }
     }
     
-    func publishAnimation() {
+    private func publishAnimation() {
         client.publish(["message": "heart",
                         "username": "animation",
                         "uuid": client.uuid()
@@ -151,38 +143,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
             print(status.data.information)
         }
     }
-    
-//    func addHiistory(start: NSNumber?, end: NSNumber?, limit: UInt) {
-//        client.historyForChannel(channelName, start: start, end: end, limit: limit) { result, status in
-//            if result != nil && status == nil {
-//                if result!.data.start == 0 && result?.data.end == 0 {
-//                    self.noMoreMessages = true
-//                    return
-//                }
-//                self.earliestMessageTime = result!.data.start
-//                guard let messageDict = result!.data.messages as? [[String: String]] else { return }
-//
-//                for theMessage in messageDict {
-//                    let message = Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]! )
-//                    self.messages.append(message)
-//                }
-//                self.loadingMore = false
-//            } else if status !=  nil {
-//                print(status!.category)
-//            } else {
-//                print("everything is nil whaat")
-//            }
-//        }
-//    }
-    
-    private func isStreamer() -> Bool {
-        return true
-    }
-    
-    private func isViewer() -> Bool {
-        return false
-    }
-    
+
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
         if channelName == message.data.channel {
             guard let theMessage = message.data.message as? [String: String] else { return }
@@ -192,12 +153,11 @@ class ChatViewController: BaseViewController, PNEventsListener {
                 
             } else if theMessage["username"] == "STT" {
                 print("receive = " + (theMessage["message"] ?? ""))
-                if isStreamer() {
+                if isFromStreamer {
                     while caption.getNumberOfLines() > 1 {
                         caption.text = caption.text?.substring(from: 1)
                     }
-                }
-                if isViewer() {
+                } else if !isFromStreamer {
                     caption.text = (caption.text ?? "") + (theMessage["message"] ?? "")
                 }
             } else if theMessage["username"] == "close" {
@@ -209,7 +169,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
         print("Received message in Channel:", message.data.message!)
     }
     
-    func scroolRowToNewestRow(_ tableView: UITableView) {
+    private func scroolRowToNewestRow(_ tableView: UITableView) {
         let indexPath = IndexPath(row: messages.count - 1, section: 0)
         tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
