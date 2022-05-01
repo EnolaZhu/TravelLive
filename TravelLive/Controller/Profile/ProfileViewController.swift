@@ -339,7 +339,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
         
-        header.layoutSegment(firstSegmentTitle: "我的照片", secondSegmentTitle: "我的喜歡")
         if isFromOther {
             header.editAvatarButton.isHidden = true
             header.changePropertySegment.isHidden = true
