@@ -127,6 +127,7 @@
 		4BEAF1DA281473A60094B90E /* PlaceEventViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */; };
 		4BEAF1DC2814764B0094B90E /* MapDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */; };
 		4BEAF1DE281476BD0094B90E /* MapDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */; };
+		4BEC55AF281E2D3D00126786 /* DetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BEC55AE281E2D3D00126786 /* DetailViewController.storyboard */; };
 		4BEFEF88281BA5100039F601 /* Success.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BEFEF87281BA5100039F601 /* Success.json */; };
 		4BEFEF8A281BA5630039F601 /* Fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BEFEF89281BA5630039F601 /* Fail.json */; };
 		4BEFEF8C281BA5EB0039F601 /* LottieAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */; };
@@ -257,6 +258,7 @@
 		4BEAF1D8281473A60094B90E /* PlaceEventViewImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceEventViewImageCell.xib; sourceTree = "<group>"; };
 		4BEAF1DB2814764B0094B90E /* MapDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailViewController.swift; sourceTree = "<group>"; };
 		4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapDetailViewController.storyboard; sourceTree = "<group>"; };
+		4BEC55AE281E2D3D00126786 /* DetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailViewController.storyboard; sourceTree = "<group>"; };
 		4BEFEF87281BA5100039F601 /* Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Success.json; sourceTree = "<group>"; };
 		4BEFEF89281BA5630039F601 /* Fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Fail.json; sourceTree = "<group>"; };
 		4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationManager.swift; sourceTree = "<group>"; };
@@ -613,6 +615,7 @@
 				4BC0EE6428000A1E00C5673B /* Chat.storyboard */,
 				4BA5E3BB280FCEB100D421D0 /* CommentViewController.xib */,
 				4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */,
+				4BEC55AE281E2D3D00126786 /* DetailViewController.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -858,6 +861,7 @@
 				4BC1075927FB4AE40017B1B7 /* PushStreaming.storyboard in Resources */,
 				4B17A8592815BE230006BB2D /* ImageCell.xib in Resources */,
 				4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */,
+				4BEC55AF281E2D3D00126786 /* DetailViewController.storyboard in Resources */,
 				4B97880828105A7A0003CC9F /* Heart falling.json in Resources */,
 				4BEFEF8A281BA5630039F601 /* Fail.json in Resources */,
 				4BEFEF88281BA5100039F601 /* Success.json in Resources */,

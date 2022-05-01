@@ -10,7 +10,9 @@ import SwiftUI
 import Lottie
 
 class DetailViewController: BaseViewController {
-    let detailTableView = UITableView()
+    @IBOutlet weak var commentTextField: UITextField!
+    @IBOutlet weak var sendCommentButton: UIButton!
+    @IBOutlet weak var detailTableView: UITableView!
     let reportMaskView = UIView()
     let commentVC = CommentViewController()
     var allCommentData: CommentObject?
@@ -41,7 +43,6 @@ class DetailViewController: BaseViewController {
         self.navigationController?.navigationBar.tintColor = UIColor.black
         
         setUpTableView()
-        setUpMaskView()
         
         if isFromProfile {
             getOwnerAvatar(avatarUrl ?? "")
@@ -59,15 +60,6 @@ class DetailViewController: BaseViewController {
     }
     
     private func setUpTableView() {
-        self.view.addSubview(detailTableView)
-        
-        detailTableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            detailTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
-            detailTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
-            detailTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            detailTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)])
-        
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewImageCell.self), bundle: nil)
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewCommentCell.self), bundle: nil)
     }
@@ -103,7 +95,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
-            imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
+//            imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
             
             imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)

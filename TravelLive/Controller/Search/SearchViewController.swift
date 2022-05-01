@@ -160,14 +160,17 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = images[indexPath.item]
-        let detailVC = DetailViewController()
+        
+        let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: String(describing: DetailViewController.self)
+        )
+        guard let detailVC = detailTableViewVC as? DetailViewController else { return }
         
         detailVC.detailData = searchDataObjc?.data[indexPath.row]
         detailVC.detailPageImage = image
         detailVC.propertyId = searchDataObjc?.data[indexPath.row].propertyId ?? ""
         detailVC.imageOwnerName = searchDataObjc?.data[indexPath.row].name ?? ""
         
-        navigationController?.pushViewController(detailVC, animated: true)
+        show(detailVC, sender: nil)
     }
     
     func updateSearchResults(for searchController: UISearchController) {

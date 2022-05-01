@@ -424,7 +424,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = propertyImages[indexPath.item]
-        let detailVC = DetailViewController()
+        
+        let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: String(describing: DetailViewController.self)
+        )
+        guard let detailVC = detailTableViewVC as? DetailViewController else { return }
+        
         
         detailVC.propertyId = userPropertyData?.data[indexPath.row].propertyId ?? ""
         detailVC.imageOwnerName = userPropertyData?.data[indexPath.row].name ?? ""
@@ -432,7 +436,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         detailVC.avatarUrl = userPropertyData?.data[indexPath.row].avatar
         detailVC.isFromProfile = true
         
-        navigationController?.pushViewController(detailVC, animated: true)
+        show(detailVC, sender: nil)
     }
 }
 
