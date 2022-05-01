@@ -50,7 +50,7 @@ private enum Tab {
         case .publish:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.asset(.Icons_live),
+                image: UIImage.asset(.Icons_shop),
                 selectedImage: UIImage.asset(.Icons_live)
             )
 
