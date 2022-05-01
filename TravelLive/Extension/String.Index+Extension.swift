@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+extension String.Index {
+    func distance<S: StringProtocol>(in string: S) -> Int { string.distance(to: self) }
+}

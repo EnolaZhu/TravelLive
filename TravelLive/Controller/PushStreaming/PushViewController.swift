@@ -19,7 +19,6 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     var recordingLimitTimer = Timer()
     private let secondDayMillis = 86400
     private let time = 1000 * 3 * 60
-    private var recordingSeconds = 0
     let pushStreamingProvider = PushStreamingProvider()
     let locationManager = CLLocationManager()
     // STT
@@ -28,12 +27,16 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     var request: SFSpeechAudioBufferRecognitionRequest?
     var task: SFSpeechRecognitionTask!
     var streamingUrl: PushStreamingObject?
-    var startButton = UIButton()
-    var click = true
+    var lastSegmentIndex = 0
+    
     // record
     var recordingTime = Int()
     let record = RPScreenRecorder.shared()
+    var isRecordingClicked = false
+    private var recordingSeconds = 0
+    
     let imagePickerController = UIImagePickerController()
+    var startLiveButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +84,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         deletePushStreming()
         tabBarController?.tabBar.isHidden = false
         
-        startButton.isHidden = false
+        startLiveButton.isHidden = false
         
         for view in self.view.subviews {
             view.removeFromSuperview()
@@ -160,8 +163,12 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
                 }
                 return
             }
-            let message = response.bestTranscription.formattedString
-            let streamerText = ["streamer": message]
+            var message = ""
+            while self.lastSegmentIndex <= response.bestTranscription.segments.count - 1 {
+                message += response.bestTranscription.segments[self.lastSegmentIndex].substring
+                self.lastSegmentIndex += 1
+            }
+            let streamerText = ["streamer": message.replacingOccurrences(of: "。", with: "").replacingOccurrences(of: ".", with: "")]
             NotificationCenter.default.post(name: .textNotificationKey, object: nil, userInfo: streamerText)
         })
     }
@@ -324,22 +331,22 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }()
 
     func setUpStartButton() {
-        view.addSubview(startButton)
-        startButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(startLiveButton)
+        startLiveButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            startButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
-            startButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50),
-            startButton.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.height - 150),
-            startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
+            startLiveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
+            startLiveButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50),
+            startLiveButton.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.height - 150),
+            startLiveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
         ])
         
-        startButton.layer.cornerRadius = 22
-        startButton.setTitleColor(UIColor.black, for: UIControl.State())
-        startButton.setTitle("開始直播", for: UIControl.State())
-        startButton.setTitleColor(UIColor.white, for: .normal)
-        startButton.titleLabel!.font = UIFont.systemFont(ofSize: 25)
-        startButton.backgroundColor = UIColor.primary
-        startButton.addTarget(self, action: #selector(startStreaming(_:)), for: .touchUpInside)
+        startLiveButton.layer.cornerRadius = 22
+        startLiveButton.setTitleColor(UIColor.black, for: UIControl.State())
+        startLiveButton.setTitle("開始直播", for: UIControl.State())
+        startLiveButton.setTitleColor(UIColor.white, for: .normal)
+        startLiveButton.titleLabel!.font = UIFont.systemFont(ofSize: 25)
+        startLiveButton.backgroundColor = UIColor.primary
+        startLiveButton.addTarget(self, action: #selector(startStreaming(_:)), for: .touchUpInside)
     }
     
     
@@ -352,7 +359,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         //        requestPermission()
         //        startSpeechRecognization()
         postPushStreamingInfo()
-        startButton.isHidden = true
+        startLiveButton.isHidden = true
         closeButton.isHidden = true
         addChatView()
         view.addSubview(cameraButton)
@@ -366,6 +373,8 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         deletePushStreming()
         cancelSpeechRecognization()
         NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
+        view.removeFromSuperview()
+        tabBarController?.selectedIndex = 0
     }
     
     // beautify
@@ -404,11 +413,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         recordingLimitTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementSeconds), userInfo: nil, repeats: true)
         
         // change button image
-        click = !click
-        if click {
-            recordButton.setImage(UIImage.asset(.play), for: .normal)
-        } else {
+        isRecordingClicked = !isRecordingClicked
+        if isRecordingClicked {
             recordButton.setImage(UIImage.asset(.stop), for: .normal)
+        } else {
+            recordButton.setImage(UIImage.asset(.play), for: .normal)
         }
         // start record
         
