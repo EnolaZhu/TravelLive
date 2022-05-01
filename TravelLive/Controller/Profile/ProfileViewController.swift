@@ -65,7 +65,6 @@ class ProfileViewController: UIViewController {
         profileView.showsVerticalScrollIndicator = false
         
         if isFromOther {
-            
         } else {
             postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
             
@@ -278,12 +277,12 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         dateFormat.dateFormat = "SSSSSS"
         let uploadTimestamp = Int(uploadDate.timeIntervalSince1970)
         
-        var result = String()
         let storageRefPath = userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // Image Labeling
             ImageLabelingManager.shared.getImageLabel(inputImage: pickedImage) { [weak self] data in
+                var result = String()
                 for index in 0..<data.count {
                     result += data[index].text.lowercased() + (index == data.count - 1 ? "" : ",")
                 }
@@ -314,7 +313,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             }
             
             // Convert video type to GIF
-            let storageRefGifPath = "thumbnail_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + result
+            let storageRefGifPath = "thumbnail_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
             GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
                 switch result {
                 case .success(let urlOfGIF):
@@ -340,7 +339,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
         
-        header.layoutSegment(firstSegmentTitle: "我的照片", secondSegmentTitle: "我的喜歡")
         if isFromOther {
             header.editAvatarButton.isHidden = true
             header.changePropertySegment.isHidden = true

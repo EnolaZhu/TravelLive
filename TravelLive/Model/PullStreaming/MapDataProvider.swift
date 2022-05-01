@@ -19,9 +19,7 @@ class MapDataProvider {
             case .success(let data):
                 do {
                     let response = try JSONDecoder().decode(StreamerDataObject.self, from: data)
-                    DispatchQueue.main.async {
-                        completion(Result.success(response))
-                    }
+                    completion(Result.success(response))
                 } catch {
                     completion(Result.failure(error))
                 }
@@ -41,9 +39,7 @@ class MapDataProvider {
                 print("\(data)")
                 do {
                     let response = try JSONDecoder().decode(PlaceDataObject.self, from: data)
-                    DispatchQueue.main.async {
-                        completion(Result.success(response))
-                    }
+                    completion(Result.success(response))
                 } catch {
                     completion(Result.failure(error))
                 }
@@ -62,9 +58,7 @@ class MapDataProvider {
             case .success(let data):
                 do {
                     let response = try JSONDecoder().decode(EventDataObject.self, from: data)
-                    DispatchQueue.main.async {
-                        completion(Result.success(response))
-                    }
+                    completion(Result.success(response))
                 } catch {
                     completion(Result.failure(error))
                 }
@@ -83,9 +77,7 @@ class MapDataProvider {
             case .success(let data):
                 do {
                     let response = try JSONDecoder().decode(PlaceDataObject.self, from: data)
-                    DispatchQueue.main.async {
-                        completion(Result.success(response))
-                    }
+                    completion(Result.success(response))
                 } catch {
                     completion(Result.failure(error))
                 }
@@ -104,9 +96,7 @@ class MapDataProvider {
             case .success(let data):
                 do {
                     let response = try JSONDecoder().decode(EventDataObject.self, from: data)
-                    DispatchQueue.main.async {
-                        completion(Result.success(response))
-                    }
+                    completion(Result.success(response))
                 } catch {
                     completion(Result.failure(error))
                 }
