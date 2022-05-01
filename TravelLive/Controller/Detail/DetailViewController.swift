@@ -29,39 +29,46 @@ class DetailViewController: BaseViewController {
     var isLiked = Bool()
     var placeHolderImage = UIImage(named: "placeholder")
     var isFromProfile = false
+    var allMessageArray = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.white
-        
-        detailTableView.rowHeight = UITableView.automaticDimension
-        detailTableView.estimatedRowHeight = 200.0
-        detailTableView.delegate = self
-        detailTableView.dataSource = self
-        detailTableView.separatorStyle = .none
-        self.navigationController?.navigationBar.tintColor = UIColor.black
-        
+        setUpMaskView()
         setUpTableView()
+        setUpSubview()
         
         if isFromProfile {
             getOwnerAvatar(avatarUrl ?? "")
         } else {
             getOwnerAvatar(detailData?.avatar ?? "")
         }
+        
+        navigationController?.navigationBar.tintColor = UIColor.black
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // owner id 換成 property id   從 search 頁和圖片一起帶過來
-        
         fetchComment(propertyId: propertyId, userId: userID)
-        tabBarController?.tabBar.isHidden = true
     }
     
     private func setUpTableView() {
+        detailTableView.rowHeight = UITableView.automaticDimension
+        detailTableView.estimatedRowHeight = 200.0
+        detailTableView.delegate = self
+        detailTableView.dataSource = self
+        detailTableView.separatorStyle = .none
+        
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewImageCell.self), bundle: nil)
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewCommentCell.self), bundle: nil)
+    }
+    
+    private func setUpSubview() {
+        commentTextField.placeholder = "發表評論"
+        sendCommentButton.addTarget(self, action: #selector(sendComment), for: .touchUpInside)
+        sendCommentButton.isEnabled = false
     }
     
     private func fetchComment(propertyId: String, userId: String) {
@@ -83,6 +90,24 @@ class DetailViewController: BaseViewController {
             self?.avatarImage = image
         }
     }
+    
+    @IBAction func editComment(_ sender: UITextField) {
+        if sender.text == "" {
+            return
+        } else {
+            sendCommentButton.isEnabled = true
+        }
+    }
+    
+    
+    @objc private func sendComment(_ sender: UIButton) {
+        if commentTextField.text == "" {
+            return
+        } else {
+            DetailDataProvider.shared.postComment(id: propertyId, reviewerId: userID, message: commentTextField.text ?? "")
+            commentTextField.text = ""
+        }
+    }
 }
 
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
@@ -95,7 +120,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
-//            imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
+            //            imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
             
             imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
@@ -141,10 +166,9 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func avatarTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let profileViewController = UIStoryboard.profile.instantiateViewController(withIdentifier:
-            String(describing: ProfileViewController.self)
+        let profileViewController = UIStoryboard.profile.instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
         )
-
+        
         guard let profileVC = profileViewController as? ProfileViewController else { return }
         profileVC.isFromOther = true
         show(profileVC, sender: nil)
@@ -156,6 +180,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func showReportPage(_ sender: UIButton) {
+        view.addSubview(reportMaskView)
         let reportVC = ReportViewController()
         reportVC.propertyOwnerId = detailData?.ownerId ?? ""
         reportVC.clickCloseButton = self

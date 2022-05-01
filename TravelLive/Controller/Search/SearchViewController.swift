@@ -7,7 +7,6 @@
 
 import UIKit
 import FirebaseStorage
-import SwiftUI
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
     @IBOutlet weak var searchCollectionView: UICollectionView!
@@ -53,6 +52,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: animated)
         images.removeAll()
         getSearchData()
         searchController.searchBar.text = ""
