@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import SwiftUI
 import Lottie
+import Toast_Swift
 
 class DetailViewController: BaseViewController {
     @IBOutlet weak var commentTextField: UITextField!
@@ -103,7 +103,7 @@ class DetailViewController: BaseViewController {
                 if result == "" {
                     self?.fetchComment(propertyId: self?.propertyId ?? "", userId: userID)
                 } else {
-                    return
+                    self?.view.makeToast("失敗", duration: 0.5, position: .center)
                 }
             }
             commentTextField.text = ""

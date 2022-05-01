@@ -9,17 +9,12 @@ import UIKit
 import CoreServices
 import GoogleMobileAds
 import FirebaseAuth
+import Toast_Swift
 
 class ProfileViewController: UIViewController {
     
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
-    var postButton: UIButton = {
-        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
-        postButton.tintColor = UIColor.primary
-        postButton.setImage(UIImage.asset(.plus), for: UIControl.State())
-        return postButton
-    }()
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
     var userPropertyData: ProfilePropertyObject?
@@ -41,6 +36,12 @@ class ProfileViewController: UIViewController {
             profileView.reloadData()
         }
     }
+    var postButton: UIButton = {
+        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
+        postButton.tintColor = UIColor.primary
+        postButton.setImage(UIImage.asset(.plus), for: UIControl.State())
+        return postButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,6 +132,7 @@ class ProfileViewController: UIViewController {
                 }
             case .failure(let error):
                 print(error)
+                self?.view.makeToast("失敗，請稍後再試。", duration: 0.5, position: .center)
             }
         }
     }
@@ -157,7 +159,7 @@ class ProfileViewController: UIViewController {
                 self?.profileView.reloadData()
                 
             case .failure(let error):
-                print(error)
+                self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
     }
@@ -183,7 +185,7 @@ class ProfileViewController: UIViewController {
                     }
                 }
             case .failure(let error):
-                print(error)
+                self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
     }
@@ -290,14 +292,26 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 
                 let imageUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
                 guard let imgUrl = imageUrl else { return }
-                PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPathWithTag)
+                PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPathWithTag) { [weak self] result in
+                    if result == "" {
+                        self?.profileView.reloadData()
+                    } else {
+                        self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                    }
+                }
             }
         }
         
         if let mediaUrl = info[.mediaURL] as? URL {
             // Upload video file
             let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
-            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath)
+            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
+                if result == "" {
+                    self?.profileView.reloadData()
+                } else {
+                    self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                }
+            }
             
             // Convert video type to GIF
             let storageRefGifPath = "thumbnail_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + result
@@ -305,7 +319,13 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 switch result {
                 case .success(let urlOfGIF):
                     // Upload GIF file
-                    PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath)
+                    PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath) { [weak self] result in
+                        if result == "" {
+                            self?.profileView.reloadData()
+                        } else {
+                            self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                        }
+                    }
                 case .failure:
                     print("Failed")
                 }
