@@ -14,7 +14,8 @@ class PhotoVideoManager {
     //    lazy var storage = Storage.storage()
     let storageRef = Storage.storage().reference()
     func uploadImageVideo(url: String, child: String) {
-        let encodedChild = child.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let newChild = child.replacingOccurrences(of: " ", with: "+")
+        let encodedChild = newChild.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let localFile = URL(string: url)!
         let riversRef = storageRef.child(encodedChild)
         let uploadTask = riversRef.putFile(from: localFile, metadata: nil) { metadata, error in
