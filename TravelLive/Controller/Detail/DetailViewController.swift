@@ -6,70 +6,64 @@
 //
 
 import UIKit
-import SwiftUI
 import Lottie
+import Toast_Swift
 
 class DetailViewController: BaseViewController {
-    let detailTableView = UITableView()
+    @IBOutlet weak var commentTextField: UITextField!
+    @IBOutlet weak var sendCommentButton: UIButton!
+    @IBOutlet weak var detailTableView: UITableView!
     let reportMaskView = UIView()
-    let commentVC = CommentViewController()
     var allCommentData: CommentObject?
     var detailData: SearchData?
     var detailPageImage = UIImage()
-    var avatarImage: UIImage? {
-        didSet {
-            detailTableView.reloadData()
-        }
-    }
+    var avatarImage: UIImage?
     var avatarUrl: String?
     var propertyId = String()
     var imageOwnerName = String()
     var isLiked = Bool()
     var placeHolderImage = UIImage(named: "placeholder")
     var isFromProfile = false
+    var allMessageArray = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = UIColor.white
-        
-        detailTableView.rowHeight = UITableView.automaticDimension
-        detailTableView.estimatedRowHeight = 200.0
-        detailTableView.delegate = self
-        detailTableView.dataSource = self
-        detailTableView.separatorStyle = .none
-        self.navigationController?.navigationBar.tintColor = UIColor.black
-        
-        setUpTableView()
+
         setUpMaskView()
+        setUpTableView()
+        setUpSubview()
         
         if isFromProfile {
             getOwnerAvatar(avatarUrl ?? "")
         } else {
             getOwnerAvatar(detailData?.avatar ?? "")
         }
+        
+        navigationController?.navigationBar.tintColor = UIColor.black
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // owner id 換成 property id   從 search 頁和圖片一起帶過來
-        
         fetchComment(propertyId: propertyId, userId: userID)
-        tabBarController?.tabBar.isHidden = true
     }
     
     private func setUpTableView() {
-        self.view.addSubview(detailTableView)
-        
-        detailTableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            detailTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
-            detailTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
-            detailTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            detailTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)])
+        detailTableView.rowHeight = UITableView.automaticDimension
+        detailTableView.estimatedRowHeight = 200.0
+        detailTableView.delegate = self
+        detailTableView.dataSource = self
+        detailTableView.separatorStyle = .none
         
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewImageCell.self), bundle: nil)
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewCommentCell.self), bundle: nil)
+    }
+    
+    private func setUpSubview() {
+        commentTextField.placeholder = "發表評論"
+        sendCommentButton.addTarget(self, action: #selector(sendComment), for: .touchUpInside)
+        sendCommentButton.isEnabled = false
     }
     
     private func fetchComment(propertyId: String, userId: String) {
@@ -91,6 +85,30 @@ class DetailViewController: BaseViewController {
             self?.avatarImage = image
         }
     }
+    
+    @IBAction func editComment(_ sender: UITextField) {
+        if sender.text == "" {
+            return
+        } else {
+            sendCommentButton.isEnabled = true
+        }
+    }
+    
+    
+    @objc private func sendComment(_ sender: UIButton) {
+        if commentTextField.text == "" {
+            return
+        } else {
+            DetailDataProvider.shared.postComment(id: propertyId, reviewerId: userID, message: commentTextField.text ?? "") { [weak self] result in
+                if result == "" {
+                    self?.fetchComment(propertyId: self?.propertyId ?? "", userId: userID)
+                } else {
+                    self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                }
+            }
+            commentTextField.text = ""
+        }
+    }
 }
 
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
@@ -103,7 +121,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
-            imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
+            //            imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
             
             imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
@@ -149,10 +167,9 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func avatarTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let profileViewController = UIStoryboard.profile.instantiateViewController(withIdentifier:
-            String(describing: ProfileViewController.self)
+        let profileViewController = UIStoryboard.profile.instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
         )
-
+        
         guard let profileVC = profileViewController as? ProfileViewController else { return }
         profileVC.isFromOther = true
         show(profileVC, sender: nil)
@@ -164,6 +181,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func showReportPage(_ sender: UIButton) {
+        view.addSubview(reportMaskView)
         let reportVC = ReportViewController()
         reportVC.propertyOwnerId = detailData?.ownerId ?? ""
         reportVC.clickCloseButton = self
@@ -180,14 +198,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         }, completion: { _ in print("report page show")})
         view.addSubview(reportVC.view)
         addChild(reportVC)
-    }
-    
-    @objc func showCommentPage(_ sender: UIButton) {
-        view.addSubview(reportMaskView)
-        commentVC.clickCloseButton = self
-        commentVC.propertyId = propertyId
-        self.view.addSubview(commentVC.view)
-        self.addChild(commentVC)
     }
     
     func setUpMaskView() {
@@ -210,11 +220,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension DetailViewController: CloseMaskView, CloseCommentView {
-    func clickCloseButton() {
-        reportMaskView.removeFromSuperview()
-    }
-    
+extension DetailViewController: CloseMaskView {
     func pressCloseButton() {
         reportMaskView.removeFromSuperview()
     }
