@@ -44,7 +44,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         searchCollectionView.delegate = self
         searchCollectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         searchCollectionView.contentOffset = CGPoint(x: -10, y: -10)
-        
+        searchController.searchBar.setValue("取消", forKey: "cancelButtonText")
         gridLayout.delegate = self
         gridLayout.itemSpacing = 3
         gridLayout.fixedDivisionCount = 3
@@ -104,7 +104,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 self?.searchDataObjc = data
                 guard let searchDataObjc = self?.searchDataObjc else { return }
                 if searchDataObjc.data.isEmpty {
-                    print("沒結果")
                     self?.searchCollectionView.reloadData()
                 }
                 
