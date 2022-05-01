@@ -14,7 +14,6 @@ class DetailViewController: BaseViewController {
     @IBOutlet weak var sendCommentButton: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
     let reportMaskView = UIView()
-    let commentVC = CommentViewController()
     var allCommentData: CommentObject?
     var detailData: SearchData?
     var detailPageImage = UIImage()
@@ -29,10 +28,7 @@ class DetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        detailTableView.delegate = self
-        detailTableView.dataSource = self
-        
+
         setUpMaskView()
         setUpTableView()
         setUpSubview()
@@ -56,7 +52,8 @@ class DetailViewController: BaseViewController {
     private func setUpTableView() {
         detailTableView.rowHeight = UITableView.automaticDimension
         detailTableView.estimatedRowHeight = 200.0
-        
+        detailTableView.delegate = self
+        detailTableView.dataSource = self
         detailTableView.separatorStyle = .none
         
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewImageCell.self), bundle: nil)
@@ -102,7 +99,13 @@ class DetailViewController: BaseViewController {
         if commentTextField.text == "" {
             return
         } else {
-            DetailDataProvider.shared.postComment(id: propertyId, reviewerId: userID, message: commentTextField.text ?? "")
+            DetailDataProvider.shared.postComment(id: propertyId, reviewerId: userID, message: commentTextField.text ?? "") { [weak self] result in
+                if result == "" {
+                    self?.fetchComment(propertyId: self?.propertyId ?? "", userId: userID)
+                } else {
+                    return
+                }
+            }
             commentTextField.text = ""
         }
     }
@@ -197,14 +200,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         addChild(reportVC)
     }
     
-    @objc func showCommentPage(_ sender: UIButton) {
-        view.addSubview(reportMaskView)
-        commentVC.clickCloseButton = self
-        commentVC.propertyId = propertyId
-        self.view.addSubview(commentVC.view)
-        self.addChild(commentVC)
-    }
-    
     func setUpMaskView() {
         reportMaskView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         reportMaskView.frame = CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height)
@@ -225,11 +220,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension DetailViewController: CloseMaskView, CloseCommentView {
-    func clickCloseButton() {
-        reportMaskView.removeFromSuperview()
-    }
-    
+extension DetailViewController: CloseMaskView {
     func pressCloseButton() {
         reportMaskView.removeFromSuperview()
     }

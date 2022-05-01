@@ -37,6 +37,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
+        searchController.hidesNavigationBarDuringPresentation = false
         searchCollectionView.showsVerticalScrollIndicator = false
         searchCollectionView.backgroundColor = .white
         searchCollectionView.dataSource = self
@@ -57,6 +58,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         getSearchData()
         searchController.searchBar.text = ""
         searchController.searchBar.placeholder = "搜尋"
+        searchController.hidesNavigationBarDuringPresentation = false
     }
     
     override func didReceiveMemoryWarning() {
