@@ -23,11 +23,11 @@ class LoginViewController: UIViewController {
         
         authView.loginWithAppleButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
         
-        if userID == "" {
-            return
-        } else {
+//        if userID == "" {
+//            return
+//        } else {
             showMainView()
-        }
+//        }
     }
     
     func customAlert(title: String, message: String) {

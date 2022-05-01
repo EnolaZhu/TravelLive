@@ -36,7 +36,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
     }
     
     private let intervalSendPubnub = 500
-    private let intervalSendPubnubThreshold = 5000
+    private let sendPubnubThreshold = 2000
     
     var noMoreMessages = false
     var earliestMessageTime: NSNumber = -1
@@ -47,7 +47,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var textsOfSTT = [String]()
     var sendPubNubTimer = Timer()
     private var totalTime = 0
-    private var isFromStreamer = false
+    var isFromStreamer = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -153,12 +153,8 @@ class ChatViewController: BaseViewController, PNEventsListener {
                 
             } else if theMessage["username"] == "STT" {
                 print("receive = " + (theMessage["message"] ?? ""))
-                if isFromStreamer {
-                    while caption.getNumberOfLines() > 1 {
-                        caption.text = caption.text?.substring(from: 1)
-                    }
-                } else if !isFromStreamer {
-                    caption.text = (caption.text ?? "") + (theMessage["message"] ?? "")
+                if !isFromStreamer {
+                    caption.text = theMessage["message"] ?? ""
                 }
             } else if theMessage["username"] == "close" {
                 createCloseAlert()
@@ -175,34 +171,17 @@ class ChatViewController: BaseViewController, PNEventsListener {
     }
     
     private func initTimer() {
-        sendPubNubTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(requestSendPubNub), userInfo: nil, repeats: true)
+        sendPubNubTimer = Timer.scheduledTimer(timeInterval: Double(intervalSendPubnub) / 1000, target: self, selector: #selector(requestSendPubNub), userInfo: nil, repeats: true)
     }
     
     @objc private func requestSendPubNub() {
         totalTime += intervalSendPubnub
-        if totalTime > intervalSendPubnubThreshold {
+        if totalTime > sendPubnubThreshold {
             if caption.text?.isEmpty == true {
                 totalTime = 0
             } else {
                 sendPubNub(message: caption.text ?? "")
                 caption.text = ""
-            }
-        } else {
-            let originCaption = caption.text ?? ""
-            if !originCaption.isEmpty {
-                var skipCount = 0
-                while caption.getNumberOfLines() > 1 {
-                    caption.text = caption.text?.substring(from: 1)
-                    skipCount += 1
-                }
-                if skipCount != 0 {
-                    let targetIndex = originCaption.count - skipCount - 1
-                    let message = originCaption.substring(to: targetIndex)
-                    caption.text = originCaption.substring(from: targetIndex)
-                    print("message = " + message)
-                    print("caption.text = " + (caption.text ?? ""))
-                    sendPubNub(message: message)
-                }
             }
         }
     }
