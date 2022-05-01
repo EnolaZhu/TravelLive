@@ -237,6 +237,7 @@ PODS:
   - PubNub/Core (4.17.0)
   - SnapKit (5.6.0)
   - SwiftLint (0.47.0)
+  - Toast-Swift (5.0.1)
   - TXLiteAVSDK_Professional (9.5.11346)
 
 DEPENDENCIES:
@@ -258,6 +259,7 @@ DEPENDENCIES:
   - PubNub (~> 4)
   - SnapKit (~> 5.6.0)
   - SwiftLint
+  - Toast-Swift (~> 5.0.1)
   - TXLiteAVSDK_Professional
 
 SPEC REPOS:
@@ -299,6 +301,7 @@ SPEC REPOS:
     - PubNub
     - SnapKit
     - SwiftLint
+    - Toast-Swift
     - TXLiteAVSDK_Professional
 
 SPEC CHECKSUMS:
@@ -339,8 +342,9 @@ SPEC CHECKSUMS:
   PubNub: 306896876c3089884067609ff25d628a547d2942
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   TXLiteAVSDK_Professional: 645670c9d1bbabb88e8dff998fb097a22fe71208
 
-PODFILE CHECKSUM: 8b93f65cd34dcb59041b525846e90488f621cb45
+PODFILE CHECKSUM: 0b1d53a8df40353df8dea9b1d2fb59318e34b6b5
 
 COCOAPODS: 1.11.3

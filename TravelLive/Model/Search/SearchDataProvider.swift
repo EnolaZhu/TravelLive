@@ -15,9 +15,7 @@ class SearchDataProvider {
             case .success(let data):
                 do {
                     let response = try JSONDecoder().decode(SearchDataObject.self, from: data)
-                    DispatchQueue.main.async {
-                        completion(Result.success(response))
-                    }
+                    completion(Result.success(response))
                 } catch {
                     completion(Result.failure(error))
                 }

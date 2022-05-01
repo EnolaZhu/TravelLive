@@ -79,7 +79,6 @@
 		4BA5E3B3280F9D2A00D421D0 /* ReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */; };
 		4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B5280FB10500D421D0 /* ReportBody.swift */; };
 		4BA5E3B8280FB36300D421D0 /* DetailDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B7280FB36200D421D0 /* DetailDataProvider.swift */; };
-		4BA5E3BC280FCEB100D421D0 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3BA280FCEB000D421D0 /* CommentViewController.swift */; };
 		4BA5E3BD280FCEB100D421D0 /* CommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3BB280FCEB100D421D0 /* CommentViewController.xib */; };
 		4BB5A92D280DAD6E00739C61 /* GIFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB5A92C280DAD6E00739C61 /* GIFManager.swift */; };
 		4BB6AC0628045F5D0061EDDE /* MapDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB6AC0528045F5D0061EDDE /* MapDataProvider.swift */; };
@@ -130,6 +129,7 @@
 		4BEC55A7281DA65B00126786 /* StringProtocol+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEC55A6281DA65B00126786 /* StringProtocol+Extension.swift */; };
 		4BEC55A9281DA7E600126786 /* String.Index+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEC55A8281DA7E600126786 /* String.Index+Extension.swift */; };
 		4BEC55AB281DA86100126786 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEC55AA281DA86100126786 /* Collection+Extension.swift */; };
+		4BEC55AF281E2D3D00126786 /* DetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BEC55AE281E2D3D00126786 /* DetailViewController.storyboard */; };
 		4BEFEF88281BA5100039F601 /* Success.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BEFEF87281BA5100039F601 /* Success.json */; };
 		4BEFEF8A281BA5630039F601 /* Fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BEFEF89281BA5630039F601 /* Fail.json */; };
 		4BEFEF8C281BA5EB0039F601 /* LottieAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */; };
@@ -210,7 +210,6 @@
 		4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportViewController.xib; sourceTree = "<group>"; };
 		4BA5E3B5280FB10500D421D0 /* ReportBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBody.swift; sourceTree = "<group>"; };
 		4BA5E3B7280FB36200D421D0 /* DetailDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDataProvider.swift; sourceTree = "<group>"; };
-		4BA5E3BA280FCEB000D421D0 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		4BA5E3BB280FCEB100D421D0 /* CommentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentViewController.xib; sourceTree = "<group>"; };
 		4BB5A92C280DAD6E00739C61 /* GIFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFManager.swift; sourceTree = "<group>"; };
 		4BB6AC0528045F5D0061EDDE /* MapDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDataProvider.swift; sourceTree = "<group>"; };
@@ -263,6 +262,7 @@
 		4BEC55A6281DA65B00126786 /* StringProtocol+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringProtocol+Extension.swift"; sourceTree = "<group>"; };
 		4BEC55A8281DA7E600126786 /* String.Index+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String.Index+Extension.swift"; sourceTree = "<group>"; };
 		4BEC55AA281DA86100126786 /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
+		4BEC55AE281E2D3D00126786 /* DetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailViewController.storyboard; sourceTree = "<group>"; };
 		4BEFEF87281BA5100039F601 /* Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Success.json; sourceTree = "<group>"; };
 		4BEFEF89281BA5630039F601 /* Fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Fail.json; sourceTree = "<group>"; };
 		4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationManager.swift; sourceTree = "<group>"; };
@@ -488,7 +488,6 @@
 			isa = PBXGroup;
 			children = (
 				4BA5E3A8280E9FB400D421D0 /* DetailViewController.swift */,
-				4BA5E3BA280FCEB000D421D0 /* CommentViewController.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -619,6 +618,7 @@
 				4BC0EE6428000A1E00C5673B /* Chat.storyboard */,
 				4BA5E3BB280FCEB100D421D0 /* CommentViewController.xib */,
 				4BEAF1DD281476BD0094B90E /* MapDetailViewController.storyboard */,
+				4BEC55AE281E2D3D00126786 /* DetailViewController.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -867,6 +867,7 @@
 				4BC1075927FB4AE40017B1B7 /* PushStreaming.storyboard in Resources */,
 				4B17A8592815BE230006BB2D /* ImageCell.xib in Resources */,
 				4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */,
+				4BEC55AF281E2D3D00126786 /* DetailViewController.storyboard in Resources */,
 				4B97880828105A7A0003CC9F /* Heart falling.json in Resources */,
 				4BEFEF8A281BA5630039F601 /* Fail.json in Resources */,
 				4BEFEF88281BA5100039F601 /* Success.json in Resources */,
@@ -959,7 +960,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BEAF1C1281468950094B90E /* UIView+Extension.swift in Sources */,
-				4BA5E3BC280FCEB100D421D0 /* CommentViewController.swift in Sources */,
 				4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */,
 				4BEC55AB281DA86100126786 /* Collection+Extension.swift in Sources */,
 				4BD3736828041B9300141A29 /* PullStreamingViewController.swift in Sources */,

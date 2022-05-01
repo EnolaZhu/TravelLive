@@ -23,15 +23,15 @@ class DetailDataProvider {
         })
     }
     
-    func postComment(id: String, reviewerId: String, message: String) {
+    func postComment(id: String, reviewerId: String, message: String, completion: @escaping (String) -> Void) {
         let body = CommentBody(id: id, reviewerId: reviewerId, message: message)
         let request = DataRequest.postComment(body: try? JSONEncoder().encode(body))
         HTTPClient.shared.request(request, completion: { data in
             switch data {
             case .success( _):
-                print("Comment successfully")
+                completion("")
             case .failure(let error):
-                print(error)
+                completion("error")
             }
         })
     }
@@ -45,9 +45,7 @@ class DetailDataProvider {
             case .success(let data):
                 do {
                     let response = try JSONDecoder().decode(CommentObject.self, from: data)
-                    DispatchQueue.main.async {
-                        completion(Result.success(response))
-                    }
+                    completion(Result.success(response))
                 } catch {
                     completion(Result.failure(error))
                 }

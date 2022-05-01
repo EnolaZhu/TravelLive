@@ -72,8 +72,8 @@
                                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vQp-ur-6YS">
                                             <rect key="frame" x="0.0" y="192" width="410" height="32"/>
                                             <segments>
-                                                <segment title="我的照片"/>
-                                                <segment title="我的喜歡"/>
+                                                <segment title=""/>
+                                                <segment title=""/>
                                             </segments>
                                             <connections>
                                                 <action selector="changeProfileProperty:" destination="rk0-g5-6au" eventType="valueChanged" id="Czn-Za-7kX"/>

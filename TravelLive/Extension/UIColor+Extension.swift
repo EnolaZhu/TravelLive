@@ -8,7 +8,7 @@
 import UIKit
 
 private enum CustomColor: String {
-    case primary = "EA444E"
+    case primary = "ED83A2"
     case secondary = "#949494"
 }
 

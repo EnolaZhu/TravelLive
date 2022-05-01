@@ -18,10 +18,11 @@ class ProfileHeader: UICollectionReusableView {
         super.awakeFromNib()
         // Add observer at change page
         NotificationCenter.default.addObserver(self, selector: #selector(self.defaultSegmentIndex(_:)), name: .defaultSegmentIndexKey, object: nil)
-        changePropertySegment.backgroundColor = UIColor.white
-        changePropertySegment.selectedSegmentIndex = 0
-        changePropertySegment.selectedSegmentTintColor = UIColor.primary
-        
+        layoutSegment()
+//
+//        image.withRenderingMode(.alwaysTemplate)
+//        button.setImage(image, for: .normal)
+//        button.tintColor = UIColor.primary
         editAvatarButton.addTarget(self, action: #selector(changeAvatar), for: .touchUpInside)
     }
     
@@ -43,9 +44,13 @@ class ProfileHeader: UICollectionReusableView {
         displayNameLabel.text = displayName
     }
     
-    func layoutSegment(firstSegmentTitle: String, secondSegmentTitle: String) {
-        changePropertySegment.setTitle(firstSegmentTitle, forSegmentAt: 0)
-        changePropertySegment.setTitle(secondSegmentTitle, forSegmentAt: 1)
+    func layoutSegment() {
+        changePropertySegment.frame.size.height = 80.0
+        changePropertySegment.setImage(UIImage.asset(.Icons_profile)?.withTintColor(UIColor.primary), forSegmentAt: 0)
+        changePropertySegment.setImage(UIImage.asset(.heart)?.withTintColor(UIColor.primary), forSegmentAt: 1)
+        changePropertySegment.backgroundColor = UIColor.white
+        changePropertySegment.selectedSegmentIndex = 0
+        changePropertySegment.selectedSegmentTintColor = UIColor.primary
     }
     
     @IBAction func changeProfileProperty(_ sender: UISegmentedControl) {

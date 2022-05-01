@@ -7,7 +7,6 @@
 
 import UIKit
 import FirebaseStorage
-import SwiftUI
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
     @IBOutlet weak var searchCollectionView: UICollectionView!
@@ -16,7 +15,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     var arrInstaBigCells = [Int]()
     var images = [UIImage]()
     var searchDataObjc: SearchDataObject?
-    let searchController = UISearchController()
+    var searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
     var showNoResultLabel = UILabel()
     
@@ -26,7 +25,8 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         searchController.searchResultsUpdater = self
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
-        
+        // Fix searchbar hidden when change view
+        navigationItem.hidesSearchBarWhenScrolling = false
         
         var tempStorage = false
         for _ in 1...21 {
@@ -38,13 +38,12 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
-        searchCollectionView.showsVerticalScrollIndicator = false
         searchCollectionView.backgroundColor = .white
         searchCollectionView.dataSource = self
         searchCollectionView.delegate = self
         searchCollectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         searchCollectionView.contentOffset = CGPoint(x: -10, y: -10)
-        
+        searchController.searchBar.setValue("取消", forKey: "cancelButtonText")
         gridLayout.delegate = self
         gridLayout.itemSpacing = 3
         gridLayout.fixedDivisionCount = 3
@@ -53,10 +52,15 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: animated)
         images.removeAll()
         getSearchData()
         searchController.searchBar.text = ""
         searchController.searchBar.placeholder = "搜尋"
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
     override func didReceiveMemoryWarning() {
@@ -104,7 +108,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 self?.searchDataObjc = data
                 guard let searchDataObjc = self?.searchDataObjc else { return }
                 if searchDataObjc.data.isEmpty {
-                    print("沒結果")
                     self?.searchCollectionView.reloadData()
                 }
                 
@@ -161,14 +164,17 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = images[indexPath.item]
-        let detailVC = DetailViewController()
+        
+        let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: String(describing: DetailViewController.self)
+        )
+        guard let detailVC = detailTableViewVC as? DetailViewController else { return }
         
         detailVC.detailData = searchDataObjc?.data[indexPath.row]
         detailVC.detailPageImage = image
         detailVC.propertyId = searchDataObjc?.data[indexPath.row].propertyId ?? ""
         detailVC.imageOwnerName = searchDataObjc?.data[indexPath.row].name ?? ""
         
-        navigationController?.pushViewController(detailVC, animated: true)
+        show(detailVC, sender: nil)
     }
     
     func updateSearchResults(for searchController: UISearchController) {

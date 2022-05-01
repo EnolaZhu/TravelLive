@@ -9,17 +9,12 @@ import UIKit
 import CoreServices
 import GoogleMobileAds
 import FirebaseAuth
+import Toast_Swift
 
 class ProfileViewController: UIViewController {
     
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
-    var postButton: UIButton = {
-        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
-        postButton.tintColor = UIColor.primary
-        postButton.setImage(UIImage.asset(.plus), for: UIControl.State())
-        return postButton
-    }()
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
     var userPropertyData: ProfilePropertyObject?
@@ -41,6 +36,12 @@ class ProfileViewController: UIViewController {
             profileView.reloadData()
         }
     }
+    var postButton: UIButton = {
+        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
+        postButton.tintColor = UIColor.primary
+        postButton.setImage(UIImage.asset(.plus), for: UIControl.State())
+        return postButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +65,6 @@ class ProfileViewController: UIViewController {
         profileView.showsVerticalScrollIndicator = false
         
         if isFromOther {
-            
         } else {
             postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
             
@@ -131,6 +131,7 @@ class ProfileViewController: UIViewController {
                 }
             case .failure(let error):
                 print(error)
+                self?.view.makeToast("失敗，請稍後再試。", duration: 0.5, position: .center)
             }
         }
     }
@@ -157,7 +158,7 @@ class ProfileViewController: UIViewController {
                 self?.profileView.reloadData()
                 
             case .failure(let error):
-                print(error)
+                self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
     }
@@ -183,7 +184,7 @@ class ProfileViewController: UIViewController {
                     }
                 }
             case .failure(let error):
-                print(error)
+                self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
     }
@@ -276,35 +277,54 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         dateFormat.dateFormat = "SSSSSS"
         let uploadTimestamp = Int(uploadDate.timeIntervalSince1970)
         
-        var result = String()
         let storageRefPath = userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // Image Labeling
             ImageLabelingManager.shared.getImageLabel(inputImage: pickedImage) { [weak self] data in
+                var result = String()
                 for index in 0..<data.count {
-                    result += data[index].text.lowercased() + (index == data.count - 1 ? "" : "&")
+                    result += data[index].text.lowercased() + (index == data.count - 1 ? "" : ",")
                 }
-                let storageRefPathWithTag = storageRefPath + (result.isEmpty ? "" : ("_" + result))
+                var storageRefPathWithTag = storageRefPath + (result.isEmpty ? "" : ("_" + result))
+                storageRefPathWithTag = storageRefPathWithTag.replacingOccurrences(of: " ", with: "")
                 
                 let imageUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
                 guard let imgUrl = imageUrl else { return }
-                PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPathWithTag)
+                PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPathWithTag) { [weak self] result in
+                    if result == "" {
+                        self?.profileView.reloadData()
+                    } else {
+                        self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                    }
+                }
             }
         }
         
         if let mediaUrl = info[.mediaURL] as? URL {
             // Upload video file
             let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
-            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath)
+            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
+                if result == "" {
+                    self?.profileView.reloadData()
+                } else {
+                    self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                }
+            }
             
             // Convert video type to GIF
-            let storageRefGifPath = "thumbnail_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate) + "_" + result
+            let storageRefGifPath = "thumbnail_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
             GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
                 switch result {
                 case .success(let urlOfGIF):
                     // Upload GIF file
-                    PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath)
+                    PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath) { [weak self] result in
+                        if result == "" {
+                            self?.profileView.reloadData()
+                        } else {
+                            self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                        }
+                    }
                 case .failure:
                     print("Failed")
                 }
@@ -319,7 +339,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
         
-        header.layoutSegment(firstSegmentTitle: "我的照片", secondSegmentTitle: "我的喜歡")
         if isFromOther {
             header.editAvatarButton.isHidden = true
             header.changePropertySegment.isHidden = true
@@ -424,7 +443,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = propertyImages[indexPath.item]
-        let detailVC = DetailViewController()
+        
+        let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: String(describing: DetailViewController.self)
+        )
+        guard let detailVC = detailTableViewVC as? DetailViewController else { return }
+        
         
         detailVC.propertyId = userPropertyData?.data[indexPath.row].propertyId ?? ""
         detailVC.imageOwnerName = userPropertyData?.data[indexPath.row].name ?? ""
@@ -432,7 +455,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         detailVC.avatarUrl = userPropertyData?.data[indexPath.row].avatar
         detailVC.isFromProfile = true
         
-        navigationController?.pushViewController(detailVC, animated: true)
+        show(detailVC, sender: nil)
     }
 }
 

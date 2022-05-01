@@ -85,6 +85,7 @@ class MapViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        containerView.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         containerView.roundCorners(cornerRadius: 10.0)
     }
     
@@ -108,10 +109,10 @@ class MapViewController: UIViewController {
         containerView.addSubview(placeButton)
         placeButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
-            [placeButton.widthAnchor.constraint(equalToConstant: 44),
-             placeButton.heightAnchor.constraint(equalToConstant: 44),
-             placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
-             placeButton.leftAnchor.constraint(equalTo: streamButton.rightAnchor, constant: 10)]
+            [placeButton.widthAnchor.constraint(equalToConstant: 55),
+             placeButton.heightAnchor.constraint(equalToConstant: 55),
+             placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 3),
+             placeButton.leftAnchor.constraint(equalTo: streamButton.rightAnchor, constant: 15)]
         )
     }
     
@@ -119,8 +120,8 @@ class MapViewController: UIViewController {
         containerView.addSubview(streamButton)
         streamButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
-            [streamButton.widthAnchor.constraint(equalToConstant: 44),
-             streamButton.heightAnchor.constraint(equalToConstant: 44),
+            [streamButton.widthAnchor.constraint(equalToConstant: 40),
+             streamButton.heightAnchor.constraint(equalToConstant: 40),
              streamButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
              streamButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 25)]
         )
@@ -130,10 +131,10 @@ class MapViewController: UIViewController {
         containerView.addSubview(eventButton)
         eventButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
-            [eventButton.widthAnchor.constraint(equalToConstant: 30),
-             eventButton.heightAnchor.constraint(equalToConstant: 30),
-             eventButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-             eventButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -25)]
+            [eventButton.widthAnchor.constraint(equalToConstant: 42),
+             eventButton.heightAnchor.constraint(equalToConstant: 42),
+             eventButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 3),
+             eventButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -15)]
         )
     }
     
