@@ -13,9 +13,9 @@ class PhotoVideoManager {
     static let shared = PhotoVideoManager()
     let storageRef = Storage.storage().reference()
     func uploadImageVideo(url: String, child: String, completion: @escaping (String) -> Void) {
-        let encodedChild = child.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+//        let encodedChild = child.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let localFile = URL(string: url)!
-        let riversRef = storageRef.child(encodedChild)
+        let riversRef = storageRef.child(child)
         
         let uploadTask = riversRef.putFile(from: localFile, metadata: nil) { metadata, error in
             riversRef.downloadURL { (url, error) in
