@@ -19,10 +19,10 @@ class ProfileHeader: UICollectionReusableView {
         // Add observer at change page
         NotificationCenter.default.addObserver(self, selector: #selector(self.defaultSegmentIndex(_:)), name: .defaultSegmentIndexKey, object: nil)
         layoutSegment()
-//
-//        image.withRenderingMode(.alwaysTemplate)
-//        button.setImage(image, for: .normal)
-//        button.tintColor = UIColor.primary
+        //
+        //        image.withRenderingMode(.alwaysTemplate)
+        //        button.setImage(image, for: .normal)
+        //        button.tintColor = UIColor.primary
         editAvatarButton.addTarget(self, action: #selector(changeAvatar), for: .touchUpInside)
     }
     
@@ -36,8 +36,8 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     @objc func changeAvatar(_ sender: UIButton) {
-            NotificationCenter.default.post(name: .showEditAvatarViewKey, object: nil)
-        }
+        NotificationCenter.default.post(name: .showEditAvatarViewKey, object: nil)
+    }
     
     func layoutProfileHeader(avatar: UIImage, displayName: String) {
         avatarImageView.image = avatar
@@ -45,12 +45,19 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     func layoutSegment() {
-        changePropertySegment.frame.size.height = 80.0
-        changePropertySegment.setImage(UIImage.asset(.Icons_profile)?.withTintColor(UIColor.primary), forSegmentAt: 0)
-        changePropertySegment.setImage(UIImage.asset(.heart)?.withTintColor(UIColor.primary), forSegmentAt: 1)
+        changePropertySegment.setImage(UIImage.asset(.segment_heart), forSegmentAt: 0)
+        changePropertySegment.setImage(UIImage.asset(.segment_heart), forSegmentAt: 1)
         changePropertySegment.backgroundColor = UIColor.white
         changePropertySegment.selectedSegmentIndex = 0
         changePropertySegment.selectedSegmentTintColor = UIColor.primary
+        
+        changePropertySegment.subviews.flatMap{ $0.subviews }.forEach { subview in
+            if let imageView = subview as? UIImageView, imageView.frame.width > 5 {
+                imageView.contentMode = .scaleAspectFill
+                imageView.clipsToBounds = true
+//                imageView.tintColor = UIColor.secondary
+            }
+        }
     }
     
     @IBAction func changeProfileProperty(_ sender: UISegmentedControl) {
