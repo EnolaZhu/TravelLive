@@ -299,8 +299,9 @@ extension MapViewController: GMSMapViewDelegate {
             })
             
             guard let url = specificStreamer?.first?.pullUrl else { return false }
+            guard let streamerId = specificStreamer?.first?.streamerId else { return false }
             self.url = url
-            createLiveRoom(streamerUrl: url)
+            createLiveRoom(streamerUrl: url, channelName: streamerId)
         }
         return true
     }
@@ -317,11 +318,11 @@ extension MapViewController: GMSMapViewDelegate {
         show(detailVC, sender: nil)
     }
     
-    private func createLiveRoom(streamerUrl: String) {
+    private func createLiveRoom(streamerUrl: String, channelName: String) {
         let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
         )
-        
         guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
+        pullVC.channelName = channelName
         pullVC.streamingUrl = url
         show(pullVC, sender: nil)
     }

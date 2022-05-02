@@ -11,6 +11,7 @@ import TXLiteAVSDK_Professional
 class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     private let loveButton = UIButton()
     var streamingUrl = String()
+    var channelName = String()
     private var livePlayer = V2TXLivePlayer()
     private var streamId: String?
     
@@ -37,6 +38,7 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
         let chatMessageVC = UIStoryboard.chat.instantiateViewController(withIdentifier: String(describing: ChatViewController.self)
         )
         guard let chatVC = chatMessageVC as? ChatViewController else { return }
+        chatVC.channelName = channelName
         view.addSubview(chatVC.view)
         self.addChild(chatVC)
     }

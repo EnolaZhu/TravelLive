@@ -22,6 +22,7 @@ class LoginViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
         authView.loginWithAppleButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
+        view.backgroundColor = UIColor.backgroundColor
         
 //        if userID == "" {
 //            return

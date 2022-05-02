@@ -37,9 +37,9 @@ class ProfileViewController: UIViewController {
         }
     }
     var postButton: UIButton = {
-        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
+        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 230, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
-        postButton.setImage(UIImage.asset(.plus), for: UIControl.State())
+        postButton.setImage(UIImage.asset(.add), for: UIControl.State())
         return postButton
     }()
     
@@ -213,10 +213,12 @@ class ProfileViewController: UIViewController {
     
     @objc func showUserProperty(_ notification: NSNotification) {
         getUserProperty()
+        postButton.isHidden = false
     }
     
     @objc func showLikedProperty(_ notification: NSNotification) {
         getLikedProperty()
+        postButton.isHidden = true
     }
     
     @objc func createAlertSheet() {

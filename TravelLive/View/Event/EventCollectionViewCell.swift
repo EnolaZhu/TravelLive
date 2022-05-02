@@ -25,7 +25,6 @@ class EventCollectionViewCell: UICollectionViewCell {
         eventImageView.image = image
         eventImageView.addSubview(getTitleLabel(title: title))
         eventImageView.addSubview(getLocationLabel(title: location))
-//        layoutSubviews()
     }
     
     private func getgradient() -> CAGradientLayer {
@@ -49,7 +48,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     private func getLocationLabel(title: String) -> UILabel {
         locationLabel.frame = CGRect(x: cornerRadius, y: Double(eventImageView.bounds.maxY - 90), width: 250 - cornerRadius * 2, height: 30)
         locationLabel.text = title
-        locationLabel.textColor = UIColor.secondary
+        locationLabel.textColor = UIColor.primary
         locationLabel.font = locationLabel.font.withSize(16)
         locationLabel.numberOfLines = 1
         return locationLabel

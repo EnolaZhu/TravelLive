@@ -19,7 +19,7 @@ class DetailViewCommentCell: UITableViewCell {
         // Initialization code
         self.selectionStyle = .none
         reviewerAvatarImage.makeRounded()
-        reviewerName.font = UIFont.boldSystemFont(ofSize: 20.0)
+        reviewerName.font = UIFont.boldSystemFont(ofSize: 14.0)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

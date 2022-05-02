@@ -44,7 +44,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var loadingMore = false
     var client: PubNub!
     //TODO: Change name
-    var channelName = "userID"
+    var channelName = String()
     var textsOfSTT = [String]()
     var sendPubNubTimer = Timer()
     private var totalTime = 0

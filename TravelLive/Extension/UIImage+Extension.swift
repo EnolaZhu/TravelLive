@@ -27,7 +27,6 @@ enum ImageAsset: String {
     case theheart
     case emptyHeart
     // post button
-    case plus
     case stop
     case play
     

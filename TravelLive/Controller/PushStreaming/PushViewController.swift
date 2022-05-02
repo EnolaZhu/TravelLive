@@ -178,6 +178,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         )
         guard let chatVC = chatMessageVC as? ChatViewController else { return }
         chatVC.isFromStreamer = true
+        chatVC.channelName = userID
         view.addSubview(chatVC.view)
         self.addChild(chatVC)
     }
