@@ -500,7 +500,7 @@ extension ProfileViewController {
     func presentAlertMessage(title: String = "Alert", message: String, okclick: (() -> Void)? = nil) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { in
+        let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] _ in
             if okclick != nil {
                 okclick!()
             }

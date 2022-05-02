@@ -62,15 +62,18 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cyv-jo-TpT">
-                                            <rect key="frame" x="145" y="16" width="120" height="120"/>
+                                            <rect key="frame" x="145" y="0.0" width="120" height="120"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="120" id="Ead-9b-DR8"/>
                                                 <constraint firstAttribute="width" secondItem="Cyv-jo-TpT" secondAttribute="height" multiplier="1:1" id="Ey1-K0-vB8"/>
                                                 <constraint firstAttribute="height" constant="120" id="pZQ-jM-Xap"/>
                                             </constraints>
                                         </imageView>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vQp-ur-6YS">
-                                            <rect key="frame" x="0.0" y="192" width="410" height="32"/>
+                                        <segmentedControl opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vQp-ur-6YS">
+                                            <rect key="frame" x="0.0" y="181" width="410" height="43"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="42" id="OBo-gJ-jLf"/>
+                                            </constraints>
                                             <segments>
                                                 <segment title=""/>
                                                 <segment title=""/>
@@ -80,7 +83,7 @@
                                             </connections>
                                         </segmentedControl>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIq-4o-qCl">
-                                            <rect key="frame" x="108" y="146" width="194" height="21"/>
+                                            <rect key="frame" x="108" y="135" width="194" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -106,7 +109,7 @@
                                         <constraint firstItem="gDB-K3-nfm" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="topMargin" constant="105" id="ftM-Sy-f1a"/>
                                         <constraint firstItem="Cyv-jo-TpT" firstAttribute="centerX" secondItem="rk0-g5-6au" secondAttribute="centerX" id="iEB-8K-7Wt"/>
                                         <constraint firstItem="yIq-4o-qCl" firstAttribute="centerX" secondItem="rk0-g5-6au" secondAttribute="centerX" id="qGp-C0-7I5"/>
-                                        <constraint firstItem="Cyv-jo-TpT" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="top" constant="16" id="tXM-rU-Lu0"/>
+                                        <constraint firstItem="Cyv-jo-TpT" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="top" id="tXM-rU-Lu0"/>
                                     </constraints>
                                     <connections>
                                         <outlet property="avatarImageView" destination="Cyv-jo-TpT" id="4Xb-BI-b1D"/>

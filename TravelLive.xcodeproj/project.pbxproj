@@ -37,6 +37,7 @@
 		4B4AA4402802AC4B0066C602 /* PushStreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */; };
 		4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */; };
 		4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4BBF7628043E4700A53128 /* DataRequest.swift */; };
+		4B503BFA281FBF1500E23942 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */; };
 		4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B8A27FD28D600A304D6 /* LoginViewController.swift */; };
 		4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B552B9227FD404A00A304D6 /* AuthView.xib */; };
 		4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */; };
@@ -167,6 +168,7 @@
 		4B4AA43F2802AC4B0066C602 /* PushStreamingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingProvider.swift; sourceTree = "<group>"; };
 		4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingBody.swift; sourceTree = "<group>"; };
 		4B4BBF7628043E4700A53128 /* DataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequest.swift; sourceTree = "<group>"; };
+		4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		4B552B8A27FD28D600A304D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4B552B9227FD404A00A304D6 /* AuthView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthView.xib; sourceTree = "<group>"; };
 		4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibOwnerLoadable.swift; sourceTree = "<group>"; };
@@ -706,6 +708,7 @@
 				4B66897D281A7299003CA423 /* ChangeButtonTintColor.swift */,
 				4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */,
 				4BEC55A8281DA7E600126786 /* String.Index+Extension.swift */,
+				4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1044,6 +1047,7 @@
 				4BA5E3AB280EC4D600D421D0 /* UIImageView+Extension.swift in Sources */,
 				4BC0EE6327FFB90700C5673B /* UITableView+Extension.swift in Sources */,
 				4BEAF1D5281471EF0094B90E /* PlaceEventViewReuseCell.swift in Sources */,
+				4B503BFA281FBF1500E23942 /* UINavigationController+Extension.swift in Sources */,
 				4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */,
 				4B1ED6252813BFB500674E6D /* ShareManager.swift in Sources */,
 				4BD373642804181800141A29 /* SearchViewController.swift in Sources */,
