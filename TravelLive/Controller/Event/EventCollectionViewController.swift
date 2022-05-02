@@ -70,8 +70,11 @@ extension EventCollectionViewController: UICollectionViewDataSource, UICollectio
             fatalError("Couldn't create cell")
         }
         
-        cell.eventImageView.image = images[indexPath.item]
-        
+        if specificPlaceData == nil {
+//            detailVC.detailPlaceData = detailPlaceData
+        } else {
+            cell.layoutCell(image: images[indexPath.item], title: specificPlaceData?.data[indexPath.row].title ?? "", location: specificPlaceData?.data[indexPath.row].city ?? "")
+        }
         return cell
     }
 }
