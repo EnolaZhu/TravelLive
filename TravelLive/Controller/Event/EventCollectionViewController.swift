@@ -22,7 +22,8 @@ class EventCollectionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        view.backgroundColor = UIColor.backgroundColor
         setupCollectionView()
         collectionView.showsHorizontalScrollIndicator = false
     }
@@ -46,7 +47,7 @@ class EventCollectionViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
 
-        collectionView.backgroundColor = UIColor.clear
+        collectionView.backgroundColor = UIColor.backgroundColor
 
         let nib = UINib(nibName: String(describing: EventCollectionViewCell.self), bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: String(describing: EventCollectionViewCell.self))
@@ -69,8 +70,11 @@ extension EventCollectionViewController: UICollectionViewDataSource, UICollectio
             fatalError("Couldn't create cell")
         }
         
-        cell.eventImageView.image = images[indexPath.item]
-        
+        if specificPlaceData == nil {
+//            detailVC.detailPlaceData = detailPlaceData
+        } else {
+            cell.layoutCell(image: images[indexPath.item], title: specificPlaceData?.data[indexPath.row].title ?? "", location: specificPlaceData?.data[indexPath.row].city ?? "")
+        }
         return cell
     }
 }

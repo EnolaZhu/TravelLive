@@ -49,12 +49,19 @@ class DetailViewController: BaseViewController {
         fetchComment(propertyId: propertyId, userId: userID)
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+       setUpButtonBasicColor(sendCommentButton, UIImage.asset(.send) ?? UIImage(), color: UIColor.primary)
+    }
+    
     private func setUpTableView() {
         detailTableView.rowHeight = UITableView.automaticDimension
         detailTableView.estimatedRowHeight = 200.0
         detailTableView.delegate = self
         detailTableView.dataSource = self
         detailTableView.separatorStyle = .none
+        detailTableView.backgroundColor = UIColor.backgroundColor
         
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewImageCell.self), bundle: nil)
         detailTableView.registerCellWithNib(identifier: String(describing: DetailViewCommentCell.self), bundle: nil)
@@ -64,6 +71,7 @@ class DetailViewController: BaseViewController {
         commentTextField.placeholder = "發表評論"
         sendCommentButton.addTarget(self, action: #selector(sendComment), for: .touchUpInside)
         sendCommentButton.isEnabled = false
+        view.backgroundColor = UIColor.backgroundColor
     }
     
     private func fetchComment(propertyId: String, userId: String) {
@@ -120,6 +128,8 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
+            imageCell.backgroundColor = UIColor.backgroundColor
+            
             imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
             //            imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
@@ -129,7 +139,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool(), imageOwnerName: imageOwnerName, avatar: (avatarImage ?? placeHolderImage)!)
             
             if isLiked {
-                imageCell.loveButton.setImage(UIImage(named: "theheart"), for: .normal)
+                setUpButtonBasicColor(imageCell.loveButton, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
             }
             
             // Avatar gesture
@@ -145,6 +155,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewCommentCell.self), for: indexPath)
             guard let commentCell = cell as? DetailViewCommentCell else { return cell }
+            commentCell.backgroundColor = UIColor.backgroundColor
             
             if allCommentData == nil {
                 return UITableViewCell()
@@ -209,13 +220,12 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if sender.hasImage(named: "theheart", for: .normal) {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
             
-            LottieAnimationManager.shared.setUplottieAnimation(name: "Heart break", excitTime: 4, view: self.view, ifPulling: false)
-            
-            sender.setImage(UIImage.asset(.emptyHeart), for: .normal)
+            LottieAnimationManager.shared.setUplottieAnimation(name: "Heart break", excitTime: 8, view: self.view, ifPulling: false)
+            setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
         } else {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: true)
             LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, ifPulling: false)
-            sender.setImage(UIImage.asset(.theheart), for: .normal)
+            setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
     }
 }

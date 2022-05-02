@@ -26,6 +26,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         UIApplication.shared.registerForRemoteNotifications()
         
+        if #available(iOS 15, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.configureWithOpaqueBackground()
+            navigationBarAppearance.titleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: UIColor.primary
+            ]
+            navigationBarAppearance.backgroundColor = UIColor.backgroundColor
+            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+            UINavigationBar.appearance().compactAppearance = navigationBarAppearance
+        }
+        
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         return true
     }

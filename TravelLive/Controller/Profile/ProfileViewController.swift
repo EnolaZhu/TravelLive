@@ -37,9 +37,9 @@ class ProfileViewController: UIViewController {
         }
     }
     var postButton: UIButton = {
-        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 730, width: 88, height: 88))
+        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 230, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
-        postButton.setImage(UIImage.asset(.plus), for: UIControl.State())
+        postButton.setImage(UIImage.asset(.add), for: UIControl.State())
         return postButton
     }()
     
@@ -51,8 +51,6 @@ class ProfileViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.showLikedProperty(_:)), name: .showLikedPropertyKey, object: nil)
         // change avatar
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditAvatarViewKey, object: nil)
-        
-        navigationItem.title = "個人"
         // Add advertisement
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
@@ -63,13 +61,13 @@ class ProfileViewController: UIViewController {
         
         profileView.contentInsetAdjustmentBehavior = .never
         profileView.showsVerticalScrollIndicator = false
+        profileView.backgroundColor = UIColor.backgroundColor
         
-        if isFromOther {
-        } else {
+        if !isFromOther {
             postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
             
             view.addSubview(postButton)
-            navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu), style: .plain, target: self, action: #selector(createAlertSheet))]
+            navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu)?.maskWithColor(color: UIColor.primary), style: .plain, target: self, action: #selector(createAlertSheet))]
         }
     }
     
@@ -80,8 +78,18 @@ class ProfileViewController: UIViewController {
         getUserInfo()
         getUserProperty()
         
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.navigationBar.backgroundColor = .backgroundColor
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.primary
         // default segment index
         NotificationCenter.default.post(name: .defaultSegmentIndexKey, object: nil, userInfo: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.navigationController?.setStatusBar(backgroundColor: UIColor.backgroundColor)
+        self.navigationController?.navigationBar.setNeedsLayout()
     }
     
     @objc func showEditView(_ notification: NSNotification) {
@@ -205,10 +213,12 @@ class ProfileViewController: UIViewController {
     
     @objc func showUserProperty(_ notification: NSNotification) {
         getUserProperty()
+        postButton.isHidden = false
     }
     
     @objc func showLikedProperty(_ notification: NSNotification) {
         getLikedProperty()
+        postButton.isHidden = true
     }
     
     @objc func createAlertSheet() {
@@ -340,7 +350,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
         
         if isFromOther {
-            header.editAvatarButton.isHidden = true
             header.changePropertySegment.isHidden = true
         }
         

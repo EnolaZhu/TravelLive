@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "live.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Icons_live.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

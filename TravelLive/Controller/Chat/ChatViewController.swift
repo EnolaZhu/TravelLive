@@ -26,6 +26,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
         }
     }
     @IBOutlet weak var caption: UILabel!
+    @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var inputTextfield: UITextField!
     
     private var messages = [Message]() {
@@ -43,7 +44,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var loadingMore = false
     var client: PubNub!
     //TODO: Change name
-    var channelName = "userID"
+    var channelName = String()
     var textsOfSTT = [String]()
     var sendPubNubTimer = Timer()
     private var totalTime = 0
@@ -113,6 +114,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
     
     private func setupChatView() {
         chatView.registerCellWithNib(identifier: String(describing: MessageCell.self), bundle: nil)
+        sendButton.setImage(UIImage.asset(.send)?.maskWithColor(color: UIColor.primary), for: .normal)
     }
     
     @IBAction func sendMessage(_ sender: UIButton) {

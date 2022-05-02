@@ -89,6 +89,7 @@
                         <outlet property="caption" destination="Ufc-MG-wuk" id="dPn-EV-Nuk"/>
                         <outlet property="chatView" destination="zZE-Nx-sqX" id="cBA-vJ-v3G"/>
                         <outlet property="inputTextfield" destination="qVN-6X-8PQ" id="dmv-0M-ptE"/>
+                        <outlet property="sendButton" destination="hUY-cY-Gv4" id="Hee-D6-RPs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

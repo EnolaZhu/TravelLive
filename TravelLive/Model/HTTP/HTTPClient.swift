@@ -46,7 +46,7 @@ extension Request {
     func makeRequest() -> URLRequest {
         let urlString = Bundle.ValueForString(key: Constant.BaseUrl) + endPoint
         //        let encodedUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        let url = URL(string: urlString)!
+        let url = URL(string: urlString.trimmingCharacters(in: .whitespacesAndNewlines))!
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = headers
         request.httpBody = body

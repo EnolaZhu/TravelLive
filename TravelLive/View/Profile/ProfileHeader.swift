@@ -12,18 +12,13 @@ class ProfileHeader: UICollectionReusableView {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var changePropertySegment: UISegmentedControl!
     @IBOutlet weak var displayNameLabel: UILabel!
-    @IBOutlet weak var editAvatarButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Add observer at change page
         NotificationCenter.default.addObserver(self, selector: #selector(self.defaultSegmentIndex(_:)), name: .defaultSegmentIndexKey, object: nil)
         layoutSegment()
-//
-//        image.withRenderingMode(.alwaysTemplate)
-//        button.setImage(image, for: .normal)
-//        button.tintColor = UIColor.primary
-        editAvatarButton.addTarget(self, action: #selector(changeAvatar), for: .touchUpInside)
+        addGestureOnAvatar()
     }
     
     override func layoutSubviews() {
@@ -35,22 +30,35 @@ class ProfileHeader: UICollectionReusableView {
         changePropertySegment.selectedSegmentIndex = 0
     }
     
-    @objc func changeAvatar(_ sender: UIButton) {
-            NotificationCenter.default.post(name: .showEditAvatarViewKey, object: nil)
-        }
-    
     func layoutProfileHeader(avatar: UIImage, displayName: String) {
         avatarImageView.image = avatar
         displayNameLabel.text = displayName
     }
+    private func addGestureOnAvatar() {
+        // Avatar gesture
+        let tapAvatarGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(avatarTapped(tapGestureRecognizer:)))
+        avatarImageView.isUserInteractionEnabled = true
+        avatarImageView
+            .addGestureRecognizer(tapAvatarGestureRecognizer)
+    }
     
-    func layoutSegment() {
-        changePropertySegment.frame.size.height = 80.0
-        changePropertySegment.setImage(UIImage.asset(.Icons_profile)?.withTintColor(UIColor.primary), forSegmentAt: 0)
-        changePropertySegment.setImage(UIImage.asset(.heart)?.withTintColor(UIColor.primary), forSegmentAt: 1)
-        changePropertySegment.backgroundColor = UIColor.white
+    private func layoutSegment() {
+        changePropertySegment.setImage(UIImage.asset(.left_segment_property), forSegmentAt: 0)
+        changePropertySegment.setImage(UIImage.asset(.right_segment_heart), forSegmentAt: 1)
+        changePropertySegment.backgroundColor = UIColor.backgroundColor
         changePropertySegment.selectedSegmentIndex = 0
         changePropertySegment.selectedSegmentTintColor = UIColor.primary
+        
+        changePropertySegment.subviews.flatMap{ $0.subviews }.forEach { subview in
+            if let imageView = subview as? UIImageView, imageView.frame.width > 5 {
+                imageView.contentMode = .scaleAspectFill
+                imageView.clipsToBounds = true
+            }
+        }
+    }
+    
+    @objc private func avatarTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        NotificationCenter.default.post(name: .showEditAvatarViewKey, object: nil)
     }
     
     @IBAction func changeProfileProperty(_ sender: UISegmentedControl) {

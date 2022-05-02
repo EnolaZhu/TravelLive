@@ -62,15 +62,18 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cyv-jo-TpT">
-                                            <rect key="frame" x="145" y="16" width="120" height="120"/>
+                                            <rect key="frame" x="145" y="0.0" width="120" height="120"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="120" id="Ead-9b-DR8"/>
                                                 <constraint firstAttribute="width" secondItem="Cyv-jo-TpT" secondAttribute="height" multiplier="1:1" id="Ey1-K0-vB8"/>
                                                 <constraint firstAttribute="height" constant="120" id="pZQ-jM-Xap"/>
                                             </constraints>
                                         </imageView>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vQp-ur-6YS">
-                                            <rect key="frame" x="0.0" y="192" width="410" height="32"/>
+                                        <segmentedControl opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vQp-ur-6YS">
+                                            <rect key="frame" x="0.0" y="181" width="410" height="43"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="42" id="OBo-gJ-jLf"/>
+                                            </constraints>
                                             <segments>
                                                 <segment title=""/>
                                                 <segment title=""/>
@@ -80,20 +83,11 @@
                                             </connections>
                                         </segmentedControl>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIq-4o-qCl">
-                                            <rect key="frame" x="108" y="146" width="194" height="21"/>
+                                            <rect key="frame" x="108" y="135" width="194" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDB-K3-nfm">
-                                            <rect key="frame" x="223" y="113" width="40" height="40"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="40" id="dBv-xZ-Z4p"/>
-                                                <constraint firstAttribute="height" constant="40" id="kGj-rt-Mwl"/>
-                                            </constraints>
-                                            <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="plain" image="edit" title=""/>
-                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="vQp-ur-6YS" firstAttribute="top" secondItem="yIq-4o-qCl" secondAttribute="bottom" constant="25" id="AWX-GL-E1l"/>
@@ -102,17 +96,14 @@
                                         <constraint firstAttribute="bottom" secondItem="vQp-ur-6YS" secondAttribute="bottom" constant="6" id="I1K-ez-X7D"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="yIq-4o-qCl" secondAttribute="trailing" constant="100" id="V0Q-X4-3di"/>
                                         <constraint firstItem="yIq-4o-qCl" firstAttribute="leading" secondItem="rk0-g5-6au" secondAttribute="leadingMargin" constant="100" id="V81-TN-WGa"/>
-                                        <constraint firstItem="gDB-K3-nfm" firstAttribute="leading" secondItem="rk0-g5-6au" secondAttribute="leadingMargin" constant="215" id="ahS-oc-FEO"/>
-                                        <constraint firstItem="gDB-K3-nfm" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="topMargin" constant="105" id="ftM-Sy-f1a"/>
                                         <constraint firstItem="Cyv-jo-TpT" firstAttribute="centerX" secondItem="rk0-g5-6au" secondAttribute="centerX" id="iEB-8K-7Wt"/>
                                         <constraint firstItem="yIq-4o-qCl" firstAttribute="centerX" secondItem="rk0-g5-6au" secondAttribute="centerX" id="qGp-C0-7I5"/>
-                                        <constraint firstItem="Cyv-jo-TpT" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="top" constant="16" id="tXM-rU-Lu0"/>
+                                        <constraint firstItem="Cyv-jo-TpT" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="top" id="tXM-rU-Lu0"/>
                                     </constraints>
                                     <connections>
                                         <outlet property="avatarImageView" destination="Cyv-jo-TpT" id="4Xb-BI-b1D"/>
                                         <outlet property="changePropertySegment" destination="vQp-ur-6YS" id="su6-HZ-DPe"/>
                                         <outlet property="displayNameLabel" destination="yIq-4o-qCl" id="fTi-fk-eV7"/>
-                                        <outlet property="editAvatarButton" destination="gDB-K3-nfm" id="ZiQ-re-WAY"/>
                                     </connections>
                                 </collectionReusableView>
                             </collectionView>
@@ -160,7 +151,6 @@
     </scenes>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
-        <image name="edit" width="32" height="32"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

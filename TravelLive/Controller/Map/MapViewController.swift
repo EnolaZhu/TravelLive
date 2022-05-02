@@ -102,7 +102,7 @@ class MapViewController: UIViewController {
              containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
              containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30)]
         )
-        containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        containerView.backgroundColor = UIColor.backgroundColor
     }
     
     private func setUpPlaceButton() {
@@ -139,7 +139,7 @@ class MapViewController: UIViewController {
     }
     
     private func setUpButtons() {
-        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+        setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
         setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
     }
@@ -152,7 +152,7 @@ class MapViewController: UIViewController {
         changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.Icons_live)!)
         
         setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
-        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+        setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
     }
     
     private func fetchStreamerData() {
@@ -189,7 +189,7 @@ class MapViewController: UIViewController {
         isButtonSelected.toggle()
         changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.event)!)
         
-        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+        setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
         
         mapView.clear()
@@ -215,7 +215,7 @@ class MapViewController: UIViewController {
     
     @objc func getPlaceData(_ sender: UIButton) {
         isButtonSelected.toggle()
-        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.place)!)
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.Icons_attractions)!)
         
         setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
@@ -267,7 +267,7 @@ class MapViewController: UIViewController {
         if isStreamer {
             imageView.layer.borderColor = UIColor.primary.cgColor
         } else {
-            imageView.layer.borderColor = UIColor.white.cgColor
+            imageView.layer.borderColor = UIColor.backgroundColor.cgColor
         }
         
         imageView.image = pinImage
@@ -299,8 +299,9 @@ extension MapViewController: GMSMapViewDelegate {
             })
             
             guard let url = specificStreamer?.first?.pullUrl else { return false }
+            guard let streamerId = specificStreamer?.first?.streamerId else { return false }
             self.url = url
-            createLiveRoom(streamerUrl: url)
+            createLiveRoom(streamerUrl: url, channelName: streamerId)
         }
         return true
     }
@@ -317,11 +318,11 @@ extension MapViewController: GMSMapViewDelegate {
         show(detailVC, sender: nil)
     }
     
-    private func createLiveRoom(streamerUrl: String) {
+    private func createLiveRoom(streamerUrl: String, channelName: String) {
         let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
         )
-        
         guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
+        pullVC.channelName = channelName
         pullVC.streamingUrl = url
         show(pullVC, sender: nil)
     }

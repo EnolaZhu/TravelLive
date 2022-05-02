@@ -14,13 +14,12 @@ enum ImageAsset: String {
     case Icons_camera_beauty_close
     case Icons_close_preview
     case Icons_camera_preview
-    case Icons_camera_beauty_1
     // tab icon
     case Icons_live
     case Icons_map
     case Icons_profile
     case Icons_search
-    case Icons_shop
+    case Icons_attractions
     // auth image
     case apple
     // live animation
@@ -28,7 +27,6 @@ enum ImageAsset: String {
     case theheart
     case emptyHeart
     // post button
-    case plus
     case stop
     case play
     
@@ -39,9 +37,17 @@ enum ImageAsset: String {
     case mapIcon
     // profile
     case menu
-    
+    case right_segment_heart
+    case left_segment_property
     case close
     case add
+    case property
+    // detail
+    case send
+    case share
+    case option
+    // push
+    case onAir
 }
 
 extension UIImage {

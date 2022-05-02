@@ -38,7 +38,8 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
-        searchCollectionView.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
+        searchCollectionView.backgroundColor = .backgroundColor
         searchCollectionView.dataSource = self
         searchCollectionView.delegate = self
         searchCollectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -53,10 +54,21 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(false, animated: animated)
+        
         images.removeAll()
         getSearchData()
         searchController.searchBar.text = ""
         searchController.searchBar.placeholder = "搜尋"
+        
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.navigationBar.backgroundColor = .backgroundColor
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.setStatusBar(backgroundColor: UIColor.backgroundColor)
+        navigationController?.navigationBar.setNeedsLayout()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -163,6 +175,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
 extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, UISearchResultsUpdating {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        if images.count < indexPath.item + 1 { return }
         let image = images[indexPath.item]
         
         let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: String(describing: DetailViewController.self)
@@ -182,6 +195,7 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
             return
         }
         if text != "" {
+            print("updateSearchResults")
             images.removeAll()
             fetchSearchData(type: "?tag=" + text)
         } else {
