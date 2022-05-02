@@ -135,7 +135,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool(), imageOwnerName: imageOwnerName, avatar: (avatarImage ?? placeHolderImage)!)
             
             if isLiked {
-                imageCell.loveButton.setImage(UIImage(named: "theheart"), for: .normal)
+                setUpButtonBasicColor(imageCell.loveButton, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
             }
             
             // Avatar gesture
@@ -216,12 +216,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
             
             LottieAnimationManager.shared.setUplottieAnimation(name: "Heart break", excitTime: 4, view: self.view, ifPulling: false)
-            
-            sender.setImage(UIImage.asset(.emptyHeart), for: .normal)
+            setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
         } else {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: true)
             LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, ifPulling: false)
-            sender.setImage(UIImage.asset(.theheart), for: .normal)
+            setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
     }
 }

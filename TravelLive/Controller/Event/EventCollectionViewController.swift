@@ -22,7 +22,8 @@ class EventCollectionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        view.backgroundColor = UIColor.backgroundColor
         setupCollectionView()
         collectionView.showsHorizontalScrollIndicator = false
     }
@@ -46,7 +47,7 @@ class EventCollectionViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
 
-        collectionView.backgroundColor = UIColor.clear
+        collectionView.backgroundColor = UIColor.backgroundColor
 
         let nib = UINib(nibName: String(describing: EventCollectionViewCell.self), bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: String(describing: EventCollectionViewCell.self))

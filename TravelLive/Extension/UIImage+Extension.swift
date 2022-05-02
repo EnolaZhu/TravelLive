@@ -14,7 +14,6 @@ enum ImageAsset: String {
     case Icons_camera_beauty_close
     case Icons_close_preview
     case Icons_camera_preview
-    case Icons_camera_beauty_1
     // tab icon
     case Icons_live
     case Icons_map
@@ -43,6 +42,7 @@ enum ImageAsset: String {
     case left_segment_property
     case close
     case add
+    case property
     // detail
     case send
     case share

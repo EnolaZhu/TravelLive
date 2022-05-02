@@ -27,8 +27,12 @@ class EventViewController: UIViewController {
         getPlaceData(city: 2, limit: 5)
         getPlaceData(city: 3, limit: 5)
         
-        navigationItem.title = "景點"
         eventTableView.showsVerticalScrollIndicator = false
+        eventTableView.backgroundColor = UIColor.backgroundColor
+        
+        navigationItem.title = "景點"
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.navigationBar.backgroundColor = .backgroundColor
     }
 
     func setupTableView() {
@@ -48,6 +52,13 @@ class EventViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.setStatusBar(backgroundColor: UIColor.backgroundColor)
+        navigationController?.navigationBar.setNeedsLayout()
     }
 }
 

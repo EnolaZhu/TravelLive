@@ -63,12 +63,11 @@ class ProfileViewController: UIViewController {
         profileView.showsVerticalScrollIndicator = false
         profileView.backgroundColor = UIColor.backgroundColor
         
-        if isFromOther {
-        } else {
+        if !isFromOther {
             postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
             
             view.addSubview(postButton)
-            navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu), style: .plain, target: self, action: #selector(createAlertSheet))]
+            navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu)?.maskWithColor(color: UIColor.primary), style: .plain, target: self, action: #selector(createAlertSheet))]
         }
     }
     
@@ -80,10 +79,8 @@ class ProfileViewController: UIViewController {
         getUserProperty()
         
         setNeedsStatusBarAppearanceUpdate()
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.backgroundColor = .backgroundColor
+        navigationController?.navigationBar.backgroundColor = .backgroundColor
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.primary
         // default segment index
         NotificationCenter.default.post(name: .defaultSegmentIndexKey, object: nil, userInfo: nil)
     }
@@ -351,7 +348,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
         
         if isFromOther {
-            header.editAvatarButton.isHidden = true
             header.changePropertySegment.isHidden = true
         }
         

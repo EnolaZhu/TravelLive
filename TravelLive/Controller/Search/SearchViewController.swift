@@ -38,7 +38,8 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
-        searchCollectionView.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
+        searchCollectionView.backgroundColor = .backgroundColor
         searchCollectionView.dataSource = self
         searchCollectionView.delegate = self
         searchCollectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -57,6 +58,16 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         getSearchData()
         searchController.searchBar.text = ""
         searchController.searchBar.placeholder = "搜尋"
+        
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.navigationBar.backgroundColor = .backgroundColor
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.setStatusBar(backgroundColor: UIColor.backgroundColor)
+        navigationController?.navigationBar.setNeedsLayout()
     }
     
     override func viewDidDisappear(_ animated: Bool) {

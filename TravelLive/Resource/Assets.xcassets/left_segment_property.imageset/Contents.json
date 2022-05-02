@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "segment_property.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "left_segment_property.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "segment_heart.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "right_segment_heart.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
