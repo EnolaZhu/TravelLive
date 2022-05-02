@@ -47,7 +47,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     }
     
     private func getLocationLabel(title: String) -> UILabel {
-        locationLabel.frame = CGRect(x: cornerRadius, y: Double(eventImageView.bounds.maxY - 90), width: 280 - cornerRadius * 2, height: 30)
+        locationLabel.frame = CGRect(x: cornerRadius, y: Double(eventImageView.bounds.maxY - 90), width: 250 - cornerRadius * 2, height: 30)
         locationLabel.text = title
         locationLabel.textColor = UIColor.lightGray
         locationLabel.font = locationLabel.font.withSize(16)
@@ -56,7 +56,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     }
     
     private func getTitleLabel(title: String) -> UILabel {
-        titleLabel.frame = CGRect(x: cornerRadius, y: Double(eventImageView.bounds.maxY - 60), width: 280 - cornerRadius * 2, height: 60)
+        titleLabel.frame = CGRect(x: cornerRadius, y: Double(eventImageView.bounds.maxY - 60), width: 250 - cornerRadius * 2, height: 60)
         titleLabel.text = title
         titleLabel.textColor = UIColor.white
         titleLabel.font = titleLabel.font.withSize(18)

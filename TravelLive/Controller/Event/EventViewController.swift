@@ -17,25 +17,28 @@ class EventViewController: UIViewController {
         EventCollectionViewController(),
         EventCollectionViewController(),
     ]
+    var citys = ["臺北", "新北", "桃園", "臺中"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupTableView()
-        getPlaceData(city: 0, limit: 5)
-        getPlaceData(city: 1, limit: 5)
-        getPlaceData(city: 2, limit: 5)
-        getPlaceData(city: 3, limit: 5)
         
+        setupTableView()
+        getData()
         eventTableView.showsVerticalScrollIndicator = false
         eventTableView.backgroundColor = UIColor.backgroundColor
+        view.backgroundColor = UIColor.backgroundColor
         
         navigationItem.title = "景點"
         setNeedsStatusBarAppearanceUpdate()
         navigationController?.navigationBar.backgroundColor = .backgroundColor
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.eventTableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+    }
 
-    func setupTableView() {
+    private func setupTableView() {
         let nib = UINib(nibName: String(describing: EventTableViewCell.self), bundle: nil)
 
         eventTableView.register(nib, forCellReuseIdentifier: String(describing: EventTableViewCell.self))
@@ -60,44 +63,60 @@ class EventViewController: UIViewController {
         navigationController?.setStatusBar(backgroundColor: UIColor.backgroundColor)
         navigationController?.navigationBar.setNeedsLayout()
     }
+    
+    private func getData() {
+        getPlaceData(city: citys.firstIndex(of: "臺北") ?? 0, limit: 5)
+        getPlaceData(city: citys.firstIndex(of: "新北") ?? 0, limit: 5)
+        getPlaceData(city: citys.firstIndex(of: "桃園") ?? 0, limit: 5)
+        getPlaceData(city: citys.firstIndex(of: "臺中") ?? 0, limit: 5)
+    }
 }
 
 extension EventViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-
-        return 1
+        return smallCollectionViewControllers.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        return smallCollectionViewControllers.count
-
+        return 1
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+        return 250
     }
     
     func tableView(_ tableView: UITableView, widthForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+        return 250
     }
     
 // swiftlint:disable force_cast identifier_name
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: EventTableViewCell.self)) as! EventTableViewCell
         
-        
         return eventTableViewCell
     }
 
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let sectionView = UIView()
+        let label = UILabel(frame: CGRect(x: 20, y: -10, width: 60, height: 30))
+        
+        label.backgroundColor = UIColor.clear
+        label.text = citys[section]
+        label.textColor = UIColor.primary
+        label.font = label.font.withSize(24)
+        sectionView.addSubview(label)
+        
+        return sectionView
+        }
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let eventTableViewCell = cell as! EventTableViewCell
 
-        self.smallCollectionViewControllers[indexPath.row].collectionView.frame = eventTableViewCell.bounds
+        self.smallCollectionViewControllers[indexPath.section].collectionView.frame = eventTableViewCell.bounds
 
-        self.addChild(self.smallCollectionViewControllers[indexPath.row])
-        self.smallCollectionViewControllers[indexPath.row].didMove(toParent: self)
-        eventTableViewCell.addSubview(smallCollectionViewControllers[indexPath.row].view)
+        self.addChild(self.smallCollectionViewControllers[indexPath.section])
+        self.smallCollectionViewControllers[indexPath.section].didMove(toParent: self)
+        eventTableViewCell.addSubview(smallCollectionViewControllers[indexPath.section].view)
     }
 }
 

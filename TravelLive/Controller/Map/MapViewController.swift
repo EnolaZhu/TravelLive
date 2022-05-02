@@ -267,7 +267,7 @@ class MapViewController: UIViewController {
         if isStreamer {
             imageView.layer.borderColor = UIColor.primary.cgColor
         } else {
-            imageView.layer.borderColor = UIColor.white.cgColor
+            imageView.layer.borderColor = UIColor.backgroundColor.cgColor
         }
         
         imageView.image = pinImage
