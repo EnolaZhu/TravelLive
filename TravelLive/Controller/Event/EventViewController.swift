@@ -98,12 +98,12 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionView = UIView()
-        let label = UILabel(frame: CGRect(x: 20, y: -10, width: 60, height: 30))
+        let label = UILabel(frame: CGRect(x: 24, y: -18, width: 60, height: 30))
         
         label.backgroundColor = UIColor.clear
         label.text = citys[section]
         label.textColor = UIColor.primary
-        label.font = label.font.withSize(24)
+        label.font = label.font.withSize(26)
         sectionView.addSubview(label)
         
         return sectionView
