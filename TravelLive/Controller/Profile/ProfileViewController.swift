@@ -51,8 +51,6 @@ class ProfileViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.showLikedProperty(_:)), name: .showLikedPropertyKey, object: nil)
         // change avatar
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditAvatarViewKey, object: nil)
-        
-        navigationItem.title = "個人"
         // Add advertisement
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
@@ -63,6 +61,7 @@ class ProfileViewController: UIViewController {
         
         profileView.contentInsetAdjustmentBehavior = .never
         profileView.showsVerticalScrollIndicator = false
+        profileView.backgroundColor = UIColor.backgroundColor
         
         if isFromOther {
         } else {
@@ -80,8 +79,20 @@ class ProfileViewController: UIViewController {
         getUserInfo()
         getUserProperty()
         
+        setNeedsStatusBarAppearanceUpdate()
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.backgroundColor = .backgroundColor
         // default segment index
         NotificationCenter.default.post(name: .defaultSegmentIndexKey, object: nil, userInfo: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.navigationController?.setStatusBar(backgroundColor: UIColor.backgroundColor)
+        self.navigationController?.navigationBar.setNeedsLayout()
     }
     
     @objc func showEditView(_ notification: NSNotification) {
@@ -489,7 +500,7 @@ extension ProfileViewController {
     func presentAlertMessage(title: String = "Alert", message: String, okclick: (() -> Void)? = nil) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] _ in
+        let okAction = UIAlertAction(title: "OK", style: .default) { in
             if okclick != nil {
                 okclick!()
             }

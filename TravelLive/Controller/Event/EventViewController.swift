@@ -38,7 +38,7 @@ class EventViewController: UIViewController {
         eventTableView.dataSource = self
         eventTableView.delegate = self
 
-        eventTableView.backgroundColor = UIColor.white
+        eventTableView.backgroundColor = UIColor.backgroundColor
     }
 
     override func didReceiveMemoryWarning() {
