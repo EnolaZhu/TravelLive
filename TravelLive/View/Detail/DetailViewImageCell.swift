@@ -14,7 +14,6 @@ class DetailViewImageCell: UITableViewCell {
     @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var loveButton: UIButton!
     @IBOutlet weak var userAvatarimage: UIImageView!
-    @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     
     var propertyId: String?
@@ -24,6 +23,8 @@ class DetailViewImageCell: UITableViewCell {
         // Initialization code
         self.selectionStyle = .none
         userAvatarimage.makeRounded()
+        setUpButtonBasicColor(shareButton, UIImage.asset(.share) ?? UIImage(), color: UIColor.primary)
+        setUpButtonBasicColor(loveButton, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

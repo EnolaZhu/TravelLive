@@ -49,6 +49,12 @@ class DetailViewController: BaseViewController {
         fetchComment(propertyId: propertyId, userId: userID)
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+       setUpButtonBasicColor(sendCommentButton, UIImage.asset(.send) ?? UIImage(), color: UIColor.primary)
+    }
+    
     private func setUpTableView() {
         detailTableView.rowHeight = UITableView.automaticDimension
         detailTableView.estimatedRowHeight = 200.0

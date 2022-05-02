@@ -139,7 +139,7 @@ class MapViewController: UIViewController {
     }
     
     private func setUpButtons() {
-        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+        setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
         setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
     }
@@ -152,7 +152,7 @@ class MapViewController: UIViewController {
         changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.Icons_live)!)
         
         setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
-        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+        setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
     }
     
     private func fetchStreamerData() {
@@ -189,7 +189,7 @@ class MapViewController: UIViewController {
         isButtonSelected.toggle()
         changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.event)!)
         
-        setUpButtonBasicColor(placeButton, UIImage.asset(.place)!, color: UIColor.secondary)
+        setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
         
         mapView.clear()
@@ -215,7 +215,7 @@ class MapViewController: UIViewController {
     
     @objc func getPlaceData(_ sender: UIButton) {
         isButtonSelected.toggle()
-        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.place)!)
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.Icons_attractions)!)
         
         setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)

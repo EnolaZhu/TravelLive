@@ -20,7 +20,7 @@ enum ImageAsset: String {
     case Icons_map
     case Icons_profile
     case Icons_search
-    case Icons_shop
+    case Icons_attractions
     // auth image
     case apple
     // live animation
@@ -39,10 +39,14 @@ enum ImageAsset: String {
     case mapIcon
     // profile
     case menu
-    case segment_heart
+    case right_segment_heart
+    case left_segment_property
     case close
     case add
-    
+    // detail
+    case send
+    case share
+    case option
 }
 
 extension UIImage {
