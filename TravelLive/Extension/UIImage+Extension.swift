@@ -47,6 +47,8 @@ enum ImageAsset: String {
     case send
     case share
     case option
+    // push
+    case onAir
 }
 
 extension UIImage {

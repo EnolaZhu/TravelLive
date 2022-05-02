@@ -24,6 +24,7 @@ class DetailViewImageCell: UITableViewCell {
         self.selectionStyle = .none
         userAvatarimage.makeRounded()
         setUpButtons()
+        userName.font = UIFont.boldSystemFont(ofSize: 20.0)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

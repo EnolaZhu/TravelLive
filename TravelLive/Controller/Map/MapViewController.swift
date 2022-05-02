@@ -102,7 +102,7 @@ class MapViewController: UIViewController {
              containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
              containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30)]
         )
-        containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        containerView.backgroundColor = UIColor.backgroundColor
     }
     
     private func setUpPlaceButton() {

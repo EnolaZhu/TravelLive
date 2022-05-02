@@ -96,7 +96,6 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         requestAccessForAudio()
         view.backgroundColor = UIColor.clear
         view.addSubview(containerView)
-        containerView.addSubview(stateLabel)
         cameraButton.addTarget(self, action: #selector(didTappedCameraButton(_:)), for: .touchUpInside)
         beautyButton.addTarget(self, action: #selector(didTappedBeautyButton(_:)), for: .touchUpInside)
         stopLiveButton.addTarget(self, action: #selector(didTappedStopLiveButton(_:)), for: .touchUpInside)
@@ -231,7 +230,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         request?.endAudio()
         request?.shouldReportPartialResults = false
         
-        if task == nil{
+        if task == nil {
             return
         } else {
             task.finish()
@@ -254,15 +253,15 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         print("liveStateDidChange: \(state.rawValue)")
         switch state {
         case LFLiveState.ready:
-            stateLabel.text = ComponentText.noConnect.text
+            changeButtonTintColor(stateButton, false, UIImage.asset(.onAir) ?? UIImage())
         case LFLiveState.pending:
-            stateLabel.text = ComponentText.connecting.text
+            changeButtonTintColor(stateButton, false, UIImage.asset(.onAir) ?? UIImage())
         case LFLiveState.start:
-            stateLabel.text = ComponentText.connected.text
+            changeButtonTintColor(stateButton, true, UIImage.asset(.onAir) ?? UIImage())
         case LFLiveState.error:
-            stateLabel.text = ComponentText.connectError.text
+            changeButtonTintColor(stateButton, false, UIImage.asset(.onAir) ?? UIImage())
         case LFLiveState.stop:
-            stateLabel.text = ComponentText.disconnect.text
+            changeButtonTintColor(stateButton, false, UIImage.asset(.onAir) ?? UIImage())
         default:
             break
         }
@@ -284,39 +283,37 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         return containerView
     }()
     // Label
-    var stateLabel: UILabel = {
-        let stateLabel = UILabel(frame: CGRect(x: 20, y: 40, width: 80, height: 40))
+    var stateButton: UIButton = {
+        let stateLabel = UIButton(frame: CGRect(x: 20, y: 40, width: 80, height: 40))
         stateLabel.roundCorners(cornerRadius: 8)
-        stateLabel.text = ComponentText.noConnect.text
-        stateLabel.textColor = UIColor.white
-        stateLabel.contentMode = .center
-        stateLabel.backgroundColor = UIColor.primary
-        stateLabel.font = UIFont.systemFont(ofSize: 14)
+//        stateLabel.isEnabled = false
+//        stateLabel.text = ComponentText.noConnect.text
+        stateLabel.setImage(UIImage.asset(.onAir), for: .normal)
         return stateLabel
     }()
     // close
     var closeButton: UIButton = {
-        let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 10 - 44, y: 80, width: 44, height: 44))
-        closeButton.setImage(UIImage.asset(.Icons_close_preview), for: UIControl.State())
+        let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: 70, width: 32, height: 32))
+        closeButton.setImage(UIImage.asset(.close)?.maskWithColor(color: UIColor.primary), for: UIControl.State())
         return closeButton
     }()
     // camera
     var cameraButton: UIButton = {
         let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 430, width: 44, height: 44))
-        cameraButton.setImage(UIImage.asset(.Icons_camera_preview), for: UIControl.State())
+        cameraButton.setImage(UIImage.asset(.Icons_camera_preview)?.maskWithColor(color: .primary), for: UIControl.State())
         return cameraButton
     }()
     //  camera
     var beautyButton: UIButton = {
         let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 380, width: 44, height: 44))
-        beautyButton.setImage(UIImage.asset(.Icons_camera_beauty), for: UIControl.State.selected)
-        beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close), for: UIControl.State())
+        beautyButton.setImage(UIImage.asset(.Icons_camera_beauty)?.maskWithColor(color: .primary), for: UIControl.State.selected)
+        beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close)?.maskWithColor(color: .primary), for: UIControl.State())
         return beautyButton
     }()
     // record
     var recordButton: UIButton = {
         let recordButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 530, width: 44, height: 44))
-        recordButton.setImage(UIImage.asset(.play), for: UIControl.State())
+        recordButton.setImage(UIImage.asset(.play)?.maskWithColor(color: .primary), for: UIControl.State())
         return recordButton
     }()
     
@@ -345,7 +342,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         startLiveButton.setTitleColor(UIColor.black, for: UIControl.State())
         startLiveButton.setTitle("開始直播", for: UIControl.State())
         startLiveButton.setTitleColor(UIColor.white, for: .normal)
-        startLiveButton.titleLabel!.font = UIFont.systemFont(ofSize: 25)
+        startLiveButton.titleLabel!.font = UIFont.systemFont(ofSize: 22)
         startLiveButton.backgroundColor = UIColor.primary
         startLiveButton.addTarget(self, action: #selector(startStreaming(_:)), for: .touchUpInside)
     }
@@ -357,8 +354,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     @objc func startStreaming(_ sender: UIButton) {
         // STT
-        //        requestPermission()
-        //        startSpeechRecognization()
+//        requestPermission()
+//        startSpeechRecognization()
+        
         postPushStreamingInfo()
         startLiveButton.isHidden = true
         closeButton.isHidden = true
@@ -367,6 +365,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         view.addSubview(beautyButton)
         view.addSubview(recordButton)
         view.addSubview(stopLiveButton)
+        view.addSubview(stateButton)
     }
     
     @objc func didTappedStopLiveButton(_ button: UIButton) {
@@ -416,9 +415,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         // change button image
         isRecordingClicked = !isRecordingClicked
         if isRecordingClicked {
-            recordButton.setImage(UIImage.asset(.stop), for: .normal)
+            recordButton.setImage(UIImage.asset(.stop)?.maskWithColor(color: .primary), for: .normal)
         } else {
-            recordButton.setImage(UIImage.asset(.play), for: .normal)
+            recordButton.setImage(UIImage.asset(.play)?.maskWithColor(color: .primary), for: .normal)
         }
         // start record
         
@@ -508,13 +507,13 @@ private enum ComponentText {
     case closelive
     var text: String {
         switch self {
-        case .noConnect: return "No connect"
-        case .connecting: return "Connecting"
-        case .connected: return "Connected"
-        case .connectError: return "Connect error"
-        case .disconnect: return "Disconnect"
-        case .startLive: return "Start"
-        case .closelive: return "Stop"
+        case .noConnect: return "沒有連線"
+        case .connecting: return "連線中"
+        case .connected: return "已連線"
+        case .connectError: return "連線失敗"
+        case .disconnect: return "關閉連線"
+        case .startLive: return "開始"
+        case .closelive: return "停止"
         }
     }
 }
@@ -532,5 +531,4 @@ extension PushViewController: CLLocationManagerDelegate, RPPreviewViewController
 }
 
 extension PushViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
 }
