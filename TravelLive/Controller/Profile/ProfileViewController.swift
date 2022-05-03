@@ -406,7 +406,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         // ImageView gesture
         let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        
+        if isFromOther {
+            cell.profileImageView.isUserInteractionEnabled = false
+        } else {
+            cell.profileImageView.isUserInteractionEnabled = true
+        }
         cell.profileImageView.addGestureRecognizer(tapGestureRecognizer)
         
         if propertyImages.isEmpty {
