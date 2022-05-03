@@ -26,6 +26,7 @@ class ProfileViewController: UIViewController {
     var profileInfo: ProfileObject?
     var imagePicker: ImagePicker!
     var isFromOther = false
+    var propertyOwnerId = String()
     var displayName: String? {
         didSet {
             profileView.reloadData()
@@ -36,7 +37,7 @@ class ProfileViewController: UIViewController {
             profileView.reloadData()
         }
     }
-    var postButton: UIButton = {
+    lazy var postButton: UIButton = {
         let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 230, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
         postButton.setImage(UIImage.asset(.add), for: UIControl.State())
@@ -68,13 +69,20 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         imageWidth = ((UIScreen.width - 4) / 3)  - 2
-        getUserInfo()
-        getUserProperty()
+        
         
         if !isFromOther {
+            getUserInfo(id: userID)
+            getUserProperty(id: userID)
+            
             postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
             view.addSubview(postButton)
             navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu)?.maskWithColor(color: UIColor.primary), style: .plain, target: self, action: #selector(createAlertSheet))]
+        } else {
+            getUserInfo(id: propertyOwnerId)
+            getUserProperty(id: propertyOwnerId)
+            
+            navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu)?.maskWithColor(color: UIColor.primary), style: .plain, target: self, action: #selector(blockUser))]
         }
         
         setNeedsStatusBarAppearanceUpdate()
@@ -125,8 +133,8 @@ class ProfileViewController: UIViewController {
         })
     }
     
-    private func getUserInfo() {
-        ProfileProvider.shared.fetchUserData(userId: userID) { [weak self] result in
+    private func getUserInfo(id: String) {
+        ProfileProvider.shared.fetchUserData(userId: id) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.profileInfo = data
@@ -143,10 +151,10 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func getUserProperty() {
+    func getUserProperty(id: String) {
         propertyImages.removeAll()
         
-        ProfileProvider.shared.fetchUserPropertyData(userId: userID) { [weak self] result in
+        ProfileProvider.shared.fetchUserPropertyData(userId: id) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.userPropertyData = data
@@ -165,16 +173,17 @@ class ProfileViewController: UIViewController {
                 self?.profileView.reloadData()
                 
             case .failure(let error):
+                print(error)
                 self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
     }
     
-    private func getLikedProperty() {
+    private func getLikedProperty(id: String) {
         propertyImages.removeAll()
         userPropertyData?.data.removeAll()
         
-        ProfileProvider.shared.fetchUserLikedData(userId: userID) { [weak self] data in
+        ProfileProvider.shared.fetchUserLikedData(userId: id) { [weak self] data in
             switch data {
             case .success(let data):
                 self?.userPropertyData = data
@@ -191,6 +200,7 @@ class ProfileViewController: UIViewController {
                     }
                 }
             case .failure(let error):
+                print(error)
                 self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
@@ -210,25 +220,31 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    @objc func showUserProperty(_ notification: NSNotification) {
-        getUserProperty()
+    @objc private func showUserProperty(_ notification: NSNotification) {
+//        if !isFromOther {
+//            getUserProperty(id: userID)
+//        } else {
+//            getUserProperty(id: propertyOwnerId)
+//
+//        }
+        getUserProperty(id: userID)
         postButton.isHidden = false
     }
     
-    @objc func showLikedProperty(_ notification: NSNotification) {
-        getLikedProperty()
+    @objc private func showLikedProperty(_ notification: NSNotification) {
+        getLikedProperty(id: userID)
         postButton.isHidden = true
     }
     
-    @objc func createAlertSheet() {
+    @objc private func createAlertSheet() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "編輯資料", style: .default, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "編輯", style: .default, handler: { [weak self] _ in
             self?.createModifyNameAlert()
         }))
         alertController.addAction(UIAlertAction(title: "登出", style: .default, handler: { [weak self] _ in
             self?.signOut()
         }))
-        alertController.addAction(UIAlertAction(title: "刪除帳號", style: .default, handler: { _ in
+        alertController.addAction(UIAlertAction(title: "刪除", style: .default, handler: { _ in
             ProfileProvider.shared.deleteAccount(userId: userID)
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
@@ -238,8 +254,26 @@ class ProfileViewController: UIViewController {
         self.present(alertController, animated: true)
     }
     
+    @objc private func blockUser() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此人", style: .default, handler: { [weak self] _ in
+            self?.postBlockData()
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+        }))
+        
+        alertController.view.tintColor = UIColor.black
+        self.present(alertController, animated: true)
+    }
+    
+    private func postBlockData() {
+        DetailDataProvider.shared.postBlockData(
+            userId: userID, blockId: propertyOwnerId
+        )
+    }
+    
     // User sign out
-    func signOut() {
+    private func signOut() {
         do {
             try Auth.auth().signOut()
             userID = ""
@@ -248,7 +282,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    @objc func postImage(_ sender: UIButton) {
+    @objc private func postImage(_ sender: UIButton) {
         imagePickerController.delegate = self
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             // 如果可以，指定 UIImagePickerController 的照片來源為 照片圖庫 (.photoLibrary)，並 present UIImagePickerController
@@ -260,11 +294,11 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    @objc func hideBanner(_ button: UIButton) {
+    @objc private func hideBanner(_ button: UIButton) {
         bannerView.isHidden = true
     }
     
-    func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
+    private func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
         // Create the temporary directory.
         let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         // create a temporary file for us to copy the video to.
@@ -350,6 +384,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         if isFromOther {
             header.changePropertySegment.isHidden = true
+            header.avatarImageView.isUserInteractionEnabled = false
         }
         
         if displayName == nil {
@@ -371,11 +406,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         // ImageView gesture
         let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        if isFromOther {
-            cell.profileImageView.isUserInteractionEnabled = false
-        } else {
-            cell.profileImageView.isUserInteractionEnabled = true
-        }
+        
         cell.profileImageView.addGestureRecognizer(tapGestureRecognizer)
         
         if propertyImages.isEmpty {

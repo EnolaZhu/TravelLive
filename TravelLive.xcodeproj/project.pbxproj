@@ -77,7 +77,6 @@
 		4BA5E3A9280E9FB400D421D0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3A8280E9FB400D421D0 /* DetailViewController.swift */; };
 		4BA5E3AB280EC4D600D421D0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */; };
 		4BA5E3AE280F133900D421D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */; };
-		4BA5E3B2280F9D2900D421D0 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B0280F9D2900D421D0 /* ReportViewController.swift */; };
 		4BA5E3B3280F9D2A00D421D0 /* ReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */; };
 		4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B5280FB10500D421D0 /* ReportBody.swift */; };
 		4BA5E3B8280FB36300D421D0 /* DetailDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B7280FB36200D421D0 /* DetailDataProvider.swift */; };
@@ -210,7 +209,6 @@
 		4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		4BA5E3AC280F0FEA00D421D0 /* TravelLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TravelLive.entitlements; sourceTree = "<group>"; };
 		4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		4BA5E3B0280F9D2900D421D0 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportViewController.xib; sourceTree = "<group>"; };
 		4BA5E3B5280FB10500D421D0 /* ReportBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBody.swift; sourceTree = "<group>"; };
 		4BA5E3B7280FB36200D421D0 /* DetailDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDataProvider.swift; sourceTree = "<group>"; };
@@ -510,14 +508,6 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
-		4BA5E3B9280FB5E500D421D0 /* Report */ = {
-			isa = PBXGroup;
-			children = (
-				4BA5E3B0280F9D2900D421D0 /* ReportViewController.swift */,
-			);
-			path = Report;
-			sourceTree = "<group>";
-		};
 		4BB5A92A280D693500739C61 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -631,7 +621,6 @@
 		4BC1074F27FB45FC0017B1B7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4BA5E3B9280FB5E500D421D0 /* Report */,
 				4BA5E3A7280E9FA100D421D0 /* Detail */,
 				4B3AAAEF280873B400CBFE89 /* Profile */,
 				4B3AAAE428081CC100CBFE89 /* Event */,
@@ -1055,7 +1044,6 @@
 				4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */,
 				4B1ED6252813BFB500674E6D /* ShareManager.swift in Sources */,
 				4BD373642804181800141A29 /* SearchViewController.swift in Sources */,
-				4BA5E3B2280F9D2900D421D0 /* ReportViewController.swift in Sources */,
 				4B060CC2280C66590055EDB2 /* SearchCollectionViewCell.swift in Sources */,
 				4B17A88A2815C6880006BB2D /* DetailViewImageCell.swift in Sources */,
 				4B97880A28106E660003CC9F /* ConvertQuery.swift in Sources */,
