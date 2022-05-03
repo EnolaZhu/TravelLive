@@ -141,7 +141,7 @@ class MapViewController: UIViewController {
     private func setUpButtons() {
         setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
         setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
-        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
+        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.primary)
     }
     
    

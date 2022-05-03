@@ -48,7 +48,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     private func getLocationLabel(title: String) -> UILabel {
         locationLabel.frame = CGRect(x: cornerRadius, y: Double(eventImageView.bounds.maxY - 90), width: 250 - cornerRadius * 2, height: 30)
         locationLabel.text = title
-        locationLabel.textColor = UIColor.primary
+        locationLabel.textColor = UIColor.white
         locationLabel.font = locationLabel.font.withSize(16)
         locationLabel.numberOfLines = 1
         return locationLabel

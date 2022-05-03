@@ -17,6 +17,8 @@ class MapDetailViewController: UIViewController {
         registerCell()
         mapDetailTableView.separatorStyle = .none
         mapDetailTableView.dataSource = self
+        view.backgroundColor = UIColor.backgroundColor
+        mapDetailTableView.backgroundColor = UIColor.backgroundColor
     }
     
     override func viewWillAppear(_ animated: Bool) {

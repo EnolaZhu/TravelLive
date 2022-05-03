@@ -140,7 +140,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             // 產生 Apple ID 登入的 Credential
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             
-//            showMainView()
+            showMainView()
             // 與 Firebase Auth 進行串接
             firebaseSignInWithApple(credential: credential)
         }
