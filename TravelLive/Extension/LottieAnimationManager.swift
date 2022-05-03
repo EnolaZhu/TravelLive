@@ -33,4 +33,16 @@ class LottieAnimationManager {
             }
         }
     }
+    
+     // Show lottie animation on button
+    func showLoadingAnimationInButton(view: UIView, name: String) {
+        let animationView = AnimationView(name: name)
+        animationView.isHidden = false
+        animationView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        animationView.center = view.center
+        animationView.contentMode = .scaleAspectFill
+        animationView.loopMode = .loop
+        animationView.play()
+        view.addSubview(animationView)
+    }
 }
