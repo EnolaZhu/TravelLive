@@ -8,7 +8,7 @@
 import Foundation
 
 struct ProfilePropertyObject: Decodable {
-    let data: [Property]
+    var data: [Property]
 }
 
 struct Property: Decodable {
@@ -20,12 +20,14 @@ struct Property: Decodable {
     let fileUrl: String
     let thumbnailUrl: String
     let timestamp: String
+    let name: String
+    let avatar: String
     
     enum CodingKeys: String, CodingKey {
         case propertyId = "id"
         case userId = "uid"
         case fileUrl = "file_url"
         case thumbnailUrl = "thumbnail_url"
-        case tag, type, format, timestamp
+        case tag, type, format, timestamp, name, avatar
     }
 }

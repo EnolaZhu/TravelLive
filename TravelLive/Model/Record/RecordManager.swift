@@ -23,19 +23,20 @@ class RecordManager {
         })
     }
     
-    func stopRecording(_ sender: UIButton, _ record: RPScreenRecorder, _ vc: UIViewController) {
-        record.stopRecording( handler: { previewViewController, error in
+    func stopRecording(_ record: RPScreenRecorder, _ theVC: UIViewController, completion: @escaping (Result<Any>) -> Void) {
+        record.stopRecording(handler: { previewViewController, error in
             if let pvc = previewViewController {
                 if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
                     pvc.modalPresentationStyle = UIModalPresentationStyle.popover
                     pvc.popoverPresentationController?.sourceRect = CGRect.zero
-                    pvc.popoverPresentationController?.sourceView = vc.view
+                    pvc.popoverPresentationController?.sourceView = theVC.view
                 }
-                pvc.previewControllerDelegate = vc as? RPPreviewViewControllerDelegate
-                vc.present(pvc, animated: true, completion: nil)
-            }
-            else if let error = error {
+                pvc.previewControllerDelegate = theVC as? RPPreviewViewControllerDelegate
+                theVC.present(pvc, animated: true, completion: nil)
+                completion(Result.success(previewViewController))
+            } else if let error = error {
                 print(error.localizedDescription)
+                    completion(Result.failure(error))
             }
         })
     }

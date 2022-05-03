@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "map.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Icons_map.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

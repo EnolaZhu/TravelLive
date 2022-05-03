@@ -29,14 +29,14 @@ class MapViewController: UIViewController {
     var containerView = UIView()
     let placeButton = UIButton()
     let eventButton = UIButton()
+    let streamButton = UIButton()
     var showTypeOfMarker = String()
+    var isButtonSelected = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // fake button
         
-        placeButton.setImage(UIImage.asset(.place), for: UIControl.State())
-        eventButton.setImage(UIImage.asset(.event), for: UIControl.State())
+        setUpButtons()
         
         // Location
         self.locationManager.requestAlwaysAuthorization()
@@ -57,9 +57,8 @@ class MapViewController: UIViewController {
         }
         mapView.delegate = self
         
-        
-        
         setUpContainerView()
+        setUpStreamButton()
         setUpPlaceButton()
         setUpEventButton()
     }
@@ -74,6 +73,7 @@ class MapViewController: UIViewController {
         
         placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
+        streamButton.addTarget(self, action: #selector(getStreamerData), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -85,6 +85,7 @@ class MapViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        containerView.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         containerView.roundCorners(cornerRadius: 10.0)
     }
     
@@ -96,22 +97,33 @@ class MapViewController: UIViewController {
         view.addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
-            [containerView.widthAnchor.constraint(equalToConstant: 150),
+            [containerView.widthAnchor.constraint(equalToConstant: 200),
              containerView.heightAnchor.constraint(equalToConstant: 50),
              containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
              containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30)]
         )
-        containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        containerView.backgroundColor = UIColor.backgroundColor
     }
     
     private func setUpPlaceButton() {
         containerView.addSubview(placeButton)
         placeButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
-            [placeButton.widthAnchor.constraint(equalToConstant: 44),
-             placeButton.heightAnchor.constraint(equalToConstant: 44),
-             placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
-             placeButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 25)]
+            [placeButton.widthAnchor.constraint(equalToConstant: 55),
+             placeButton.heightAnchor.constraint(equalToConstant: 55),
+             placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 3),
+             placeButton.leftAnchor.constraint(equalTo: streamButton.rightAnchor, constant: 15)]
+        )
+    }
+    
+    private func setUpStreamButton() {
+        containerView.addSubview(streamButton)
+        streamButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [streamButton.widthAnchor.constraint(equalToConstant: 40),
+             streamButton.heightAnchor.constraint(equalToConstant: 40),
+             streamButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+             streamButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 25)]
         )
     }
     
@@ -119,14 +131,34 @@ class MapViewController: UIViewController {
         containerView.addSubview(eventButton)
         eventButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
-            [eventButton.widthAnchor.constraint(equalToConstant: 30),
-             eventButton.heightAnchor.constraint(equalToConstant: 30),
-             eventButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-             eventButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -25)]
+            [eventButton.widthAnchor.constraint(equalToConstant: 42),
+             eventButton.heightAnchor.constraint(equalToConstant: 42),
+             eventButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 3),
+             eventButton.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -15)]
         )
     }
     
+    private func setUpButtons() {
+        setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
+        setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
+        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.primary)
+    }
+    
+   
+    
+    @objc func getStreamerData(_ sender: UIButton) {
+        fetchStreamerData()
+        isButtonSelected.toggle()
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.Icons_live)!)
+        
+        setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
+        setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
+    }
+    
     private func fetchStreamerData() {
+        mapView.clear()
+        showTypeOfMarker = "streamer"
+        
         mapDataProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
                 
@@ -154,9 +186,15 @@ class MapViewController: UIViewController {
     }
     
     @objc func getEventData(_ sender: UIButton) {
+        isButtonSelected.toggle()
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.event)!)
+        
+        setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
+        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
+        
         mapView.clear()
         showTypeOfMarker = "event"
-        mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+        mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
             switch result {
             case .success(let places):
                 self?.eventData = places
@@ -164,7 +202,7 @@ class MapViewController: UIViewController {
                 if eventData.data.count > 0 {
                     guard let eventData = self?.eventData else { return }
                     for index in 0...eventData.data.count - 1 {
-                        ImageManager.shared.fetchImage(imageUrl: eventData.data[index].image) { image in
+                        ImageManager.shared.fetchImage(imageUrl: eventData.data[index].image) { [weak self] image in
                             self?.makeCustomMarker(latitude: Float(eventData.data[index].latitude), longitude: Float(eventData.data[index].longitude), pinImage: image, isStreamer: false)
                         }
                     }
@@ -176,16 +214,22 @@ class MapViewController: UIViewController {
     }
     
     @objc func getPlaceData(_ sender: UIButton) {
+        isButtonSelected.toggle()
+        changeButtonTintColor(sender, isButtonSelected, UIImage.asset(.Icons_attractions)!)
+        
+        setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
+        setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
+        
         mapView.clear()
         showTypeOfMarker = "place"
-        mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+        mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
             switch result {
             case .success(let places):
                 self?.placeData = places
                 guard let placeData = self?.placeData else { return }
                 if placeData.data.count > 0 {
                     for index in 0...placeData.data.count - 1 {
-                        ImageManager.shared.fetchImage(imageUrl: placeData.data[index].image) { image in
+                        ImageManager.shared.fetchImage(imageUrl: placeData.data[index].image) { [weak self] image in
                             self?.makeCustomMarker(latitude: Float(placeData.data[index].latitude), longitude: Float(placeData.data[index].longitude), pinImage: image, isStreamer: false)
                         }
                     }
@@ -198,8 +242,8 @@ class MapViewController: UIViewController {
     
     
     private func getImage(index: Int, latitude: Float, longitude: Float, data: Streamer) {
-        ImageManager.shared.fetchImage(imageUrl: data.avatar) { image in
-            self.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image, isStreamer: true)
+        ImageManager.shared.fetchImage(imageUrl: data.avatar) { [weak self] image in
+            self?.makeCustomMarker(latitude: latitude, longitude: longitude, pinImage: image, isStreamer: true)
         }
     }
     
@@ -207,28 +251,28 @@ class MapViewController: UIViewController {
         let marker = GMSMarker()
         
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
-        
-        var size = CGSize()
-        if isStreamer {
-            size = CGSize(width: 88, height: 88)
-        } else {
-            size = CGSize(width: 77, height: 77)
-        }
-        
-        UIGraphicsBeginImageContext(size)
-        
-        pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        var rect = CGRect()
         
         if isStreamer {
-            marker.layer.borderWidth = 10
-            marker.layer.borderColor = UIColor.orange.cgColor
-            marker.icon = resizedImage?.circularImage(44)
+            rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         } else {
-            marker.icon = resizedImage
+            rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         }
+        
+        let imageView = UIImageView(frame: rect)
+        imageView.layer.cornerRadius = imageView.frame.size.width / 2
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 4
+        
+        if isStreamer {
+            imageView.layer.borderColor = UIColor.primary.cgColor
+        } else {
+            imageView.layer.borderColor = UIColor.backgroundColor.cgColor
+        }
+        
+        imageView.image = pinImage
+        marker.iconView = imageView
         marker.map = self.mapView
-        mapView.selectedMarker = marker
     }
 }
 
@@ -255,8 +299,9 @@ extension MapViewController: GMSMapViewDelegate {
             })
             
             guard let url = specificStreamer?.first?.pullUrl else { return false }
+            guard let streamerId = specificStreamer?.first?.streamerId else { return false }
             self.url = url
-            createLiveRoom(streamerUrl: url)
+            createLiveRoom(streamerUrl: url, channelName: streamerId)
         }
         return true
     }
@@ -273,11 +318,11 @@ extension MapViewController: GMSMapViewDelegate {
         show(detailVC, sender: nil)
     }
     
-    private func createLiveRoom(streamerUrl: String) {
+    private func createLiveRoom(streamerUrl: String, channelName: String) {
         let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
         )
-        
         guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
+        pullVC.channelName = channelName
         pullVC.streamingUrl = url
         show(pullVC, sender: nil)
     }

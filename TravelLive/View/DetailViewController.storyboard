@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vHY-7O-8w8">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Detail View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="DetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="DetailViewController" customModule="TravelLive" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Otf-RY-8y0">
+                                <rect key="frame" x="0.0" y="88" width="414" height="708"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TVz-Tt-WE3">
+                                <rect key="frame" x="24" y="812" width="322" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="editComment:" destination="Y6W-OH-hqX" eventType="editingDidEnd" id="tnA-Aj-ebu"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wke-dn-eFP">
+                                <rect key="frame" x="354" y="807" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="Sls-pi-ox1"/>
+                                    <constraint firstAttribute="width" secondItem="wke-dn-eFP" secondAttribute="height" multiplier="1:1" id="Swi-nZ-1LU"/>
+                                    <constraint firstAttribute="height" constant="44" id="Tg6-qa-tPv"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="send"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Otf-RY-8y0" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="31i-eZ-mgS"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Otf-RY-8y0" secondAttribute="trailing" id="Azb-gO-HyW"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="wke-dn-eFP" secondAttribute="trailing" constant="16" id="Ehz-Es-Tcn"/>
+                            <constraint firstItem="TVz-Tt-WE3" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" constant="-16" id="IDl-a0-420"/>
+                            <constraint firstItem="TVz-Tt-WE3" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="24" id="MAv-lX-JjU"/>
+                            <constraint firstItem="wke-dn-eFP" firstAttribute="leading" secondItem="TVz-Tt-WE3" secondAttribute="trailing" constant="8" id="QFi-zt-AMa"/>
+                            <constraint firstItem="Otf-RY-8y0" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="iml-KX-D76"/>
+                            <constraint firstItem="TVz-Tt-WE3" firstAttribute="centerY" secondItem="wke-dn-eFP" secondAttribute="centerY" id="jwz-st-yUA"/>
+                            <constraint firstItem="TVz-Tt-WE3" firstAttribute="top" secondItem="Otf-RY-8y0" secondAttribute="bottom" constant="16" id="sRA-lw-JvV"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="iJV-Qd-PU0"/>
+                    <connections>
+                        <outlet property="commentTextField" destination="TVz-Tt-WE3" id="OOS-Y5-XR3"/>
+                        <outlet property="detailTableView" destination="Otf-RY-8y0" id="NaM-PK-Z4S"/>
+                        <outlet property="sendCommentButton" destination="wke-dn-eFP" id="b66-5I-dvN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="915.94202898550736" y="63.616071428571423"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="9Ex-gi-kGF">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vHY-7O-8w8" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NbX-5l-5Vu">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="0cB-8d-TZd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1je-0Q-QE3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5.7971014492753632" y="63.616071428571423"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="send" width="16" height="16"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

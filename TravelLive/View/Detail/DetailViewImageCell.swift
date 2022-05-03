@@ -14,7 +14,6 @@ class DetailViewImageCell: UITableViewCell {
     @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var loveButton: UIButton!
     @IBOutlet weak var userAvatarimage: UIImageView!
-    @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     
     var propertyId: String?
@@ -24,6 +23,8 @@ class DetailViewImageCell: UITableViewCell {
         // Initialization code
         self.selectionStyle = .none
         userAvatarimage.makeRounded()
+        setUpButtons()
+        userName.font = UIFont.boldSystemFont(ofSize: 17.0)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -33,14 +34,20 @@ class DetailViewImageCell: UITableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeHeart(_:)), name: .changeLoveButtonKey, object: nil)
     }
     
-    func layoutCell(mainImage: UIImage, propertyId: String, isLiked: Bool) {
+    private func setUpButtons() {
+        setUpButtonBasicColor(shareButton, UIImage.asset(.share) ?? UIImage(), color: UIColor.primary)
+        setUpButtonBasicColor(loveButton, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
+        setUpButtonBasicColor(reportButton, UIImage.asset(.option) ?? UIImage(), color: UIColor.primary)
+    }
+    
+    func layoutCell(mainImage: UIImage, propertyId: String, isLiked: Bool, imageOwnerName: String, avatar: UIImage) {
         userUploadImageView.contentMode = .scaleAspectFill
         userUploadImageView.image = mainImage
-        userAvatarimage.image = UIImage(named: "avatar")?.circularImage(22)
-        userName.text = "Enola"
+        userAvatarimage.image = avatar.circularImage(22)
+        userName.text = imageOwnerName
         
         if isLiked {
-            loveButton.setImage(UIImage.asset(.theheart), for: .normal)
+            setUpButtonBasicColor(loveButton, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         } 
         self.propertyId = propertyId
     }
@@ -50,8 +57,9 @@ class DetailViewImageCell: UITableViewCell {
             return
             
         } else {
-            DetailDataProvider.shared.postLike(propertyId: propertyId ?? "", userId: "Enola", isLiked: true)
+            DetailDataProvider.shared.postLike(propertyId: propertyId ?? "", userId: userID, isLiked: true)
             loveButton.setImage(UIImage.asset(.theheart), for: .normal)
+            setUpButtonBasicColor(loveButton, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
     }
 }

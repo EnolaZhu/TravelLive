@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "stop-button.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "rec-stop.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

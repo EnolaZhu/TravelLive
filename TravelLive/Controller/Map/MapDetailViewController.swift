@@ -17,6 +17,8 @@ class MapDetailViewController: UIViewController {
         registerCell()
         mapDetailTableView.separatorStyle = .none
         mapDetailTableView.dataSource = self
+        view.backgroundColor = UIColor.backgroundColor
+        mapDetailTableView.backgroundColor = UIColor.backgroundColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,21 +50,23 @@ extension MapDetailViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewImageCell.self), for: indexPath)
             guard let placeEventViewImageCell = cell as? PlaceEventViewImageCell else { return cell }
+            placeEventViewImageCell.selectionStyle = .none
             
             if detailPlaceData == nil {
-                ImageManager.shared.fetchImage(imageUrl: detailEventData?.image ?? "") { image in
+                ImageManager.shared.fetchImage(imageUrl: detailEventData?.image ?? "") { [weak self] image in
                     placeEventViewImageCell.layoutCell(image: image)
                 }
             } else {
-                ImageManager.shared.fetchImage(imageUrl: detailPlaceData?.image ?? "") { image in
+                ImageManager.shared.fetchImage(imageUrl: detailPlaceData?.image ?? "") { [weak self] image in
                     placeEventViewImageCell.layoutCell(image: image)
                 }
             }
-            
             return placeEventViewImageCell
+            
         } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewTitleCell.self), for: indexPath)
             guard let placeEventViewTitleCell = cell as? PlaceEventViewTitleCell else { return cell }
+            placeEventViewTitleCell.selectionStyle = .none
             
             if detailPlaceData == nil {
                 placeEventViewTitleCell.layoutCell(title: detailEventData?.title ?? "暫無")
@@ -74,6 +78,7 @@ extension MapDetailViewController: UITableViewDataSource {
         } else if indexPath.row == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewLocationCell.self), for: indexPath)
             guard let placeEventViewLocationCell = cell as? PlaceEventViewLocationCell else { return cell }
+            placeEventViewLocationCell.selectionStyle = .none
             
             if detailPlaceData == nil {
                 placeEventViewLocationCell.layoutCell(title: detailEventData?.city ?? "暫無資料", detail: detailEventData?.address ?? "暫無資料")
@@ -81,9 +86,11 @@ extension MapDetailViewController: UITableViewDataSource {
                 placeEventViewLocationCell.layoutCell(title: detailPlaceData?.city ?? "暫無資料", detail: detailPlaceData?.distric ?? "暫無資料")
             }
             return placeEventViewLocationCell
+            
         } else if indexPath.row == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewContentCell.self), for: indexPath)
             guard let placeEventViewContentCell = cell as? PlaceEventViewContentCell else { return cell }
+            placeEventViewContentCell.selectionStyle = .none
             
             if detailPlaceData == nil {
                 placeEventViewContentCell.layoutCell(content: detailEventData?.content ?? "暫無資料")
@@ -91,9 +98,11 @@ extension MapDetailViewController: UITableViewDataSource {
                 placeEventViewContentCell.layoutCell(content: detailPlaceData?.content ?? "暫無資料")
             }
             return placeEventViewContentCell
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewReuseCell.self), for: indexPath)
             guard let placeEventViewReuseCell = cell as? PlaceEventViewReuseCell else { return cell }
+            placeEventViewReuseCell.selectionStyle = .none
             
             if detailPlaceData == nil {
                 placeEventViewReuseCell.layoutCell(start: detailEventData?.start ?? " 暫無資料", end: detailEventData?.end ?? " 暫無資料")

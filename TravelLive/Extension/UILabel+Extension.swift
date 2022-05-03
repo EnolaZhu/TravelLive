@@ -27,6 +27,17 @@ extension UILabel {
             }
         }
     }
+    
+    func getNumberOfLines() -> Int {
+        layoutIfNeeded()
+
+        let myText = text! as NSString
+
+        let rect = CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude)
+        let labelSize = myText.boundingRect(with: rect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font as Any], context: nil)
+
+        return Int(ceil(CGFloat(labelSize.height) / font.lineHeight))
+    }
 }
 @IBDesignable
 class EdgeInsetLabel: UILabel {

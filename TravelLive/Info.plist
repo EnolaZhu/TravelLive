@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
+	<key>SignIn with Apple</key>
+	<string>en</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-3208816489149545~8888517840</string>
 	<key>SKAdNetworkItems</key>

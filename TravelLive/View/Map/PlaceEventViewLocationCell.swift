@@ -16,6 +16,7 @@ class PlaceEventViewLocationCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.backgroundColor = UIColor.backgroundColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -25,7 +26,6 @@ class PlaceEventViewLocationCell: UITableViewCell {
     }
     
     func layoutCell(title: String, detail: String) {
-        mapImageView.image = UIImage.asset(.mapIcon)
         locationTitleLabel.text = title
         detailLocationLabel.text = detail
     }

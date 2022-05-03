@@ -57,8 +57,8 @@ private enum Tab {
         case .shop:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.asset(.Icons_shop),
-                selectedImage: UIImage.asset(.Icons_shop)
+                image: UIImage.asset(.Icons_attractions),
+                selectedImage: UIImage.asset(.Icons_attractions)
             )
             
         case .profile:

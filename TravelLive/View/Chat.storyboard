@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -43,7 +43,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ufc-MG-wuk" customClass="EdgeInsetLabel" customModule="TravelLive" customModuleProvider="target">
-                                <rect key="frame" x="16" y="558" width="0.0" height="40"/>
+                                <rect key="frame" x="16" y="558" width="382" height="50"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -71,14 +71,14 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="zZE-Nx-sqX" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="8" id="ChK-pO-ODw"/>
-                            <constraint firstAttribute="bottom" secondItem="Ufc-MG-wuk" secondAttribute="bottom" constant="50" id="Gbc-KJ-3V4"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Ufc-MG-wuk" secondAttribute="bottom" constant="40" id="Gbc-KJ-3V4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="qVN-6X-8PQ" secondAttribute="trailing" constant="200" id="GsZ-yT-Mlf"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="qVN-6X-8PQ" secondAttribute="bottom" constant="100" id="HAp-JT-ka5"/>
                             <constraint firstItem="Ufc-MG-wuk" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="MPd-dd-qYF"/>
                             <constraint firstItem="qVN-6X-8PQ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="8" id="VeN-6U-Tv5"/>
                             <constraint firstItem="hUY-cY-Gv4" firstAttribute="leading" secondItem="qVN-6X-8PQ" secondAttribute="trailing" id="hQk-NP-nkl"/>
                             <constraint firstItem="Ufc-MG-wuk" firstAttribute="top" secondItem="qVN-6X-8PQ" secondAttribute="bottom" constant="10" id="mIM-vp-U0K"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ufc-MG-wuk" secondAttribute="trailing" constant="16" id="mM1-cQ-esm"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Ufc-MG-wuk" secondAttribute="trailing" constant="16" id="mM1-cQ-esm"/>
                             <constraint firstItem="qVN-6X-8PQ" firstAttribute="top" secondItem="zZE-Nx-sqX" secondAttribute="bottom" constant="5" id="sCe-3B-Pqd"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="zZE-Nx-sqX" secondAttribute="trailing" constant="180" id="yFI-gm-iE7"/>
                             <constraint firstItem="hUY-cY-Gv4" firstAttribute="top" secondItem="zZE-Nx-sqX" secondAttribute="bottom" constant="8" id="zCx-cZ-4CY"/>
@@ -89,6 +89,7 @@
                         <outlet property="caption" destination="Ufc-MG-wuk" id="dPn-EV-Nuk"/>
                         <outlet property="chatView" destination="zZE-Nx-sqX" id="cBA-vJ-v3G"/>
                         <outlet property="inputTextfield" destination="qVN-6X-8PQ" id="dmv-0M-ptE"/>
+                        <outlet property="sendButton" destination="hUY-cY-Gv4" id="Hee-D6-RPs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

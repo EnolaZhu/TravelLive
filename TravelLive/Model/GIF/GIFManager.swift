@@ -19,7 +19,7 @@ class GIFManager {
             print("\(outfileURL)")
             let convertQueue = DispatchQueue(label: "convertToGIF")
             convertQueue.async {
-                let _ = MobileFFmpeg.execute("-i \(fileURL.path) -vf fps=10,scale=150:-1 \(outfileURL.path)")
+                let _ = MobileFFmpeg.execute("-i \(fileURL.path) -vf fps=15,scale=250:-1 \(outfileURL.path)")
                 completion(Result.success("\(outfileURL)"))
             }
         } catch {

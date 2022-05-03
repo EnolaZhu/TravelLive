@@ -8,12 +8,22 @@
 import UIKit
 
 private enum CustomColor: String {
-    case primary = "EA444E"
+    case primary = "#ED83A2"
+    case secondary = "#909FA6"
+    case backgroundColor = "#FBEBEF"
 }
 
 extension UIColor {
     static var primary: UIColor {
         return UIColor.hexStringToUIColor(hex: CustomColor.primary.rawValue)
+    }
+    
+    static var secondary: UIColor {
+        return UIColor.hexStringToUIColor(hex: CustomColor.secondary.rawValue)
+    }
+    
+    static var backgroundColor: UIColor {
+        return UIColor.hexStringToUIColor(hex: CustomColor.backgroundColor.rawValue)
     }
 
     static func hexStringToUIColor(hex: String) -> UIColor {

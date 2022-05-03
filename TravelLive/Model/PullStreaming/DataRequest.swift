@@ -20,6 +20,13 @@ enum DataRequest: Request {
     case fetchUserliked(query: String)
     case fetchPlaceData(query: String)
     case fetchEventData(query: String)
+    case fetchSpecificPlaceData(query: String)
+    case fetchSpecificEventData(query: String)
+    case postUserInfo(body: Data?)
+    case postUserAvatar(body: Data?)
+    case deleteAccount(query: String)
+    case deleteProperty(query: String)
+    case putUserInfo(body: Data?)
     
     var headers: [String: String]? {
         switch self {
@@ -44,6 +51,20 @@ enum DataRequest: Request {
         case .fetchPlaceData:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .fetchEventData:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchSpecificPlaceData:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .fetchSpecificEventData:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .postUserInfo:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .postUserAvatar:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .deleteAccount:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .deleteProperty:
+            return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
+        case .putUserInfo:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         }
     }
@@ -71,6 +92,20 @@ enum DataRequest: Request {
             return nil
         case .fetchEventData:
             return nil
+        case .fetchSpecificPlaceData:
+            return nil
+        case .fetchSpecificEventData:
+            return nil
+        case .postUserInfo(let body):
+            return body
+        case .postUserAvatar(let body):
+            return body
+        case .deleteAccount:
+            return nil
+        case .deleteProperty:
+            return nil
+        case .putUserInfo(let body):
+            return body
         }
     }
     var method: String {
@@ -97,6 +132,20 @@ enum DataRequest: Request {
             return HTTPMethod.GET.rawValue
         case .fetchEventData:
             return HTTPMethod.GET.rawValue
+        case .fetchSpecificPlaceData:
+            return HTTPMethod.GET.rawValue
+        case .fetchSpecificEventData:
+            return HTTPMethod.GET.rawValue
+        case .postUserInfo:
+            return HTTPMethod.POST.rawValue
+        case .postUserAvatar:
+            return HTTPMethod.PUT.rawValue
+        case .deleteAccount:
+            return HTTPMethod.DELETE.rawValue
+        case .deleteProperty:
+            return HTTPMethod.DELETE.rawValue
+        case .putUserInfo:
+            return HTTPMethod.PUT.rawValue
         }
     }
     var endPoint: String {
@@ -123,6 +172,20 @@ enum DataRequest: Request {
             return "/place" + query
         case .fetchEventData(let query):
             return "/event" + query
+        case .fetchSpecificPlaceData(let query):
+            return "/place" + query
+        case .fetchSpecificEventData(let query):
+            return "/event" + query
+        case .postUserInfo:
+            return "/user"
+        case .postUserAvatar:
+            return "/avatar"
+        case .deleteAccount(let query):
+            return "/user" + query
+        case .deleteProperty(let query):
+            return "/storage" + query
+        case .putUserInfo:
+            return "/user"
         }
     }
 }

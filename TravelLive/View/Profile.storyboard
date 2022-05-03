@@ -12,7 +12,7 @@
         <!--Profile View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="ProfileViewController" customModule="TravelLive" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="ProfileViewController" customModule="TravelLive" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -25,7 +25,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XVc-Wf-PXs">
-                                <rect key="frame" x="0.0" y="88" width="414" height="724"/>
+                                <rect key="frame" x="2" y="88" width="410" height="724"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="W2S-Wn-d0X">
                                     <size key="itemSize" width="128" height="128"/>
@@ -58,47 +58,38 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="ProfileHeader" id="rk0-g5-6au" customClass="ProfileHeader" customModule="TravelLive" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="229"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="410" height="229"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cyv-jo-TpT">
-                                            <rect key="frame" x="147" y="16" width="120" height="120"/>
+                                            <rect key="frame" x="145" y="0.0" width="120" height="120"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="120" id="Ead-9b-DR8"/>
                                                 <constraint firstAttribute="width" secondItem="Cyv-jo-TpT" secondAttribute="height" multiplier="1:1" id="Ey1-K0-vB8"/>
                                                 <constraint firstAttribute="height" constant="120" id="pZQ-jM-Xap"/>
                                             </constraints>
                                         </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dEX-ST-0eg">
-                                            <rect key="frame" x="283" y="98" width="44" height="32"/>
+                                        <segmentedControl opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vQp-ur-6YS">
+                                            <rect key="frame" x="0.0" y="181" width="410" height="43"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="44" id="5dg-T1-OD3"/>
-                                                <constraint firstAttribute="width" constant="44" id="klx-LG-eiz"/>
+                                                <constraint firstAttribute="height" constant="42" id="OBo-gJ-jLf"/>
                                             </constraints>
-                                            <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title="">
-                                                <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </buttonConfiguration>
-                                        </button>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vQp-ur-6YS">
-                                            <rect key="frame" x="0.0" y="192" width="414" height="32"/>
                                             <segments>
-                                                <segment title="我的照片"/>
-                                                <segment title="我的喜歡"/>
+                                                <segment title=""/>
+                                                <segment title=""/>
                                             </segments>
                                             <connections>
                                                 <action selector="changeProfileProperty:" destination="rk0-g5-6au" eventType="valueChanged" id="Czn-Za-7kX"/>
                                             </connections>
                                         </segmentedControl>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIq-4o-qCl">
-                                            <rect key="frame" x="108" y="146" width="198" height="21"/>
+                                            <rect key="frame" x="108" y="135" width="194" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="dEX-ST-0eg" firstAttribute="leading" secondItem="Cyv-jo-TpT" secondAttribute="trailing" constant="16" id="2Ki-Qr-owr"/>
                                         <constraint firstItem="vQp-ur-6YS" firstAttribute="top" secondItem="yIq-4o-qCl" secondAttribute="bottom" constant="25" id="AWX-GL-E1l"/>
                                         <constraint firstAttribute="trailing" secondItem="vQp-ur-6YS" secondAttribute="trailing" id="F32-1N-4sL"/>
                                         <constraint firstItem="vQp-ur-6YS" firstAttribute="leading" secondItem="rk0-g5-6au" secondAttribute="leading" id="Fge-iW-0UH"/>
@@ -106,16 +97,13 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="yIq-4o-qCl" secondAttribute="trailing" constant="100" id="V0Q-X4-3di"/>
                                         <constraint firstItem="yIq-4o-qCl" firstAttribute="leading" secondItem="rk0-g5-6au" secondAttribute="leadingMargin" constant="100" id="V81-TN-WGa"/>
                                         <constraint firstItem="Cyv-jo-TpT" firstAttribute="centerX" secondItem="rk0-g5-6au" secondAttribute="centerX" id="iEB-8K-7Wt"/>
-                                        <constraint firstAttribute="bottom" secondItem="dEX-ST-0eg" secondAttribute="bottom" constant="99" id="jv5-go-hCr"/>
                                         <constraint firstItem="yIq-4o-qCl" firstAttribute="centerX" secondItem="rk0-g5-6au" secondAttribute="centerX" id="qGp-C0-7I5"/>
-                                        <constraint firstItem="Cyv-jo-TpT" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="top" constant="16" id="tXM-rU-Lu0"/>
-                                        <constraint firstItem="dEX-ST-0eg" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="top" constant="98" id="yl1-zA-apZ"/>
+                                        <constraint firstItem="Cyv-jo-TpT" firstAttribute="top" secondItem="rk0-g5-6au" secondAttribute="top" id="tXM-rU-Lu0"/>
                                     </constraints>
                                     <connections>
                                         <outlet property="avatarImageView" destination="Cyv-jo-TpT" id="4Xb-BI-b1D"/>
                                         <outlet property="changePropertySegment" destination="vQp-ur-6YS" id="su6-HZ-DPe"/>
-                                        <outlet property="editButton" destination="dEX-ST-0eg" id="nS4-tE-yOA"/>
-                                        <outlet property="profileWordLabel" destination="yIq-4o-qCl" id="aS0-4p-CS8"/>
+                                        <outlet property="displayNameLabel" destination="yIq-4o-qCl" id="fTi-fk-eV7"/>
                                     </connections>
                                 </collectionReusableView>
                             </collectionView>
@@ -125,8 +113,8 @@
                         <constraints>
                             <constraint firstItem="feO-Dq-xDI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="8RG-u8-6ey"/>
                             <constraint firstItem="feO-Dq-xDI" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="elD-EM-HGp"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="XVc-Wf-PXs" secondAttribute="trailing" id="ge6-CN-FJL"/>
-                            <constraint firstItem="XVc-Wf-PXs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="l7g-eX-sE8"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="XVc-Wf-PXs" secondAttribute="trailing" constant="2" id="ge6-CN-FJL"/>
+                            <constraint firstItem="XVc-Wf-PXs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="2" id="l7g-eX-sE8"/>
                             <constraint firstItem="XVc-Wf-PXs" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="topMargin" id="mYq-2P-EjR"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="feO-Dq-xDI" secondAttribute="trailing" id="stv-1P-5Wf"/>
                             <constraint firstItem="feO-Dq-xDI" firstAttribute="top" secondItem="XVc-Wf-PXs" secondAttribute="bottom" id="tUX-ez-lwz"/>
@@ -161,8 +149,8 @@
             <point key="canvasLocation" x="137.68115942028987" y="101.78571428571428"/>
         </scene>
     </scenes>
+    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
-        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

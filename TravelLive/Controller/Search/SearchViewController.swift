@@ -7,7 +7,6 @@
 
 import UIKit
 import FirebaseStorage
-import SwiftUI
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
     @IBOutlet weak var searchCollectionView: UICollectionView!
@@ -16,8 +15,9 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     var arrInstaBigCells = [Int]()
     var images = [UIImage]()
     var searchDataObjc: SearchDataObject?
-    let searchController = UISearchController()
+    var searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
+    var showNoResultLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,8 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         searchController.searchResultsUpdater = self
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
-        
+        // Fix searchbar hidden when change view
+        navigationItem.hidesSearchBarWhenScrolling = false
         
         var tempStorage = false
         for _ in 1...21 {
@@ -37,12 +38,13 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
-        searchCollectionView.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
+        searchCollectionView.backgroundColor = .backgroundColor
         searchCollectionView.dataSource = self
         searchCollectionView.delegate = self
         searchCollectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         searchCollectionView.contentOffset = CGPoint(x: -10, y: -10)
-        
+        searchController.searchBar.setValue("取消", forKey: "cancelButtonText")
         gridLayout.delegate = self
         gridLayout.itemSpacing = 3
         gridLayout.fixedDivisionCount = 3
@@ -51,15 +53,30 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+        
         images.removeAll()
         getSearchData()
         searchController.searchBar.text = ""
         searchController.searchBar.placeholder = "搜尋"
+        
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.navigationBar.backgroundColor = .backgroundColor
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.setStatusBar(backgroundColor: UIColor.backgroundColor)
+        navigationController?.navigationBar.setNeedsLayout()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
     
     // MARK: - UICollectionViewDataSource
@@ -102,6 +119,10 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 print("\(data)")
                 self?.searchDataObjc = data
                 guard let searchDataObjc = self?.searchDataObjc else { return }
+                if searchDataObjc.data.isEmpty {
+                    self?.searchCollectionView.reloadData()
+                }
+                
                 if searchDataObjc.data.count > 0 {
                     // placeholder
                     self?.images = [UIImage](repeating: UIImage(named: "placeholder") ?? UIImage(), count: searchDataObjc.data.count)
@@ -121,9 +142,9 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     private func getImage(searchData: SearchData, imageUrl: String, index: Int) {
         // Image
-        ImageManager.shared.fetchImage(imageUrl: imageUrl) { image in
-            self.images[index] = image
-            self.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+        ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
+            self?.images[index] = image
+            self?.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
     
@@ -134,24 +155,47 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             self.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
+    
+    private func setUpNoResultLabel() {
+        view.addSubview(showNoResultLabel)
+        
+        showNoResultLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            showNoResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            showNoResultLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            showNoResultLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50),
+            showNoResultLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50)
+        ])
+        showNoResultLabel.text = "暫無搜尋結果"
+        showNoResultLabel.textColor = UIColor.gray
+        showNoResultLabel.contentMode = .center
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, UISearchResultsUpdating {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        if images.count < indexPath.item + 1 { return }
         let image = images[indexPath.item]
-        let detailVC = DetailViewController()
+        
+        let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: String(describing: DetailViewController.self)
+        )
+        guard let detailVC = detailTableViewVC as? DetailViewController else { return }
+        
+        detailVC.detailData = searchDataObjc?.data[indexPath.row]
         detailVC.detailPageImage = image
         detailVC.propertyId = searchDataObjc?.data[indexPath.row].propertyId ?? ""
-        navigationController?.pushViewController(detailVC, animated: true)
+        detailVC.imageOwnerName = searchDataObjc?.data[indexPath.row].name ?? ""
+        
+        show(detailVC, sender: nil)
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else {
             return
         }
-        
         if text != "" {
+            print("updateSearchResults")
             images.removeAll()
             fetchSearchData(type: "?tag=" + text)
         } else {

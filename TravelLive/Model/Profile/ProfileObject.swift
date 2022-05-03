@@ -8,11 +8,7 @@
 import Foundation
 
 struct ProfileObject: Decodable {
-    let userId: String
+    let name: String
     let avatar: String
     
-    enum CodingKeys: String, CodingKey {
-        case avatar
-        case userId = "uid"
-    }
 }

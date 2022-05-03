@@ -19,12 +19,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        GMSServices.provideAPIKey(Secret.googleMapApiKey.rawValue)
+        GMSServices.provideAPIKey(Secret.googleMapApiKey.title)
         
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
         }
         UIApplication.shared.registerForRemoteNotifications()
+        
+        // Navigationbar color
+        if #available(iOS 15, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.configureWithOpaqueBackground()
+            navigationBarAppearance.titleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: UIColor.primary
+            ]
+            navigationBarAppearance.backgroundColor = UIColor.backgroundColor
+            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+            UINavigationBar.appearance().compactAppearance = navigationBarAppearance
+        }
+        
+        if let user = Auth.auth().currentUser {
+            userID = "\(user.uid)"
+        }
         
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         return true
@@ -45,6 +61,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        // Make all people subscribe topic "all"
+        NotificationManager.shared.subscribeTopic(topic: "all")
+        // 推出去版本請拿掉 test topic
+        NotificationManager.shared.subscribeTopic(topic: "test")
         
         let deviceTokenString = deviceToken.reduce("") {
             $0 + String(format: "%02x", $1)
