@@ -53,7 +53,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChatView()
-        caption.backgroundColor = UIColor.primary
         // Setting up our PubNub object
         let configuration = PNConfiguration(publishKey: Secret.pubNubPublishKey.title, subscribeKey: Secret.pubNubSubscribeKey.title)
         configuration.uuid = UUID().uuidString
@@ -115,6 +114,8 @@ class ChatViewController: BaseViewController, PNEventsListener {
     private func setupChatView() {
         chatView.registerCellWithNib(identifier: String(describing: MessageCell.self), bundle: nil)
         sendButton.setImage(UIImage.asset(.send)?.maskWithColor(color: UIColor.primary), for: .normal)
+        caption.backgroundColor = UIColor.primary
+        caption.roundCorners(cornerRadius: 6)
     }
     
     @IBAction func sendMessage(_ sender: UIButton) {
@@ -126,7 +127,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
             let messageString: String = inputTextfield.text!
             let messageObject: [String: Any] =
             [ "message": messageString,
-              "username": userID,
+              "username": "Enola",
               "uuid": client.uuid()
             ]
             

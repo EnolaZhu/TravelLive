@@ -24,11 +24,11 @@ class LoginViewController: UIViewController {
         authView.loginWithAppleButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
         view.backgroundColor = UIColor.backgroundColor
         
-//        if userID == "" {
-//            return
-//        } else {
+        if userID == "" {
+            return
+        } else {
             showMainView()
-//        }
+        }
     }
     
     func customAlert(title: String, message: String) {
@@ -128,19 +128,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 return
             }
             
-            guard let givenName = appleIDCredential.fullName?.givenName else { return }
-            guard let familyName = appleIDCredential.fullName?.familyName else { return }
+            let givenName = appleIDCredential.fullName?.givenName ?? ""
+            let familyName = appleIDCredential.fullName?.familyName ?? ""
             fullName = givenName + " " + familyName
-//            fullName = "\(String(describing: appleIDCredential.fullName?.givenName))" + "" + "\(String(describing: appleIDCredential.fullName?.familyName))"
             
             // 取得使用者的 id、name
-            
-            guard let idToken = appleIDCredential.identityToken else { return }
-            print("\(idTokenString)")
             // 產生 Apple ID 登入的 Credential
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             
-//            showMainView()
+            showMainView()
             // 與 Firebase Auth 進行串接
             firebaseSignInWithApple(credential: credential)
         }
@@ -155,19 +151,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         switch error {
         case ASAuthorizationError.canceled:
             print("使用者取消登入")
-            break
         case ASAuthorizationError.failed:
             print("授權請求失敗")
-            break
         case ASAuthorizationError.invalidResponse:
             print("授權請求無回應")
-            break
         case ASAuthorizationError.notHandled:
             print("授權請求未處理")
-            break
         case ASAuthorizationError.unknown:
             print("授權失敗，原因不知")
-            break
         default:
             break
         }
@@ -188,8 +179,7 @@ extension LoginViewController {
                 self.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))")
                 return
             }
-            print("\(self.getFirebaseUserInfo())")
-            print("登入成功！")
+            userID = (authResult?.user.uid)!
             self.getFirebaseUserInfo()
             self.showMainView()
         }
@@ -198,11 +188,8 @@ extension LoginViewController {
     // MARK: - Firebase 取得登入使用者的資訊
     func getFirebaseUserInfo() {
         let currentUser = Auth.auth().currentUser
-        guard let user = currentUser else {
-            customAlert(title: "無法取得使用者資料！", message: "")
-            return
-        }
         let userid = currentUser?.uid ?? userID
+        userID = userid
         ProfileProvider.shared.postUserInfo(userID: userid, name: fullName ?? userID)
     }
 }

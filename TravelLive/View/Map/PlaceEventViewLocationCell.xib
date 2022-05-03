@@ -52,7 +52,6 @@
             <connections>
                 <outlet property="detailLocationLabel" destination="xOT-3I-i9f" id="N6l-tk-74V"/>
                 <outlet property="locationTitleLabel" destination="VfB-ei-cqG" id="RIQ-gG-mNJ"/>
-                <outlet property="mapImageView" destination="x72-Rz-k9U" id="Sit-tj-IrN"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="144.97767857142856"/>
         </tableViewCell>

@@ -62,13 +62,6 @@ class ProfileViewController: UIViewController {
         profileView.contentInsetAdjustmentBehavior = .never
         profileView.showsVerticalScrollIndicator = false
         profileView.backgroundColor = UIColor.backgroundColor
-        
-        if !isFromOther {
-            postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
-            
-            view.addSubview(postButton)
-            navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu)?.maskWithColor(color: UIColor.primary), style: .plain, target: self, action: #selector(createAlertSheet))]
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,6 +70,12 @@ class ProfileViewController: UIViewController {
         imageWidth = ((UIScreen.width - 4) / 3)  - 2
         getUserInfo()
         getUserProperty()
+        
+        if !isFromOther {
+            postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
+            view.addSubview(postButton)
+            navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu)?.maskWithColor(color: UIColor.primary), style: .plain, target: self, action: #selector(createAlertSheet))]
+        }
         
         setNeedsStatusBarAppearanceUpdate()
         navigationController?.navigationBar.backgroundColor = .backgroundColor
