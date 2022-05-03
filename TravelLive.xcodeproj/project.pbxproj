@@ -38,7 +38,6 @@
 		4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */; };
 		4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4BBF7628043E4700A53128 /* DataRequest.swift */; };
 		4B503BFA281FBF1500E23942 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */; };
-		4B503BFC2820271C00E23942 /* navigationbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B503BFB2820271C00E23942 /* navigationbar.swift */; };
 		4B503BFE28203EFE00E23942 /* Heart break.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B503BFD28203EFE00E23942 /* Heart break.json */; };
 		4B503C0028203F1C00E23942 /* Live.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B503BFF28203F1C00E23942 /* Live.json */; };
 		4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B8A27FD28D600A304D6 /* LoginViewController.swift */; };
@@ -171,7 +170,6 @@
 		4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingBody.swift; sourceTree = "<group>"; };
 		4B4BBF7628043E4700A53128 /* DataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequest.swift; sourceTree = "<group>"; };
 		4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
-		4B503BFB2820271C00E23942 /* navigationbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navigationbar.swift; sourceTree = "<group>"; };
 		4B503BFD28203EFE00E23942 /* Heart break.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart break.json"; sourceTree = "<group>"; };
 		4B503BFF28203F1C00E23942 /* Live.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Live.json; sourceTree = "<group>"; };
 		4B552B8A27FD28D600A304D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -714,7 +712,6 @@
 				4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */,
 				4BEC55A8281DA7E600126786 /* String.Index+Extension.swift */,
 				4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */,
-				4B503BFB2820271C00E23942 /* navigationbar.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1056,7 +1053,6 @@
 				4BEAF1D5281471EF0094B90E /* PlaceEventViewReuseCell.swift in Sources */,
 				4B503BFA281FBF1500E23942 /* UINavigationController+Extension.swift in Sources */,
 				4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */,
-				4B503BFC2820271C00E23942 /* navigationbar.swift in Sources */,
 				4B1ED6252813BFB500674E6D /* ShareManager.swift in Sources */,
 				4BD373642804181800141A29 /* SearchViewController.swift in Sources */,
 				4BA5E3B2280F9D2900D421D0 /* ReportViewController.swift in Sources */,

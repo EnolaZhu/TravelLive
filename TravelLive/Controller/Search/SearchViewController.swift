@@ -38,6 +38,8 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
+        getSearchData()
+        
         view.backgroundColor = .backgroundColor
         searchCollectionView.backgroundColor = .backgroundColor
         searchCollectionView.dataSource = self
@@ -55,8 +57,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(false, animated: animated)
         
-        images.removeAll()
-        getSearchData()
         searchController.searchBar.text = ""
         searchController.searchBar.placeholder = "搜尋"
         
