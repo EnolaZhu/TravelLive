@@ -22,11 +22,12 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
+        
         // Fix searchbar hidden when change view
         navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.delegate = self
         
         var tempStorage = false
         for _ in 1...21 {
@@ -59,6 +60,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         
         searchController.searchBar.text = ""
         searchController.searchBar.placeholder = "搜尋"
+        searchController.searchBar.tintColor = UIColor.primary
         
         setNeedsStatusBarAppearanceUpdate()
         navigationController?.navigationBar.backgroundColor = .backgroundColor
@@ -87,8 +89,11 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionViewCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
+        
         if images.count > 0 {
             cell.imageView.image = images[indexPath.row]
+        } else {
+            cell.imageView.image = UIImage.asset(.placeholder)
         }
         return cell
     }
@@ -125,7 +130,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 
                 if searchDataObjc.data.count > 0 {
                     // placeholder
-                    self?.images = [UIImage](repeating: UIImage(named: "placeholder") ?? UIImage(), count: searchDataObjc.data.count)
+                    self?.images = [UIImage](repeating: UIImage.asset(.placeholder) ?? UIImage(), count: searchDataObjc.data.count)
                     for index in 0...searchDataObjc.data.count - 1 {
                         if searchDataObjc.data[index].thumbnailUrl == "" {
                             self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileUrl, index: index)
@@ -172,7 +177,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     }
 }
 
-extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, UISearchResultsUpdating {
+extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         if images.count < indexPath.item + 1 { return }
@@ -189,18 +194,22 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
         
         show(detailVC, sender: nil)
     }
-    
-    func updateSearchResults(for searchController: UISearchController) {
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchController.searchBar.text else {
             return
         }
         if text != "" {
-            print("updateSearchResults")
             images.removeAll()
+            searchBar.resignFirstResponder()
             fetchSearchData(userId: userID, tag: text)
-        } else {
-            print("Do nothing")
         }
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        fetchSearchData(userId: userID, tag: nil)
     }
 }
 
