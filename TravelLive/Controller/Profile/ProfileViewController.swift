@@ -63,6 +63,14 @@ class ProfileViewController: UIViewController {
         profileView.contentInsetAdjustmentBehavior = .never
         profileView.showsVerticalScrollIndicator = false
         profileView.backgroundColor = UIColor.backgroundColor
+        
+        if !isFromOther {
+            getUserInfo(id: userID)
+            getUserProperty(id: userID)
+        } else {
+            getUserInfo(id: propertyOwnerId)
+            getUserProperty(id: propertyOwnerId)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,16 +80,10 @@ class ProfileViewController: UIViewController {
         
         
         if !isFromOther {
-            getUserInfo(id: userID)
-            getUserProperty(id: userID)
-            
             postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
             view.addSubview(postButton)
             navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu)?.maskWithColor(color: UIColor.primary), style: .plain, target: self, action: #selector(createAlertSheet))]
         } else {
-            getUserInfo(id: propertyOwnerId)
-            getUserProperty(id: propertyOwnerId)
-            
             navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.asset(.menu)?.maskWithColor(color: UIColor.primary), style: .plain, target: self, action: #selector(blockUser))]
         }
         
@@ -330,7 +332,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 guard let imgUrl = imageUrl else { return }
                 PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPathWithTag) { [weak self] result in
                     if result == "" {
-                        self?.profileView.reloadData()
+                        self?.getUserInfo(id: userID)
+                        self?.getUserProperty(id: userID)
                     } else {
                         self?.view.makeToast("失敗", duration: 0.5, position: .center)
                     }
@@ -343,7 +346,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
             PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
                 if result == "" {
-                    self?.profileView.reloadData()
+                    self?.getUserInfo(id: userID)
+                    self?.getUserProperty(id: userID)
                 } else {
                     self?.view.makeToast("失敗", duration: 0.5, position: .center)
                 }
@@ -357,7 +361,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                     // Upload GIF file
                     PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath) { [weak self] result in
                         if result == "" {
-                            self?.profileView.reloadData()
+                            self?.getUserInfo(id: userID)
+                            self?.getUserProperty(id: userID)
                         } else {
                             self?.view.makeToast("失敗", duration: 0.5, position: .center)
                         }
