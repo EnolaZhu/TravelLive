@@ -10,8 +10,8 @@ import Foundation
 class MapDataProvider {
     static let shared = MapDataProvider()
     
-    func fetchStreamerInfo(latitude: Double, longitude: Double, completion: @escaping (Result<StreamerDataObject>) -> Void) {
-        let query = ConvertQuery.shared.getQueryString(keyValues: ("latitude", "\(latitude)"), ("longitude", "\(longitude)"))
+    func fetchStreamerInfo(userid: String, latitude: Double, longitude: Double, completion: @escaping (Result<StreamerDataObject>) -> Void) {
+        let query = ConvertQuery.shared.getQueryString(keyValues: ("uid", "\(userid)"), ("latitude", "\(latitude)"), ("longitude", "\(longitude)"))
         
         let request = DataRequest.fetchStreamerData(query: query)
         HTTPClient.shared.request(request, completion: { data in

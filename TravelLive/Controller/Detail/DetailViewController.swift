@@ -63,7 +63,6 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
-//        let point = longPressGesture.view?.convert(CGPoint.zero, to: detailTableView)
         if sender.state == .began {
             let touchPoint = sender.location(in: detailTableView)
             if let indexPath = detailTableView.indexPathForRow(at: touchPoint) {
