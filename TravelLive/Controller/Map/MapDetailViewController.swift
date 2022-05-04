@@ -29,7 +29,6 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
-        //        navigationController?.navigationBar.alpha = 0.3
     }
     
     
@@ -59,7 +58,6 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
     }
     
     private func registerCell() {
-        //        mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewImageCell.self), bundle: nil)
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewTitleCell.self), bundle: nil)
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewLocationCell.self), bundle: nil)
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewContentCell.self), bundle: nil)
@@ -78,24 +76,6 @@ extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //        if indexPath.row == 0 {
-        //            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewImageCell.self), for: indexPath)
-        //            guard let placeEventViewImageCell = cell as? PlaceEventViewImageCell else { return cell }
-        //            placeEventViewImageCell.selectionStyle = .none
-        //
-        //            if detailPlaceData == nil {
-        //                ImageManager.shared.fetchImage(imageUrl: detailEventData?.image ?? "") { [weak self] image in
-        //                    placeEventViewImageCell.layoutCell(image: image)
-        //                }
-        //            } else {
-        //                ImageManager.shared.fetchImage(imageUrl: detailPlaceData?.image ?? "") { [weak self] image in
-        //                    placeEventViewImageCell.layoutCell(image: image)
-        //                }
-        //            }
-        //            return placeEventViewImageCell
-        //            return UITableViewCell()
-        //
-        //        } else
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewTitleCell.self), for: indexPath)
             guard let placeEventViewTitleCell = cell as? PlaceEventViewTitleCell else { return cell }

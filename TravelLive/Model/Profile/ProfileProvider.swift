@@ -29,8 +29,14 @@ class ProfileProvider {
         })
     }
     
-    func fetchUserPropertyData(userId: String, completion: @escaping (Result<ProfilePropertyObject>) -> Void) {
-        let query = ConvertQuery.shared.getQueryString(keyValues: ("uid", userId))
+    func fetchUserPropertyData(userId: String, byUser: String?, completion: @escaping (Result<ProfilePropertyObject>) -> Void) {
+        var query = String()
+        if byUser == nil {
+            query = ConvertQuery.shared.getQueryString(keyValues: ("uid", userId))
+        } else {
+            query = ConvertQuery.shared.getQueryString(keyValues: ("uid", userId), ("by_uid", byUser!))
+        }
+        
         let request = DataRequest.fetchUserProperty(query: query)
         
         HTTPClient.shared.request(request, completion: { data in
