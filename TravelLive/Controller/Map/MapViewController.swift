@@ -193,6 +193,7 @@ class MapViewController: UIViewController {
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
         
         mapView.clear()
+        mapView.animate(toZoom: 10.0)
         showTypeOfMarker = "event"
         mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
             switch result {
@@ -221,6 +222,7 @@ class MapViewController: UIViewController {
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
         
         mapView.clear()
+        mapView.animate(toZoom: 10.0)
         showTypeOfMarker = "place"
         mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
             switch result {
@@ -269,7 +271,6 @@ class MapViewController: UIViewController {
         } else {
             imageView.layer.borderColor = UIColor.backgroundColor.cgColor
         }
-        
         imageView.image = pinImage
         marker.iconView = imageView
         marker.map = self.mapView
