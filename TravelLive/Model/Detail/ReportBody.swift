@@ -7,14 +7,12 @@
 
 import Foundation
 
-struct ReportBody: Encodable {
-    let reason: String
+struct BlockBody: Encodable {
     let userId: String
-    let whistleblowerId: String
+    let blockId: String
     
     enum CodingKeys: String, CodingKey {
-        case reason
         case userId = "uid"
-        case whistleblowerId = "whistleblower_uid"
+        case blockId = "block_uid"
     }
 }

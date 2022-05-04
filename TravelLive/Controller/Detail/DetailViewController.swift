@@ -8,8 +8,9 @@
 import UIKit
 import Lottie
 import Toast_Swift
+import CoreAudio
 
-class DetailViewController: BaseViewController {
+class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var commentTextField: UITextField!
     @IBOutlet weak var sendCommentButton: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
@@ -29,9 +30,9 @@ class DetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setUpMaskView()
         setUpTableView()
         setUpSubview()
+        setGestureOnCell()
         
         if isFromProfile {
             getOwnerAvatar(avatarUrl ?? "")
@@ -53,6 +54,40 @@ class DetailViewController: BaseViewController {
         super.viewWillLayoutSubviews()
         
        setUpButtonBasicColor(sendCommentButton, UIImage.asset(.send) ?? UIImage(), color: UIColor.primary)
+    }
+    
+    private func setGestureOnCell() {
+        let longPressGesture: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(sender:)))
+        longPressGesture.delegate = self
+        self.detailTableView.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            let touchPoint = sender.location(in: detailTableView)
+            if let indexPath = detailTableView.indexPathForRow(at: touchPoint) {
+                print(indexPath)
+                createBlockAlert(index: indexPath.row + 1)
+            }
+        }
+    }
+    
+    private func createBlockAlert(index: Int) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此則留言的主人", style: .default, handler: { [weak self] _ in
+            self?.postBlockData(index: index)
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+        }))
+        
+        alertController.view.tintColor = UIColor.black
+        self.present(alertController, animated: true)
+    }
+    
+    private func postBlockData(index: Int) {
+        DetailDataProvider.shared.postBlockData(
+            userId: userID, blockId: allCommentData?.message[index].reviewerId ?? ""
+        )
     }
     
     private func setUpTableView() {
@@ -94,7 +129,7 @@ class DetailViewController: BaseViewController {
         }
     }
     
-    @IBAction func editComment(_ sender: UITextField) {
+    @IBAction private func editComment(_ sender: UITextField) {
         if sender.text == "" {
             return
         } else {
@@ -128,12 +163,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
+            
             imageCell.backgroundColor = UIColor.backgroundColor
             
-            imageCell.reportButton.addTarget(self, action: #selector(showReportPage(_:)), for: .touchUpInside)
-            //            imageCell.commentButton.addTarget(self, action: #selector(showCommentPage(_:)), for: .touchUpInside)
+            imageCell.reportButton.addTarget(self, action: #selector(createBlockSheet(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
-            
             imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
             
             imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool(), imageOwnerName: imageOwnerName, avatar: (avatarImage ?? placeHolderImage)!)
@@ -156,6 +190,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewCommentCell.self), for: indexPath)
             guard let commentCell = cell as? DetailViewCommentCell else { return cell }
             commentCell.backgroundColor = UIColor.backgroundColor
+            commentCell.selectionStyle = .default
             
             if allCommentData == nil {
                 return UITableViewCell()
@@ -169,7 +204,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc private func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         // swiftlint:disable force_cast
         _ = tapGestureRecognizer.view as! UIImageView
         LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, ifPulling: false)
@@ -177,46 +212,40 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
     }
     
-    @objc func avatarTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc private func avatarTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let profileViewController = UIStoryboard.profile.instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
         )
-        
         guard let profileVC = profileViewController as? ProfileViewController else { return }
+        profileVC.propertyOwnerId = detailData?.ownerId ?? ""
         profileVC.isFromOther = true
         show(profileVC, sender: nil)
     }
     
-    @objc func shareLink(_ sender: UIButton) {
+    @objc private func shareLink(_ sender: UIButton) {
         let url = "https://travellive.page.link/?link=https://travellive-1d79e.web.app/WebRTCPlayer.html?live=Broccoli2"
         ShareManager.share.shareLink(textToShare: "Check out my app", shareUrl: url, thevVC: self, sender: sender)
     }
     
-    @objc func showReportPage(_ sender: UIButton) {
-        view.addSubview(reportMaskView)
-        let reportVC = ReportViewController()
-        reportVC.propertyOwnerId = detailData?.ownerId ?? ""
-        reportVC.clickCloseButton = self
-        reportVC.view.frame = CGRect(x: 0, y: UIScreen.height, width: UIScreen.width, height: 202)
-        view.addSubview(reportMaskView)
-        // Animation
-        UIView.animate(withDuration: 0.3, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
-            reportVC.view.frame = CGRect(
-                x: 0,
-                y: CGFloat(UIScreen.height - CGFloat(250.0)),
-                width: UIScreen.width,
-                height: 250.0
-            )
-        }, completion: { _ in print("report page show")})
-        view.addSubview(reportVC.view)
-        addChild(reportVC)
+    @objc private func createBlockSheet(_ sender: UIButton) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼文的主人", style: .default, handler: { [weak self] _ in
+            self?.postBlockData()
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+        }))
+        
+        alertController.view.tintColor = UIColor.black
+        self.present(alertController, animated: true)
     }
     
-    func setUpMaskView() {
-        reportMaskView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
-        reportMaskView.frame = CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height)
+    private func postBlockData() {
+        DetailDataProvider.shared.postBlockData(
+            userId: userID, blockId: detailData?.ownerId ?? ""
+        )
     }
     
-    @objc func clickLoveButton(_ sender: UIButton) {
+    @objc private func clickLoveButton(_ sender: UIButton) {
         if sender.hasImage(named: "theheart", for: .normal) {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
             
@@ -227,11 +256,5 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, ifPulling: false)
             setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
-    }
-}
-
-extension DetailViewController: CloseMaskView {
-    func pressCloseButton() {
-        reportMaskView.removeFromSuperview()
     }
 }

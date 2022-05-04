@@ -109,11 +109,11 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     // Fetch search data
     private func getSearchData() {
-        fetchSearchData(type: "")
+        fetchSearchData(userId: userID, tag: nil)
     }
     
-    private func fetchSearchData(type: String) {
-        searchDataProvider.fetchSearchData(query: type) { [weak self] result in
+    private func fetchSearchData(userId: String, tag: String?) {
+        searchDataProvider.fetchSearchData(userId: userId, tag: tag) { [weak self] result in
             switch result {
             case .success(let data):
                 print("\(data)")
@@ -197,7 +197,7 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
         if text != "" {
             print("updateSearchResults")
             images.removeAll()
-            fetchSearchData(type: "?tag=" + text)
+            fetchSearchData(userId: userID, tag: text)
         } else {
             print("Do nothing")
         }

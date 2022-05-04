@@ -49,10 +49,10 @@
                         <buttonConfiguration key="configuration" style="plain" image="option"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LBJ-ic-zyH">
-                        <rect key="frame" x="15" y="404" width="40" height="40"/>
+                        <rect key="frame" x="15" y="404" width="48" height="48"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="40" id="JXU-gz-Jsb"/>
-                            <constraint firstAttribute="width" constant="40" id="N9K-ni-gn5"/>
+                            <constraint firstAttribute="height" constant="48" id="JXU-gz-Jsb"/>
+                            <constraint firstAttribute="width" constant="48" id="N9K-ni-gn5"/>
                             <constraint firstAttribute="width" secondItem="LBJ-ic-zyH" secondAttribute="height" multiplier="1:1" id="U5P-nH-Bnq"/>
                         </constraints>
                         <color key="tintColor" systemColor="systemRedColor"/>
@@ -60,7 +60,7 @@
                         <buttonConfiguration key="configuration" style="plain" image="emptyHeart" title=""/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zhW-ut-ZZH">
-                        <rect key="frame" x="70" y="409" width="30" height="30"/>
+                        <rect key="frame" x="78" y="413" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="6GB-fg-Mld"/>
                             <constraint firstAttribute="height" constant="30" id="Mng-7N-78m"/>
@@ -101,9 +101,9 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="emptyHeart" width="32" height="32"/>
+        <image name="emptyHeart" width="21.333333969116211" height="21.333333969116211"/>
         <image name="option" width="32" height="32"/>
-        <image name="share" width="32" height="32"/>
+        <image name="share" width="21.333333969116211" height="21.333333969116211"/>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
