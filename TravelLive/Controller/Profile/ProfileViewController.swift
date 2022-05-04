@@ -66,7 +66,8 @@ class ProfileViewController: UIViewController {
         
         if !isFromOther {
             getUserInfo(id: userID)
-            getUserProperty(id: userID, byUser: userID)
+            // 朱辛夷
+            getUserProperty(id: userID, byUser: nil)
         } else {
             getUserInfo(id: propertyOwnerId)
             getUserProperty(id: propertyOwnerId, byUser: nil)

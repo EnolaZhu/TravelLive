@@ -13,6 +13,7 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
     var detailEventData: Event?
     var detailPlaceData: Place?
     lazy var header = StretchyTableHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width))
+    lazy var maskView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: 250))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,7 +129,7 @@ extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
     
     func createMapView(latitude: Float, longitude: Float) {
         let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude), zoom: 15.0)
-        let mapView = GMSMapView.map(withFrame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 250), camera: camera)
+        let mapView = GMSMapView.map(withFrame: CGRect.init(x: 0, y: 0, width: UIScreen.width, height: 250), camera: camera)
         // Using map as footerview
         mapDetailTableView.tableFooterView = mapView
         
@@ -136,6 +137,8 @@ extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
         marker.map = mapView
         
+        maskView.backgroundColor = UIColor.primary.withAlphaComponent(0.2)
+        mapView.addSubview(maskView)
         mapView.selectedMarker = marker
     }
 }
