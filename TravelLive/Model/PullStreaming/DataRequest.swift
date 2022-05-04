@@ -11,7 +11,7 @@ import SwiftUI
 enum DataRequest: Request {
     case fetchStreamerData(query: String)
     case fetchSearchData(query: String)
-    case postBanData(body: Data?)
+    case postBlockData(body: Data?)
     case postComment(body: Data?)
     case fetchComment(query: String)
     case postLike(body: Data?)
@@ -34,7 +34,7 @@ enum DataRequest: Request {
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .fetchSearchData:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
-        case .postBanData:
+        case .postBlockData:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
         case .postComment:
             return [HTTPHeaderField.contentType.rawValue: HTTPHeaderValue.json.rawValue]
@@ -74,7 +74,7 @@ enum DataRequest: Request {
             return nil
         case .fetchSearchData:
             return nil
-        case .postBanData(let body):
+        case .postBlockData(let body):
             return body
         case .postComment(let body):
             return body
@@ -114,7 +114,7 @@ enum DataRequest: Request {
             return HTTPMethod.GET.rawValue
         case .fetchSearchData:
             return HTTPMethod.GET.rawValue
-        case .postBanData:
+        case .postBlockData:
             return HTTPMethod.POST.rawValue
         case .postComment:
             return HTTPMethod.POST.rawValue
@@ -154,8 +154,8 @@ enum DataRequest: Request {
             return "/live" + query
         case .fetchSearchData(let query):
             return "/storage" + query
-        case .postBanData:
-            return "/ban"
+        case .postBlockData:
+            return "/block"
         case .postComment:
             return "/comment"
         case .fetchComment(let query):

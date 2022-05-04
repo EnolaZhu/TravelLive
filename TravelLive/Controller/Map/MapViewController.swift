@@ -159,7 +159,7 @@ class MapViewController: UIViewController {
         mapView.clear()
         showTypeOfMarker = "streamer"
         
-        mapDataProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+        mapDataProvider.fetchStreamerInfo(userid: userID, latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
                 
             case .success(let user):
