@@ -69,7 +69,7 @@ class MapViewController: UIViewController {
         mapView.clear()
         fetchStreamerData()
         tabBarController?.tabBar.isHidden = false
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
         placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
@@ -80,7 +80,7 @@ class MapViewController: UIViewController {
         super.viewWillDisappear(true)
         mapView.clear()
         // Show the Navigation Bar
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     override func viewDidLayoutSubviews() {

@@ -40,7 +40,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
             getOwnerAvatar(detailData?.avatar ?? "")
         }
         
-        navigationController?.navigationBar.tintColor = UIColor.black
+        navigationController?.navigationBar.tintColor = UIColor.primary
         tabBarController?.tabBar.isHidden = true
     }
     

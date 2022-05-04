@@ -17,15 +17,19 @@ class DetailViewCommentCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.selectionStyle = .none
-        reviewerAvatarImage.makeRounded()
-        reviewerName.font = UIFont.boldSystemFont(ofSize: 14.0)
-        commentLabel.font = commentLabel.font.withSize(14.0)
+        setUpCell()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
+    }
+    
+    private func setUpCell() {
+        self.selectionStyle = .none
+        reviewerAvatarImage.makeRounded()
+        reviewerName.font = UIFont.boldSystemFont(ofSize: 14.0)
+        commentLabel.font = commentLabel.font.withSize(14.0)
     }
     
     func layoutCell(name: String, comment: String, avatar: UIImage, time: String) {

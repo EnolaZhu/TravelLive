@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Profile View Controller-->
+        <!--個人-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="ProfileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="ProfileViewController" customModule="TravelLive" customModuleProvider="target" sceneMemberID="viewController">
@@ -120,7 +120,7 @@
                             <constraint firstItem="feO-Dq-xDI" firstAttribute="top" secondItem="XVc-Wf-PXs" secondAttribute="bottom" id="tUX-ez-lwz"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="zEW-q0-xlH"/>
+                    <navigationItem key="navigationItem" title="個人" id="zEW-q0-xlH"/>
                     <connections>
                         <outlet property="bannerView" destination="feO-Dq-xDI" id="rqR-tU-DFY"/>
                         <outlet property="profileView" destination="XVc-Wf-PXs" id="Bam-XV-Zau"/>

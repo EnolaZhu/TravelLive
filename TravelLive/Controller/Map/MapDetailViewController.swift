@@ -15,21 +15,29 @@ class MapDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
-        mapDetailTableView.separatorStyle = .none
         mapDetailTableView.dataSource = self
-        view.backgroundColor = UIColor.backgroundColor
-        mapDetailTableView.backgroundColor = UIColor.backgroundColor
+        setUpView()
+        // Setting navigationbar back button color
+        navigationController?.navigationBar.barStyle = UIBarStyle.black
+        navigationController?.navigationBar.tintColor = UIColor.primary
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
-        navigationController?.navigationBar.alpha = 0.3
+//        navigationController?.navigationBar.alpha = 0.3
     }
+    
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func setUpView() {
+        mapDetailTableView.separatorStyle = .none
+        mapDetailTableView.backgroundColor = UIColor.backgroundColor
+        view.backgroundColor = UIColor.backgroundColor
     }
     
     private func registerCell() {

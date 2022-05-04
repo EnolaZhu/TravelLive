@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Detail View Controller-->
+        <!-- -->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="DetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="DetailViewController" customModule="TravelLive" customModuleProvider="target" sceneMemberID="viewController">
@@ -53,7 +53,7 @@
                             <constraint firstItem="TVz-Tt-WE3" firstAttribute="top" secondItem="Otf-RY-8y0" secondAttribute="bottom" constant="16" id="sRA-lw-JvV"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="iJV-Qd-PU0"/>
+                    <navigationItem key="navigationItem" title=" " id="iJV-Qd-PU0"/>
                     <connections>
                         <outlet property="commentTextField" destination="TVz-Tt-WE3" id="OOS-Y5-XR3"/>
                         <outlet property="detailTableView" destination="Otf-RY-8y0" id="NaM-PK-Z4S"/>
@@ -84,7 +84,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="send" width="16" height="16"/>
+        <image name="send" width="21.333333969116211" height="21.333333969116211"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
