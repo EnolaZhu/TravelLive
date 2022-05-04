@@ -8,8 +8,9 @@
 import UIKit
 import Lottie
 import Toast_Swift
+import CoreAudio
 
-class DetailViewController: BaseViewController {
+class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var commentTextField: UITextField!
     @IBOutlet weak var sendCommentButton: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
@@ -31,6 +32,7 @@ class DetailViewController: BaseViewController {
 
         setUpTableView()
         setUpSubview()
+        setGestureOnCell()
         
         if isFromProfile {
             getOwnerAvatar(avatarUrl ?? "")
@@ -52,6 +54,41 @@ class DetailViewController: BaseViewController {
         super.viewWillLayoutSubviews()
         
        setUpButtonBasicColor(sendCommentButton, UIImage.asset(.send) ?? UIImage(), color: UIColor.primary)
+    }
+    
+    private func setGestureOnCell() {
+        let longPressGesture: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(sender:)))
+        longPressGesture.delegate = self
+        self.detailTableView.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
+//        let point = longPressGesture.view?.convert(CGPoint.zero, to: detailTableView)
+        if sender.state == .began {
+            let touchPoint = sender.location(in: detailTableView)
+            if let indexPath = detailTableView.indexPathForRow(at: touchPoint) {
+                print(indexPath)
+                createBlockAlert(index: indexPath.row + 1)
+            }
+        }
+    }
+    
+    private func createBlockAlert(index: Int) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此則留言的主人", style: .default, handler: { [weak self] _ in
+            self?.postBlockData(index: index)
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+        }))
+        
+        alertController.view.tintColor = UIColor.black
+        self.present(alertController, animated: true)
+    }
+    
+    private func postBlockData(index: Int) {
+        DetailDataProvider.shared.postBlockData(
+            userId: userID, blockId: allCommentData?.message[index].reviewerId ?? ""
+        )
     }
     
     private func setUpTableView() {
@@ -93,7 +130,7 @@ class DetailViewController: BaseViewController {
         }
     }
     
-    @IBAction func editComment(_ sender: UITextField) {
+    @IBAction private func editComment(_ sender: UITextField) {
         if sender.text == "" {
             return
         } else {
@@ -154,6 +191,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewCommentCell.self), for: indexPath)
             guard let commentCell = cell as? DetailViewCommentCell else { return cell }
             commentCell.backgroundColor = UIColor.backgroundColor
+            commentCell.selectionStyle = .default
             
             if allCommentData == nil {
                 return UITableViewCell()
@@ -167,7 +205,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc private func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         // swiftlint:disable force_cast
         _ = tapGestureRecognizer.view as! UIImageView
         LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, ifPulling: false)
@@ -175,7 +213,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
     }
     
-    @objc func avatarTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc private func avatarTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let profileViewController = UIStoryboard.profile.instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
         )
         guard let profileVC = profileViewController as? ProfileViewController else { return }
@@ -184,12 +222,12 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         show(profileVC, sender: nil)
     }
     
-    @objc func shareLink(_ sender: UIButton) {
+    @objc private func shareLink(_ sender: UIButton) {
         let url = "https://travellive.page.link/?link=https://travellive-1d79e.web.app/WebRTCPlayer.html?live=Broccoli2"
         ShareManager.share.shareLink(textToShare: "Check out my app", shareUrl: url, thevVC: self, sender: sender)
     }
     
-    @objc func createBlockSheet(_ sender: UIButton) {
+    @objc private func createBlockSheet(_ sender: UIButton) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼文的主人", style: .default, handler: { [weak self] _ in
             self?.postBlockData()
@@ -208,7 +246,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         )
     }
     
-    @objc func clickLoveButton(_ sender: UIButton) {
+    @objc private func clickLoveButton(_ sender: UIButton) {
         if sender.hasImage(named: "theheart", for: .normal) {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
             

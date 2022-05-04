@@ -221,12 +221,6 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func showUserProperty(_ notification: NSNotification) {
-//        if !isFromOther {
-//            getUserProperty(id: userID)
-//        } else {
-//            getUserProperty(id: propertyOwnerId)
-//
-//        }
         getUserProperty(id: userID)
         postButton.isHidden = false
     }
