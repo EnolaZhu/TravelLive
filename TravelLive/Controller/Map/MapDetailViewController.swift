@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 class MapDetailViewController: UIViewController {
     @IBOutlet weak var mapDetailTableView: UITableView!
@@ -17,6 +18,7 @@ class MapDetailViewController: UIViewController {
         registerCell()
         mapDetailTableView.dataSource = self
         setUpView()
+        
         // Setting navigationbar back button color
         navigationController?.navigationBar.barStyle = UIBarStyle.black
         navigationController?.navigationBar.tintColor = UIColor.primary
@@ -46,12 +48,13 @@ class MapDetailViewController: UIViewController {
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewLocationCell.self), bundle: nil)
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewContentCell.self), bundle: nil)
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewReuseCell.self), bundle: nil)
+        mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewMapCell.self), bundle: nil)
     }
 }
 
-extension MapDetailViewController: UITableViewDataSource {
+extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -107,7 +110,7 @@ extension MapDetailViewController: UITableViewDataSource {
             }
             return placeEventViewContentCell
             
-        } else {
+        } else if indexPath.row == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewReuseCell.self), for: indexPath)
             guard let placeEventViewReuseCell = cell as? PlaceEventViewReuseCell else { return cell }
             placeEventViewReuseCell.selectionStyle = .none
@@ -118,6 +121,23 @@ extension MapDetailViewController: UITableViewDataSource {
                 placeEventViewReuseCell.layoutCell(start: detailPlaceData?.start ?? " 暫無資料", end: detailPlaceData?.end ?? " 暫無資料")
             }
             return placeEventViewReuseCell
+            
+        } else {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewMapCell.self), for: indexPath)
+            guard let placeEventViewMapCell = cell as? PlaceEventViewMapCell else { return cell }
+            placeEventViewMapCell.mapView.delegate = self
+            let camera = GMSCameraPosition(latitude: 121.5255809, longitude: 25.0461031, zoom: 15.81)
+            placeEventViewMapCell.mapView.camera = camera
+            makeMarker(latitude: 121.5255809, longitude: 25.0461031, mapView: placeEventViewMapCell.mapView)
+//            placeEventViewMapCell.mapView.isUserInteractionEnabled = false
+            return placeEventViewMapCell
         }
+    }
+    
+    func makeMarker(latitude: CLLocationDegrees, longitude: CLLocationDegrees, mapView: GMSMapView) {
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        marker.map = mapView
     }
 }
