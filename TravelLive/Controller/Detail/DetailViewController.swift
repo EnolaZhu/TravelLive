@@ -66,8 +66,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         if sender.state == .began {
             let touchPoint = sender.location(in: detailTableView)
             if let indexPath = detailTableView.indexPathForRow(at: touchPoint) {
-                print(indexPath)
-                createBlockAlert(index: indexPath.row + 1)
+                createBlockAlert(index: indexPath.row - 1)
             }
         }
     }

@@ -8,33 +8,28 @@
 import UIKit
 import GoogleMaps
 
-class MapDetailViewController: UIViewController {
+class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollViewDelegate {
     @IBOutlet weak var mapDetailTableView: UITableView!
     var detailEventData: Event?
     var detailPlaceData: Place?
+    lazy var header = StretchyTableHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
+        mapDetailTableView.delegate = self
         mapDetailTableView.dataSource = self
         setUpView()
         
         // Setting navigationbar back button color
         navigationController?.navigationBar.barStyle = UIBarStyle.black
         navigationController?.navigationBar.tintColor = UIColor.primary
-        
-        
-        if detailPlaceData == nil {
-            createMapView(latitude: Float(detailEventData?.latitude ?? 0), longitude: Float(detailEventData?.longitude ?? 0))
-        } else {
-            createMapView(latitude: Float(detailPlaceData?.latitude ?? 0), longitude: Float(detailPlaceData?.longitude ?? 0))
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
-//        navigationController?.navigationBar.alpha = 0.3
+        //        navigationController?.navigationBar.alpha = 0.3
     }
     
     
@@ -47,40 +42,61 @@ class MapDetailViewController: UIViewController {
         mapDetailTableView.separatorStyle = .none
         mapDetailTableView.backgroundColor = UIColor.backgroundColor
         view.backgroundColor = UIColor.backgroundColor
+        mapDetailTableView.tableHeaderView = header
+        
+        if detailPlaceData == nil {
+            ImageManager.shared.fetchImage(imageUrl: detailEventData?.image ?? "") { [weak self] image in
+                self?.header.imageView.image = image
+            }
+            createMapView(latitude: Float(detailEventData?.latitude ?? 0), longitude: Float(detailEventData?.longitude ?? 0))
+            
+        } else {
+            ImageManager.shared.fetchImage(imageUrl: detailPlaceData?.image ?? "") { [weak self] image in
+                self?.header.imageView.image = image
+            }
+            createMapView(latitude: Float(detailPlaceData?.latitude ?? 0), longitude: Float(detailPlaceData?.longitude ?? 0))
+        }
     }
     
     private func registerCell() {
-        mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewImageCell.self), bundle: nil)
+        //        mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewImageCell.self), bundle: nil)
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewTitleCell.self), bundle: nil)
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewLocationCell.self), bundle: nil)
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewContentCell.self), bundle: nil)
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewReuseCell.self), bundle: nil)
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let header = mapDetailTableView.tableHeaderView as? StretchyTableHeaderView else { return }
+        header.scrollViewDidScroll(scrollView: mapDetailTableView)
+    }
 }
 
 extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //        if indexPath.row == 0 {
+        //            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewImageCell.self), for: indexPath)
+        //            guard let placeEventViewImageCell = cell as? PlaceEventViewImageCell else { return cell }
+        //            placeEventViewImageCell.selectionStyle = .none
+        //
+        //            if detailPlaceData == nil {
+        //                ImageManager.shared.fetchImage(imageUrl: detailEventData?.image ?? "") { [weak self] image in
+        //                    placeEventViewImageCell.layoutCell(image: image)
+        //                }
+        //            } else {
+        //                ImageManager.shared.fetchImage(imageUrl: detailPlaceData?.image ?? "") { [weak self] image in
+        //                    placeEventViewImageCell.layoutCell(image: image)
+        //                }
+        //            }
+        //            return placeEventViewImageCell
+        //            return UITableViewCell()
+        //
+        //        } else
         if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewImageCell.self), for: indexPath)
-            guard let placeEventViewImageCell = cell as? PlaceEventViewImageCell else { return cell }
-            placeEventViewImageCell.selectionStyle = .none
-            
-            if detailPlaceData == nil {
-                ImageManager.shared.fetchImage(imageUrl: detailEventData?.image ?? "") { [weak self] image in
-                    placeEventViewImageCell.layoutCell(image: image)
-                }
-            } else {
-                ImageManager.shared.fetchImage(imageUrl: detailPlaceData?.image ?? "") { [weak self] image in
-                    placeEventViewImageCell.layoutCell(image: image)
-                }
-            }
-            return placeEventViewImageCell
-            
-        } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewTitleCell.self), for: indexPath)
             guard let placeEventViewTitleCell = cell as? PlaceEventViewTitleCell else { return cell }
             placeEventViewTitleCell.selectionStyle = .none
@@ -92,7 +108,7 @@ extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
             }
             return placeEventViewTitleCell
             
-        } else if indexPath.row == 2 {
+        } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewLocationCell.self), for: indexPath)
             guard let placeEventViewLocationCell = cell as? PlaceEventViewLocationCell else { return cell }
             placeEventViewLocationCell.selectionStyle = .none
@@ -104,7 +120,7 @@ extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
             }
             return placeEventViewLocationCell
             
-        } else if indexPath.row == 3 {
+        } else if indexPath.row == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewContentCell.self), for: indexPath)
             guard let placeEventViewContentCell = cell as? PlaceEventViewContentCell else { return cell }
             placeEventViewContentCell.selectionStyle = .none
@@ -135,11 +151,11 @@ extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
         let mapView = GMSMapView.map(withFrame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 250), camera: camera)
         // Using map as footerview
         mapDetailTableView.tableFooterView = mapView
-
+        
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
         marker.map = mapView
-
+        
         mapView.selectedMarker = marker
     }
 }
