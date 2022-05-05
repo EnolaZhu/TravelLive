@@ -129,8 +129,8 @@ class ProfileViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.presentCropViewController(selectedImage)
                 }
-            case .error(let message):
-                self.presentAlertMessage(message: message)
+            case .error(let _):
+                self.view.makeToast("上傳失敗", duration: 0.5, position: .center)
             }
         })
     }
@@ -274,13 +274,17 @@ class ProfileViewController: UIViewController {
             userID = ""
             self.view.makeToast("登出成功", duration: 0.5, position: .center)
             // Sign out back to login vc
-//            let loginViewController = UIStoryboard.main.instantiateViewController(withIdentifier: String(describing: LoginViewController.self)) as? LoginViewController
-//            guard let loginVC = loginViewController else { return }
-//            loginVC.modalPresentationStyle = .fullScreen
-//            present(loginVC, animated: false)
+            backToLoginView()
         } catch {
             print(error)
         }
+    }
+    
+    private func backToLoginView() {
+        let loginViewController = UIStoryboard.main.instantiateViewController(withIdentifier: String(describing: LoginViewController.self)) as? LoginViewController
+        guard let loginVC = loginViewController else { return }
+        loginVC.modalPresentationStyle = .fullScreen
+        present(loginVC, animated: false)
     }
     
     @objc private func postImage(_ sender: UIButton) {
@@ -529,19 +533,5 @@ extension ProfileViewController {
             popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
         }
         self.present(cameraActionSheet, animated: true, completion: nil)
-    }
-    
-    // Error alert
-    func presentAlertMessage(title: String = "Alert", message: String, okclick: (() -> Void)? = nil) {
-        
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] _ in
-            if okclick != nil {
-                okclick!()
-            }
-        }
-        alertController.addAction(okAction)
-        self.present(alertController, animated: true) {
-        }
     }
 }
