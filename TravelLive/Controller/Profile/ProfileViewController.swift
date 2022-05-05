@@ -236,11 +236,10 @@ class ProfileViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "編輯", style: .default, handler: { [weak self] _ in
             self?.createModifyNameAlert()
         }))
-        alertController.addAction(UIAlertAction(title: "登出", style: .default, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "登出", style: .destructive, handler: { [weak self] _ in
             self?.signOut()
-            
         }))
-        alertController.addAction(UIAlertAction(title: "刪除", style: .default, handler: { _ in
+        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { _ in
             ProfileProvider.shared.deleteAccount(userId: userID)
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
@@ -252,7 +251,7 @@ class ProfileViewController: UIViewController {
     
     @objc private func blockUser() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此人", style: .default, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此人", style: .destructive, handler: { [weak self] _ in
             self?.postBlockData()
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
@@ -273,6 +272,12 @@ class ProfileViewController: UIViewController {
         do {
             try Auth.auth().signOut()
             userID = ""
+            self.view.makeToast("登出成功", duration: 0.5, position: .center)
+            // Sign out back to login vc
+//            let loginViewController = UIStoryboard.main.instantiateViewController(withIdentifier: String(describing: LoginViewController.self)) as? LoginViewController
+//            guard let loginVC = loginViewController else { return }
+//            loginVC.modalPresentationStyle = .fullScreen
+//            present(loginVC, animated: false)
         } catch {
             print(error)
         }
@@ -475,7 +480,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         2
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

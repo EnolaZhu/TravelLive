@@ -73,7 +73,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     private func createBlockAlert(index: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此則留言的主人", style: .default, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此則留言的主人", style: .destructive, handler: { [weak self] _ in
             self?.postBlockData(index: index)
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
@@ -227,7 +227,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     @objc private func createBlockSheet(_ sender: UIButton) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼文的主人", style: .default, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼文的主人", style: .destructive, handler: { [weak self] _ in
             self?.postBlockData()
         }))
         

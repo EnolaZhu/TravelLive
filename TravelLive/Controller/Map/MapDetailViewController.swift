@@ -8,12 +8,12 @@
 import UIKit
 import GoogleMaps
 
-class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollViewDelegate {
+class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     @IBOutlet weak var mapDetailTableView: UITableView!
     var detailEventData: Event?
     var detailPlaceData: Place?
     lazy var header = StretchyTableHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width))
-    lazy var maskView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: 250))
+    var maskView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: 250))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +21,7 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         mapDetailTableView.delegate = self
         mapDetailTableView.dataSource = self
         setUpView()
+        addGestureOnMaskView()
         
         // Setting navigationbar back button color
         navigationController?.navigationBar.barStyle = UIBarStyle.black
@@ -36,6 +37,17 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func addGestureOnMaskView() {
+        let tapMapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(mapTapped(tapGestureRecognizer:)))
+        maskView.addGestureRecognizer(tapMapGestureRecognizer)
+        maskView.isUserInteractionEnabled = true
+    }
+    
+    @objc func mapTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        // handling code
+        print("item")
     }
     
     private func setUpView() {
@@ -128,7 +140,7 @@ extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
     }
     
     func createMapView(latitude: Float, longitude: Float) {
-        let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude), zoom: 15.0)
+        let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude), zoom: 16.0)
         let mapView = GMSMapView.map(withFrame: CGRect.init(x: 0, y: 0, width: UIScreen.width, height: 250), camera: camera)
         // Using map as footerview
         mapDetailTableView.tableFooterView = mapView
