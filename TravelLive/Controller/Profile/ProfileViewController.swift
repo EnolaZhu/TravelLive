@@ -64,13 +64,12 @@ class ProfileViewController: UIViewController {
         profileView.showsVerticalScrollIndicator = false
         profileView.backgroundColor = UIColor.backgroundColor
         
-        if !isFromOther {
-            getUserInfo(id: userID)
-            // 朱辛夷
-            getUserProperty(id: userID, byUser: nil)
-        } else {
+        if isFromOther {
             getUserInfo(id: propertyOwnerId)
-            getUserProperty(id: propertyOwnerId, byUser: nil)
+            getUserProperty(id: userID, byUser: propertyOwnerId)
+        } else {
+            getUserInfo(id: userID)
+            getUserProperty(id: userID, byUser: userID)
         }
     }
     
@@ -175,7 +174,7 @@ class ProfileViewController: UIViewController {
                 }
                 self?.profileView.reloadData()
                 
-            case .failure(let error):
+            case .failure(let _):
                 self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
@@ -223,7 +222,7 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func showUserProperty(_ notification: NSNotification) {
-        getUserProperty(id: userID, byUser: nil)
+        getUserProperty(id: userID, byUser: userID)
         postButton.isHidden = false
     }
     
@@ -239,6 +238,7 @@ class ProfileViewController: UIViewController {
         }))
         alertController.addAction(UIAlertAction(title: "登出", style: .default, handler: { [weak self] _ in
             self?.signOut()
+            
         }))
         alertController.addAction(UIAlertAction(title: "刪除", style: .default, handler: { _ in
             ProfileProvider.shared.deleteAccount(userId: userID)
@@ -333,7 +333,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPathWithTag) { [weak self] result in
                     if result == "" {
                         self?.getUserInfo(id: userID)
-                        self?.getUserProperty(id: userID, byUser: nil)
+                        self?.getUserProperty(id: userID, byUser: userID)
                     } else {
                         self?.view.makeToast("失敗", duration: 0.5, position: .center)
                     }
@@ -347,7 +347,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
                 if result == "" {
                     self?.getUserInfo(id: userID)
-                    self?.getUserProperty(id: userID, byUser: nil)
+                    self?.getUserProperty(id: userID, byUser: userID)
                 } else {
                     self?.view.makeToast("失敗", duration: 0.5, position: .center)
                 }
@@ -362,7 +362,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                     PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath) { [weak self] result in
                         if result == "" {
                             self?.getUserInfo(id: userID)
-                            self?.getUserProperty(id: userID, byUser: nil)
+                            self?.getUserProperty(id: userID, byUser: userID)
                         } else {
                             self?.view.makeToast("失敗", duration: 0.5, position: .center)
                         }
