@@ -72,6 +72,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+//        self.tabBarController?.view.removeFromSuperview()
+//        tabBarController?.selectedIndex = 0
     }
     
     override func viewDidDisappear(_ animated: Bool) {
