@@ -1212,11 +1212,18 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravelLive/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need to access your camera to capture a photo add and update profile picture";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Need location access for updating nearby friends";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app will use your location to show cool stuffs near you.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need microphone access for uploading videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need photo library access for uploading images";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Please allow the recognization of the speech for the app";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1248,11 +1255,18 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravelLive/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need to access your camera to capture a photo add and update profile picture";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Need location access for updating nearby friends";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app will use your location to show cool stuffs near you.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need microphone access for uploading videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need photo library access for uploading images";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Please allow the recognization of the speech for the app";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
