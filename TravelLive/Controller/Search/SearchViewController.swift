@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseStorage
+import MJRefresh
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
     @IBOutlet weak var searchCollectionView: UICollectionView!
@@ -21,9 +22,11 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationItem.searchController = searchController
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
+        addRefreshHeader()
         
         // Fix searchbar hidden when change view
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -134,6 +137,14 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             )
         }
     }
+    
+    // Refresh Data by pull-down
+    private func addRefreshHeader() {
+          MJRefreshNormalHeader { [weak self] in
+              self?.getSearchData()
+          }.autoChangeTransparency(true)
+          .link(to: searchCollectionView)
+      }
     // MARK: - PrimeGridDelegate
     
     func scaleForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> UInt {
@@ -157,7 +168,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         searchDataProvider.fetchSearchData(userId: userId, tag: tag) { [weak self] result in
             switch result {
             case .success(let data):
-                print("\(data)")
                 self?.searchDataObjc = data
                 guard let searchDataObjc = self?.searchDataObjc else { return }
                 if searchDataObjc.data.isEmpty {
@@ -175,6 +185,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                         }
                     }
                 }
+                self?.searchCollectionView.mj_header?.endRefreshing()
             case .failure:
                 print("Failed")
             }

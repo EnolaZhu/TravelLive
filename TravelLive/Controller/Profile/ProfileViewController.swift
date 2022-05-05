@@ -10,6 +10,7 @@ import CoreServices
 import GoogleMobileAds
 import FirebaseAuth
 import Toast_Swift
+import MJRefresh
 
 class ProfileViewController: UIViewController {
     
@@ -68,6 +69,7 @@ class ProfileViewController: UIViewController {
             getUserInfo(id: propertyOwnerId)
             getUserProperty(id: userID, byUser: propertyOwnerId)
         } else {
+            addRefreshHeader()
             getUserInfo(id: userID)
             getUserProperty(id: userID, byUser: userID)
         }
@@ -108,6 +110,13 @@ class ProfileViewController: UIViewController {
             }
         }
     }
+    
+    private func addRefreshHeader() {
+          MJRefreshNormalHeader { [weak self] in
+              self?.getUserProperty(id: userID, byUser: userID)
+          }.autoChangeTransparency(true)
+          .link(to: profileView)
+      }
     
     // show selected image
     private func presentCropViewController(_ image: UIImage) {
@@ -173,6 +182,7 @@ class ProfileViewController: UIViewController {
                     }
                 }
                 self?.profileView.reloadData()
+                self?.profileView.mj_header?.endRefreshing()
                 
             case .failure(let _):
                 self?.view.makeToast("失敗", duration: 0.5, position: .center)
@@ -412,6 +422,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProfileCollectionCell.self), for: indexPath) as? ProfileCollectionCell else {
             fatalError("Couldn't create cell")
         }
+        // Placeholder
+        cell.layoutCell(image: UIImage(named: "placeholder") ?? UIImage())
         // ImageView gesture
         let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         if isFromOther {
