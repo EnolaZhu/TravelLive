@@ -16,13 +16,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="42"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4rp-8H-uLr">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4rp-8H-uLr">
                         <rect key="frame" x="53" y="15.5" width="42" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lRD-BC-c7N">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lRD-BC-c7N">
                         <rect key="frame" x="110" y="14" width="41.5" height="23"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -39,13 +39,11 @@
                 <constraints>
                     <constraint firstItem="lRD-BC-c7N" firstAttribute="leading" secondItem="4rp-8H-uLr" secondAttribute="trailing" constant="15" id="03M-xe-xey"/>
                     <constraint firstAttribute="bottom" secondItem="lRD-BC-c7N" secondAttribute="bottom" constant="5" id="50v-pg-QHs"/>
-                    <constraint firstItem="8Nu-yG-av0" firstAttribute="centerY" secondItem="4rp-8H-uLr" secondAttribute="centerY" id="5DJ-Gt-mac"/>
                     <constraint firstItem="8Nu-yG-av0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="18" id="KDQ-Lq-AJn"/>
                     <constraint firstItem="4rp-8H-uLr" firstAttribute="leading" secondItem="8Nu-yG-av0" secondAttribute="trailing" constant="10" id="N4v-ot-3Ms"/>
                     <constraint firstItem="lRD-BC-c7N" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="XfZ-aF-VSg"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lRD-BC-c7N" secondAttribute="trailing" constant="16" id="mGd-ac-4sM"/>
                     <constraint firstItem="4rp-8H-uLr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15.5" id="pCb-56-KtG"/>
-                    <constraint firstItem="4rp-8H-uLr" firstAttribute="centerY" secondItem="lRD-BC-c7N" secondAttribute="centerY" id="pcH-ds-Nuf"/>
                     <constraint firstItem="8Nu-yG-av0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="uVW-tQ-uJf"/>
                 </constraints>
             </tableViewCellContentView>
