@@ -211,7 +211,6 @@ class ProfileViewController: UIViewController {
                     }
                 }
             case .failure(let error):
-                print(error)
                 self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
@@ -334,7 +333,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "SSSSSS"
         let uploadTimestamp = Int(uploadDate.timeIntervalSince1970)
-        
         let storageRefPath = userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {

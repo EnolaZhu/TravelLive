@@ -13,7 +13,7 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="451" id="KGk-i7-Jjw" customClass="DetailViewImageCell" customModule="TravelLive" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="451"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="451"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -34,8 +34,6 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="i4r-If-eMK">
                         <rect key="frame" x="0.0" y="74" width="320" height="320"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="320" id="9KX-Vj-fhq"/>
-                            <constraint firstAttribute="width" constant="320" id="Svq-vc-Thp"/>
                             <constraint firstAttribute="width" secondItem="i4r-If-eMK" secondAttribute="height" multiplier="1:1" id="ajR-2e-H5c"/>
                         </constraints>
                     </imageView>
@@ -80,11 +78,11 @@
                     <constraint firstAttribute="trailing" secondItem="i4r-If-eMK" secondAttribute="trailing" id="GWR-0I-mzG"/>
                     <constraint firstItem="LBJ-ic-zyH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="IIq-oh-Vi8"/>
                     <constraint firstAttribute="bottom" secondItem="LBJ-ic-zyH" secondAttribute="bottom" id="KnV-xl-EYb"/>
+                    <constraint firstItem="i4r-If-eMK" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Lco-sP-qDS"/>
                     <constraint firstItem="706-2I-Hxf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Obi-3p-Ejj"/>
                     <constraint firstItem="zhW-ut-ZZH" firstAttribute="leading" secondItem="LBJ-ic-zyH" secondAttribute="trailing" constant="15" id="PJu-0x-DmX"/>
                     <constraint firstAttribute="trailing" secondItem="Sra-ti-o8l" secondAttribute="trailing" constant="20" id="SUt-Qe-Khf"/>
                     <constraint firstItem="i4r-If-eMK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="elY-Zw-XrM"/>
-                    <constraint firstItem="i4r-If-eMK" firstAttribute="top" secondItem="Bv2-nt-MHw" secondAttribute="bottom" constant="31.5" id="hxf-3C-Avf"/>
                     <constraint firstItem="Bv2-nt-MHw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21.5" id="oT3-nY-kdW"/>
                 </constraints>
             </tableViewCellContentView>
