@@ -90,14 +90,46 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionViewCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
         
+        
+        let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        
         if images.count > 0 {
             cell.imageView.image = images[indexPath.row]
+            cell.imageView.isUserInteractionEnabled = true
         } else {
             cell.imageView.image = UIImage.asset(.placeholder)
+            cell.imageView.isUserInteractionEnabled = false
         }
+        cell.imageView.addGestureRecognizer(tapGestureRecognizer)
+        
         return cell
     }
     
+    @objc private func imageTapped(tapGestureRecognizer: UILongPressGestureRecognizer) {
+        // swiftlint:disable force_cast
+        _ = tapGestureRecognizer.view as! UIImageView
+        let point = tapGestureRecognizer.view?.convert(CGPoint.zero, to: searchCollectionView)
+        blockUser(index: point)
+    }
+    
+    private func blockUser(index: CGPoint?) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼圖主人", style: .destructive, handler: { [weak self] _ in
+            guard let indexPath = self?.searchCollectionView.indexPathForItem(at: index ?? CGPoint()) else { return }
+            self?.postBlockData(indexPath: indexPath)
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+        }))
+        
+        alertController.view.tintColor = UIColor.black
+        self.present(alertController, animated: true)
+    }
+    
+    private func postBlockData(indexPath: IndexPath) {
+        DetailDataProvider.shared.postBlockData(
+            userId: userID, blockId: searchDataObjc?.data[indexPath.item].propertyId ?? ""
+        )
+    }
     // MARK: - PrimeGridDelegate
     
     func scaleForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> UInt {
