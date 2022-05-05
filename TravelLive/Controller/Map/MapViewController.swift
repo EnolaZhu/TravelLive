@@ -112,7 +112,7 @@ class MapViewController: UIViewController {
         NSLayoutConstraint.activate(
             [placeButton.widthAnchor.constraint(equalToConstant: 55),
              placeButton.heightAnchor.constraint(equalToConstant: 55),
-             placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 3),
+             placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0),
              placeButton.leftAnchor.constraint(equalTo: streamButton.rightAnchor, constant: 15)]
         )
     }

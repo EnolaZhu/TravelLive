@@ -47,10 +47,10 @@
                         <buttonConfiguration key="configuration" style="plain" image="option"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LBJ-ic-zyH">
-                        <rect key="frame" x="15" y="404" width="48" height="48"/>
+                        <rect key="frame" x="16" y="404" width="30" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="48" id="JXU-gz-Jsb"/>
-                            <constraint firstAttribute="width" constant="48" id="N9K-ni-gn5"/>
+                            <constraint firstAttribute="height" constant="30" id="JXU-gz-Jsb"/>
+                            <constraint firstAttribute="width" constant="30" id="N9K-ni-gn5"/>
                             <constraint firstAttribute="width" secondItem="LBJ-ic-zyH" secondAttribute="height" multiplier="1:1" id="U5P-nH-Bnq"/>
                         </constraints>
                         <color key="tintColor" systemColor="systemRedColor"/>
@@ -58,7 +58,7 @@
                         <buttonConfiguration key="configuration" style="plain" image="emptyHeart" title=""/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zhW-ut-ZZH">
-                        <rect key="frame" x="78" y="413" width="30" height="30"/>
+                        <rect key="frame" x="56" y="404" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="6GB-fg-Mld"/>
                             <constraint firstAttribute="height" constant="30" id="Mng-7N-78m"/>
@@ -76,11 +76,11 @@
                     <constraint firstItem="LBJ-ic-zyH" firstAttribute="centerY" secondItem="zhW-ut-ZZH" secondAttribute="centerY" id="9wo-gb-Kic"/>
                     <constraint firstItem="706-2I-Hxf" firstAttribute="centerY" secondItem="Bv2-nt-MHw" secondAttribute="centerY" id="EHe-yB-hBA"/>
                     <constraint firstAttribute="trailing" secondItem="i4r-If-eMK" secondAttribute="trailing" id="GWR-0I-mzG"/>
-                    <constraint firstItem="LBJ-ic-zyH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="IIq-oh-Vi8"/>
+                    <constraint firstItem="LBJ-ic-zyH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="IIq-oh-Vi8"/>
                     <constraint firstAttribute="bottom" secondItem="LBJ-ic-zyH" secondAttribute="bottom" id="KnV-xl-EYb"/>
                     <constraint firstItem="i4r-If-eMK" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Lco-sP-qDS"/>
                     <constraint firstItem="706-2I-Hxf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Obi-3p-Ejj"/>
-                    <constraint firstItem="zhW-ut-ZZH" firstAttribute="leading" secondItem="LBJ-ic-zyH" secondAttribute="trailing" constant="15" id="PJu-0x-DmX"/>
+                    <constraint firstItem="zhW-ut-ZZH" firstAttribute="leading" secondItem="LBJ-ic-zyH" secondAttribute="trailing" constant="10" id="PJu-0x-DmX"/>
                     <constraint firstAttribute="trailing" secondItem="Sra-ti-o8l" secondAttribute="trailing" constant="20" id="SUt-Qe-Khf"/>
                     <constraint firstItem="i4r-If-eMK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="elY-Zw-XrM"/>
                     <constraint firstItem="Bv2-nt-MHw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21.5" id="oT3-nY-kdW"/>

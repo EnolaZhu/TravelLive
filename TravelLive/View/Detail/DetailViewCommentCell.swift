@@ -12,7 +12,6 @@ class DetailViewCommentCell: UITableViewCell {
     @IBOutlet weak var reviewerAvatarImage: UIImageView!
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var reviewerName: UILabel!
-    @IBOutlet weak var reviewTimeLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,6 +29,7 @@ class DetailViewCommentCell: UITableViewCell {
         reviewerAvatarImage.makeRounded()
         reviewerName.font = UIFont.boldSystemFont(ofSize: 14.0)
         commentLabel.font = commentLabel.font.withSize(14.0)
+        commentLabel.numberOfLines = 0
     }
     
     func layoutCell(name: String, comment: String, avatar: UIImage, time: String) {
@@ -37,6 +37,5 @@ class DetailViewCommentCell: UITableViewCell {
         reviewerName.text = name
         commentLabel.text = comment
         reviewerAvatarImage.image = avatar
-        reviewTimeLabel.text = "\(date.currentUTCTimeZoneDate)"
     }
 }
