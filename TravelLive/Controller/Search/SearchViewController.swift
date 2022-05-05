@@ -116,7 +116,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼圖主人", style: .destructive, handler: { [weak self] _ in
             guard let indexPath = self?.searchCollectionView.indexPathForItem(at: index ?? CGPoint()) else { return }
-            self?.postBlockData(indexPath: indexPath)
+            self?.postBlockData(blockId: self?.searchDataObjc?.data[indexPath.item].propertyId ?? "")
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
@@ -125,10 +125,14 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         self.present(alertController, animated: true)
     }
     
-    private func postBlockData(indexPath: IndexPath) {
-        DetailDataProvider.shared.postBlockData(
-            userId: userID, blockId: searchDataObjc?.data[indexPath.item].propertyId ?? ""
-        )
+    private func postBlockData(blockId: String) {
+        if userID == blockId {
+            return
+        } else {
+            DetailDataProvider.shared.postBlockData(
+                userId: userID, blockId: blockId
+            )
+        }
     }
     // MARK: - PrimeGridDelegate
     

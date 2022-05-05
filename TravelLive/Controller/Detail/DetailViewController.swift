@@ -32,7 +32,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
 
         setUpTableView()
         setUpSubview()
-        setGestureOnCell()
+//        setGestureOnCell()
         
         if isFromProfile {
             getOwnerAvatar(avatarUrl ?? "")
@@ -74,7 +74,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     private func createBlockAlert(index: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "封鎖並檢舉此則留言的主人", style: .destructive, handler: { [weak self] _ in
-            self?.postBlockData(index: index)
+            self?.postBlockData(blockId: self?.allCommentData?.message[index].reviewerId ?? "")
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
@@ -83,10 +83,14 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         self.present(alertController, animated: true)
     }
     
-    private func postBlockData(index: Int) {
-        DetailDataProvider.shared.postBlockData(
-            userId: userID, blockId: allCommentData?.message[index].reviewerId ?? ""
-        )
+    private func postBlockData(blockId: String) {
+        if userID == blockId {
+            return
+        } else {
+            DetailDataProvider.shared.postBlockData(
+                userId: userID, blockId: blockId
+            )
+        }
     }
     
     private func setUpTableView() {
@@ -191,6 +195,10 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             commentCell.backgroundColor = UIColor.backgroundColor
             commentCell.selectionStyle = .default
             
+            let longPressGesture: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(sender:)))
+            longPressGesture.delegate = self
+            cell.addGestureRecognizer(longPressGesture)
+            
             if allCommentData == nil {
                 return UITableViewCell()
             } else {
@@ -228,7 +236,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc private func createBlockSheet(_ sender: UIButton) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼文的主人", style: .destructive, handler: { [weak self] _ in
-            self?.postBlockData()
+            self?.postBlockData(blockId: self?.detailData?.ownerId ?? "")
         }))
         
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
@@ -238,11 +246,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         self.present(alertController, animated: true)
     }
     
-    private func postBlockData() {
-        DetailDataProvider.shared.postBlockData(
-            userId: userID, blockId: detailData?.ownerId ?? ""
-        )
-    }
     
     @objc private func clickLoveButton(_ sender: UIButton) {
         if sender.hasImage(named: "theheart", for: .normal) {
