@@ -107,21 +107,20 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         SFSpeechRecognizer.requestAuthorization { authState in
             OperationQueue.main.addOperation {
                 if authState == .authorized {
-                    print("Accepted")
                 } else if authState == .denied {
-                    self.alertView(message: "User denied the permission")
+                    self.alertView(message: "使用者拒絕開放權限")
                 } else if authState == .notDetermined {
-                    self.alertView(message: "In user phone there is no speech recognization")
+                    self.alertView(message: "使用者手機裡沒有聲音辨識")
                 } else if authState == .restricted {
-                    self.alertView(message: "User has been restricted for using the speech recognization")
+                    self.alertView(message: "使用者限制權限")
                 }
             }
         }
     }
     
     func alertView(message: String) {
-        let controller = UIAlertController.init(title: "Error ocured...", message: message, preferredStyle: .alert)
-        controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+        let controller = UIAlertController.init(title: "發生錯誤.", message: message, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
             controller.dismiss(animated: true, completion: nil)
         }))
         self.present(controller, animated: true, completion: nil)
