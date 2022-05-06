@@ -23,9 +23,10 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     var propertyId = String()
     var imageOwnerName = String()
     var isLiked = Bool()
-    var placeHolderImage = UIImage(named: "placeholder")
     var isFromProfile = false
     var allMessageArray = [String]()
+    let animationView = AnimationView(name: "loading")
+    var placeHolderImage = UIImage(named: "placeholder")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +48,8 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // owner id 換成 property id   從 search 頁和圖片一起帶過來
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
+        
         fetchComment(propertyId: propertyId, userId: userID)
     }
     
@@ -73,7 +76,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     private func createBlockAlert(index: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此則留言的主人", style: .destructive, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖此則留言的主人", style: .destructive, handler: { [weak self] _ in
             self?.postBlockData(blockId: self?.allCommentData?.message[index].reviewerId ?? "")
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
@@ -118,6 +121,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
             case .success(let data):
                 self?.allCommentData = data
                 guard (self?.allCommentData) != nil else { return }
+                LottieAnimationManager.shared.stopAnimation()
                 self?.detailTableView.reloadData()
                 
             case .failure(let error):
@@ -235,7 +239,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     @objc private func createBlockSheet(_ sender: UIButton) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼文的主人", style: .destructive, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖此貼文的主人", style: .destructive, handler: { [weak self] _ in
             self?.postBlockData(blockId: self?.detailData?.ownerId ?? "")
         }))
         

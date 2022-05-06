@@ -11,8 +11,8 @@ import Lottie
 private enum Tab {
     case map
     case search
-    case publish
-    case shop
+    case stream
+    case place
     case profile
     
     func controller() -> UIViewController {
@@ -20,9 +20,9 @@ private enum Tab {
         
         switch self {
         case .map: controller = UIStoryboard.map.instantiateInitialViewController()!
+        case .place: controller = UIStoryboard.shop.instantiateInitialViewController()!
+        case .stream: controller = UIStoryboard.pushStreaming.instantiateInitialViewController()!
         case .search: controller = UIStoryboard.search.instantiateInitialViewController()!
-        case .publish: controller = UIStoryboard.pushStreaming.instantiateInitialViewController()!
-        case .shop: controller = UIStoryboard.shop.instantiateInitialViewController()!
         case .profile: controller = UIStoryboard.profile.instantiateInitialViewController()!
         }
 
@@ -36,31 +36,31 @@ private enum Tab {
         switch self {
         case .map:
             return UITabBarItem(
-                title: nil,
+                title: "地圖",
                 image: UIImage.asset(.Icons_map),
                 selectedImage: UIImage.asset(.Icons_map)
             )
-
-        case .search:
+            
+        case .place:
             return UITabBarItem(
-                title: nil,
-                image: UIImage.asset(.Icons_search),
-                selectedImage: UIImage.asset(.Icons_search)
-            )
-
-        case .publish:
-            return UITabBarItem()
-
-        case .shop:
-            return UITabBarItem(
-                title: nil,
+                title: "景點",
                 image: UIImage.asset(.Icons_attractions),
                 selectedImage: UIImage.asset(.Icons_attractions)
             )
-            
+
+        case .stream:
+            return UITabBarItem(title: nil, image: nil, selectedImage: nil)
+
+        case .search:
+            return UITabBarItem(
+                title: "搜尋",
+                image: UIImage.asset(.Icons_search),
+                selectedImage: UIImage.asset(.Icons_search)
+            )
+        
         case .profile:
             return UITabBarItem(
-                title: nil,
+                title: "個人",
                 image: UIImage.asset(.Icons_profile),
                 selectedImage: UIImage.asset(.Icons_profile))
         }
@@ -68,7 +68,7 @@ private enum Tab {
 }
 
 class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
-    private let tabs: [Tab] = [.map, .search, .publish, .shop, .profile]
+    private let tabs: [Tab] = [.map, .place, .stream, .search, .profile]
     var trolleyTabBarItem: UITabBarItem!
     let animationView = AnimationView()
     
@@ -77,6 +77,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         navigationController?.setNavigationBarHidden(true, animated: false)
         tabBar.tintColor = UIColor.primary
         tabBar.backgroundColor = UIColor.white
+        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
         viewControllers = tabs.map({ $0.controller() })
         delegate = self
     }

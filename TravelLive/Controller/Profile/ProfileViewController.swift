@@ -266,7 +266,7 @@ class ProfileViewController: UIViewController {
     
     @objc private func blockUser() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此人", style: .destructive, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖此人", style: .destructive, handler: { [weak self] _ in
             self?.postBlockData()
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in

@@ -8,7 +8,7 @@
 import UIKit
 
 class EventCollectionViewController: UIViewController {
-    let collectionView: UICollectionView
+    private let collectionView: UICollectionView
 
     private let layout: UICollectionViewFlowLayout
     
@@ -53,6 +53,14 @@ class EventCollectionViewController: UIViewController {
         collectionView.register(nib, forCellWithReuseIdentifier: String(describing: EventCollectionViewCell.self))
 
         view.addSubview(collectionView)
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor)]
+        )
     }
 }
 

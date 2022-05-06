@@ -24,7 +24,6 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         addGestureOnMaskView()
         
         // Setting navigationbar back button color
-        navigationController?.navigationBar.barStyle = UIBarStyle.black
         navigationController?.navigationBar.tintColor = UIColor.primary
     }
     

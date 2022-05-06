@@ -121,7 +121,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     private func blockUser(index: CGPoint?) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼圖主人", style: .destructive, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖此貼圖主人", style: .destructive, handler: { [weak self] _ in
             guard let indexPath = self?.searchCollectionView.indexPathForItem(at: index ?? CGPoint()) else { return }
             self?.postBlockData(blockId: self?.searchDataObjc?.data[indexPath.item].propertyId ?? "")
         }))
