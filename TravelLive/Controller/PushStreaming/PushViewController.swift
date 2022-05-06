@@ -63,6 +63,8 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
         
+        LottieAnimationManager.shared.setUplottieAnimation(name: "loading", excitTime: 2, view: self.view, ifPulling: false)
+        
         session.preView = view
         addPushPreview()
         view.addSubview(closeButton)

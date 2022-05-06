@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class EventViewController: UIViewController {
 
@@ -18,9 +19,12 @@ class EventViewController: UIViewController {
         EventCollectionViewController(),
     ]
     var citys = ["臺北", "新北", "桃園", "臺中"]
-
+    let animationView = AnimationView(name: "loading")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
         
         setupTableView()
         getData()
@@ -138,6 +142,7 @@ extension EventViewController {
                             print("success")
                         }
                     }
+                    LottieAnimationManager.shared.stopAnimation()
                 }
 
             case .failure(let error):
