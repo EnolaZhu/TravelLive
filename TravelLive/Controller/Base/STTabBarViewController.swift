@@ -27,7 +27,7 @@ private enum Tab {
         }
 
         controller.tabBarItem = tabBarItem()
-        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 6.0, left: 0.0, bottom: -6.0, right: 0.0)
+        controller.tabBarItem.imageInsets = UIEdgeInsets(top: -4.0, left: 0.0, bottom: 4.0, right: 0.0)
 
         return controller
     }
@@ -77,7 +77,6 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         navigationController?.setNavigationBarHidden(true, animated: false)
         tabBar.tintColor = UIColor.primary
         tabBar.backgroundColor = UIColor.white
-        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
         viewControllers = tabs.map({ $0.controller() })
         delegate = self
     }
