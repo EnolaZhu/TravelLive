@@ -191,6 +191,7 @@ PODS:
   - Kingfisher (7.2.1)
   - LFLiveKit (2.6)
   - lottie-ios (3.3.0)
+  - MJRefresh (3.7.5)
   - MLImage (1.0.0-beta2)
   - MLKitCommon (5.0.0):
     - GoogleDataTransport (~> 9.0)
@@ -255,6 +256,7 @@ DEPENDENCIES:
   - Kingfisher (~> 7.0)
   - LFLiveKit
   - lottie-ios
+  - MJRefresh
   - mobile-ffmpeg-full (~> 4.4)
   - PubNub (~> 4)
   - SnapKit (~> 5.6.0)
@@ -287,6 +289,7 @@ SPEC REPOS:
     - Kingfisher
     - LFLiveKit
     - lottie-ios
+    - MJRefresh
     - MLImage
     - MLKitCommon
     - MLKitImageLabeling
@@ -328,6 +331,7 @@ SPEC CHECKSUMS:
   Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
   LFLiveKit: 2219563721f8aa0f188effc3395a06e2d53b23f2
   lottie-ios: 6ac74dcc09904798f59b18cb3075c089d76be9ae
+  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
   MLImage: a454f9f8ecfd537783a12f9488f5be1a68820829
   MLKitCommon: 3bc17c6f7d25ce3660f030350b46ae7ec9ebca6e
   MLKitImageLabeling: 8e19e6cea9b220c5ae6beb85e2c0b14c370fdb3a
@@ -345,6 +349,6 @@ SPEC CHECKSUMS:
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   TXLiteAVSDK_Professional: 645670c9d1bbabb88e8dff998fb097a22fe71208
 
-PODFILE CHECKSUM: 56ef738704f2438505fda33fa70d0f1491856dcf
+PODFILE CHECKSUM: 172693e777e039ffe190a789b4d5580bfad4613d
 
 COCOAPODS: 1.11.3

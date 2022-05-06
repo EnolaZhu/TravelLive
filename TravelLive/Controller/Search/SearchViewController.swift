@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseStorage
+import MJRefresh
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
     @IBOutlet weak var searchCollectionView: UICollectionView!
@@ -21,12 +22,15 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
         searchCollectionView.isUserInteractionEnabled = true
         arrInstaBigCells.append(1)
+        addRefreshHeader()
+        
         // Fix searchbar hidden when change view
         navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.delegate = self
         
         var tempStorage = false
         for _ in 1...21 {
@@ -59,6 +63,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         
         searchController.searchBar.text = ""
         searchController.searchBar.placeholder = "搜尋"
+        searchController.searchBar.tintColor = UIColor.primary
         
         setNeedsStatusBarAppearanceUpdate()
         navigationController?.navigationBar.backgroundColor = .backgroundColor
@@ -87,12 +92,59 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionViewCell", for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
+        
+        
+        let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        
         if images.count > 0 {
             cell.imageView.image = images[indexPath.row]
+            cell.imageView.isUserInteractionEnabled = true
+        } else {
+            cell.imageView.image = UIImage.asset(.placeholder)
+            cell.imageView.isUserInteractionEnabled = false
         }
+        cell.imageView.addGestureRecognizer(tapGestureRecognizer)
+        
         return cell
     }
     
+    @objc private func imageTapped(tapGestureRecognizer: UILongPressGestureRecognizer) {
+        // swiftlint:disable force_cast
+        _ = tapGestureRecognizer.view as! UIImageView
+        let point = tapGestureRecognizer.view?.convert(CGPoint.zero, to: searchCollectionView)
+        blockUser(index: point)
+    }
+    
+    private func blockUser(index: CGPoint?) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼圖主人", style: .destructive, handler: { [weak self] _ in
+            guard let indexPath = self?.searchCollectionView.indexPathForItem(at: index ?? CGPoint()) else { return }
+            self?.postBlockData(blockId: self?.searchDataObjc?.data[indexPath.item].propertyId ?? "")
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+        }))
+        
+        alertController.view.tintColor = UIColor.black
+        self.present(alertController, animated: true)
+    }
+    
+    private func postBlockData(blockId: String) {
+        if userID == blockId {
+            return
+        } else {
+            DetailDataProvider.shared.postBlockData(
+                userId: userID, blockId: blockId
+            )
+        }
+    }
+    
+    // Refresh Data by pull-down
+    private func addRefreshHeader() {
+          MJRefreshNormalHeader { [weak self] in
+              self?.getSearchData()
+          }.autoChangeTransparency(true)
+          .link(to: searchCollectionView)
+      }
     // MARK: - PrimeGridDelegate
     
     func scaleForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> UInt {
@@ -116,7 +168,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         searchDataProvider.fetchSearchData(userId: userId, tag: tag) { [weak self] result in
             switch result {
             case .success(let data):
-                print("\(data)")
                 self?.searchDataObjc = data
                 guard let searchDataObjc = self?.searchDataObjc else { return }
                 if searchDataObjc.data.isEmpty {
@@ -125,7 +176,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 
                 if searchDataObjc.data.count > 0 {
                     // placeholder
-                    self?.images = [UIImage](repeating: UIImage(named: "placeholder") ?? UIImage(), count: searchDataObjc.data.count)
+                    self?.images = [UIImage](repeating: UIImage.asset(.placeholder) ?? UIImage(), count: searchDataObjc.data.count)
                     for index in 0...searchDataObjc.data.count - 1 {
                         if searchDataObjc.data[index].thumbnailUrl == "" {
                             self?.getImage(searchData: searchDataObjc.data[index], imageUrl: searchDataObjc.data[index].fileUrl, index: index)
@@ -134,6 +185,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                         }
                     }
                 }
+                self?.searchCollectionView.mj_header?.endRefreshing()
             case .failure:
                 print("Failed")
             }
@@ -172,7 +224,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     }
 }
 
-extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, UISearchResultsUpdating {
+extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         if images.count < indexPath.item + 1 { return }
@@ -189,18 +241,22 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate, U
         
         show(detailVC, sender: nil)
     }
-    
-    func updateSearchResults(for searchController: UISearchController) {
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchController.searchBar.text else {
             return
         }
         if text != "" {
-            print("updateSearchResults")
             images.removeAll()
+            searchBar.resignFirstResponder()
             fetchSearchData(userId: userID, tag: text)
-        } else {
-            print("Do nothing")
         }
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        fetchSearchData(userId: userID, tag: nil)
     }
 }
 

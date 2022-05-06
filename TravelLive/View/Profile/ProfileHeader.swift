@@ -24,6 +24,7 @@ class ProfileHeader: UICollectionReusableView {
     override func layoutSubviews() {
         avatarImageView.layer.cornerRadius = 60
         avatarImageView.clipsToBounds = true
+        displayNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
     }
     
     @objc func defaultSegmentIndex(_ notification: NSNotification) {
