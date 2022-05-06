@@ -300,7 +300,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }()
     // camera
     lazy var cameraButton: UIButton = {
-        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 120, y: UIScreen.height - 180, width: 44, height: 44))
+        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 110, y: UIScreen.height - 180, width: 44, height: 44))
         cameraButton.setImage(UIImage.asset(.Icons_camera_preview)?.maskWithColor(color: .primary), for: UIControl.State())
         return cameraButton
     }()
