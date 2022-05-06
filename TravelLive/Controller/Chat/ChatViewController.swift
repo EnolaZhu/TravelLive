@@ -119,7 +119,11 @@ class ChatViewController: BaseViewController, PNEventsListener {
     }
     
     @IBAction func sendMessage(_ sender: UIButton) {
-        publishMessage()
+        if inputTextfield.text == "" {
+            return
+        } else {
+            publishMessage()
+        }
     }
     
     private func publishMessage() {

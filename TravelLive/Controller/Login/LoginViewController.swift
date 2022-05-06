@@ -21,7 +21,8 @@ class LoginViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
-        authView.loginWithAppleButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
+        authView.contentMode = .center
+        authView.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
         view.backgroundColor = UIColor.backgroundColor
         
         if userID == "" {
@@ -64,8 +65,9 @@ class LoginViewController: UIViewController {
     }
     
     private func showMainView() {
-        let mainTabVC = UIStoryboard.main.instantiateViewController(withIdentifier:
-                                                                        String(describing: TabBarViewController.self))
+        let mainTabVC = UIStoryboard.main.instantiateViewController(
+            withIdentifier: String(describing: TabBarViewController.self)
+        )
         guard let tabVc = mainTabVC as? TabBarViewController else { return }
         show(tabVc, sender: nil)
     }
@@ -136,7 +138,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             // 產生 Apple ID 登入的 Credential
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             
-            showMainView()
             // 與 Firebase Auth 進行串接
             firebaseSignInWithApple(credential: credential)
         }

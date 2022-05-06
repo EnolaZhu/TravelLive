@@ -8,32 +8,22 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-
-enum AuthText: String {
-    case appleButtonText = "Continue with Apple"
-    case textLabel = "Already have an account? "
-}
+import AuthenticationServices
 
 class AuthView: UIView, NibOwnerLoadable {
     // swiftlint:disable opening_brace
     // swiftlint:disable line_length
     @IBOutlet weak var authTitleLabel: UILabel!
-    @IBOutlet weak var loginWithAppleButton: UIButton!
-    {
-        didSet {
-        loginWithAppleButton.configureButton(text: AuthText.appleButtonText.rawValue, image: UIImage.asset(.apple) ?? UIImage(),
-        imagePadding: 10, edgePadding: 10, button: loginWithAppleButton, backgroundColor: UIColor.white, textColor: UIColor.black)
-        }
-    }
-    @IBOutlet weak var textLabel: UILabel! {
-        didSet {
-            textLabel.text = AuthText.textLabel.rawValue
-        }
-    }
-    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var loginWithAppleView: UIView!
+    
+    let authorizationButton = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        loginWithAppleButton.clipsToBounds = true
+        
+        setUpLoginButton()
+        self.layer.cornerRadius = 20
+        authorizationButton.layer.cornerRadius = 20
     }
     
     override init(frame: CGRect) {
@@ -48,5 +38,17 @@ class AuthView: UIView, NibOwnerLoadable {
     
     private func customInit() {
         loadNibContent()
+    }
+    
+    private func setUpLoginButton() {
+        loginWithAppleView.addSubview(authorizationButton)
+        authorizationButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            authorizationButton.topAnchor.constraint(equalTo: loginWithAppleView.topAnchor),
+            authorizationButton.trailingAnchor.constraint(equalTo: loginWithAppleView.trailingAnchor),
+            authorizationButton.bottomAnchor.constraint(equalTo: loginWithAppleView.bottomAnchor),
+            authorizationButton.leadingAnchor.constraint(equalTo: loginWithAppleView.leadingAnchor)
+        ])
     }
 }

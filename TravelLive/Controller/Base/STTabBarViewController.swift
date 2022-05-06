@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 private enum Tab {
     case map
@@ -48,11 +49,7 @@ private enum Tab {
             )
 
         case .publish:
-            return UITabBarItem(
-                title: nil,
-                image: UIImage.asset(.Icons_live),
-                selectedImage: UIImage.asset(.Icons_live)
-            )
+            return UITabBarItem()
 
         case .shop:
             return UITabBarItem(
@@ -73,6 +70,7 @@ private enum Tab {
 class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     private let tabs: [Tab] = [.map, .search, .publish, .shop, .profile]
     var trolleyTabBarItem: UITabBarItem!
+    let animationView = AnimationView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,5 +79,10 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         tabBar.backgroundColor = UIColor.white
         viewControllers = tabs.map({ $0.controller() })
         delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        LottieAnimationManager.shared.showLoadingAnimationInButton(view: tabBar.subviews[2], name: "Live")
     }
 }

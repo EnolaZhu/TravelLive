@@ -48,10 +48,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        
         // check if streamer is streaming by 5s
         //        postStreamerInfoTimer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
         session.delegate = self
+        
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -106,21 +107,20 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         SFSpeechRecognizer.requestAuthorization { authState in
             OperationQueue.main.addOperation {
                 if authState == .authorized {
-                    print("Accepted")
                 } else if authState == .denied {
-                    self.alertView(message: "User denied the permission")
+                    self.alertView(message: "使用者拒絕開放權限")
                 } else if authState == .notDetermined {
-                    self.alertView(message: "In user phone there is no speech recognization")
+                    self.alertView(message: "使用者手機裡沒有聲音辨識")
                 } else if authState == .restricted {
-                    self.alertView(message: "User has been restricted for using the speech recognization")
+                    self.alertView(message: "使用者限制權限")
                 }
             }
         }
     }
     
     func alertView(message: String) {
-        let controller = UIAlertController.init(title: "Error ocured...", message: message, preferredStyle: .alert)
-        controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+        let controller = UIAlertController.init(title: "發生錯誤.", message: message, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
             controller.dismiss(animated: true, completion: nil)
         }))
         self.present(controller, animated: true, completion: nil)
@@ -269,7 +269,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }
     // MARK: - Getters and Setters
     //  默認分辨率368 ＊ 640  音頻：44.1 iphone6以上48  雙聲道  豎屏
-    var session: LFLiveSession = {
+    lazy var session: LFLiveSession = {
         let audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration(for: LFLiveAudioQuality.low)
         let videoConfiguration = LFLiveVideoConfiguration.defaultConfiguration(for: LFLiveVideoQuality.low1)
         let session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
@@ -277,14 +277,14 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }()
     // View
     // swiftlint:disable line_length
-    var containerView: UIView = {
+    lazy var containerView: UIView = {
         let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height))
         containerView.backgroundColor = UIColor.clear
         containerView.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleHeight]
         return containerView
     }()
     // Label
-    var stateButton: UIButton = {
+    lazy var stateButton: UIButton = {
         let stateLabel = UIButton(frame: CGRect(x: 20, y: 40, width: 80, height: 40))
         stateLabel.roundCorners(cornerRadius: 8)
 //        stateLabel.isEnabled = false
@@ -293,34 +293,34 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         return stateLabel
     }()
     // close
-    var closeButton: UIButton = {
+    lazy var closeButton: UIButton = {
         let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: 70, width: 32, height: 32))
         closeButton.setImage(UIImage.asset(.close)?.maskWithColor(color: UIColor.primary), for: UIControl.State())
         return closeButton
     }()
     // camera
-    var cameraButton: UIButton = {
-        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 430, width: 44, height: 44))
+    lazy var cameraButton: UIButton = {
+        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 110, y: UIScreen.height - 180, width: 44, height: 44))
         cameraButton.setImage(UIImage.asset(.Icons_camera_preview)?.maskWithColor(color: .primary), for: UIControl.State())
         return cameraButton
     }()
     //  camera
-    var beautyButton: UIButton = {
-        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 380, width: 44, height: 44))
+    lazy var beautyButton: UIButton = {
+        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 160, y: UIScreen.height - 180, width: 44, height: 44))
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty)?.maskWithColor(color: .primary), for: UIControl.State.selected)
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close)?.maskWithColor(color: .primary), for: UIControl.State())
         return beautyButton
     }()
     // record
-    var recordButton: UIButton = {
-        let recordButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 530, width: 44, height: 44))
+    lazy var recordButton: UIButton = {
+        let recordButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 180, width: 44, height: 44))
         recordButton.setImage(UIImage.asset(.play)?.maskWithColor(color: .primary), for: UIControl.State())
         return recordButton
     }()
     
     // 結束直播
-    var stopLiveButton: UIButton = {
-        let stopLiveButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 280, width: 44, height: 44))
+    lazy var stopLiveButton: UIButton = {
+        let stopLiveButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: 70, width: 44, height: 44))
         stopLiveButton.layer.cornerRadius = 22
         stopLiveButton.setTitleColor(UIColor.black, for: UIControl.State())
         stopLiveButton.setTitle("停止", for: UIControl.State())
@@ -371,6 +371,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     @objc func didTappedStopLiveButton(_ button: UIButton) {
         session.stopLive()
+        session.running = false
         deletePushStreming()
         cancelSpeechRecognization()
         NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
@@ -392,7 +393,11 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     // close
     @objc func didTappedCloseButton(_ button: UIButton) {
+        
+        print("=== didTappedCloseButton")
+        
         session.stopLive()
+        session.running = false
         deletePushStreming()
 //        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
         

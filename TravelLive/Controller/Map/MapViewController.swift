@@ -37,7 +37,6 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         
         setUpButtons()
-        
         // Location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
@@ -69,7 +68,7 @@ class MapViewController: UIViewController {
         mapView.clear()
         fetchStreamerData()
         tabBarController?.tabBar.isHidden = false
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
         placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
@@ -80,13 +79,13 @@ class MapViewController: UIViewController {
         super.viewWillDisappear(true)
         mapView.clear()
         // Show the Navigation Bar
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         containerView.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        containerView.roundCorners(cornerRadius: 10.0)
+        containerView.roundCorners(cornerRadius: 12.0)
     }
     
     override func didReceiveMemoryWarning() {
@@ -103,6 +102,8 @@ class MapViewController: UIViewController {
              containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30)]
         )
         containerView.backgroundColor = UIColor.backgroundColor
+        containerView.layer.borderWidth = 5
+        containerView.layer.borderColor = UIColor.primary.cgColor
     }
     
     private func setUpPlaceButton() {
@@ -111,7 +112,7 @@ class MapViewController: UIViewController {
         NSLayoutConstraint.activate(
             [placeButton.widthAnchor.constraint(equalToConstant: 55),
              placeButton.heightAnchor.constraint(equalToConstant: 55),
-             placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 3),
+             placeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0),
              placeButton.leftAnchor.constraint(equalTo: streamButton.rightAnchor, constant: 15)]
         )
     }
@@ -159,7 +160,7 @@ class MapViewController: UIViewController {
         mapView.clear()
         showTypeOfMarker = "streamer"
         
-        mapDataProvider.fetchStreamerInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+        mapDataProvider.fetchStreamerInfo(userid: userID, latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
                 
             case .success(let user):
@@ -193,14 +194,18 @@ class MapViewController: UIViewController {
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
         
         mapView.clear()
+        mapView.animate(toZoom: 10.0)
         showTypeOfMarker = "event"
+        
         mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
             switch result {
             case .success(let places):
                 self?.eventData = places
                 guard let eventData = self?.placeData else { return }
+                
                 if eventData.data.count > 0 {
                     guard let eventData = self?.eventData else { return }
+                    
                     for index in 0...eventData.data.count - 1 {
                         ImageManager.shared.fetchImage(imageUrl: eventData.data[index].image) { [weak self] image in
                             self?.makeCustomMarker(latitude: Float(eventData.data[index].latitude), longitude: Float(eventData.data[index].longitude), pinImage: image, isStreamer: false)
@@ -221,12 +226,16 @@ class MapViewController: UIViewController {
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.secondary)
         
         mapView.clear()
+        mapView.animate(toZoom: 10.0)
         showTypeOfMarker = "place"
+        
         mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 4) { [weak self] result in
             switch result {
+                
             case .success(let places):
                 self?.placeData = places
                 guard let placeData = self?.placeData else { return }
+                
                 if placeData.data.count > 0 {
                     for index in 0...placeData.data.count - 1 {
                         ImageManager.shared.fetchImage(imageUrl: placeData.data[index].image) { [weak self] image in
@@ -269,7 +278,6 @@ class MapViewController: UIViewController {
         } else {
             imageView.layer.borderColor = UIColor.backgroundColor.cgColor
         }
-        
         imageView.image = pinImage
         marker.iconView = imageView
         marker.map = self.mapView
@@ -310,6 +318,7 @@ extension MapViewController: GMSMapViewDelegate {
         let mapDetailVC = UIStoryboard.mapDetail.instantiateViewController(withIdentifier: String(describing: MapDetailViewController.self)
         )
         guard let detailVC = mapDetailVC as? MapDetailViewController else { return }
+        
         if detailEventData == nil {
             detailVC.detailPlaceData = detailPlaceData
         } else {
@@ -321,6 +330,7 @@ extension MapViewController: GMSMapViewDelegate {
     private func createLiveRoom(streamerUrl: String, channelName: String) {
         let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
         )
+        
         guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
         pullVC.channelName = channelName
         pullVC.streamingUrl = url

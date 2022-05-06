@@ -10,9 +10,9 @@ import Foundation
 class DetailDataProvider {
     static let shared = DetailDataProvider()
     
-    func postBanData(reason: String, userId: String, whistleblowerId: String) {
-        let body = ReportBody(reason: reason, userId: userId, whistleblowerId: whistleblowerId)
-        let request = DataRequest.postBanData(body: try? JSONEncoder().encode(body))
+    func postBlockData(userId: String, blockId: String) {
+        let body = BlockBody(userId: userId, blockId: blockId)
+        let request = DataRequest.postBlockData(body: try? JSONEncoder().encode(body))
         HTTPClient.shared.request(request, completion: { data in
             switch data {
             case .success( _):

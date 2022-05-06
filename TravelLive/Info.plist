@@ -2,12 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
-	<key>SignIn with Apple</key>
-	<string>en</string>
+	<key>BaseUrl</key>
+	<string>https://asia-east1-travellive-1d79e.cloudfunctions.net</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-3208816489149545~8888517840</string>
+	<key>Privacy - Location Always And When In Use Usage Description</key>
+	<string>en</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
@@ -159,22 +159,8 @@
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
 	</array>
-	<key>Privacy - Location Always And When In Use Usage Description</key>
+	<key>SignIn with Apple</key>
 	<string>en</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Please allow the recognization of the speech for the app</string>
-	<key>BaseUrl</key>
-	<string>https://asia-east1-travellive-1d79e.cloudfunctions.net</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Need microphone access for uploading videos</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Need to access your camera to capture a photo add and update profile picture</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Need location access for updating nearby friends</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app will use your location to show cool stuffs near you.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Need photo library access for uploading images</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

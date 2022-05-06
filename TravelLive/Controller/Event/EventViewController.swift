@@ -103,7 +103,7 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
         label.backgroundColor = UIColor.clear
         label.text = citys[section]
         label.textColor = UIColor.primary
-        label.font = label.font.withSize(26)
+        label.font = label.font.withSize(18)
         sectionView.addSubview(label)
         
         return sectionView

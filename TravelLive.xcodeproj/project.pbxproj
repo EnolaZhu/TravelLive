@@ -23,6 +23,10 @@
 		4B17A88C2815C6880006BB2D /* DetailViewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B17A8882815C6880006BB2D /* DetailViewImageCell.xib */; };
 		4B17A88F2815C6C60006BB2D /* ProfileCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17A88D2815C6C60006BB2D /* ProfileCollectionCell.swift */; };
 		4B17A8902815C6C60006BB2D /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B17A88E2815C6C60006BB2D /* ProfileHeader.swift */; };
+		4B1950D72822767600B6A789 /* StretchyTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1950D62822767600B6A789 /* StretchyTableHeaderView.swift */; };
+		4B1950D92824169300B6A789 /* Hearts moving.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1950D82824169300B6A789 /* Hearts moving.json */; };
+		4B1950DB282419EA00B6A789 /* Heart falling.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1950DA282419EA00B6A789 /* Heart falling.json */; };
+		4B1950DD282448FB00B6A789 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1950DC282448FB00B6A789 /* loading.json */; };
 		4B1ED6252813BFB500674E6D /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1ED6242813BFB500674E6D /* ShareManager.swift */; };
 		4B3AAAD62806BCB500CBFE89 /* Notification.Name+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAD52806BCB500CBFE89 /* Notification.Name+Extension.swift */; };
 		4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */; };
@@ -38,7 +42,6 @@
 		4B4AA4422802BF9A0066C602 /* PushStreamingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */; };
 		4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4BBF7628043E4700A53128 /* DataRequest.swift */; };
 		4B503BFA281FBF1500E23942 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */; };
-		4B503BFC2820271C00E23942 /* navigationbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B503BFB2820271C00E23942 /* navigationbar.swift */; };
 		4B503BFE28203EFE00E23942 /* Heart break.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B503BFD28203EFE00E23942 /* Heart break.json */; };
 		4B503C0028203F1C00E23942 /* Live.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B503BFF28203F1C00E23942 /* Live.json */; };
 		4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B8A27FD28D600A304D6 /* LoginViewController.swift */; };
@@ -59,10 +62,8 @@
 		4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */; };
 		4B9787FB280FEB490003CC9F /* CommentBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9787FA280FEB490003CC9F /* CommentBody.swift */; };
 		4B9787FD280FEFB90003CC9F /* CommentObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9787FC280FEFB90003CC9F /* CommentObject.swift */; };
-		4B978801281008740003CC9F /* Hearts moving.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B978800281008740003CC9F /* Hearts moving.json */; };
 		4B9788032810462B0003CC9F /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9788022810462B0003CC9F /* Date+Extension.swift */; };
 		4B978805281057280003CC9F /* LikeBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B978804281057280003CC9F /* LikeBody.swift */; };
-		4B97880828105A7A0003CC9F /* Heart falling.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B97880728105A7A0003CC9F /* Heart falling.json */; };
 		4B97880A28106E660003CC9F /* ConvertQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B97880928106E660003CC9F /* ConvertQuery.swift */; };
 		4B9788102811C09F0003CC9F /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B97880F2811C09F0003CC9F /* URL+Extension.swift */; };
 		4B9788132811C89E0003CC9F /* UniversalLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9788122811C89E0003CC9F /* UniversalLinkManager.swift */; };
@@ -78,7 +79,6 @@
 		4BA5E3A9280E9FB400D421D0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3A8280E9FB400D421D0 /* DetailViewController.swift */; };
 		4BA5E3AB280EC4D600D421D0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */; };
 		4BA5E3AE280F133900D421D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */; };
-		4BA5E3B2280F9D2900D421D0 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B0280F9D2900D421D0 /* ReportViewController.swift */; };
 		4BA5E3B3280F9D2A00D421D0 /* ReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */; };
 		4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B5280FB10500D421D0 /* ReportBody.swift */; };
 		4BA5E3B8280FB36300D421D0 /* DetailDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B7280FB36200D421D0 /* DetailDataProvider.swift */; };
@@ -156,6 +156,10 @@
 		4B17A8882815C6880006BB2D /* DetailViewImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewImageCell.xib; sourceTree = "<group>"; };
 		4B17A88D2815C6C60006BB2D /* ProfileCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCollectionCell.swift; sourceTree = "<group>"; };
 		4B17A88E2815C6C60006BB2D /* ProfileHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
+		4B1950D62822767600B6A789 /* StretchyTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyTableHeaderView.swift; sourceTree = "<group>"; };
+		4B1950D82824169300B6A789 /* Hearts moving.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Hearts moving.json"; sourceTree = "<group>"; };
+		4B1950DA282419EA00B6A789 /* Heart falling.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart falling.json"; sourceTree = "<group>"; };
+		4B1950DC282448FB00B6A789 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		4B1ED6242813BFB500674E6D /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		4B3AAAD52806BCB500CBFE89 /* Notification.Name+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Extension.swift"; sourceTree = "<group>"; };
 		4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
@@ -171,7 +175,6 @@
 		4B4AA4412802BF9A0066C602 /* PushStreamingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingBody.swift; sourceTree = "<group>"; };
 		4B4BBF7628043E4700A53128 /* DataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequest.swift; sourceTree = "<group>"; };
 		4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
-		4B503BFB2820271C00E23942 /* navigationbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navigationbar.swift; sourceTree = "<group>"; };
 		4B503BFD28203EFE00E23942 /* Heart break.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart break.json"; sourceTree = "<group>"; };
 		4B503BFF28203F1C00E23942 /* Live.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Live.json; sourceTree = "<group>"; };
 		4B552B8A27FD28D600A304D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -192,10 +195,8 @@
 		4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		4B9787FA280FEB490003CC9F /* CommentBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBody.swift; sourceTree = "<group>"; };
 		4B9787FC280FEFB90003CC9F /* CommentObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentObject.swift; sourceTree = "<group>"; };
-		4B978800281008740003CC9F /* Hearts moving.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Hearts moving.json"; sourceTree = "<group>"; };
 		4B9788022810462B0003CC9F /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		4B978804281057280003CC9F /* LikeBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeBody.swift; sourceTree = "<group>"; };
-		4B97880728105A7A0003CC9F /* Heart falling.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart falling.json"; sourceTree = "<group>"; };
 		4B97880928106E660003CC9F /* ConvertQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertQuery.swift; sourceTree = "<group>"; };
 		4B97880F2811C09F0003CC9F /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		4B9788122811C89E0003CC9F /* UniversalLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkManager.swift; sourceTree = "<group>"; };
@@ -212,7 +213,6 @@
 		4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		4BA5E3AC280F0FEA00D421D0 /* TravelLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TravelLive.entitlements; sourceTree = "<group>"; };
 		4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		4BA5E3B0280F9D2900D421D0 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportViewController.xib; sourceTree = "<group>"; };
 		4BA5E3B5280FB10500D421D0 /* ReportBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBody.swift; sourceTree = "<group>"; };
 		4BA5E3B7280FB36200D421D0 /* DetailDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDataProvider.swift; sourceTree = "<group>"; };
@@ -320,6 +320,7 @@
 			children = (
 				4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */,
 				4B66E9452817B96C00BD62C6 /* EventCollectionViewController.swift */,
+				4B1950D62822767600B6A789 /* StretchyTableHeaderView.swift */,
 			);
 			path = Event;
 			sourceTree = "<group>";
@@ -438,12 +439,13 @@
 		4B97880628105A440003CC9F /* LottieAnimation */ = {
 			isa = PBXGroup;
 			children = (
-				4B97880728105A7A0003CC9F /* Heart falling.json */,
 				4B503BFD28203EFE00E23942 /* Heart break.json */,
 				4BEFEF87281BA5100039F601 /* Success.json */,
+				4B1950DC282448FB00B6A789 /* loading.json */,
 				4BEFEF89281BA5630039F601 /* Fail.json */,
+				4B1950D82824169300B6A789 /* Hearts moving.json */,
+				4B1950DA282419EA00B6A789 /* Heart falling.json */,
 				4B503BFF28203F1C00E23942 /* Live.json */,
-				4B978800281008740003CC9F /* Hearts moving.json */,
 			);
 			path = LottieAnimation;
 			sourceTree = "<group>";
@@ -510,14 +512,6 @@
 				4B97880928106E660003CC9F /* ConvertQuery.swift */,
 			);
 			path = Detail;
-			sourceTree = "<group>";
-		};
-		4BA5E3B9280FB5E500D421D0 /* Report */ = {
-			isa = PBXGroup;
-			children = (
-				4BA5E3B0280F9D2900D421D0 /* ReportViewController.swift */,
-			);
-			path = Report;
 			sourceTree = "<group>";
 		};
 		4BB5A92A280D693500739C61 /* Detail */ = {
@@ -633,7 +627,6 @@
 		4BC1074F27FB45FC0017B1B7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4BA5E3B9280FB5E500D421D0 /* Report */,
 				4BA5E3A7280E9FA100D421D0 /* Detail */,
 				4B3AAAEF280873B400CBFE89 /* Profile */,
 				4B3AAAE428081CC100CBFE89 /* Event */,
@@ -714,7 +707,6 @@
 				4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */,
 				4BEC55A8281DA7E600126786 /* String.Index+Extension.swift */,
 				4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */,
-				4B503BFB2820271C00E23942 /* navigationbar.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -852,6 +844,7 @@
 				4BEAF1CA2814714A0094B90E /* PlaceEventViewTitleCell.xib in Resources */,
 				4BA5E3AE280F133900D421D0 /* GoogleService-Info.plist in Resources */,
 				4BC1076727FB56790017B1B7 /* Event.storyboard in Resources */,
+				4B1950DD282448FB00B6A789 /* loading.json in Resources */,
 				4BC1074627FA9DD60017B1B7 /* LaunchScreen.storyboard in Resources */,
 				4BA5E3BD280FCEB100D421D0 /* CommentViewController.xib in Resources */,
 				4B17A88C2815C6880006BB2D /* DetailViewImageCell.xib in Resources */,
@@ -865,23 +858,23 @@
 				4B17A85B2815BE230006BB2D /* TitleView.xib in Resources */,
 				4BEAF1D2281471810094B90E /* PlaceEventViewContentCell.xib in Resources */,
 				4BF82C97281520DE00635924 /* Assets.xcassets in Resources */,
-				4B978801281008740003CC9F /* Hearts moving.json in Resources */,
 				4BC0EE6528000A1F00C5673B /* Chat.storyboard in Resources */,
 				4BEAF1DE281476BD0094B90E /* MapDetailViewController.storyboard in Resources */,
 				4B66E94A2817BB0400BD62C6 /* EventCollectionViewCell.xib in Resources */,
 				4BC1075F27FB560D0017B1B7 /* Map.storyboard in Resources */,
 				4BC1074127FA9DD40017B1B7 /* Main.storyboard in Resources */,
 				4BC1076127FB56290017B1B7 /* Search.storyboard in Resources */,
+				4B1950DB282419EA00B6A789 /* Heart falling.json in Resources */,
 				4BC1075927FB4AE40017B1B7 /* PushStreaming.storyboard in Resources */,
 				4B503C0028203F1C00E23942 /* Live.json in Resources */,
 				4B17A8592815BE230006BB2D /* ImageCell.xib in Resources */,
 				4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */,
 				4BEC55AF281E2D3D00126786 /* DetailViewController.storyboard in Resources */,
-				4B97880828105A7A0003CC9F /* Heart falling.json in Resources */,
 				4BEFEF8A281BA5630039F601 /* Fail.json in Resources */,
 				4B503BFE28203EFE00E23942 /* Heart break.json in Resources */,
 				4BEFEF88281BA5100039F601 /* Success.json in Resources */,
 				4B17A88B2815C6880006BB2D /* DetailViewCommentCell.xib in Resources */,
+				4B1950D92824169300B6A789 /* Hearts moving.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -985,6 +978,7 @@
 				4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */,
 				4BA4ED62281786C500B158CA /* UserData.swift in Sources */,
 				4B17A85A2815BE230006BB2D /* TitleView.swift in Sources */,
+				4B1950D72822767600B6A789 /* StretchyTableHeaderView.swift in Sources */,
 				4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */,
 				4B035A0B2812748200017762 /* UICollectionView+Extension.swift in Sources */,
 				4BA3658A281AEB6900A2E724 /* ConvertImageTOBase64.swift in Sources */,
@@ -1056,10 +1050,8 @@
 				4BEAF1D5281471EF0094B90E /* PlaceEventViewReuseCell.swift in Sources */,
 				4B503BFA281FBF1500E23942 /* UINavigationController+Extension.swift in Sources */,
 				4BA5E392280E484B00D421D0 /* SearchDataProvider.swift in Sources */,
-				4B503BFC2820271C00E23942 /* navigationbar.swift in Sources */,
 				4B1ED6252813BFB500674E6D /* ShareManager.swift in Sources */,
 				4BD373642804181800141A29 /* SearchViewController.swift in Sources */,
-				4BA5E3B2280F9D2900D421D0 /* ReportViewController.swift in Sources */,
 				4B060CC2280C66590055EDB2 /* SearchCollectionViewCell.swift in Sources */,
 				4B17A88A2815C6880006BB2D /* DetailViewImageCell.swift in Sources */,
 				4B97880A28106E660003CC9F /* ConvertQuery.swift in Sources */,
@@ -1224,11 +1216,18 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravelLive/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need to access your camera to capture a photo add and update profile picture";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Need location access for updating nearby friends";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app will use your location to show cool stuffs near you.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need microphone access for uploading videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need photo library access for uploading images";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Please allow the recognization of the speech for the app";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1260,11 +1259,18 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravelLive/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need to access your camera to capture a photo add and update profile picture";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Need location access for updating nearby friends";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app will use your location to show cool stuffs near you.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need microphone access for uploading videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need photo library access for uploading images";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Please allow the recognization of the speech for the app";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
