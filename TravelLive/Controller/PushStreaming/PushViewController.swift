@@ -72,9 +72,6 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-//        self.tabBarController?.view.removeFromSuperview()
-//        tabBarController?.selectedIndex = 0
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -303,27 +300,27 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     }()
     // camera
     lazy var cameraButton: UIButton = {
-        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 430, width: 44, height: 44))
+        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 120, y: UIScreen.height - 180, width: 44, height: 44))
         cameraButton.setImage(UIImage.asset(.Icons_camera_preview)?.maskWithColor(color: .primary), for: UIControl.State())
         return cameraButton
     }()
     //  camera
     lazy var beautyButton: UIButton = {
-        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 380, width: 44, height: 44))
+        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 160, y: UIScreen.height - 180, width: 44, height: 44))
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty)?.maskWithColor(color: .primary), for: UIControl.State.selected)
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close)?.maskWithColor(color: .primary), for: UIControl.State())
         return beautyButton
     }()
     // record
     lazy var recordButton: UIButton = {
-        let recordButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 530, width: 44, height: 44))
+        let recordButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 180, width: 44, height: 44))
         recordButton.setImage(UIImage.asset(.play)?.maskWithColor(color: .primary), for: UIControl.State())
         return recordButton
     }()
     
     // 結束直播
     lazy var stopLiveButton: UIButton = {
-        let stopLiveButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 280, width: 44, height: 44))
+        let stopLiveButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: 70, width: 44, height: 44))
         stopLiveButton.layer.cornerRadius = 22
         stopLiveButton.setTitleColor(UIColor.black, for: UIControl.State())
         stopLiveButton.setTitle("停止", for: UIControl.State())
@@ -374,6 +371,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     
     @objc func didTappedStopLiveButton(_ button: UIButton) {
         session.stopLive()
+        session.running = false
         deletePushStreming()
         cancelSpeechRecognization()
         NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
@@ -399,6 +397,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         print("=== didTappedCloseButton")
         
         session.stopLive()
+        session.running = false
         deletePushStreming()
 //        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
         

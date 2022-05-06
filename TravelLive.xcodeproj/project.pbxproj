@@ -26,6 +26,7 @@
 		4B1950D72822767600B6A789 /* StretchyTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1950D62822767600B6A789 /* StretchyTableHeaderView.swift */; };
 		4B1950D92824169300B6A789 /* Hearts moving.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1950D82824169300B6A789 /* Hearts moving.json */; };
 		4B1950DB282419EA00B6A789 /* Heart falling.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1950DA282419EA00B6A789 /* Heart falling.json */; };
+		4B1950DD282448FB00B6A789 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1950DC282448FB00B6A789 /* loading.json */; };
 		4B1ED6252813BFB500674E6D /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1ED6242813BFB500674E6D /* ShareManager.swift */; };
 		4B3AAAD62806BCB500CBFE89 /* Notification.Name+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAD52806BCB500CBFE89 /* Notification.Name+Extension.swift */; };
 		4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */; };
@@ -158,6 +159,7 @@
 		4B1950D62822767600B6A789 /* StretchyTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyTableHeaderView.swift; sourceTree = "<group>"; };
 		4B1950D82824169300B6A789 /* Hearts moving.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Hearts moving.json"; sourceTree = "<group>"; };
 		4B1950DA282419EA00B6A789 /* Heart falling.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart falling.json"; sourceTree = "<group>"; };
+		4B1950DC282448FB00B6A789 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		4B1ED6242813BFB500674E6D /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		4B3AAAD52806BCB500CBFE89 /* Notification.Name+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Extension.swift"; sourceTree = "<group>"; };
 		4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 			children = (
 				4B503BFD28203EFE00E23942 /* Heart break.json */,
 				4BEFEF87281BA5100039F601 /* Success.json */,
+				4B1950DC282448FB00B6A789 /* loading.json */,
 				4BEFEF89281BA5630039F601 /* Fail.json */,
 				4B1950D82824169300B6A789 /* Hearts moving.json */,
 				4B1950DA282419EA00B6A789 /* Heart falling.json */,
@@ -841,6 +844,7 @@
 				4BEAF1CA2814714A0094B90E /* PlaceEventViewTitleCell.xib in Resources */,
 				4BA5E3AE280F133900D421D0 /* GoogleService-Info.plist in Resources */,
 				4BC1076727FB56790017B1B7 /* Event.storyboard in Resources */,
+				4B1950DD282448FB00B6A789 /* loading.json in Resources */,
 				4BC1074627FA9DD60017B1B7 /* LaunchScreen.storyboard in Resources */,
 				4BA5E3BD280FCEB100D421D0 /* CommentViewController.xib in Resources */,
 				4B17A88C2815C6880006BB2D /* DetailViewImageCell.xib in Resources */,
