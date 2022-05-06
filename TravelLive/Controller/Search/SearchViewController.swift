@@ -123,7 +123,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "封鎖此貼圖主人", style: .destructive, handler: { [weak self] _ in
             guard let indexPath = self?.searchCollectionView.indexPathForItem(at: index ?? CGPoint()) else { return }
-            self?.postBlockData(blockId: self?.searchDataObjc?.data[indexPath.item].propertyId ?? "")
+            self?.postBlockData(blockId: self?.searchDataObjc?.data[indexPath.item].ownerId ?? "")
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
