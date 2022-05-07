@@ -12,13 +12,13 @@ class LottieAnimationManager {
     static let shared = LottieAnimationManager()
     var loadingAnimationView = AnimationView()
     
-    func setUplottieAnimation(name: String, excitTime: Int, view: UIView, ifPulling: Bool, ifBreak: Bool) {
+    func setUplottieAnimation(name: String, excitTime: Int, view: UIView, isPulling: Bool, isBreak: Bool) {
         let animationView = AnimationView(name: name)
-        if ifBreak {
+        if isBreak {
             animationView.animationSpeed = 1
         } else {
             animationView.animationSpeed = 4
-            if ifPulling {
+            if isPulling {
                 animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
                 animationView.contentMode = .scaleAspectFill
             } else {
