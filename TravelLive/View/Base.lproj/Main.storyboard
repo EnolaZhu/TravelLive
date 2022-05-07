@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XTu-zX-FGC" customClass="AuthView" customModule="TravelLive" customModuleProvider="target">
-                                <rect key="frame" x="16" y="588" width="382" height="274"/>
+                                <rect key="frame" x="16" y="598" width="382" height="204"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -24,9 +24,9 @@
                         <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="XTu-zX-FGC" firstAttribute="leading" secondItem="Osu-Ea-km6" secondAttribute="leading" constant="16" id="1Zr-GH-rqc"/>
-                            <constraint firstItem="Osu-Ea-km6" firstAttribute="bottom" secondItem="XTu-zX-FGC" secondAttribute="bottom" id="bwq-9U-egF"/>
+                            <constraint firstItem="Osu-Ea-km6" firstAttribute="bottom" secondItem="XTu-zX-FGC" secondAttribute="bottom" constant="60" id="bwq-9U-egF"/>
                             <constraint firstItem="Osu-Ea-km6" firstAttribute="trailing" secondItem="XTu-zX-FGC" secondAttribute="trailing" constant="16" id="c1c-vz-59K"/>
-                            <constraint firstItem="XTu-zX-FGC" firstAttribute="top" secondItem="Osu-Ea-km6" secondAttribute="top" constant="500" id="k2q-1k-Q2h"/>
+                            <constraint firstItem="XTu-zX-FGC" firstAttribute="top" secondItem="Osu-Ea-km6" secondAttribute="top" constant="510" id="k2q-1k-Q2h"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qKM-Tb-M8L"/>
