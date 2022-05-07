@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AuthView" customModule="TravelLive" customModuleProvider="target">
             <connections>
                 <outlet property="loginWithAppleView" destination="J3Y-KG-2EM" id="52e-d6-xvj"/>
+                <outlet property="textLabel" destination="Shi-oM-FdJ" id="J1M-HI-cVh"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -25,14 +26,26 @@
                         <constraint firstAttribute="height" constant="60" id="1Mv-sT-H1O"/>
                     </constraints>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Shi-oM-FdJ">
+                    <rect key="frame" x="46" y="184.5" width="342" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="CVu-mZ-nEb"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="FoY-bg-Szh"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="J3Y-KG-2EM" firstAttribute="centerX" secondItem="FoY-bg-Szh" secondAttribute="centerX" id="4u0-KI-Rq8"/>
                 <constraint firstItem="FoY-bg-Szh" firstAttribute="trailing" secondItem="J3Y-KG-2EM" secondAttribute="trailing" constant="46" id="9g6-qL-fYT"/>
+                <constraint firstItem="FoY-bg-Szh" firstAttribute="trailing" secondItem="Shi-oM-FdJ" secondAttribute="trailing" constant="46" id="GGx-1q-BB0"/>
                 <constraint firstItem="J3Y-KG-2EM" firstAttribute="leading" secondItem="FoY-bg-Szh" secondAttribute="leading" constant="46" id="R1A-ef-xIr"/>
                 <constraint firstItem="J3Y-KG-2EM" firstAttribute="centerY" secondItem="FoY-bg-Szh" secondAttribute="centerY" id="Wgp-kn-QxA"/>
+                <constraint firstItem="Shi-oM-FdJ" firstAttribute="leading" secondItem="FoY-bg-Szh" secondAttribute="leading" constant="46" id="lig-ah-9sS"/>
+                <constraint firstItem="Shi-oM-FdJ" firstAttribute="top" secondItem="J3Y-KG-2EM" secondAttribute="bottom" constant="8" id="t85-x7-qca"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-144.92753623188406" y="15.736607142857142"/>

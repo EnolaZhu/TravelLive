@@ -14,6 +14,7 @@ class AuthView: UIView, NibOwnerLoadable {
     // swiftlint:disable opening_brace
     // swiftlint:disable line_length
     @IBOutlet weak var loginWithAppleView: UIView!
+    @IBOutlet weak var textLabel: UILabel!
     
     let authorizationButton = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
     
