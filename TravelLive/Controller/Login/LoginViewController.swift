@@ -16,13 +16,14 @@ class LoginViewController: UIViewController {
     // swiftlint:disable trailing_whitespace
     fileprivate var currentNonce: String?
     private var fullName: String?
+    private let logoView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
-        authView.contentMode = .center
         authView.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
         view.backgroundColor = UIColor.backgroundColor
         
@@ -31,6 +32,12 @@ class LoginViewController: UIViewController {
         } else {
             showMainView()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        addLogoView()
     }
     
     private func login() {
@@ -108,6 +115,21 @@ class LoginViewController: UIViewController {
             return String(format: "%02x", $0)
         }.joined()
         return hashString
+    }
+    
+    private func addLogoView() {
+        
+        view.addSubview(logoView)
+        logoView.translatesAutoresizingMaskIntoConstraints = false
+        logoView.backgroundColor = .red
+        logoView.image = UIImage.asset(.Logo)
+        NSLayoutConstraint.activate(
+            [logoView.widthAnchor.constraint(equalToConstant: 240),
+             logoView.heightAnchor.constraint(equalToConstant: 36),
+             logoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             logoView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ]
+        )
     }
 }
 
