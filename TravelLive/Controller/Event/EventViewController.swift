@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class EventViewController: UIViewController {
 
@@ -18,9 +19,12 @@ class EventViewController: UIViewController {
         EventCollectionViewController(),
     ]
     var citys = ["臺北", "新北", "桃園", "臺中"]
-
+    let animationView = AnimationView(name: "loading")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
         
         setupTableView()
         getData()
@@ -93,6 +97,12 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: EventTableViewCell.self)) as! EventTableViewCell
         
+        self.smallCollectionViewControllers[indexPath.section].view.frame = eventTableViewCell.bounds
+
+        self.addChild(self.smallCollectionViewControllers[indexPath.section])
+        self.smallCollectionViewControllers[indexPath.section].didMove(toParent: self)
+        eventTableViewCell.addSubview(smallCollectionViewControllers[indexPath.section].view)
+        
         return eventTableViewCell
     }
 
@@ -108,16 +118,6 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
         
         return sectionView
         }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let eventTableViewCell = cell as! EventTableViewCell
-
-        self.smallCollectionViewControllers[indexPath.section].collectionView.frame = eventTableViewCell.bounds
-
-        self.addChild(self.smallCollectionViewControllers[indexPath.section])
-        self.smallCollectionViewControllers[indexPath.section].didMove(toParent: self)
-        eventTableViewCell.addSubview(smallCollectionViewControllers[indexPath.section].view)
-    }
 }
 
 extension EventViewController {
@@ -138,6 +138,7 @@ extension EventViewController {
                             print("success")
                         }
                     }
+                    LottieAnimationManager.shared.stopAnimation()
                 }
 
             case .failure(let error):

@@ -13,7 +13,6 @@ import AuthenticationServices
 class AuthView: UIView, NibOwnerLoadable {
     // swiftlint:disable opening_brace
     // swiftlint:disable line_length
-    @IBOutlet weak var authTitleLabel: UILabel!
     @IBOutlet weak var loginWithAppleView: UIView!
     
     let authorizationButton = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
@@ -22,8 +21,7 @@ class AuthView: UIView, NibOwnerLoadable {
         super.awakeFromNib()
         
         setUpLoginButton()
-        self.layer.cornerRadius = 20
-        authorizationButton.layer.cornerRadius = 20
+        loginWithAppleView.layer.cornerRadius = 40
     }
     
     override init(frame: CGRect) {

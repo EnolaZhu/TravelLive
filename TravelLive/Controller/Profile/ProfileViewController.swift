@@ -11,6 +11,7 @@ import GoogleMobileAds
 import FirebaseAuth
 import Toast_Swift
 import MJRefresh
+import Lottie
 
 class ProfileViewController: UIViewController {
     
@@ -45,8 +46,12 @@ class ProfileViewController: UIViewController {
         return postButton
     }()
     
+    let animationView = AnimationView(name: "loading")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
         
         // Add observer of change images
         NotificationCenter.default.addObserver(self, selector: #selector(self.showUserProperty(_:)), name: .showUserPropertyKey, object: nil)
@@ -79,7 +84,6 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         imageWidth = ((UIScreen.width - 4) / 3)  - 2
-        
         
         if !isFromOther {
             postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
@@ -181,6 +185,8 @@ class ProfileViewController: UIViewController {
                         }
                     }
                 }
+                LottieAnimationManager.shared.stopAnimation()
+                
                 self?.profileView.reloadData()
                 self?.profileView.mj_header?.endRefreshing()
                 
@@ -248,8 +254,10 @@ class ProfileViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "登出", style: .destructive, handler: { [weak self] _ in
             self?.signOut()
         }))
-        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { _ in
+        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { [weak self]
+            _ in
             ProfileProvider.shared.deleteAccount(userId: userID)
+            self?.signOut()
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
@@ -260,7 +268,7 @@ class ProfileViewController: UIViewController {
     
     @objc private func blockUser() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此人", style: .destructive, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖此人", style: .destructive, handler: { [weak self] _ in
             self?.postBlockData()
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
@@ -507,7 +515,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: String(describing: DetailViewController.self)
         )
         guard let detailVC = detailTableViewVC as? DetailViewController else { return }
-        
         
         detailVC.propertyId = userPropertyData?.data[indexPath.row].propertyId ?? ""
         detailVC.imageOwnerName = userPropertyData?.data[indexPath.row].name ?? ""

@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseStorage
 import MJRefresh
+import Lottie
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
     @IBOutlet weak var searchCollectionView: UICollectionView!
@@ -19,9 +20,12 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     var searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
     var showNoResultLabel = UILabel()
+    let animationView = AnimationView(name: "loading")
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
         
         navigationItem.searchController = searchController
         searchCollectionView.isUserInteractionEnabled = true
@@ -117,9 +121,9 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     private func blockUser(index: CGPoint?) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼圖主人", style: .destructive, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖此貼圖主人", style: .destructive, handler: { [weak self] _ in
             guard let indexPath = self?.searchCollectionView.indexPathForItem(at: index ?? CGPoint()) else { return }
-            self?.postBlockData(blockId: self?.searchDataObjc?.data[indexPath.item].propertyId ?? "")
+            self?.postBlockData(blockId: self?.searchDataObjc?.data[indexPath.item].ownerId ?? "")
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
@@ -140,11 +144,11 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     // Refresh Data by pull-down
     private func addRefreshHeader() {
-          MJRefreshNormalHeader { [weak self] in
-              self?.getSearchData()
-          }.autoChangeTransparency(true)
-          .link(to: searchCollectionView)
-      }
+        MJRefreshNormalHeader { [weak self] in
+            self?.getSearchData()
+        }.autoChangeTransparency(true)
+            .link(to: searchCollectionView)
+    }
     // MARK: - PrimeGridDelegate
     
     func scaleForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> UInt {
@@ -173,6 +177,8 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 if searchDataObjc.data.isEmpty {
                     self?.searchCollectionView.reloadData()
                 }
+                
+                LottieAnimationManager.shared.stopAnimation()
                 
                 if searchDataObjc.data.count > 0 {
                     // placeholder
@@ -241,7 +247,7 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate {
         
         show(detailVC, sender: nil)
     }
-
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchController.searchBar.text else {
             return
@@ -252,7 +258,7 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate {
             fetchSearchData(userId: userID, tag: text)
         }
     }
-
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         searchBar.resignFirstResponder()

@@ -9,19 +9,21 @@ import UIKit
 import AuthenticationServices
 import FirebaseAuth // 用來與 Firebase Auth 進行串接用的
 import CryptoKit // 用來產生隨機字串 (Nonce) 的
+import Toast_Swift
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var authView: AuthView!
     // swiftlint:disable trailing_whitespace
     fileprivate var currentNonce: String?
     private var fullName: String?
+    private let logoView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addLogoView()
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
-        authView.contentMode = .center
         authView.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
         view.backgroundColor = UIColor.backgroundColor
         
@@ -32,10 +34,21 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func customAlert(title: String, message: String) {
-        print(title + " & " + message)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
     }
-    func login() {
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIView.animate(withDuration: 1, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
+            logoView.frame = CGRect(x: (UIScreen.width / 2 - 120), y: UIScreen.height - 600, width: 240, height: 36)
+                }, completion: { _ in print("cart page show")})
+    }
+    
+    private func login() {
         let nonce = randomNonceString()
         currentNonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -69,6 +82,7 @@ class LoginViewController: UIViewController {
             withIdentifier: String(describing: TabBarViewController.self)
         )
         guard let tabVc = mainTabVC as? TabBarViewController else { return }
+        tabVc.modalPresentationStyle = .fullScreen
         show(tabVc, sender: nil)
     }
     
@@ -110,6 +124,21 @@ class LoginViewController: UIViewController {
         }.joined()
         return hashString
     }
+    
+    private func addLogoView() {
+        
+        view.addSubview(logoView)
+        logoView.translatesAutoresizingMaskIntoConstraints = false
+        logoView.backgroundColor = .red
+        logoView.image = UIImage.asset(.Logo)
+        NSLayoutConstraint.activate(
+            [logoView.widthAnchor.constraint(equalToConstant: 240),
+             logoView.heightAnchor.constraint(equalToConstant: 36),
+             logoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             logoView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ]
+        )
+    }
 }
 
 extension LoginViewController: ASAuthorizationControllerDelegate {
@@ -122,11 +151,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             
             
             guard let appleIDToken = appleIDCredential.identityToken else {
-                customAlert(title: "", message: "Unable to fetch identity token")
+                self.view.makeToast("無法找到識別令牌", duration: 0.5, position: .center)
                 return
             }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                customAlert(title: "", message: "Unable to serialize token string from data\n\(appleIDToken.debugDescription)")
+                self.view.makeToast("無法序列化識別令牌", duration: 0.5, position: .center)
                 return
             }
             
@@ -143,23 +172,19 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         }
     }
     
-    func customAlert(title: String, message: String, vc: UIViewController) {
-        
-    }
-    
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         // 登入失敗，處理 Error
         switch error {
         case ASAuthorizationError.canceled:
-            print("使用者取消登入")
+            self.view.makeToast("取消登入", duration: 0.5, position: .center)
         case ASAuthorizationError.failed:
-            print("授權請求失敗")
+            self.view.makeToast("授權請求失敗", duration: 0.5, position: .center)
         case ASAuthorizationError.invalidResponse:
-            print("授權請求無回應")
+            self.view.makeToast("授權請求無回應", duration: 0.5, position: .center)
         case ASAuthorizationError.notHandled:
-            print("授權請求未處理")
+            self.view.makeToast("授權請求未處理", duration: 0.5, position: .center)
         case ASAuthorizationError.unknown:
-            print("授權失敗，原因不知")
+            self.view.makeToast("授權失敗，原因不知", duration: 0.5, position: .center)
         default:
             break
         }
@@ -177,7 +202,7 @@ extension LoginViewController {
     func firebaseSignInWithApple(credential: AuthCredential) {
         Auth.auth().signIn(with: credential) { authResult, error in
             guard error == nil else {
-                self.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))")
+                self.view.makeToast("授權失敗", duration: 0.5, position: .center)
                 return
             }
             userID = (authResult?.user.uid)!
