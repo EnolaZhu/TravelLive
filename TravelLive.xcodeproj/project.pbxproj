@@ -27,6 +27,9 @@
 		4B1950D92824169300B6A789 /* Hearts moving.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1950D82824169300B6A789 /* Hearts moving.json */; };
 		4B1950DB282419EA00B6A789 /* Heart falling.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1950DA282419EA00B6A789 /* Heart falling.json */; };
 		4B1950DD282448FB00B6A789 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1950DC282448FB00B6A789 /* loading.json */; };
+		4B1950E32826DB6200B6A789 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1950E22826DB6200B6A789 /* WebViewController.swift */; };
+		4B1950E52826E12700B6A789 /* UITapGestureRecognizer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1950E42826E12600B6A789 /* UITapGestureRecognizer+Extension.swift */; };
+		4B1950E72826EA6600B6A789 /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1950E62826EA6500B6A789 /* NSMutableAttributedString+Extension.swift */; };
 		4B1ED6252813BFB500674E6D /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1ED6242813BFB500674E6D /* ShareManager.swift */; };
 		4B3AAAD62806BCB500CBFE89 /* Notification.Name+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAD52806BCB500CBFE89 /* Notification.Name+Extension.swift */; };
 		4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */; };
@@ -160,6 +163,9 @@
 		4B1950D82824169300B6A789 /* Hearts moving.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Hearts moving.json"; sourceTree = "<group>"; };
 		4B1950DA282419EA00B6A789 /* Heart falling.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart falling.json"; sourceTree = "<group>"; };
 		4B1950DC282448FB00B6A789 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		4B1950E22826DB6200B6A789 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		4B1950E42826E12600B6A789 /* UITapGestureRecognizer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITapGestureRecognizer+Extension.swift"; sourceTree = "<group>"; };
+		4B1950E62826EA6500B6A789 /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		4B1ED6242813BFB500674E6D /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
 		4B3AAAD52806BCB500CBFE89 /* Notification.Name+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Extension.swift"; sourceTree = "<group>"; };
 		4B3AAAE528081CDD00CBFE89 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
@@ -395,6 +401,7 @@
 			isa = PBXGroup;
 			children = (
 				4B552B8A27FD28D600A304D6 /* LoginViewController.swift */,
+				4B1950E22826DB6200B6A789 /* WebViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -707,6 +714,8 @@
 				4BEFEF8B281BA5EB0039F601 /* LottieAnimationManager.swift */,
 				4BEC55A8281DA7E600126786 /* String.Index+Extension.swift */,
 				4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */,
+				4B1950E42826E12600B6A789 /* UITapGestureRecognizer+Extension.swift */,
+				4B1950E62826EA6500B6A789 /* NSMutableAttributedString+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -965,6 +974,7 @@
 				4BEAF1C1281468950094B90E /* UIView+Extension.swift in Sources */,
 				4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */,
 				4BEC55AB281DA86100126786 /* Collection+Extension.swift in Sources */,
+				4B1950E52826E12700B6A789 /* UITapGestureRecognizer+Extension.swift in Sources */,
 				4BD3736828041B9300141A29 /* PullStreamingViewController.swift in Sources */,
 				4BC1073E27FA9DD40017B1B7 /* STTabBarViewController.swift in Sources */,
 				4BEAF1DC2814764B0094B90E /* MapDetailViewController.swift in Sources */,
@@ -990,6 +1000,7 @@
 				4BA4ED5D2817139800B158CA /* NotificationManager.swift in Sources */,
 				4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */,
 				4BA5E3B8280FB36300D421D0 /* DetailDataProvider.swift in Sources */,
+				4B1950E72826EA6600B6A789 /* NSMutableAttributedString+Extension.swift in Sources */,
 				4BC2BE5227FC45F3001FF31D /* MapViewController.swift in Sources */,
 				4B3AAAF32808893F00CBFE89 /* PhotoVideoManager.swift in Sources */,
 				4B060CBC280BD3020055EDB2 /* GridLayout.swift in Sources */,
@@ -1000,6 +1011,7 @@
 				4B66896A2818E2F6003CA423 /* ProfilePropertyObject.swift in Sources */,
 				4BA36585281AE37200A2E724 /* CircleCropView.swift in Sources */,
 				4BC1076927FBF0390017B1B7 /* UIImage+Extension.swift in Sources */,
+				4B1950E32826DB6200B6A789 /* WebViewController.swift in Sources */,
 				4BC1073C27FA9DD40017B1B7 /* SceneDelegate.swift in Sources */,
 				4B9788102811C09F0003CC9F /* URL+Extension.swift in Sources */,
 				4BEAF1BF281440950094B90E /* PlaceDataObject.swift in Sources */,

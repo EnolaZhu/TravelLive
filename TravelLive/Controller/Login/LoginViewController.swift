@@ -21,6 +21,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpTextLabel()
         addLogoView()
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
@@ -34,18 +35,43 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func setUpTextLabel() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapLabel(_:)))
+        authView.textLabel.addGestureRecognizer(tap)
+        authView.textLabel.isUserInteractionEnabled = true
+        
+        let stringValue = "註冊等同於接受隱私權政策和 Apple 標準許可"
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
+        attributedString.setColor(color: UIColor.blue, forText: "隱私權政策")
+        attributedString.setColor(color: UIColor.blue, forText: "Apple 標準許可")
+        authView.textLabel.attributedText = attributedString
+    }
+    
+    @objc private func tapLabel(_ gesture: UITapGestureRecognizer) {
+        guard let text = authView.textLabel.text else { return }
+        let privacyRange = (text as NSString).range(of: "隱私權政策")
+        let standardRange = (text as NSString).range(of: " Apple 標準許可")
+        let webVC = WebViewController()
+        
+        if gesture.didTapAttributedTextInLabel(label: authView.textLabel, inRange: privacyRange) {
+            webVC.url = LoginUrlString.privacyUrl.rawValue
+        } else if gesture.didTapAttributedTextInLabel(label: authView.textLabel, inRange: standardRange) {
+            webVC.url = LoginUrlString.standardLicense.rawValue
+        }
+        navigationController?.pushViewController(webVC, animated: true)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // Add animation on logo view
         UIView.animate(withDuration: 1, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
             logoView.frame = CGRect(x: (UIScreen.width / 2 - 120), y: UIScreen.height - 600, width: 240, height: 36)
-                }, completion: { _ in print("cart page show")})
+        }, completion: { _ in print("cart page show")})
     }
     
     private func login() {
@@ -218,4 +244,9 @@ extension LoginViewController {
         userID = userid
         ProfileProvider.shared.postUserInfo(userID: userid, name: fullName ?? userID)
     }
+}
+
+enum LoginUrlString: String {
+    case privacyUrl = "https://firebasestorage.googleapis.com/v0/b/travellive-webplayer/o/Privacy%20Policy.html?alt=media&token=f6de7d54-111d-4a5d-9aed-d54e7505c6b2"
+    case standardLicense = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
 }
