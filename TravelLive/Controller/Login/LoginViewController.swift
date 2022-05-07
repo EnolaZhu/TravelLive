@@ -21,7 +21,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        addLogoView()
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
         authView.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
@@ -37,7 +37,15 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        addLogoView()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIView.animate(withDuration: 1, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
+            logoView.frame = CGRect(x: (UIScreen.width / 2 - 120), y: UIScreen.height - 600, width: 240, height: 36)
+                }, completion: { _ in print("cart page show")})
     }
     
     private func login() {
