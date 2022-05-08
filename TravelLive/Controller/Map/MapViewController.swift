@@ -36,7 +36,6 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpButtons()
         // Location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
@@ -70,6 +69,7 @@ class MapViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(true, animated: true)
         
+        setUpButtons()
         placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
         streamButton.addTarget(self, action: #selector(getStreamerData), for: .touchUpInside)
