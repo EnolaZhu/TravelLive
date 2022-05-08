@@ -10,6 +10,8 @@ import AuthenticationServices
 import FirebaseAuth // 用來與 Firebase Auth 進行串接用的
 import CryptoKit // 用來產生隨機字串 (Nonce) 的
 import Toast_Swift
+import RxSwift
+import RxCocoa
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var authView: AuthView!
@@ -17,25 +19,63 @@ class LoginViewController: UIViewController {
     fileprivate var currentNonce: String?
     private var fullName: String?
     private let logoView = UIImageView()
+    let animationArray = ["splash_map", "splash_camera", "splash_airplane", "splash_compass"]
+    let lastAnimationDuration = 1500
+    let emitAnimationInterval = 300
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        createAnimation()
         setUpTextLabel()
         addLogoView()
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
+        
+            authView.textLabel.isHidden = true
+            authView.loginWithAppleView.isHidden = true
+        
         authView.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
         view.backgroundColor = UIColor.backgroundColor
-        
-        if userID == "" {
-            return
-        } else {
-            showMainView()
-        }
     }
     
-    func setUpTextLabel() {
+    private func createAnimation() {
+        Observable<Int>.interval(.milliseconds(emitAnimationInterval), scheduler: MainScheduler.instance)
+            .delay(.milliseconds(600), scheduler: MainScheduler.instance)
+            .take(animationArray.count + lastAnimationDuration / emitAnimationInterval)
+            .subscribe(onNext: { element in
+                if element < self.animationArray.count {
+                    switch element {
+                    case 0:
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: 0, theY: 0, width: 200, height: 200)
+                    case 1:
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: Int(UIScreen.width) - 200, theY: Int(UIScreen.height) / 4, width: 200, height: 200)
+                    case 2:
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: 0, theY: Int(UIScreen.height) * 2 / 4, width: 200, height: 200)
+                    case 3:
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: Int(UIScreen.width) - 200, theY: Int(UIScreen.height) * 3 / 4, width: 200, height: 200)
+                    default:
+                        break
+                    }
+                }
+            }, onError: { error in
+                print(error)
+            }, onCompleted: {
+                if userID == "" {
+                    self.authView.textLabel.isHidden = false
+                    self.authView.loginWithAppleView.isHidden = false
+                    return
+                } else {
+                    self.showMainView()
+                }
+            }, onDisposed: {
+                print("observableInterval onDisposed")
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setUpTextLabel() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapLabel(_:)))
         authView.textLabel.addGestureRecognizer(tap)
         authView.textLabel.isUserInteractionEnabled = true

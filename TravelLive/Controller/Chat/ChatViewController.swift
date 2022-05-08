@@ -170,7 +170,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
             guard let theMessage = message.data.message as? [String: String] else { return }
             
             if theMessage["username"] == "animation" {
-                LottieAnimationManager.shared.createlottieAnimation(name: "Heart falling", view: self.view, animationSpeed: 4,  isPulling: true)
+                LottieAnimationManager.shared.createlottieAnimation(name: "Heart falling", view: self.view, animationSpeed: 4, isRemove: false, theX: -20, theY: -20, width: Int(UIScreen.width), height: Int(UIScreen.height) + 50)
                 
             } else if theMessage["username"] == "STT" {
                 print("receive = " + (theMessage["message"] ?? ""))

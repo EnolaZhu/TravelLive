@@ -10,28 +10,32 @@ import Lottie
 
 class LottieAnimationManager {
     static let shared = LottieAnimationManager()
-    
-    func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat, isPulling: Bool) {
-        let animationView = AnimationView(name: name)
-        animationView.animationSpeed = animationSpeed
-        if isPulling {
-            animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
-            animationView.contentMode = .scaleAspectFill
-        } else {
-            animationView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
-            animationView.contentMode = .scaleAspectFit
-        }
-        setAnimation(animationView: animationView, view: view)
+    // swiftlint:disable function_parameter_count
+    func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat, isRemove: Bool, theX: Int, theY: Int, width: Int, height: Int) {
+        createlottieAnimation(name: name, view: view, animationSpeed: animationSpeed, isRemove: isRemove, theX: theX, theY: theY, width: width, height: height, completion: nil)
     }
     
-    func setAnimation(animationView: AnimationView, view: UIView) {
-        animationView.center = view.center
+    func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat, isRemove: Bool, theX: Int, theY: Int, width: Int, height: Int, completion: (() -> Void)?) {
+        let animationView = AnimationView(name: name)
+        animationView.animationSpeed = animationSpeed
+//            animationView.contentMode = .scaleAspectFill
+        animationView.frame = CGRect(x: theX, y: theY, width: width, height: height)
+            animationView.contentMode = .scaleAspectFit
+        setAnimation(animationView: animationView, view: view, isRemove: isRemove, completion: completion)
+    }
+    
+    private func setAnimation(animationView: AnimationView, view: UIView, isRemove: Bool, completion: (() -> Void)?) {
+//        animationView.center = view.center
         animationView.loopMode = .playOnce
         view.addSubview(animationView)
         animationView.play()
         animationView.play { isCompleted in
             if isCompleted {
-                animationView.removeFromSuperview()
+                if isRemove {
+                    completion?()
+                } else {
+                    animationView.removeFromSuperview()
+                }
             }
         }
     }

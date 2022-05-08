@@ -218,7 +218,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc private func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         // swiftlint:disable force_cast
         _ = tapGestureRecognizer.view as! UIImageView
-        LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isPulling: false)
+        LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
         // change heart button
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
     }
@@ -255,11 +255,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if sender.hasImage(named: "theheart", for: .normal) {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
             
-            LottieAnimationManager.shared.createlottieAnimation(name: "Heart break", view: self.view, animationSpeed: 1, isPulling: false)
+            LottieAnimationManager.shared.createlottieAnimation(name: "Heart break", view: self.view, animationSpeed: 1, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
             setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
         } else {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: true)
-            LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isPulling: false)
+            LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
             setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
     }
