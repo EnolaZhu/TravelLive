@@ -83,6 +83,6 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        LottieAnimationManager.shared.showLoadingAnimationOnButton(view: tabBar.subviews[2], name: "Live")
+        LottieAnimationManager.shared.showLoadingAnimation(view: tabBar.subviews[2], name: "Live")
     }
 }

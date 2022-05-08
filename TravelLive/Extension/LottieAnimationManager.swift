@@ -10,22 +10,21 @@ import Lottie
 
 class LottieAnimationManager {
     static let shared = LottieAnimationManager()
-    var loadingAnimationView = AnimationView()
     
-    func setUplottieAnimation(name: String, excitTime: Int, view: UIView, isPulling: Bool, isBreak: Bool) {
+    func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat, isPulling: Bool) {
         let animationView = AnimationView(name: name)
-        if isBreak {
-            animationView.animationSpeed = 1
+        animationView.animationSpeed = animationSpeed
+        if isPulling {
+            animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
+            animationView.contentMode = .scaleAspectFill
         } else {
-            animationView.animationSpeed = 4
-            if isPulling {
-                animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
-                animationView.contentMode = .scaleAspectFill
-            } else {
-                animationView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
-                animationView.contentMode = .scaleAspectFit
-            }
+            animationView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
+            animationView.contentMode = .scaleAspectFit
         }
+        setAnimation(animationView: animationView, view: view)
+    }
+    
+    func setAnimation(animationView: AnimationView, view: UIView) {
         animationView.center = view.center
         animationView.loopMode = .playOnce
         view.addSubview(animationView)
@@ -38,21 +37,18 @@ class LottieAnimationManager {
     }
     
     // Show lottie animation on button
-    func showLoadingAnimationOnButton(view: UIView, name: String) {
+    func showLoadingAnimation(view: UIView, name: String) {
         let animationView = AnimationView(name: name)
-        animationView.isHidden = false
-        animationView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-        animationView.center = view.center
-        animationView.contentMode = .scaleAspectFill
-        animationView.loopMode = .loop
-        animationView.play()
-        view.addSubview(animationView)
+        showLoadingAnimation(animationView: animationView, view: view, name: name, width: 80, height: 80)
     }
     
     func showLoadingAnimation(animationView: AnimationView, view: UIView, name: String) {
-        loadingAnimationView = animationView
+        showLoadingAnimation(animationView: animationView, view: view, name: name, width: 200, height: 200)
+    }
+    
+    func showLoadingAnimation(animationView: AnimationView, view: UIView, name: String, width: Int, height: Int) {
         animationView.isHidden = false
-        animationView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        animationView.frame = CGRect(x: 0, y: 0, width: width, height: height)
         animationView.center = view.center
         animationView.contentMode = .scaleAspectFill
         animationView.loopMode = .loop
@@ -60,7 +56,7 @@ class LottieAnimationManager {
         view.addSubview(animationView)
     }
     
-    func stopAnimation() {
-        loadingAnimationView.removeFromSuperview()
+    func stopAnimation(animationView: AnimationView?) {
+        animationView?.removeFromSuperview()
     }
 }

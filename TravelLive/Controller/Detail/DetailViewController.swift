@@ -121,7 +121,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
             case .success(let data):
                 self?.allCommentData = data
                 guard (self?.allCommentData) != nil else { return }
-                LottieAnimationManager.shared.stopAnimation()
+                LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
                 self?.detailTableView.reloadData()
                 
             case .failure(let error):
@@ -218,7 +218,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc private func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         // swiftlint:disable force_cast
         _ = tapGestureRecognizer.view as! UIImageView
-        LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, isPulling: false, isBreak: false)
+        LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isPulling: false)
         // change heart button
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
     }
@@ -255,11 +255,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if sender.hasImage(named: "theheart", for: .normal) {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
             
-            LottieAnimationManager.shared.setUplottieAnimation(name: "Heart break", excitTime: 8, view: self.view, isPulling: false, isBreak: true)
+            LottieAnimationManager.shared.createlottieAnimation(name: "Heart break", view: self.view, animationSpeed: 1, isPulling: false)
             setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
         } else {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: true)
-            LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, isPulling: false, isBreak: false)
+            LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isPulling: false)
             setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
     }
