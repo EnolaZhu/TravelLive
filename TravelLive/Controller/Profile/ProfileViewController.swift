@@ -185,7 +185,7 @@ class ProfileViewController: UIViewController {
                         }
                     }
                 }
-                LottieAnimationManager.shared.stopAnimation()
+                LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
                 
                 self?.profileView.reloadData()
                 self?.profileView.mj_header?.endRefreshing()

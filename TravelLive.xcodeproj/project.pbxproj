@@ -48,9 +48,7 @@
 		4B503BFE28203EFE00E23942 /* Heart break.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B503BFD28203EFE00E23942 /* Heart break.json */; };
 		4B503C0028203F1C00E23942 /* Live.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B503BFF28203F1C00E23942 /* Live.json */; };
 		4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B8A27FD28D600A304D6 /* LoginViewController.swift */; };
-		4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B552B9227FD404A00A304D6 /* AuthView.xib */; };
 		4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */; };
-		4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9627FD5CC900A304D6 /* AuthView.swift */; };
 		4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B55B589280A6919005D9869 /* RecordManager.swift */; };
 		4B66896A2818E2F6003CA423 /* ProfilePropertyObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6689662818E2F6003CA423 /* ProfilePropertyObject.swift */; };
 		4B66896B2818E2F6003CA423 /* ProfileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6689672818E2F6003CA423 /* ProfileProvider.swift */; };
@@ -118,6 +116,10 @@
 		4BD3736A28041BE200141A29 /* PullStreaming.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BD3736928041BE200141A29 /* PullStreaming.storyboard */; };
 		4BDEC3492801F28000143E25 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDEC3482801F28000143E25 /* String+Extension.swift */; };
 		4BDEC34C28028B6F00143E25 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDEC34B28028B6F00143E25 /* HTTPClient.swift */; };
+		4BE135282827BFF400214D34 /* splash_camera.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE135272827BFF400214D34 /* splash_camera.json */; };
+		4BE1352A2827C01E00214D34 /* splash_map.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE135292827C01E00214D34 /* splash_map.json */; };
+		4BE1352D2827C03000214D34 /* splash_airplane.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE1352B2827C03000214D34 /* splash_airplane.json */; };
+		4BE1352E2827C03000214D34 /* splash_compass.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE1352C2827C03000214D34 /* splash_compass.json */; };
 		4BEAF1BF281440950094B90E /* PlaceDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1BE281440950094B90E /* PlaceDataObject.swift */; };
 		4BEAF1C1281468950094B90E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1C0281468950094B90E /* UIView+Extension.swift */; };
 		4BEAF1C92814714A0094B90E /* PlaceEventViewTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1C72814714A0094B90E /* PlaceEventViewTitleCell.swift */; };
@@ -184,9 +186,7 @@
 		4B503BFD28203EFE00E23942 /* Heart break.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart break.json"; sourceTree = "<group>"; };
 		4B503BFF28203F1C00E23942 /* Live.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Live.json; sourceTree = "<group>"; };
 		4B552B8A27FD28D600A304D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		4B552B9227FD404A00A304D6 /* AuthView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthView.xib; sourceTree = "<group>"; };
 		4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibOwnerLoadable.swift; sourceTree = "<group>"; };
-		4B552B9627FD5CC900A304D6 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		4B55B589280A6919005D9869 /* RecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManager.swift; sourceTree = "<group>"; };
 		4B6689662818E2F6003CA423 /* ProfilePropertyObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePropertyObject.swift; sourceTree = "<group>"; };
 		4B6689672818E2F6003CA423 /* ProfileProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProvider.swift; sourceTree = "<group>"; };
@@ -257,6 +257,10 @@
 		4BD3736928041BE200141A29 /* PullStreaming.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PullStreaming.storyboard; sourceTree = "<group>"; };
 		4BDEC3482801F28000143E25 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		4BDEC34B28028B6F00143E25 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		4BE135272827BFF400214D34 /* splash_camera.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash_camera.json; sourceTree = "<group>"; };
+		4BE135292827C01E00214D34 /* splash_map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash_map.json; sourceTree = "<group>"; };
+		4BE1352B2827C03000214D34 /* splash_airplane.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash_airplane.json; sourceTree = "<group>"; };
+		4BE1352C2827C03000214D34 /* splash_compass.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash_compass.json; sourceTree = "<group>"; };
 		4BEAF1BE281440950094B90E /* PlaceDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDataObject.swift; sourceTree = "<group>"; };
 		4BEAF1C0281468950094B90E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		4BEAF1C72814714A0094B90E /* PlaceEventViewTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceEventViewTitleCell.swift; sourceTree = "<group>"; };
@@ -406,15 +410,6 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		4B552B8D27FD2F5300A304D6 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				4B552B9627FD5CC900A304D6 /* AuthView.swift */,
-				4B552B9227FD404A00A304D6 /* AuthView.xib */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
 		4B552B9827FD6A4300A304D6 /* Protocal */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,7 +446,11 @@
 				4B1950DC282448FB00B6A789 /* loading.json */,
 				4BEFEF89281BA5630039F601 /* Fail.json */,
 				4B1950D82824169300B6A789 /* Hearts moving.json */,
+				4BE135292827C01E00214D34 /* splash_map.json */,
+				4BE135272827BFF400214D34 /* splash_camera.json */,
 				4B1950DA282419EA00B6A789 /* Heart falling.json */,
+				4BE1352B2827C03000214D34 /* splash_airplane.json */,
+				4BE1352C2827C03000214D34 /* splash_compass.json */,
 				4B503BFF28203F1C00E23942 /* Live.json */,
 			);
 			path = LottieAnimation;
@@ -614,7 +613,6 @@
 				4B060CBA280BD2EA0055EDB2 /* Search */,
 				4B3AAAE72808230000CBFE89 /* Event */,
 				4BC0EE5D27FF325100C5673B /* Chat */,
-				4B552B8D27FD2F5300A304D6 /* Auth */,
 				4BC1075827FB4AE40017B1B7 /* PushStreaming.storyboard */,
 				4BD3736928041BE200141A29 /* PullStreaming.storyboard */,
 				4BC1073F27FA9DD40017B1B7 /* Main.storyboard */,
@@ -867,9 +865,11 @@
 				4B17A85B2815BE230006BB2D /* TitleView.xib in Resources */,
 				4BEAF1D2281471810094B90E /* PlaceEventViewContentCell.xib in Resources */,
 				4BF82C97281520DE00635924 /* Assets.xcassets in Resources */,
+				4BE1352D2827C03000214D34 /* splash_airplane.json in Resources */,
 				4BC0EE6528000A1F00C5673B /* Chat.storyboard in Resources */,
 				4BEAF1DE281476BD0094B90E /* MapDetailViewController.storyboard in Resources */,
 				4B66E94A2817BB0400BD62C6 /* EventCollectionViewCell.xib in Resources */,
+				4BE135282827BFF400214D34 /* splash_camera.json in Resources */,
 				4BC1075F27FB560D0017B1B7 /* Map.storyboard in Resources */,
 				4BC1074127FA9DD40017B1B7 /* Main.storyboard in Resources */,
 				4BC1076127FB56290017B1B7 /* Search.storyboard in Resources */,
@@ -877,13 +877,14 @@
 				4BC1075927FB4AE40017B1B7 /* PushStreaming.storyboard in Resources */,
 				4B503C0028203F1C00E23942 /* Live.json in Resources */,
 				4B17A8592815BE230006BB2D /* ImageCell.xib in Resources */,
-				4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */,
 				4BEC55AF281E2D3D00126786 /* DetailViewController.storyboard in Resources */,
 				4BEFEF8A281BA5630039F601 /* Fail.json in Resources */,
 				4B503BFE28203EFE00E23942 /* Heart break.json in Resources */,
+				4BE1352E2827C03000214D34 /* splash_compass.json in Resources */,
 				4BEFEF88281BA5100039F601 /* Success.json in Resources */,
 				4B17A88B2815C6880006BB2D /* DetailViewCommentCell.xib in Resources */,
 				4B1950D92824169300B6A789 /* Hearts moving.json in Resources */,
+				4BE1352A2827C01E00214D34 /* splash_map.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1021,7 +1022,6 @@
 				4B66896C2818E2F6003CA423 /* ProfileLikedObject.swift in Sources */,
 				4B43FD922800AB2400B7085D /* UILabel+Extension.swift in Sources */,
 				4BC1075D27FB51870017B1B7 /* UIStoryboard+Extension.swift in Sources */,
-				4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */,
 				4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */,
 				4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */,
 				4BEC55A9281DA7E600126786 /* String.Index+Extension.swift in Sources */,

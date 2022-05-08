@@ -10,52 +10,131 @@ import AuthenticationServices
 import FirebaseAuth // 用來與 Firebase Auth 進行串接用的
 import CryptoKit // 用來產生隨機字串 (Nonce) 的
 import Toast_Swift
+import RxSwift
+import RxCocoa
 
 class LoginViewController: UIViewController {
-    @IBOutlet weak var authView: AuthView!
     // swiftlint:disable trailing_whitespace
     fileprivate var currentNonce: String?
     private var fullName: String?
     private let logoView = UIImageView()
+    private let animationArray = ["splash_map", "splash_camera", "splash_airplane", "splash_compass"]
+    private let lastAnimationDuration = 1500
+    private let emitAnimationInterval = 300
+    private let disposeBag = DisposeBag()
+    private let authorizationButton = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
+    private let containerView = UIView()
+    private let licenseLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpTextLabel()
+        createAnimation()
         addLogoView()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
-        authView.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
+        self.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
         view.backgroundColor = UIColor.backgroundColor
-        
-        if userID == "" {
-            return
-        } else {
-            showMainView()
-        }
     }
     
-    func setUpTextLabel() {
+    private func createContainerView() {
+        view.addSubview(containerView)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.backgroundColor = UIColor.clear
+        
+        NSLayoutConstraint.activate(
+            [containerView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 40),
+             containerView.heightAnchor.constraint(equalToConstant: 100),
+             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -155),
+             containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -40)]
+        )
+        createLoginButton()
+        createLisencelabel()
+    }
+    
+    private func createLoginButton() {
+        containerView.addSubview(authorizationButton)
+        authorizationButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate(
+            [authorizationButton.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+             authorizationButton.heightAnchor.constraint(equalToConstant: 60),
+             authorizationButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -30),
+             authorizationButton.rightAnchor.constraint(equalTo: containerView.rightAnchor)]
+        )
+    }
+    
+    private func createLisencelabel() {
+        containerView.addSubview(licenseLabel)
+        licenseLabel.translatesAutoresizingMaskIntoConstraints = false
+        setUpTextLabel()
+        licenseLabel.backgroundColor = UIColor.clear
+        licenseLabel.font = licenseLabel.font.withSize(12)
+        
+        NSLayoutConstraint.activate(
+            [licenseLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+             licenseLabel.heightAnchor.constraint(equalToConstant: 30),
+             licenseLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+             licenseLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor)]
+        )
+    }
+    
+    private func createAnimation() {
+        Observable<Int>.interval(.milliseconds(emitAnimationInterval), scheduler: MainScheduler.instance)
+            .delay(.milliseconds(600), scheduler: MainScheduler.instance)
+            .take(animationArray.count + lastAnimationDuration / emitAnimationInterval)
+            .subscribe(onNext: { element in
+                if element < self.animationArray.count {
+                    switch element {
+                    case 0:
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: 0, theY: 0, width: 200, height: 200)
+                    case 1:
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: Int(UIScreen.width) - 200, theY: Int(UIScreen.height) / 4, width: 200, height: 200)
+                    case 2:
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: 0, theY: Int(UIScreen.height) * 2 / 4, width: 200, height: 200)
+                    case 3:
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: Int(UIScreen.width) - 200, theY: Int(UIScreen.height) * 3 / 4, width: 200, height: 200)
+                    default:
+                        break
+                    }
+                }
+            }, onError: { error in
+                print(error)
+            }, onCompleted: {
+                if userID == "" {
+                    self.createContainerView()
+                    return
+                } else {
+                    self.showMainView()
+                }
+            }, onDisposed: {
+                print("observableInterval onDisposed")
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setUpTextLabel() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapLabel(_:)))
-        authView.textLabel.addGestureRecognizer(tap)
-        authView.textLabel.isUserInteractionEnabled = true
+        licenseLabel.addGestureRecognizer(tap)
+        licenseLabel.isUserInteractionEnabled = true
         
         let stringValue = "註冊等同於接受隱私權政策和 Apple 標準許可"
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
-        attributedString.setColor(color: UIColor.blue, forText: "隱私權政策")
-        attributedString.setColor(color: UIColor.blue, forText: "Apple 標準許可")
-        authView.textLabel.attributedText = attributedString
+        attributedString.setColor(color: UIColor.systemBlue, forText: "隱私權政策")
+        attributedString.setColor(color: UIColor.systemBlue, forText: "Apple 標準許可")
+        licenseLabel.attributedText = attributedString
     }
     
     @objc private func tapLabel(_ gesture: UITapGestureRecognizer) {
-        guard let text = authView.textLabel.text else { return }
+        guard let text = licenseLabel.text else { return }
         let privacyRange = (text as NSString).range(of: "隱私權政策")
         let standardRange = (text as NSString).range(of: " Apple 標準許可")
         let webVC = WebViewController()
         
-        if gesture.didTapAttributedTextInLabel(label: authView.textLabel, inRange: privacyRange) {
+        if gesture.didTapAttributedTextInLabel(label: licenseLabel, inRange: privacyRange) {
             webVC.url = LoginUrlString.privacyUrl.rawValue
-        } else if gesture.didTapAttributedTextInLabel(label: authView.textLabel, inRange: standardRange) {
+        } else if gesture.didTapAttributedTextInLabel(label: licenseLabel, inRange: standardRange) {
             webVC.url = LoginUrlString.standardLicense.rawValue
         }
         navigationController?.pushViewController(webVC, animated: true)
@@ -92,7 +171,6 @@ class LoginViewController: UIViewController {
         if notification.userInfo?.keys.contains("live") != nil {
             let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
             )
-            
             guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
             pullVC.streamingUrl = "\(notification.userInfo?["live"] ?? "")"
             show(pullVC, sender: nil)
@@ -152,7 +230,6 @@ class LoginViewController: UIViewController {
     }
     
     private func addLogoView() {
-        
         view.addSubview(logoView)
         logoView.translatesAutoresizingMaskIntoConstraints = false
         logoView.backgroundColor = .red
@@ -174,8 +251,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
-            
-            
             guard let appleIDToken = appleIDCredential.identityToken else {
                 self.view.makeToast("無法找到識別令牌", duration: 0.5, position: .center)
                 return

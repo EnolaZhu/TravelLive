@@ -121,7 +121,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
             case .success(let data):
                 self?.allCommentData = data
                 guard (self?.allCommentData) != nil else { return }
-                LottieAnimationManager.shared.stopAnimation()
+                LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
                 self?.detailTableView.reloadData()
                 
             case .failure(let error):
@@ -175,8 +175,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             
             imageCell.reportButton.addTarget(self, action: #selector(createBlockSheet(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
-            imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
-            
             imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool(), imageOwnerName: imageOwnerName, avatar: (avatarImage ?? placeHolderImage)!)
             
             if isLiked {
@@ -218,7 +216,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc private func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         // swiftlint:disable force_cast
         _ = tapGestureRecognizer.view as! UIImageView
-        LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, isPulling: false, isBreak: false)
+        LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
         // change heart button
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
     }
@@ -230,11 +228,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         profileVC.propertyOwnerId = detailData?.ownerId ?? ""
         profileVC.isFromOther = true
         show(profileVC, sender: nil)
-    }
-    
-    @objc private func shareLink(_ sender: UIButton) {
-        let url = "https://travellive.page.link/?link=https://travellive-1d79e.web.app/WebRTCPlayer.html?live=Broccoli2"
-        ShareManager.share.shareLink(textToShare: "Check out my app", shareUrl: url, thevVC: self, sender: sender)
     }
     
     @objc private func createBlockSheet(_ sender: UIButton) {
@@ -255,11 +248,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if sender.hasImage(named: "theheart", for: .normal) {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
             
-            LottieAnimationManager.shared.setUplottieAnimation(name: "Heart break", excitTime: 8, view: self.view, isPulling: false, isBreak: true)
+            LottieAnimationManager.shared.createlottieAnimation(name: "Heart break", view: self.view, animationSpeed: 1, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
             setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
         } else {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: true)
-            LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, isPulling: false, isBreak: false)
+            LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
             setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
     }

@@ -10,49 +10,49 @@ import Lottie
 
 class LottieAnimationManager {
     static let shared = LottieAnimationManager()
-    var loadingAnimationView = AnimationView()
+    // swiftlint:disable function_parameter_count
+    func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat, isRemove: Bool, theX: Int, theY: Int, width: Int, height: Int) {
+        createlottieAnimation(name: name, view: view, animationSpeed: animationSpeed, isRemove: isRemove, theX: theX, theY: theY, width: width, height: height, completion: nil)
+    }
     
-    func setUplottieAnimation(name: String, excitTime: Int, view: UIView, isPulling: Bool, isBreak: Bool) {
+    func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat, isRemove: Bool, theX: Int, theY: Int, width: Int, height: Int, completion: (() -> Void)?) {
         let animationView = AnimationView(name: name)
-        if isBreak {
-            animationView.animationSpeed = 1
-        } else {
-            animationView.animationSpeed = 4
-            if isPulling {
-                animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
-                animationView.contentMode = .scaleAspectFill
-            } else {
-                animationView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
-                animationView.contentMode = .scaleAspectFit
-            }
-        }
-        animationView.center = view.center
+        animationView.animationSpeed = animationSpeed
+//            animationView.contentMode = .scaleAspectFill
+        animationView.frame = CGRect(x: theX, y: theY, width: width, height: height)
+            animationView.contentMode = .scaleAspectFit
+        setAnimation(animationView: animationView, view: view, isRemove: isRemove, completion: completion)
+    }
+    
+    private func setAnimation(animationView: AnimationView, view: UIView, isRemove: Bool, completion: (() -> Void)?) {
+//        animationView.center = view.center
         animationView.loopMode = .playOnce
         view.addSubview(animationView)
         animationView.play()
         animationView.play { isCompleted in
             if isCompleted {
-                animationView.removeFromSuperview()
+                if isRemove {
+                    completion?()
+                } else {
+                    animationView.removeFromSuperview()
+                }
             }
         }
     }
     
     // Show lottie animation on button
-    func showLoadingAnimationOnButton(view: UIView, name: String) {
+    func showLoadingAnimation(view: UIView, name: String) {
         let animationView = AnimationView(name: name)
-        animationView.isHidden = false
-        animationView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-        animationView.center = view.center
-        animationView.contentMode = .scaleAspectFill
-        animationView.loopMode = .loop
-        animationView.play()
-        view.addSubview(animationView)
+        showLoadingAnimation(animationView: animationView, view: view, name: name, width: 80, height: 80)
     }
     
     func showLoadingAnimation(animationView: AnimationView, view: UIView, name: String) {
-        loadingAnimationView = animationView
+        showLoadingAnimation(animationView: animationView, view: view, name: name, width: 200, height: 200)
+    }
+    
+    func showLoadingAnimation(animationView: AnimationView, view: UIView, name: String, width: Int, height: Int) {
         animationView.isHidden = false
-        animationView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        animationView.frame = CGRect(x: 0, y: 0, width: width, height: height)
         animationView.center = view.center
         animationView.contentMode = .scaleAspectFill
         animationView.loopMode = .loop
@@ -60,7 +60,7 @@ class LottieAnimationManager {
         view.addSubview(animationView)
     }
     
-    func stopAnimation() {
-        loadingAnimationView.removeFromSuperview()
+    func stopAnimation(animationView: AnimationView?) {
+        animationView?.removeFromSuperview()
     }
 }

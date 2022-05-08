@@ -76,7 +76,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         // Clear caption
         caption.text = ""
     }
@@ -170,7 +169,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
             guard let theMessage = message.data.message as? [String: String] else { return }
             
             if theMessage["username"] == "animation" {
-                LottieAnimationManager.shared.setUplottieAnimation(name: "Heart falling", excitTime: 3, view: self.view, isPulling: true, isBreak: false)
+                LottieAnimationManager.shared.createlottieAnimation(name: "Heart falling", view: self.view, animationSpeed: 4, isRemove: false, theX: -20, theY: -20, width: Int(UIScreen.width), height: Int(UIScreen.height) + 50)
                 
             } else if theMessage["username"] == "STT" {
                 print("receive = " + (theMessage["message"] ?? ""))

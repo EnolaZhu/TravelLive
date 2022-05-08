@@ -138,7 +138,7 @@ extension EventViewController {
                             print("success")
                         }
                     }
-                    LottieAnimationManager.shared.stopAnimation()
+                    LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
                 }
 
             case .failure(let error):

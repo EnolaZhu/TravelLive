@@ -27,4 +27,6 @@ target 'TravelLive' do
   pod 'GoogleToolboxForMac', '~> 2.3'
   pod 'Toast-Swift', '~> 5.0.1'
   pod 'MJRefresh'
+  pod 'RxSwift', '6.5.0'
+  pod 'RxCocoa', '6.5.0'
 end

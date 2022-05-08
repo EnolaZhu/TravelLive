@@ -178,7 +178,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                     self?.searchCollectionView.reloadData()
                 }
                 
-                LottieAnimationManager.shared.stopAnimation()
+                LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
                 
                 if searchDataObjc.data.count > 0 {
                     // placeholder
