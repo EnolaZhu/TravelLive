@@ -76,7 +76,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         // Clear caption
         caption.text = ""
     }

@@ -14,30 +14,70 @@ import RxSwift
 import RxCocoa
 
 class LoginViewController: UIViewController {
-    @IBOutlet weak var authView: AuthView!
     // swiftlint:disable trailing_whitespace
     fileprivate var currentNonce: String?
     private var fullName: String?
     private let logoView = UIImageView()
-    let animationArray = ["splash_map", "splash_camera", "splash_airplane", "splash_compass"]
-    let lastAnimationDuration = 1500
-    let emitAnimationInterval = 300
-    let disposeBag = DisposeBag()
+    private let animationArray = ["splash_map", "splash_camera", "splash_airplane", "splash_compass"]
+    private let lastAnimationDuration = 1500
+    private let emitAnimationInterval = 300
+    private let disposeBag = DisposeBag()
+    private let authorizationButton = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
+    private let containerView = UIView()
+    private let licenseLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         createAnimation()
-        setUpTextLabel()
         addLogoView()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
-        
-            authView.textLabel.isHidden = true
-            authView.loginWithAppleView.isHidden = true
-        
-        authView.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
+        self.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
         view.backgroundColor = UIColor.backgroundColor
+    }
+    
+    private func createContainerView() {
+        view.addSubview(containerView)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.backgroundColor = UIColor.clear
+        
+        NSLayoutConstraint.activate(
+            [containerView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 40),
+             containerView.heightAnchor.constraint(equalToConstant: 100),
+             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -155),
+             containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -40)]
+        )
+        createLoginButton()
+        createLisencelabel()
+    }
+    
+    private func createLoginButton() {
+        containerView.addSubview(authorizationButton)
+        authorizationButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate(
+            [authorizationButton.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+             authorizationButton.heightAnchor.constraint(equalToConstant: 60),
+             authorizationButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -30),
+             authorizationButton.rightAnchor.constraint(equalTo: containerView.rightAnchor)]
+        )
+    }
+    
+    private func createLisencelabel() {
+        containerView.addSubview(licenseLabel)
+        licenseLabel.translatesAutoresizingMaskIntoConstraints = false
+        setUpTextLabel()
+        licenseLabel.backgroundColor = UIColor.clear
+        licenseLabel.font = licenseLabel.font.withSize(12)
+        
+        NSLayoutConstraint.activate(
+            [licenseLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+             licenseLabel.heightAnchor.constraint(equalToConstant: 30),
+             licenseLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+             licenseLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor)]
+        )
     }
     
     private func createAnimation() {
@@ -63,8 +103,7 @@ class LoginViewController: UIViewController {
                 print(error)
             }, onCompleted: {
                 if userID == "" {
-                    self.authView.textLabel.isHidden = false
-                    self.authView.loginWithAppleView.isHidden = false
+                    self.createContainerView()
                     return
                 } else {
                     self.showMainView()
@@ -77,25 +116,25 @@ class LoginViewController: UIViewController {
     
     private func setUpTextLabel() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapLabel(_:)))
-        authView.textLabel.addGestureRecognizer(tap)
-        authView.textLabel.isUserInteractionEnabled = true
+        licenseLabel.addGestureRecognizer(tap)
+        licenseLabel.isUserInteractionEnabled = true
         
         let stringValue = "註冊等同於接受隱私權政策和 Apple 標準許可"
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
-        attributedString.setColor(color: UIColor.blue, forText: "隱私權政策")
-        attributedString.setColor(color: UIColor.blue, forText: "Apple 標準許可")
-        authView.textLabel.attributedText = attributedString
+        attributedString.setColor(color: UIColor.systemBlue, forText: "隱私權政策")
+        attributedString.setColor(color: UIColor.systemBlue, forText: "Apple 標準許可")
+        licenseLabel.attributedText = attributedString
     }
     
     @objc private func tapLabel(_ gesture: UITapGestureRecognizer) {
-        guard let text = authView.textLabel.text else { return }
+        guard let text = licenseLabel.text else { return }
         let privacyRange = (text as NSString).range(of: "隱私權政策")
         let standardRange = (text as NSString).range(of: " Apple 標準許可")
         let webVC = WebViewController()
         
-        if gesture.didTapAttributedTextInLabel(label: authView.textLabel, inRange: privacyRange) {
+        if gesture.didTapAttributedTextInLabel(label: licenseLabel, inRange: privacyRange) {
             webVC.url = LoginUrlString.privacyUrl.rawValue
-        } else if gesture.didTapAttributedTextInLabel(label: authView.textLabel, inRange: standardRange) {
+        } else if gesture.didTapAttributedTextInLabel(label: licenseLabel, inRange: standardRange) {
             webVC.url = LoginUrlString.standardLicense.rawValue
         }
         navigationController?.pushViewController(webVC, animated: true)
@@ -192,7 +231,6 @@ class LoginViewController: UIViewController {
     }
     
     private func addLogoView() {
-        
         view.addSubview(logoView)
         logoView.translatesAutoresizingMaskIntoConstraints = false
         logoView.backgroundColor = .red

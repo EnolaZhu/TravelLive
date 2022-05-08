@@ -48,9 +48,7 @@
 		4B503BFE28203EFE00E23942 /* Heart break.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B503BFD28203EFE00E23942 /* Heart break.json */; };
 		4B503C0028203F1C00E23942 /* Live.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B503BFF28203F1C00E23942 /* Live.json */; };
 		4B552B8B27FD28D600A304D6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B8A27FD28D600A304D6 /* LoginViewController.swift */; };
-		4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B552B9227FD404A00A304D6 /* AuthView.xib */; };
 		4B552B9527FD5C5900A304D6 /* NibOwnerLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */; };
-		4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B552B9627FD5CC900A304D6 /* AuthView.swift */; };
 		4B55B58A280A6919005D9869 /* RecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B55B589280A6919005D9869 /* RecordManager.swift */; };
 		4B66896A2818E2F6003CA423 /* ProfilePropertyObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6689662818E2F6003CA423 /* ProfilePropertyObject.swift */; };
 		4B66896B2818E2F6003CA423 /* ProfileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6689672818E2F6003CA423 /* ProfileProvider.swift */; };
@@ -188,9 +186,7 @@
 		4B503BFD28203EFE00E23942 /* Heart break.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Heart break.json"; sourceTree = "<group>"; };
 		4B503BFF28203F1C00E23942 /* Live.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Live.json; sourceTree = "<group>"; };
 		4B552B8A27FD28D600A304D6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		4B552B9227FD404A00A304D6 /* AuthView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthView.xib; sourceTree = "<group>"; };
 		4B552B9427FD5C5900A304D6 /* NibOwnerLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibOwnerLoadable.swift; sourceTree = "<group>"; };
-		4B552B9627FD5CC900A304D6 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		4B55B589280A6919005D9869 /* RecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManager.swift; sourceTree = "<group>"; };
 		4B6689662818E2F6003CA423 /* ProfilePropertyObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePropertyObject.swift; sourceTree = "<group>"; };
 		4B6689672818E2F6003CA423 /* ProfileProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProvider.swift; sourceTree = "<group>"; };
@@ -414,15 +410,6 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		4B552B8D27FD2F5300A304D6 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				4B552B9627FD5CC900A304D6 /* AuthView.swift */,
-				4B552B9227FD404A00A304D6 /* AuthView.xib */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
 		4B552B9827FD6A4300A304D6 /* Protocal */ = {
 			isa = PBXGroup;
 			children = (
@@ -626,7 +613,6 @@
 				4B060CBA280BD2EA0055EDB2 /* Search */,
 				4B3AAAE72808230000CBFE89 /* Event */,
 				4BC0EE5D27FF325100C5673B /* Chat */,
-				4B552B8D27FD2F5300A304D6 /* Auth */,
 				4BC1075827FB4AE40017B1B7 /* PushStreaming.storyboard */,
 				4BD3736928041BE200141A29 /* PullStreaming.storyboard */,
 				4BC1073F27FA9DD40017B1B7 /* Main.storyboard */,
@@ -891,7 +877,6 @@
 				4BC1075927FB4AE40017B1B7 /* PushStreaming.storyboard in Resources */,
 				4B503C0028203F1C00E23942 /* Live.json in Resources */,
 				4B17A8592815BE230006BB2D /* ImageCell.xib in Resources */,
-				4B552B9327FD404A00A304D6 /* AuthView.xib in Resources */,
 				4BEC55AF281E2D3D00126786 /* DetailViewController.storyboard in Resources */,
 				4BEFEF8A281BA5630039F601 /* Fail.json in Resources */,
 				4B503BFE28203EFE00E23942 /* Heart break.json in Resources */,
@@ -1037,7 +1022,6 @@
 				4B66896C2818E2F6003CA423 /* ProfileLikedObject.swift in Sources */,
 				4B43FD922800AB2400B7085D /* UILabel+Extension.swift in Sources */,
 				4BC1075D27FB51870017B1B7 /* UIStoryboard+Extension.swift in Sources */,
-				4B552B9727FD5CC900A304D6 /* AuthView.swift in Sources */,
 				4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */,
 				4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */,
 				4BEC55A9281DA7E600126786 /* String.Index+Extension.swift in Sources */,
