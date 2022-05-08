@@ -26,10 +26,10 @@ enum ImageAsset: String {
     case heart
     case theheart
     case emptyHeart
+    case secondShare
     // post button
     case stop
     case play
-    
     case placeholder
     // map icon
     case event

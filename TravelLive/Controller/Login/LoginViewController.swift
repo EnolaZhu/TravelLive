@@ -171,7 +171,6 @@ class LoginViewController: UIViewController {
         if notification.userInfo?.keys.contains("live") != nil {
             let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
             )
-            
             guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
             pullVC.streamingUrl = "\(notification.userInfo?["live"] ?? "")"
             show(pullVC, sender: nil)
@@ -252,8 +251,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
-            
-            
             guard let appleIDToken = appleIDCredential.identityToken else {
                 self.view.makeToast("無法找到識別令牌", duration: 0.5, position: .center)
                 return

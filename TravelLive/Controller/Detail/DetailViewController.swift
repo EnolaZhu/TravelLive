@@ -175,8 +175,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             
             imageCell.reportButton.addTarget(self, action: #selector(createBlockSheet(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
-            imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
-            
             imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool(), imageOwnerName: imageOwnerName, avatar: (avatarImage ?? placeHolderImage)!)
             
             if isLiked {
@@ -230,11 +228,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         profileVC.propertyOwnerId = detailData?.ownerId ?? ""
         profileVC.isFromOther = true
         show(profileVC, sender: nil)
-    }
-    
-    @objc private func shareLink(_ sender: UIButton) {
-        let url = "https://travellive.page.link/?link=https://travellive-1d79e.web.app/WebRTCPlayer.html?live=Broccoli2"
-        ShareManager.share.shareLink(textToShare: "Check out my app", shareUrl: url, thevVC: self, sender: sender)
     }
     
     @objc private func createBlockSheet(_ sender: UIButton) {
