@@ -8,6 +8,7 @@
 import UIKit
 import GoogleMaps
 import CoreLocation
+import Toast_Swift
 
 class MapViewController: UIViewController {
     
@@ -181,6 +182,7 @@ class MapViewController: UIViewController {
                 }
                 
             case .failure:
+                self?.view.makeToast("暫時無人開播,可以去開播哦~", duration: 2.0, position: .center)
                 print("Failed")
             }
         }
