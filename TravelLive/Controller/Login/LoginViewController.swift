@@ -205,7 +205,6 @@ class LoginViewController: UIViewController {
                 }
                 return random
             }
-            
             randoms.forEach { random in
                 if remainingLength == 0 {
                     return

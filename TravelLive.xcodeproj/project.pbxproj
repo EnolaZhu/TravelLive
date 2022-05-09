@@ -79,7 +79,6 @@
 		4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E395280E76CA00D421D0 /* iOSDevCenters+GIF.swift */; };
 		4BA5E3A9280E9FB400D421D0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3A8280E9FB400D421D0 /* DetailViewController.swift */; };
 		4BA5E3AB280EC4D600D421D0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */; };
-		4BA5E3AE280F133900D421D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */; };
 		4BA5E3B3280F9D2A00D421D0 /* ReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */; };
 		4BA5E3B6280FB10600D421D0 /* ReportBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B5280FB10500D421D0 /* ReportBody.swift */; };
 		4BA5E3B8280FB36300D421D0 /* DetailDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA5E3B7280FB36200D421D0 /* DetailDataProvider.swift */; };
@@ -108,7 +107,6 @@
 		4BC1076927FBF0390017B1B7 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC1076827FBF0390017B1B7 /* UIImage+Extension.swift */; };
 		4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */; };
 		4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */; };
-		4BC2BE4F27FC4207001FF31D /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4E27FC4207001FF31D /* Secret.swift */; };
 		4BC2BE5227FC45F3001FF31D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE5127FC45F3001FF31D /* MapViewController.swift */; };
 		4BD37361280415E400141A29 /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BD37360280415E400141A29 /* IJKMediaFramework.framework */; };
 		4BD373642804181800141A29 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD373632804181800141A29 /* SearchViewController.swift */; };
@@ -120,6 +118,8 @@
 		4BE1352A2827C01E00214D34 /* splash_map.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE135292827C01E00214D34 /* splash_map.json */; };
 		4BE1352D2827C03000214D34 /* splash_airplane.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE1352B2827C03000214D34 /* splash_airplane.json */; };
 		4BE1352E2827C03000214D34 /* splash_compass.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE1352C2827C03000214D34 /* splash_compass.json */; };
+		4BE135342828368F00214D34 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BE135332828368F00214D34 /* GoogleService-Info.plist */; };
+		4BE135362828369700214D34 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE135352828369700214D34 /* Secret.swift */; };
 		4BEAF1BF281440950094B90E /* PlaceDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1BE281440950094B90E /* PlaceDataObject.swift */; };
 		4BEAF1C1281468950094B90E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1C0281468950094B90E /* UIView+Extension.swift */; };
 		4BEAF1C92814714A0094B90E /* PlaceEventViewTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BEAF1C72814714A0094B90E /* PlaceEventViewTitleCell.swift */; };
@@ -218,7 +218,6 @@
 		4BA5E3A8280E9FB400D421D0 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		4BA5E3AA280EC4D500D421D0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		4BA5E3AC280F0FEA00D421D0 /* TravelLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TravelLive.entitlements; sourceTree = "<group>"; };
-		4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4BA5E3B1280F9D2900D421D0 /* ReportViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportViewController.xib; sourceTree = "<group>"; };
 		4BA5E3B5280FB10500D421D0 /* ReportBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBody.swift; sourceTree = "<group>"; };
 		4BA5E3B7280FB36200D421D0 /* DetailDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDataProvider.swift; sourceTree = "<group>"; };
@@ -249,7 +248,6 @@
 		4BC1076827FBF0390017B1B7 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		4BC2BE4E27FC4207001FF31D /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		4BC2BE5127FC45F3001FF31D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		4BD37360280415E400141A29 /* IJKMediaFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IJKMediaFramework.framework; sourceTree = "<group>"; };
 		4BD373632804181800141A29 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -261,6 +259,8 @@
 		4BE135292827C01E00214D34 /* splash_map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash_map.json; sourceTree = "<group>"; };
 		4BE1352B2827C03000214D34 /* splash_airplane.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash_airplane.json; sourceTree = "<group>"; };
 		4BE1352C2827C03000214D34 /* splash_compass.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash_compass.json; sourceTree = "<group>"; };
+		4BE135332828368F00214D34 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4BE135352828369700214D34 /* Secret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		4BEAF1BE281440950094B90E /* PlaceDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDataObject.swift; sourceTree = "<group>"; };
 		4BEAF1C0281468950094B90E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		4BEAF1C72814714A0094B90E /* PlaceEventViewTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceEventViewTitleCell.swift; sourceTree = "<group>"; };
@@ -589,7 +589,7 @@
 			children = (
 				4B97880628105A440003CC9F /* LottieAnimation */,
 				4BA5E3AC280F0FEA00D421D0 /* TravelLive.entitlements */,
-				4BA5E3AD280F133900D421D0 /* GoogleService-Info.plist */,
+				4BE135332828368F00214D34 /* GoogleService-Info.plist */,
 				4B552B9827FD6A4300A304D6 /* Protocal */,
 				4BC1075B27FB4E8E0017B1B7 /* Extension */,
 				4BC1075A27FB4E710017B1B7 /* Resource */,
@@ -680,7 +680,7 @@
 			isa = PBXGroup;
 			children = (
 				4BF82C96281520DD00635924 /* Assets.xcassets */,
-				4BC2BE4E27FC4207001FF31D /* Secret.swift */,
+				4BE135352828369700214D34 /* Secret.swift */,
 				4B4AA43528028E7B0066C602 /* Constant.swift */,
 			);
 			path = Resource;
@@ -849,7 +849,6 @@
 			files = (
 				4B66E94E2817BC6500BD62C6 /* EventTableViewCell.xib in Resources */,
 				4BEAF1CA2814714A0094B90E /* PlaceEventViewTitleCell.xib in Resources */,
-				4BA5E3AE280F133900D421D0 /* GoogleService-Info.plist in Resources */,
 				4BC1076727FB56790017B1B7 /* Event.storyboard in Resources */,
 				4B1950DD282448FB00B6A789 /* loading.json in Resources */,
 				4BC1074627FA9DD60017B1B7 /* LaunchScreen.storyboard in Resources */,
@@ -859,6 +858,7 @@
 				4BEAF1CE281471650094B90E /* PlaceEventViewLocationCell.xib in Resources */,
 				4BD3736A28041BE200141A29 /* PullStreaming.storyboard in Resources */,
 				4BA5E3B3280F9D2A00D421D0 /* ReportViewController.xib in Resources */,
+				4BE135342828368F00214D34 /* GoogleService-Info.plist in Resources */,
 				4BC1076527FB565F0017B1B7 /* Profile.storyboard in Resources */,
 				4BC0EE6127FF327800C5673B /* MessageCell.xib in Resources */,
 				4BEAF1D6281471EF0094B90E /* PlaceEventViewReuseCell.xib in Resources */,
@@ -985,6 +985,7 @@
 				4B3AAAE628081CDD00CBFE89 /* EventViewController.swift in Sources */,
 				4BEAF1D1281471810094B90E /* PlaceEventViewContentCell.swift in Sources */,
 				4BEFEF8C281BA5EB0039F601 /* LottieAnimationManager.swift in Sources */,
+				4BE135362828369700214D34 /* Secret.swift in Sources */,
 				4B978805281057280003CC9F /* LikeBody.swift in Sources */,
 				4B4BBF7728043E4700A53128 /* DataRequest.swift in Sources */,
 				4BA4ED62281786C500B158CA /* UserData.swift in Sources */,
@@ -1027,7 +1028,6 @@
 				4BEC55A9281DA7E600126786 /* String.Index+Extension.swift in Sources */,
 				4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */,
 				4B3AAAF1280873D400CBFE89 /* ProfileViewController.swift in Sources */,
-				4BC2BE4F27FC4207001FF31D /* Secret.swift in Sources */,
 				4BC0EE6828000B2000C5673B /* ChatViewController.swift in Sources */,
 				4BC0EE6027FF327800C5673B /* MessageCell.swift in Sources */,
 				4B66E9492817BB0400BD62C6 /* EventCollectionViewCell.swift in Sources */,
