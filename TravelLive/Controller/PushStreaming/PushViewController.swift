@@ -23,7 +23,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     let locationManager = CLLocationManager()
     // STT
     let audioEngine = AVAudioEngine()
-    let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "zh_Hans_CN"))
+    let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "zh-Hant-TW"))
     var request: SFSpeechAudioBufferRecognitionRequest?
     var task: SFSpeechRecognitionTask!
     var streamingUrl: PushStreamingObject?
@@ -63,7 +63,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
         
-        LottieAnimationManager.shared.createlottieAnimation(name: "loading", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
+        LottieAnimationManager.shared.createlottieAnimation(name: "loading", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 8, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
         
         session.preView = view
         addPushPreview()

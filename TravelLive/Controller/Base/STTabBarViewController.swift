@@ -25,13 +25,13 @@ private enum Tab {
         case .search: controller = UIStoryboard.search.instantiateInitialViewController()!
         case .profile: controller = UIStoryboard.profile.instantiateInitialViewController()!
         }
-
+        
         controller.tabBarItem = tabBarItem()
         controller.tabBarItem.imageInsets = UIEdgeInsets(top: -4.0, left: 0.0, bottom: 4.0, right: 0.0)
-
+        
         return controller
     }
-
+    
     func tabBarItem() -> UITabBarItem {
         switch self {
         case .map:
@@ -47,17 +47,25 @@ private enum Tab {
                 image: UIImage.asset(.Icons_attractions),
                 selectedImage: UIImage.asset(.Icons_attractions)
             )
-
+            
         case .stream:
-            return UITabBarItem(title: nil, image: nil, selectedImage: nil)
-
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                return UITabBarItem(
+                    title: "直播",
+                    image: UIImage.asset(.Icons_live),
+                    selectedImage: UIImage.asset(.Icons_live)
+                )
+            } else {
+                return UITabBarItem(title: nil, image: nil, selectedImage: nil)
+            }
+            
         case .search:
             return UITabBarItem(
                 title: "搜尋",
                 image: UIImage.asset(.Icons_search),
                 selectedImage: UIImage.asset(.Icons_search)
             )
-        
+            
         case .profile:
             return UITabBarItem(
                 title: "個人",
@@ -83,6 +91,11 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        LottieAnimationManager.shared.showLoadingAnimation(view: tabBar.subviews[2], name: "Live")
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            LottieAnimationManager.shared.showLoadingAnimation(view: tabBar.subviews[2], name: "Live")
+        } else {
+            return
+        }
     }
 }
