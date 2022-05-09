@@ -15,7 +15,7 @@ import Lottie
 
 class ProfileViewController: UIViewController {
     
-//    @IBOutlet weak var bannerView: GADBannerView!
+    //    @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
@@ -59,9 +59,9 @@ class ProfileViewController: UIViewController {
         // change avatar
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditAvatarViewKey, object: nil)
         // Add advertisement
-//        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-//        bannerView.rootViewController = self
-//        bannerView.load(GADRequest())
+        //        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        //        bannerView.rootViewController = self
+        //        bannerView.load(GADRequest())
         
         profileView.delegate = self
         profileView.dataSource = self
@@ -116,11 +116,11 @@ class ProfileViewController: UIViewController {
     }
     
     private func addRefreshHeader() {
-          MJRefreshNormalHeader { [weak self] in
-              self?.getUserProperty(id: userID, byUser: userID)
-          }.autoChangeTransparency(true)
-          .link(to: profileView)
-      }
+        MJRefreshNormalHeader { [weak self] in
+            self?.getUserProperty(id: userID, byUser: userID)
+        }.autoChangeTransparency(true)
+            .link(to: profileView)
+    }
     
     // show selected image
     private func presentCropViewController(_ image: UIImage) {
@@ -263,6 +263,19 @@ class ProfileViewController: UIViewController {
         }))
         
         alertController.view.tintColor = UIColor.black
+        
+        // iPad specific code
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alertController.popoverPresentationController?.sourceView = self.view
+            
+            let xOrigin = self.view.bounds.width / 2
+            
+            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+            
+            alertController.popoverPresentationController?.sourceRect = popoverRect
+            
+            alertController.popoverPresentationController?.permittedArrowDirections = .up
+        }
         self.present(alertController, animated: true)
     }
     
@@ -275,6 +288,19 @@ class ProfileViewController: UIViewController {
         }))
         
         alertController.view.tintColor = UIColor.black
+        // iPad specific code
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alertController.popoverPresentationController?.sourceView = self.view
+            
+            let xOrigin = self.view.bounds.width / 2
+            
+            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+            
+            alertController.popoverPresentationController?.sourceRect = popoverRect
+            
+            alertController.popoverPresentationController?.permittedArrowDirections = .up
+        }
+        
         self.present(alertController, animated: true)
     }
     
@@ -316,9 +342,9 @@ class ProfileViewController: UIViewController {
         }
     }
     
-//    @objc private func hideBanner(_ button: UIButton) {
-//        bannerView.isHidden = true
-//    }
+    //    @objc private func hideBanner(_ button: UIButton) {
+    //        bannerView.isHidden = true
+    //    }
     
     private func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
         // Create the temporary directory.
@@ -545,10 +571,19 @@ extension ProfileViewController {
         cameraActionSheet.addAction(gallaryAction)
         cameraActionSheet.addAction(cancelAction)
         
-        if let popoverController = cameraActionSheet.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+        // iPad specific code
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            cameraActionSheet.popoverPresentationController?.sourceView = self.view
+            
+            let xOrigin = self.view.bounds.width / 2
+            
+            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+            
+            cameraActionSheet.popoverPresentationController?.sourceRect = popoverRect
+            
+            cameraActionSheet.popoverPresentationController?.permittedArrowDirections = .up
         }
+        
         self.present(cameraActionSheet, animated: true, completion: nil)
     }
 }

@@ -30,10 +30,10 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setUpTableView()
         setUpSubview()
-//        setGestureOnCell()
+        //        setGestureOnCell()
         
         if isFromProfile {
             getOwnerAvatar(avatarUrl ?? "")
@@ -56,7 +56,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-       setUpButtonBasicColor(sendCommentButton, UIImage.asset(.send) ?? UIImage(), color: UIColor.primary)
+        setUpButtonBasicColor(sendCommentButton, UIImage.asset(.send) ?? UIImage(), color: UIColor.primary)
     }
     
     private func setGestureOnCell() {
@@ -83,6 +83,17 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         }))
         
         alertController.view.tintColor = UIColor.black
+        
+        // iPad specific code
+        alertController.popoverPresentationController?.sourceView = self.view
+        
+        let xOrigin = self.view.bounds.width / 2
+        
+        let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+        
+        alertController.popoverPresentationController?.sourceRect = popoverRect
+        
+        alertController.popoverPresentationController?.permittedArrowDirections = .up
         self.present(alertController, animated: true)
     }
     
@@ -240,6 +251,17 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         }))
         
         alertController.view.tintColor = UIColor.black
+        
+        // iPad specific code
+        alertController.popoverPresentationController?.sourceView = self.view
+        
+        let xOrigin = self.view.bounds.width / 2
+        
+        let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+        
+        alertController.popoverPresentationController?.sourceRect = popoverRect
+        
+        alertController.popoverPresentationController?.permittedArrowDirections = .up
         self.present(alertController, animated: true)
     }
     
