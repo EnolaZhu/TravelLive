@@ -267,13 +267,9 @@ class ProfileViewController: UIViewController {
         // iPad specific code
         if UIDevice.current.userInterfaceIdiom == .pad {
             alertController.popoverPresentationController?.sourceView = self.view
-            
             let xOrigin = self.view.bounds.width / 2
-            
             let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-            
             alertController.popoverPresentationController?.sourceRect = popoverRect
-            
             alertController.popoverPresentationController?.permittedArrowDirections = .up
         }
         self.present(alertController, animated: true)
@@ -383,6 +379,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 guard let imgUrl = imageUrl else { return }
                 PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPathWithTag) { [weak self] result in
                     if result == "" {
+                        self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
                         self?.getUserInfo(id: userID)
                         self?.getUserProperty(id: userID, byUser: userID)
                     } else {
@@ -397,6 +394,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
             PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
                 if result == "" {
+                    self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
                     self?.getUserInfo(id: userID)
                     self?.getUserProperty(id: userID, byUser: userID)
                 } else {
@@ -412,6 +410,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                     // Upload GIF file
                     PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath) { [weak self] result in
                         if result == "" {
+                            self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
                             self?.getUserInfo(id: userID)
                             self?.getUserProperty(id: userID, byUser: userID)
                         } else {

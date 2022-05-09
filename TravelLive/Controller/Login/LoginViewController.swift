@@ -144,15 +144,6 @@ class LoginViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // Add animation on logo view
-        UIView.animate(withDuration: 1, delay: 0.01, options: .curveEaseInOut, animations: { [self] in
-            logoView.frame = CGRect(x: (UIScreen.width / 2 - 120), y: UIScreen.height - 600, width: 240, height: 36)
-        }, completion: { _ in print("cart page show")})
-    }
-    
     private func login() {
         let nonce = randomNonceString()
         currentNonce = nonce
