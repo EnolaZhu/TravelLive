@@ -254,14 +254,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         
         // iPad specific code
         alertController.popoverPresentationController?.sourceView = self.view
-        
         let xOrigin = self.view.bounds.width / 2
-        
         let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-        
         alertController.popoverPresentationController?.sourceRect = popoverRect
-        
         alertController.popoverPresentationController?.permittedArrowDirections = .up
+        
         self.present(alertController, animated: true)
     }
     
