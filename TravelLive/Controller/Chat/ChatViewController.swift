@@ -43,15 +43,17 @@ class ChatViewController: BaseViewController, PNEventsListener {
     var earliestMessageTime: NSNumber = -1
     var loadingMore = false
     var client: PubNub!
-    //TODO: Change name
     var channelName = String()
     var textsOfSTT = [String]()
     var sendPubNubTimer = Timer()
     private var totalTime = 0
     var isFromStreamer = false
+    var userDisplayName = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getUserInfo(id: userID)
         setupChatView()
         // Setting up our PubNub object
         let configuration = PNConfiguration(publishKey: Secret.pubNubPublishKey.title, subscribeKey: Secret.pubNubSubscribeKey.title)
@@ -74,7 +76,6 @@ class ChatViewController: BaseViewController, PNEventsListener {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         // Clear caption
         caption.text = ""
     }
@@ -131,7 +132,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
             let messageString: String = inputTextfield.text!
             let messageObject: [String: Any] =
             [ "message": messageString,
-              "username": "Enola",
+              "username": userDisplayName,
               "uuid": client.uuid()
             ]
             
@@ -150,13 +151,25 @@ class ChatViewController: BaseViewController, PNEventsListener {
             print(status.data.information)
         }
     }
+    
+    private func getUserInfo(id: String) {
+        ProfileProvider.shared.fetchUserData(userId: id) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.userDisplayName = data.name
+            case .failure(let error):
+                print(error)
+                self?.view.makeToast("失敗，請稍後再試。", duration: 0.5, position: .center)
+            }
+        }
+    }
 
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
         if channelName == message.data.channel {
             guard let theMessage = message.data.message as? [String: String] else { return }
             
             if theMessage["username"] == "animation" {
-                LottieAnimationManager.shared.setUplottieAnimation(name: "Heart falling", excitTime: 3, view: self.view, ifPulling: true)
+                LottieAnimationManager.shared.createlottieAnimation(name: "Heart falling", view: self.view, animationSpeed: 4, isRemove: false, theX: -20, theY: -20, width: Int(UIScreen.width), height: Int(UIScreen.height) + 50)
                 
             } else if theMessage["username"] == "STT" {
                 print("receive = " + (theMessage["message"] ?? ""))

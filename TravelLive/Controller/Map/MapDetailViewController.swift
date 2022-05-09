@@ -13,7 +13,7 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
     var detailEventData: Event?
     var detailPlaceData: Place?
     lazy var header = StretchyTableHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width))
-    var maskView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: 250))
+    lazy var maskView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: 250))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,6 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         addGestureOnMaskView()
         
         // Setting navigationbar back button color
-        navigationController?.navigationBar.barStyle = UIBarStyle.black
         navigationController?.navigationBar.tintColor = UIColor.primary
     }
     

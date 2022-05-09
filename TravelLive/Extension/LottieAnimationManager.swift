@@ -10,39 +10,57 @@ import Lottie
 
 class LottieAnimationManager {
     static let shared = LottieAnimationManager()
+    // swiftlint:disable function_parameter_count
+    func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat, isRemove: Bool, theX: Int, theY: Int, width: Int, height: Int) {
+        createlottieAnimation(name: name, view: view, animationSpeed: animationSpeed, isRemove: isRemove, theX: theX, theY: theY, width: width, height: height, completion: nil)
+    }
     
-    func setUplottieAnimation(name: String, excitTime: Int, view: UIView, ifPulling: Bool) {
+    func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat, isRemove: Bool, theX: Int, theY: Int, width: Int, height: Int, completion: (() -> Void)?) {
         let animationView = AnimationView(name: name)
-        
-        if ifPulling {
-            animationView.frame = CGRect(x: -20, y: -20, width: UIScreen.width, height: UIScreen.height + 50)
-            animationView.contentMode = .scaleAspectFill
-        } else {
-            animationView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
+        animationView.animationSpeed = animationSpeed
+//            animationView.contentMode = .scaleAspectFill
+        animationView.frame = CGRect(x: theX, y: theY, width: width, height: height)
             animationView.contentMode = .scaleAspectFit
-        }
-        animationView.center = view.center
-        
+        setAnimation(animationView: animationView, view: view, isRemove: isRemove, completion: completion)
+    }
+    
+    private func setAnimation(animationView: AnimationView, view: UIView, isRemove: Bool, completion: (() -> Void)?) {
+//        animationView.center = view.center
         animationView.loopMode = .playOnce
-        animationView.animationSpeed = 4
         view.addSubview(animationView)
         animationView.play()
         animationView.play { isCompleted in
             if isCompleted {
-                animationView.removeFromSuperview()
+                if isRemove {
+                    completion?()
+                } else {
+                    animationView.removeFromSuperview()
+                }
             }
         }
     }
     
-     // Show lottie animation on button
-    func showLoadingAnimationInButton(view: UIView, name: String) {
+    // Show lottie animation on button
+    func showLoadingAnimation(view: UIView, name: String) {
         let animationView = AnimationView(name: name)
+        showLoadingAnimation(animationView: animationView, view: view, name: name, width: 80, height: 80)
+    }
+    
+    func showLoadingAnimation(animationView: AnimationView, view: UIView, name: String) {
+        showLoadingAnimation(animationView: animationView, view: view, name: name, width: 200, height: 200)
+    }
+    
+    func showLoadingAnimation(animationView: AnimationView, view: UIView, name: String, width: Int, height: Int) {
         animationView.isHidden = false
-        animationView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        animationView.frame = CGRect(x: 0, y: 0, width: width, height: height)
         animationView.center = view.center
         animationView.contentMode = .scaleAspectFill
         animationView.loopMode = .loop
         animationView.play()
         view.addSubview(animationView)
+    }
+    
+    func stopAnimation(animationView: AnimationView?) {
+        animationView?.removeFromSuperview()
     }
 }

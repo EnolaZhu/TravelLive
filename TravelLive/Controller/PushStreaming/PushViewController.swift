@@ -23,7 +23,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     let locationManager = CLLocationManager()
     // STT
     let audioEngine = AVAudioEngine()
-    let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "zh_Hans_CN"))
+    let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "zh-Hant-TW"))
     var request: SFSpeechAudioBufferRecognitionRequest?
     var task: SFSpeechRecognitionTask!
     var streamingUrl: PushStreamingObject?
@@ -62,6 +62,8 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        
+        LottieAnimationManager.shared.createlottieAnimation(name: "loading", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 8, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
         
         session.preView = view
         addPushPreview()
@@ -435,9 +437,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
             RecordManager.record.stopRecording(record, self) { result in
                 switch result {
                 case .success(_):
-                    LottieAnimationManager.shared.setUplottieAnimation(name: "Success", excitTime: 1, view: self.view, ifPulling: false)
+                    LottieAnimationManager.shared.createlottieAnimation(name: "Success", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
                 case .failure(_):
-                    LottieAnimationManager.shared.setUplottieAnimation(name: "Fail", excitTime: 1, view: self.view, ifPulling: false)
+                    LottieAnimationManager.shared.createlottieAnimation(name: "Fail", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
                 }
             }
         } else {
@@ -459,9 +461,9 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
                 case .success(_):
                     self?.createRecordDoneAlert(message: "錄製時間已到")
                     
-                    LottieAnimationManager.shared.setUplottieAnimation(name: "Success", excitTime: 1, view: self?.view ?? UIView(), ifPulling: false)
+                    LottieAnimationManager.shared.createlottieAnimation(name: "Success", view: self?.view ?? UIView(), animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
                 case .failure(_):
-                    LottieAnimationManager.shared.setUplottieAnimation(name: "Fail", excitTime: 1, view: self?.view ?? UIView(), ifPulling: false)
+                    LottieAnimationManager.shared.createlottieAnimation(name: "Fail", view: self?.view ?? UIView(), animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
                 }
             }
         }

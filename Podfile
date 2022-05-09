@@ -27,4 +27,13 @@ target 'TravelLive' do
   pod 'GoogleToolboxForMac', '~> 2.3'
   pod 'Toast-Swift', '~> 5.0.1'
   pod 'MJRefresh'
+  pod 'RxSwift', '6.5.0'
+  pod 'RxCocoa', '6.5.0'
+  pod 'Firebase/Crashlytics'
+
+post_install do |installer|
+    installer.pods_project.build_configurations.each do |config|
+      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+   end
+ end
 end

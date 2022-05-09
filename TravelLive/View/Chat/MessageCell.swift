@@ -10,7 +10,7 @@ import UIKit
 class MessageCell: UITableViewCell {
     @IBOutlet weak var userNameLabel: UILabel! {
         didSet {
-            userNameLabel.backgroundColor = UIColor.backgroundColor
+            userNameLabel.backgroundColor = UIColor.primary
             userNameLabel.layer.cornerRadius = 8
             userNameLabel.layer.masksToBounds = (YESSTR != 0)
             userNameLabel.textColor = UIColor.black
@@ -18,7 +18,7 @@ class MessageCell: UITableViewCell {
     }
     @IBOutlet weak var messageLabel: UILabel! {
         didSet {
-            messageLabel.backgroundColor = UIColor.backgroundColor
+            messageLabel.backgroundColor = UIColor.primary
             messageLabel.layer.cornerRadius = 8
             messageLabel.layer.masksToBounds = (YESSTR != 0)
             messageLabel.textColor = UIColor.black

@@ -23,16 +23,17 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     var propertyId = String()
     var imageOwnerName = String()
     var isLiked = Bool()
-    var placeHolderImage = UIImage(named: "placeholder")
     var isFromProfile = false
     var allMessageArray = [String]()
+    let animationView = AnimationView(name: "loading")
+    var placeHolderImage = UIImage(named: "placeholder")
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setUpTableView()
         setUpSubview()
-//        setGestureOnCell()
+        //        setGestureOnCell()
         
         if isFromProfile {
             getOwnerAvatar(avatarUrl ?? "")
@@ -47,13 +48,15 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // owner id 換成 property id   從 search 頁和圖片一起帶過來
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
+        
         fetchComment(propertyId: propertyId, userId: userID)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-       setUpButtonBasicColor(sendCommentButton, UIImage.asset(.send) ?? UIImage(), color: UIColor.primary)
+        setUpButtonBasicColor(sendCommentButton, UIImage.asset(.send) ?? UIImage(), color: UIColor.primary)
     }
     
     private func setGestureOnCell() {
@@ -73,13 +76,24 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     private func createBlockAlert(index: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此則留言的主人", style: .destructive, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖此則留言的主人", style: .destructive, handler: { [weak self] _ in
             self?.postBlockData(blockId: self?.allCommentData?.message[index].reviewerId ?? "")
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
         
         alertController.view.tintColor = UIColor.black
+        
+        // iPad specific code
+        alertController.popoverPresentationController?.sourceView = self.view
+        
+        let xOrigin = self.view.bounds.width / 2
+        
+        let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+        
+        alertController.popoverPresentationController?.sourceRect = popoverRect
+        
+        alertController.popoverPresentationController?.permittedArrowDirections = .up
         self.present(alertController, animated: true)
     }
     
@@ -118,6 +132,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
             case .success(let data):
                 self?.allCommentData = data
                 guard (self?.allCommentData) != nil else { return }
+                LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
                 self?.detailTableView.reloadData()
                 
             case .failure(let error):
@@ -171,8 +186,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             
             imageCell.reportButton.addTarget(self, action: #selector(createBlockSheet(_:)), for: .touchUpInside)
             imageCell.loveButton.addTarget(self, action: #selector(clickLoveButton), for: .touchUpInside)
-            imageCell.shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
-            
             imageCell.layoutCell(mainImage: detailPageImage, propertyId: propertyId, isLiked: allCommentData?.isLiked ?? Bool(), imageOwnerName: imageOwnerName, avatar: (avatarImage ?? placeHolderImage)!)
             
             if isLiked {
@@ -214,7 +227,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc private func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         // swiftlint:disable force_cast
         _ = tapGestureRecognizer.view as! UIImageView
-        LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, ifPulling: false)
+        LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
         // change heart button
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
     }
@@ -228,14 +241,9 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         show(profileVC, sender: nil)
     }
     
-    @objc private func shareLink(_ sender: UIButton) {
-        let url = "https://travellive.page.link/?link=https://travellive-1d79e.web.app/WebRTCPlayer.html?live=Broccoli2"
-        ShareManager.share.shareLink(textToShare: "Check out my app", shareUrl: url, thevVC: self, sender: sender)
-    }
-    
     @objc private func createBlockSheet(_ sender: UIButton) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此貼文的主人", style: .destructive, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖此貼文的主人", style: .destructive, handler: { [weak self] _ in
             self?.postBlockData(blockId: self?.detailData?.ownerId ?? "")
         }))
         
@@ -243,6 +251,14 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         }))
         
         alertController.view.tintColor = UIColor.black
+        
+        // iPad specific code
+        alertController.popoverPresentationController?.sourceView = self.view
+        let xOrigin = self.view.bounds.width / 2
+        let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+        alertController.popoverPresentationController?.sourceRect = popoverRect
+        alertController.popoverPresentationController?.permittedArrowDirections = .up
+        
         self.present(alertController, animated: true)
     }
     
@@ -251,11 +267,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if sender.hasImage(named: "theheart", for: .normal) {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
             
-            LottieAnimationManager.shared.setUplottieAnimation(name: "Heart break", excitTime: 8, view: self.view, ifPulling: false)
+            LottieAnimationManager.shared.createlottieAnimation(name: "Heart break", view: self.view, animationSpeed: 1, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
             setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
         } else {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: true)
-            LottieAnimationManager.shared.setUplottieAnimation(name: "Hearts moving", excitTime: 4, view: self.view, ifPulling: false)
+            LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
             setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
     }

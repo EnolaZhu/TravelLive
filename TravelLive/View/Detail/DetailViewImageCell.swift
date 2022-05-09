@@ -14,7 +14,6 @@ class DetailViewImageCell: UITableViewCell {
     @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var loveButton: UIButton!
     @IBOutlet weak var userAvatarimage: UIImageView!
-    @IBOutlet weak var shareButton: UIButton!
     
     var propertyId: String?
     
@@ -35,7 +34,6 @@ class DetailViewImageCell: UITableViewCell {
     }
     
     private func setUpButtons() {
-        setUpButtonBasicColor(shareButton, UIImage.asset(.share) ?? UIImage(), color: UIColor.primary)
         setUpButtonBasicColor(loveButton, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
         setUpButtonBasicColor(reportButton, UIImage.asset(.option) ?? UIImage(), color: UIColor.primary)
     }

@@ -11,10 +11,11 @@ import GoogleMobileAds
 import FirebaseAuth
 import Toast_Swift
 import MJRefresh
+import Lottie
 
 class ProfileViewController: UIViewController {
     
-    @IBOutlet weak var bannerView: GADBannerView!
+    //    @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
@@ -45,8 +46,12 @@ class ProfileViewController: UIViewController {
         return postButton
     }()
     
+    let animationView = AnimationView(name: "loading")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
         
         // Add observer of change images
         NotificationCenter.default.addObserver(self, selector: #selector(self.showUserProperty(_:)), name: .showUserPropertyKey, object: nil)
@@ -54,9 +59,9 @@ class ProfileViewController: UIViewController {
         // change avatar
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditAvatarViewKey, object: nil)
         // Add advertisement
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
+        //        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        //        bannerView.rootViewController = self
+        //        bannerView.load(GADRequest())
         
         profileView.delegate = self
         profileView.dataSource = self
@@ -79,7 +84,6 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         imageWidth = ((UIScreen.width - 4) / 3)  - 2
-        
         
         if !isFromOther {
             postButton.addTarget(self, action: #selector(postImage(_:)), for: .touchUpInside)
@@ -112,11 +116,11 @@ class ProfileViewController: UIViewController {
     }
     
     private func addRefreshHeader() {
-          MJRefreshNormalHeader { [weak self] in
-              self?.getUserProperty(id: userID, byUser: userID)
-          }.autoChangeTransparency(true)
-          .link(to: profileView)
-      }
+        MJRefreshNormalHeader { [weak self] in
+            self?.getUserProperty(id: userID, byUser: userID)
+        }.autoChangeTransparency(true)
+            .link(to: profileView)
+    }
     
     // show selected image
     private func presentCropViewController(_ image: UIImage) {
@@ -181,6 +185,8 @@ class ProfileViewController: UIViewController {
                         }
                     }
                 }
+                LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
+                
                 self?.profileView.reloadData()
                 self?.profileView.mj_header?.endRefreshing()
                 
@@ -248,25 +254,53 @@ class ProfileViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "登出", style: .destructive, handler: { [weak self] _ in
             self?.signOut()
         }))
-        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { _ in
+        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { [weak self]
+            _ in
             ProfileProvider.shared.deleteAccount(userId: userID)
+            self?.signOut()
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
         
         alertController.view.tintColor = UIColor.black
+        
+        // iPad specific code
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alertController.popoverPresentationController?.sourceView = self.view
+            
+            let xOrigin = self.view.bounds.width / 2
+            
+            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+            
+            alertController.popoverPresentationController?.sourceRect = popoverRect
+            
+            alertController.popoverPresentationController?.permittedArrowDirections = .up
+        }
         self.present(alertController, animated: true)
     }
     
     @objc private func blockUser() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖並檢舉此人", style: .destructive, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "封鎖此人", style: .destructive, handler: { [weak self] _ in
             self?.postBlockData()
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
         
         alertController.view.tintColor = UIColor.black
+        // iPad specific code
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alertController.popoverPresentationController?.sourceView = self.view
+            
+            let xOrigin = self.view.bounds.width / 2
+            
+            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+            
+            alertController.popoverPresentationController?.sourceRect = popoverRect
+            
+            alertController.popoverPresentationController?.permittedArrowDirections = .up
+        }
+        
         self.present(alertController, animated: true)
     }
     
@@ -308,9 +342,9 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    @objc private func hideBanner(_ button: UIButton) {
-        bannerView.isHidden = true
-    }
+    //    @objc private func hideBanner(_ button: UIButton) {
+    //        bannerView.isHidden = true
+    //    }
     
     private func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
         // Create the temporary directory.
@@ -508,7 +542,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         )
         guard let detailVC = detailTableViewVC as? DetailViewController else { return }
         
-        
         detailVC.propertyId = userPropertyData?.data[indexPath.row].propertyId ?? ""
         detailVC.imageOwnerName = userPropertyData?.data[indexPath.row].name ?? ""
         detailVC.detailPageImage = image
@@ -538,10 +571,19 @@ extension ProfileViewController {
         cameraActionSheet.addAction(gallaryAction)
         cameraActionSheet.addAction(cancelAction)
         
-        if let popoverController = cameraActionSheet.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+        // iPad specific code
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            cameraActionSheet.popoverPresentationController?.sourceView = self.view
+            
+            let xOrigin = self.view.bounds.width / 2
+            
+            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+            
+            cameraActionSheet.popoverPresentationController?.sourceRect = popoverRect
+            
+            cameraActionSheet.popoverPresentationController?.permittedArrowDirections = .up
         }
+        
         self.present(cameraActionSheet, animated: true, completion: nil)
     }
 }
