@@ -99,6 +99,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     private func postBlockData(blockId: String) {
         if userID == blockId {
+            self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
             return
         } else {
             DetailDataProvider.shared.postBlockData(
