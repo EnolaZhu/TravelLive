@@ -17,8 +17,9 @@ class EventViewController: UIViewController {
         EventCollectionViewController(),
         EventCollectionViewController(),
         EventCollectionViewController(),
+        EventCollectionViewController(),
     ]
-    var citys = ["臺北", "新北", "桃園", "臺中"]
+    var citys = ["臺北": 0, "新北": 1, "臺中": 3, "臺南": 4, "高雄": 5]
     let animationView = AnimationView(name: "loading")
     
     override func viewDidLoad() {
@@ -69,10 +70,11 @@ class EventViewController: UIViewController {
     }
     
     private func getData() {
-        getPlaceData(city: citys.firstIndex(of: "臺北") ?? 0, limit: 5)
-        getPlaceData(city: citys.firstIndex(of: "新北") ?? 0, limit: 5)
-        getPlaceData(city: citys.firstIndex(of: "桃園") ?? 0, limit: 5)
-        getPlaceData(city: citys.firstIndex(of: "臺中") ?? 0, limit: 5)
+        getPlaceData(city: citys["臺北"] ?? 0, limit: 5)
+        getPlaceData(city: citys["新北"] ?? 0, limit: 5)
+        getPlaceData(city: citys["臺中"] ?? 0, limit: 5)
+        getPlaceData(city: citys["臺南"] ?? 0, limit: 5)
+        getPlaceData(city: citys["高雄"] ?? 0, limit: 5)
     }
 }
 
@@ -111,7 +113,8 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
         let label = UILabel(frame: CGRect(x: 24, y: -18, width: 60, height: 30))
         
         label.backgroundColor = UIColor.clear
-        label.text = citys[section]
+        let index = citys.index(citys.startIndex, offsetBy: section)
+        label.text = citys.keys[index]
         label.textColor = UIColor.primary
         label.font = label.font.withSize(18)
         sectionView.addSubview(label)
@@ -123,17 +126,22 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
 extension EventViewController {
 
     func getPlaceData(city: Int, limit: Int) {
-        self.smallCollectionViewControllers[city].images.removeAll()
+//        self.smallCollectionViewControllers[city].images.removeAll()
         
         MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit)  { [weak self] result in
             switch result {
             case .success(let data):
-                self?.smallCollectionViewControllers[city].specificPlaceData = data
+                
+                var theCity = city
+                if city > 2 {
+                    theCity -= 1
+                }
+                self?.smallCollectionViewControllers[theCity].specificPlaceData = data
 
                 if data.data.count > 0 {
                     for index in 0...data.data.count - 1 {
                         ImageManager.shared.fetchImage(imageUrl: data.data[index].image) { [weak self] image in
-                            self?.smallCollectionViewControllers[city].images.append(image)
+                            self?.smallCollectionViewControllers[theCity].images.append(image)
                             self?.eventTableView.reloadData()
                             print("success")
                         }
