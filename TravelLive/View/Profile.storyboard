@@ -17,15 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="feO-Dq-xDI" customClass="GADBannerView">
-                                <rect key="frame" x="0.0" y="812" width="414" height="50"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="n7p-Oa-PH2"/>
-                                </constraints>
-                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XVc-Wf-PXs">
-                                <rect key="frame" x="2" y="88" width="410" height="724"/>
+                                <rect key="frame" x="2" y="88" width="410" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="W2S-Wn-d0X">
                                     <size key="itemSize" width="128" height="128"/>
@@ -111,18 +104,14 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="feO-Dq-xDI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="8RG-u8-6ey"/>
-                            <constraint firstItem="feO-Dq-xDI" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="elD-EM-HGp"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="XVc-Wf-PXs" secondAttribute="bottom" id="bf0-iZ-PqJ"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="XVc-Wf-PXs" secondAttribute="trailing" constant="2" id="ge6-CN-FJL"/>
                             <constraint firstItem="XVc-Wf-PXs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="2" id="l7g-eX-sE8"/>
                             <constraint firstItem="XVc-Wf-PXs" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="topMargin" id="mYq-2P-EjR"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="feO-Dq-xDI" secondAttribute="trailing" id="stv-1P-5Wf"/>
-                            <constraint firstItem="feO-Dq-xDI" firstAttribute="top" secondItem="XVc-Wf-PXs" secondAttribute="bottom" id="tUX-ez-lwz"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="個人" id="zEW-q0-xlH"/>
                     <connections>
-                        <outlet property="bannerView" destination="feO-Dq-xDI" id="rqR-tU-DFY"/>
                         <outlet property="profileView" destination="XVc-Wf-PXs" id="Bam-XV-Zau"/>
                     </connections>
                 </viewController>

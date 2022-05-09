@@ -15,7 +15,7 @@ import Lottie
 
 class ProfileViewController: UIViewController {
     
-    @IBOutlet weak var bannerView: GADBannerView!
+//    @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
@@ -59,9 +59,9 @@ class ProfileViewController: UIViewController {
         // change avatar
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditAvatarViewKey, object: nil)
         // Add advertisement
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
+//        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+//        bannerView.rootViewController = self
+//        bannerView.load(GADRequest())
         
         profileView.delegate = self
         profileView.dataSource = self
@@ -316,9 +316,9 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    @objc private func hideBanner(_ button: UIButton) {
-        bannerView.isHidden = true
-    }
+//    @objc private func hideBanner(_ button: UIButton) {
+//        bannerView.isHidden = true
+//    }
     
     private func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
         // Create the temporary directory.
