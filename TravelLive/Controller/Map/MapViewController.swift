@@ -45,12 +45,19 @@ class MapViewController: UIViewController {
         longitude = locationManager.location?.coordinate.longitude
         latitude = locationManager.location?.coordinate.latitude
         
+//        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: 15.81)
+//        mapView.camera = camera
+        
         if CLLocationManager.authorizationStatus() != .denied {
+            
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
             fetchStreamerData()
         } else {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
+                let camera = GMSCameraPosition(latitude: self.latitude ?? Double(), longitude: longitude ?? Double(), zoom: 15.81)
+                self.mapView.camera = camera
+                
                 self.fetchStreamerData()
             }
         }
@@ -66,6 +73,10 @@ class MapViewController: UIViewController {
         super.viewWillAppear(true)
         // Hide the Navigation Bar
         mapView.clear()
+        
+        let camera = GMSCameraPosition(latitude: 25.0461031, longitude: 121.5255809, zoom: 8)
+        mapView.camera = camera
+        
         fetchStreamerData()
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -161,6 +172,9 @@ class MapViewController: UIViewController {
         mapView.clear()
         showTypeOfMarker = "streamer"
         
+//        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: 15.81)
+//        mapView.camera = camera
+        
         mapDataProvider.fetchStreamerInfo(userid: userID, latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
             switch result {
                 
@@ -207,6 +221,8 @@ class MapViewController: UIViewController {
                 
                 if eventData.data.count > 0 {
                     guard let eventData = self?.eventData else { return }
+                    let camera = GMSCameraPosition(latitude: CLLocationDegrees(Float(eventData.data[0].latitude)), longitude: CLLocationDegrees(Float(eventData.data[0].longitude)), zoom: 9)
+                    self?.mapView.camera = camera
                     
                     for index in 0...eventData.data.count - 1 {
                         ImageManager.shared.fetchImage(imageUrl: eventData.data[index].image) { [weak self] image in
@@ -237,6 +253,9 @@ class MapViewController: UIViewController {
             case .success(let places):
                 self?.placeData = places
                 guard let placeData = self?.placeData else { return }
+                
+                let camera = GMSCameraPosition(latitude: CLLocationDegrees(Float(placeData.data[0].latitude)), longitude: CLLocationDegrees(Float(placeData.data[0].longitude)), zoom: 9)
+                self?.mapView.camera = camera
                 
                 if placeData.data.count > 0 {
                     for index in 0...placeData.data.count - 1 {
