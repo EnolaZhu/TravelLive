@@ -74,9 +74,6 @@ class MapViewController: UIViewController {
         // Hide the Navigation Bar
         mapView.clear()
         
-        let camera = GMSCameraPosition(latitude: 25.0461031, longitude: 121.5255809, zoom: 8)
-        mapView.camera = camera
-        
         fetchStreamerData()
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -171,7 +168,7 @@ class MapViewController: UIViewController {
     private func fetchStreamerData() {
         mapView.clear()
         showTypeOfMarker = "streamer"
-        
+//        mapView.camera
 //        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: 15.81)
 //        mapView.camera = camera
         
@@ -197,6 +194,9 @@ class MapViewController: UIViewController {
                 
             case .failure:
                 self?.view.makeToast("暫時無人開播,可以去開播哦~", duration: 2.0, position: .center)
+                let camera = GMSCameraPosition(latitude: 25.0461031, longitude: 121.5255809, zoom: 8)
+                self?.mapView.camera = camera
+                
                 print("Failed")
             }
         }
@@ -254,10 +254,10 @@ class MapViewController: UIViewController {
                 self?.placeData = places
                 guard let placeData = self?.placeData else { return }
                 
-                let camera = GMSCameraPosition(latitude: CLLocationDegrees(Float(placeData.data[0].latitude)), longitude: CLLocationDegrees(Float(placeData.data[0].longitude)), zoom: 9)
-                self?.mapView.camera = camera
-                
                 if placeData.data.count > 0 {
+                    let camera = GMSCameraPosition(latitude: CLLocationDegrees(Float(placeData.data[0].latitude)), longitude: CLLocationDegrees(Float(placeData.data[0].longitude)), zoom: 9)
+                    self?.mapView.camera = camera
+                    
                     for index in 0...placeData.data.count - 1 {
                         ImageManager.shared.fetchImage(imageUrl: placeData.data[index].image) { [weak self] image in
                             self?.makeCustomMarker(latitude: Float(placeData.data[index].latitude), longitude: Float(placeData.data[index].longitude), pinImage: image, isStreamer: false)
