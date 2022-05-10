@@ -10,15 +10,15 @@ import Foundation
 class DetailDataProvider {
     static let shared = DetailDataProvider()
     
-    func postBlockData(userId: String, blockId: String) {
+    func postBlockData(userId: String, blockId: String, completion: @escaping (String) -> Void) {
         let body = BlockBody(userId: userId, blockId: blockId)
         let request = DataRequest.postBlockData(body: try? JSONEncoder().encode(body))
         HTTPClient.shared.request(request, completion: { data in
             switch data {
             case .success( _):
-                print("Ban successfully")
+                completion("")
             case .failure(let error):
-                print(error)
+                completion("error")
             }
         })
     }
