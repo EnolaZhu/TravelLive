@@ -301,9 +301,14 @@ class ProfileViewController: UIViewController {
     }
     
     private func postBlockData() {
-        DetailDataProvider.shared.postBlockData(
-            userId: userID, blockId: propertyOwnerId
-        )
+        DetailDataProvider.shared.postBlockData(userId: userID, blockId: propertyOwnerId) { [weak self] result in
+            if result == "" {
+                self?.navigationController?.popToRootViewController(animated: true)
+//                self?.dismiss(animated: true, completion: nil)
+            } else {
+                self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+            }
+        }
     }
     
     // User sign out

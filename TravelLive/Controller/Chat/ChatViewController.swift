@@ -114,6 +114,7 @@ class ChatViewController: BaseViewController, PNEventsListener {
     
     private func setupChatView() {
         chatView.registerCellWithNib(identifier: String(describing: MessageCell.self), bundle: nil)
+        sendButton.tintColor = UIColor.primary
         sendButton.setImage(UIImage.asset(.send)?.maskWithColor(color: UIColor.primary), for: .normal)
         caption.backgroundColor = UIColor.primary
         caption.roundCorners(cornerRadius: 6)

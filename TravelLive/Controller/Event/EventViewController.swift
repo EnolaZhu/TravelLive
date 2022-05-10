@@ -111,10 +111,11 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionView = UIView()
         let label = UILabel(frame: CGRect(x: 24, y: -18, width: 60, height: 30))
-        
+        let titles = ["臺北", "新北", "臺中", "臺南", "高雄"]
+        label.text = titles[section]
         label.backgroundColor = UIColor.clear
-        let index = citys.index(citys.startIndex, offsetBy: section)
-        label.text = citys.keys[index]
+//        let index = citys.index(citys.startIndex, offsetBy: section)
+//        label.text = citys.keys[index]
         label.textColor = UIColor.primary
         label.font = label.font.withSize(18)
         sectionView.addSubview(label)
