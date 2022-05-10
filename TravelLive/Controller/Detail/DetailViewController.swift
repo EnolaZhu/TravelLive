@@ -19,6 +19,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     var detailData: SearchData?
     var detailPageImage = UIImage()
     var avatarImage: UIImage?
+    var commentImage: UIImage?
     var avatarUrl: String?
     var propertyId = String()
     var imageOwnerName = String()
@@ -77,7 +78,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     private func createBlockAlert(index: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "封鎖此則留言的主人", style: .destructive, handler: { [weak self] _ in
-            self?.postBlockData(blockId: self?.allCommentData?.message[index].reviewerId ?? "")
+            self?.postBlockCommentData(blockId: self?.allCommentData?.message[index].reviewerId ?? "")
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
         }))
@@ -97,14 +98,34 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         self.present(alertController, animated: true)
     }
     
-    private func postBlockData(blockId: String) {
+    private func postBlockImageData(blockId: String) {
         if userID == blockId {
             self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
             return
         } else {
-            DetailDataProvider.shared.postBlockData(
-                userId: userID, blockId: blockId
-            )
+            DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
+                if result == "" {
+                    self?.navigationController?.popViewController(animated: true)
+//                    self?.dismiss(animated: false)
+                } else {
+                    self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                }
+            }
+        }
+    }
+    
+    private func postBlockCommentData(blockId: String) {
+        if userID == blockId {
+            self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
+            return
+        } else {
+            DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
+                if result == "" {
+                    self?.fetchComment(propertyId: self?.propertyId ?? "", userId: userID)
+                } else {
+                    self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                }
+            }
         }
     }
     
@@ -143,6 +164,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     private func getOwnerAvatar(_ imageUrl: String) {
+        avatarImage = nil
         ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
             self?.avatarImage = image
         }
@@ -217,9 +239,9 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewCell()
             } else {
                 ImageManager.shared.fetchImage(imageUrl: allCommentData?.message[indexPath.row - 1].avatar ?? "") { [weak self] image in
-                    self?.avatarImage = image
+                    self?.commentImage = image
                 }
-                commentCell.layoutCell(name: allCommentData?.message[indexPath.row - 1].name ?? "", comment: allCommentData?.message[indexPath.row - 1].message ?? "", avatar: (avatarImage ?? placeHolderImage)!, time: allCommentData?.message[indexPath.row - 1].timestamp ?? "")
+                commentCell.layoutCell(name: allCommentData?.message[indexPath.row - 1].name ?? "", comment: allCommentData?.message[indexPath.row - 1].message ?? "", avatar: (commentImage ?? placeHolderImage)!, time: allCommentData?.message[indexPath.row - 1].timestamp ?? "")
             }
             return commentCell
         }
@@ -245,7 +267,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc private func createBlockSheet(_ sender: UIButton) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "封鎖此貼文的主人", style: .destructive, handler: { [weak self] _ in
-            self?.postBlockData(blockId: self?.detailData?.ownerId ?? "")
+            self?.postBlockImageData(blockId: self?.detailData?.ownerId ?? "")
         }))
         
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in

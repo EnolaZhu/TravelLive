@@ -67,6 +67,7 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         
         session.preView = view
         addPushPreview()
+        closeButton.isHidden = false
         view.addSubview(closeButton)
         closeButton.addTarget(self, action: #selector(didTappedCloseButton(_:)), for: .touchUpInside)
         setUpStartButton()

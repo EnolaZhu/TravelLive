@@ -25,7 +25,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
         
         navigationItem.searchController = searchController
         searchCollectionView.isUserInteractionEnabled = true
@@ -35,6 +34,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         // Fix searchbar hidden when change view
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchBar.delegate = self
+        searchController.searchBar.keyboardType = .asciiCapable
         
         var tempStorage = false
         for _ in 1...21 {
@@ -46,7 +46,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
-        getSearchData()
+        
         
         view.backgroundColor = .backgroundColor
         searchCollectionView.backgroundColor = .backgroundColor
@@ -69,6 +69,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         searchController.searchBar.placeholder = "搜尋"
         searchController.searchBar.tintColor = UIColor.primary
         
+        getSearchData()
         setNeedsStatusBarAppearanceUpdate()
         navigationController?.navigationBar.backgroundColor = .backgroundColor
     }
@@ -148,9 +149,14 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
             return
         } else {
-            DetailDataProvider.shared.postBlockData(
-                userId: userID, blockId: blockId
-            )
+            DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] resultString in
+                if resultString == "" {
+                    self?.images.removeAll()
+                    self?.getSearchData()
+                } else {
+                    self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                }
+            } 
         }
     }
     
@@ -181,6 +187,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     }
     
     private func fetchSearchData(userId: String, tag: String?) {
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
         searchDataProvider.fetchSearchData(userId: userId, tag: tag) { [weak self] result in
             switch result {
             case .success(let data):
@@ -203,6 +210,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                         }
                     }
                 }
+                self?.searchCollectionView.reloadData()
                 self?.searchCollectionView.mj_header?.endRefreshing()
             case .failure:
                 print("Failed")
@@ -267,7 +275,7 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate {
         if text != "" {
             images.removeAll()
             searchBar.resignFirstResponder()
-            fetchSearchData(userId: userID, tag: text)
+            fetchSearchData(userId: userID, tag: text.lowercased())
         }
     }
     
