@@ -209,11 +209,14 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                             self?.getThumbnail(searchData: searchDataObjc.data[index], index: index)
                         }
                     }
+                } else {
+                    self?.view.makeToast("暫無搜尋結果", duration: 0.5, position: .center)
                 }
                 self?.searchCollectionView.reloadData()
                 self?.searchCollectionView.mj_header?.endRefreshing()
+                
             case .failure:
-                print("Failed")
+                print("failed")
             }
         }
     }
