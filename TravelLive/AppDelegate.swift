@@ -84,6 +84,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     // 讓 App 在前景也能顯示推播
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner])
+        if #available(iOS 14.0, *) {
+            completionHandler([.banner])
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }
