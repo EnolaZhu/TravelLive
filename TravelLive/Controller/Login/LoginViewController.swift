@@ -121,8 +121,8 @@ class LoginViewController: UIViewController {
         
         let stringValue = "註冊等同於接受隱私權政策和 Apple 標準許可"
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
-        attributedString.setColor(color: UIColor.systemBlue, forText: "隱私權政策")
-        attributedString.setColor(color: UIColor.systemBlue, forText: "Apple 標準許可")
+        attributedString.setColor(color: UIColor.primary, forText: "隱私權政策")
+        attributedString.setColor(color: UIColor.primary, forText: "Apple 標準許可")
         licenseLabel.attributedText = attributedString
     }
     
@@ -136,6 +136,8 @@ class LoginViewController: UIViewController {
             webVC.url = LoginUrlString.privacyUrl.rawValue
         } else if gesture.didTapAttributedTextInLabel(label: licenseLabel, inRange: standardRange) {
             webVC.url = LoginUrlString.standardLicense.rawValue
+        } else {
+            return
         }
         navigationController?.pushViewController(webVC, animated: true)
     }
