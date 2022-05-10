@@ -29,13 +29,17 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        createAnimation()
-        addLogoView()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
         self.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
         view.backgroundColor = UIColor.backgroundColor
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        createAnimation()
+        addLogoView()
     }
     
     private func createContainerView() {
@@ -139,11 +143,7 @@ class LoginViewController: UIViewController {
         } else {
             return
         }
-        navigationController?.pushViewController(webVC, animated: true)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        self.present(webVC, animated: true, completion: nil)
     }
     
     private func login() {
