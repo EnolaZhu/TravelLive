@@ -32,10 +32,9 @@ class DetailViewCommentCell: UITableViewCell {
         commentLabel.numberOfLines = 0
     }
     
-    func layoutCell(name: String, comment: String, avatar: UIImage, time: String) {
+    func layoutCell(name: String, comment: String, time: String) {
         let date = Date(timeIntervalSince1970: Double(time) ?? 0)
         reviewerName.text = name
         commentLabel.text = comment
-        reviewerAvatarImage.image = avatar
     }
 }
