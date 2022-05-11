@@ -58,9 +58,7 @@ class MapViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
             
-            if locationManager.location?.coordinate.longitude == nil {
-                return
-            } else {
+            if locationManager.location?.coordinate.longitude != nil {
                 longitude = locationManager.location?.coordinate.longitude ?? CLLocationDegrees(121.5255809)
                 latitude = locationManager.location?.coordinate.latitude ?? CLLocationDegrees(25.0461031)
             }
