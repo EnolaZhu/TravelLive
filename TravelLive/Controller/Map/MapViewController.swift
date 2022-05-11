@@ -219,9 +219,9 @@ class MapViewController: UIViewController {
         
         mapDataProvider.fetchEventInfo(latitude: latitude, longitude: longitude, limit: 10) { [weak self] result in
             switch result {
-            case .success(let places):
-                self?.eventData = places
-                guard let eventData = self?.placeData else { return }
+            case .success(let events):
+                self?.eventData = events
+                guard let eventData = self?.eventData else { return }
                 
                 if eventData.data.count > 0 {
                     guard let eventData = self?.eventData else { return }
