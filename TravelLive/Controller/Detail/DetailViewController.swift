@@ -247,10 +247,12 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             if allCommentData == nil {
                 return UITableViewCell()
             } else {
-                ImageManager.shared.fetchImage(imageUrl: allCommentData?.message[indexPath.row - 1].avatar ?? "") { [weak self] image in
-                    self?.commentImage = image
-                }
-                commentCell.layoutCell(name: allCommentData?.message[indexPath.row - 1].name ?? "", comment: allCommentData?.message[indexPath.row - 1].message ?? "", avatar: (commentImage ?? placeHolderImage)!, time: allCommentData?.message[indexPath.row - 1].timestamp ?? "")
+//                ImageManager.shared.fetchImage(imageUrl: allCommentData?.message[indexPath.row - 1].avatar ?? "") { [weak self] image in
+//                    self?.commentImage = image
+//                }
+                ImageManager.shared.loadImage(imageView: commentCell.reviewerAvatarImage, url: allCommentData?.message[indexPath.row - 1].avatar ?? "")
+                
+                commentCell.layoutCell(name: allCommentData?.message[indexPath.row - 1].name ?? "", comment: allCommentData?.message[indexPath.row - 1].message ?? "", time: allCommentData?.message[indexPath.row - 1].timestamp ?? "")
             }
             return commentCell
         }
