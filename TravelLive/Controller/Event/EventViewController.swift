@@ -9,7 +9,7 @@ import UIKit
 import Lottie
 
 class EventViewController: UIViewController {
-
+    
     @IBOutlet weak var eventTableView: UITableView!
     
     var smallCollectionViewControllers = [
@@ -42,17 +42,17 @@ class EventViewController: UIViewController {
         super.viewDidLayoutSubviews()
         self.eventTableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
     }
-
+    
     private func setupTableView() {
         let nib = UINib(nibName: String(describing: EventTableViewCell.self), bundle: nil)
-
+        
         eventTableView.register(nib, forCellReuseIdentifier: String(describing: EventTableViewCell.self))
         eventTableView.dataSource = self
         eventTableView.delegate = self
-
+        
         eventTableView.backgroundColor = UIColor.backgroundColor
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -82,11 +82,11 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return smallCollectionViewControllers.count
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 250
     }
@@ -95,39 +95,41 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
         return 250
     }
     
-// swiftlint:disable force_cast identifier_name
+    // swiftlint:disable force_cast identifier_name
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: EventTableViewCell.self)) as! EventTableViewCell
         
         self.smallCollectionViewControllers[indexPath.section].view.frame = eventTableViewCell.bounds
-
+        
         self.addChild(self.smallCollectionViewControllers[indexPath.section])
         self.smallCollectionViewControllers[indexPath.section].didMove(toParent: self)
         eventTableViewCell.addSubview(smallCollectionViewControllers[indexPath.section].view)
         
         return eventTableViewCell
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionView = UIView()
         let label = UILabel(frame: CGRect(x: 24, y: -18, width: 60, height: 30))
-        let titles = ["臺北", "新北", "臺中", "臺南", "高雄"]
+        var titles = [String]()
+        for (title, _) in Array(citys).sorted(by: {$0.value < $1.value}) {
+            titles.append(title)
+        }
         label.text = titles[section]
+        
         label.backgroundColor = UIColor.clear
-//        let index = citys.index(citys.startIndex, offsetBy: section)
-//        label.text = citys.keys[index]
         label.textColor = UIColor.primary
         label.font = label.font.withSize(18)
         sectionView.addSubview(label)
         
         return sectionView
-        }
+    }
 }
 
 extension EventViewController {
-
+    
     func getPlaceData(city: Int, limit: Int) {
-//        self.smallCollectionViewControllers[city].images.removeAll()
+        //        self.smallCollectionViewControllers[city].images.removeAll()
         
         MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit)  { [weak self] result in
             switch result {
@@ -138,7 +140,7 @@ extension EventViewController {
                     theCity -= 1
                 }
                 self?.smallCollectionViewControllers[theCity].specificPlaceData = data
-
+                
                 if data.data.count > 0 {
                     for index in 0...data.data.count - 1 {
                         ImageManager.shared.fetchImage(imageUrl: data.data[index].image) { [weak self] image in
@@ -149,33 +151,33 @@ extension EventViewController {
                     }
                     LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
                 }
-
+                
             case .failure(let error):
                 print(error)
             }
         }
     }
-
-//    func getEventData(city: Int, limit: Int) {
-//
-//        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
-//            switch result {
-//
-//            case .success(let data):
-//                self?.specificEventData = data
-//                guard let specificEventData = self?.specificEventData else { return }
-//
-//                if specificEventData.data.count > 0 {
-//                    guard let specificEventData = self?.specificEventData else { return }
-//                    for index in 0...specificEventData.data.count - 1 {
-//                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { [weak self] image in
-//                            print("success")
-//                        }
-//                    }
-//                }
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
+    
+    //    func getEventData(city: Int, limit: Int) {
+    //
+    //        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
+    //            switch result {
+    //
+    //            case .success(let data):
+    //                self?.specificEventData = data
+    //                guard let specificEventData = self?.specificEventData else { return }
+    //
+    //                if specificEventData.data.count > 0 {
+    //                    guard let specificEventData = self?.specificEventData else { return }
+    //                    for index in 0...specificEventData.data.count - 1 {
+    //                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { [weak self] image in
+    //                            print("success")
+    //                        }
+    //                    }
+    //                }
+    //            case .failure(let error):
+    //                print(error)
+    //            }
+    //        }
+    //    }
 }
