@@ -9,12 +9,20 @@ import Foundation
 
 struct StreamerDataObject: Codable {
     var data: [Streamer]
-    var nearLiveLatitude: Double?
-    var nearLiveLongitude: Double?
+    var nearLiveLatitude: Double
+    var nearLiveLongitude: Double
     enum CodingKeys: String, CodingKey {
         case data
         case nearLiveLatitude = "near_live_latitude"
         case nearLiveLongitude = "near_live_longitude"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.data = try container.decodeIfPresent([Streamer].self, forKey: .data) ?? [Streamer]()
+        
+        self.nearLiveLatitude = try container.decode(Double.self, forKey: .nearLiveLatitude)
+        self.nearLiveLongitude = try container.decode(Double.self, forKey: .nearLiveLongitude)
     }
 }
 

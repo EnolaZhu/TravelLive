@@ -24,8 +24,9 @@ class MapViewController: UIViewController {
     var specificEvent: [Event]?
     var specificPlace: [Place]?
     var url = String()
-    var longitude: CLLocationDegrees?
-    var latitude: CLLocationDegrees?
+    var longitude = CLLocationDegrees(121.5255809)
+    var latitude = CLLocationDegrees(25.0461031)
+    
     var currentLocation: CLLocation!
     var containerView = UIView()
     let placeButton = UIButton()
@@ -33,48 +34,47 @@ class MapViewController: UIViewController {
     let streamButton = UIButton()
     var showTypeOfMarker = String()
     var isButtonSelected = false
+    var isLocationUpdated = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Location
-        self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.requestWhenInUseAuthorization()
-        
         locationManager.delegate = self
-        longitude = locationManager.location?.coordinate.longitude
-        latitude = locationManager.location?.coordinate.latitude
-        
-//        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: 15.81)
-//        mapView.camera = camera
-        
-        if CLLocationManager.authorizationStatus() != .denied {
-            
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-            fetchStreamerData()
-        } else {
-            DispatchQueue.main.async { [self] in
-                let camera = GMSCameraPosition(latitude: self.latitude ?? Double(), longitude: longitude ?? Double(), zoom: 15.81)
-                self.mapView.camera = camera
-                
-                self.fetchStreamerData()
-            }
-        }
-        mapView.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
         
         setUpContainerView()
         setUpStreamButton()
         setUpPlaceButton()
         setUpEventButton()
+        
+        if CLLocationManager.authorizationStatus() == .denied {
+            DispatchQueue.main.async { [self] in
+                let camera = GMSCameraPosition(latitude: self.latitude, longitude: longitude, zoom: 15.81)
+                self.mapView.camera = camera
+            }
+        } else {
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+            
+            if locationManager.location?.coordinate.longitude == nil {
+                return
+            } else {
+                longitude = locationManager.location?.coordinate.longitude ?? CLLocationDegrees(121.5255809)
+                latitude = locationManager.location?.coordinate.latitude ?? CLLocationDegrees(25.0461031)
+            }
+        }
+//        fetchStreamerData()
+        mapView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         // Hide the Navigation Bar
         mapView.clear()
-        
         fetchStreamerData()
+        
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(true, animated: true)
         
@@ -172,7 +172,7 @@ class MapViewController: UIViewController {
 //        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: 15.81)
 //        mapView.camera = camera
         
-        mapDataProvider.fetchStreamerInfo(userid: userID, latitude: latitude ?? Double(), longitude: longitude ?? Double()) { [weak self] result in
+        mapDataProvider.fetchStreamerInfo(userid: userID, latitude: latitude, longitude: longitude) { [weak self] result in
             switch result {
                 
             case .success(let user):
@@ -180,24 +180,26 @@ class MapViewController: UIViewController {
                 guard let streamerData = self?.streamerData else { return }
                 
                 if self?.mapView.camera == nil {
-                    let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
+                    let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude, longitude: streamerData.nearLiveLongitude, zoom: 15.81)
                     self?.mapView.camera = camera
                     
                 } else {
-                    let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude ?? Double(), longitude: streamerData.nearLiveLongitude ?? Double(), zoom: 15.81)
+                    let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude, longitude: streamerData.nearLiveLongitude, zoom: 15.81)
                     self?.mapView.animate(to: location)
                 }
                 
-                for index in 0...streamerData.data.count - 1 {
-                    self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
+                if streamerData.data.isEmpty {
+                    self?.view.makeToast("暫時無人開播,可以去開播哦~", duration: 2.0, position: .center)
+                } else {
+                    for index in 0..<streamerData.data.count {
+                        self?.getImage(index: index, latitude: Float(streamerData.data[index].latitude), longitude: Float(streamerData.data[index].longitude), data: streamerData.data[index])
+                    }
                 }
                 
             case .failure:
-                self?.view.makeToast("暫時無人開播,可以去開播哦~", duration: 2.0, position: .center)
-                let camera = GMSCameraPosition(latitude: 25.0461031, longitude: 121.5255809, zoom: 8)
-                self?.mapView.camera = camera
-                
-                print("Failed")
+                guard let strongSelf = self else { return }
+                let camera = GMSCameraPosition(latitude: strongSelf.latitude, longitude: strongSelf.longitude, zoom: 10.81)
+                strongSelf.mapView.camera = camera
             }
         }
     }
@@ -213,7 +215,7 @@ class MapViewController: UIViewController {
         mapView.animate(toZoom: 10.0)
         showTypeOfMarker = "event"
         
-        mapDataProvider.fetchEventInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 10) { [weak self] result in
+        mapDataProvider.fetchEventInfo(latitude: latitude, longitude: longitude, limit: 10) { [weak self] result in
             switch result {
             case .success(let places):
                 self?.eventData = places
@@ -365,5 +367,9 @@ extension MapViewController: CLLocationManagerDelegate {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         longitude = locValue.longitude
         latitude = locValue.latitude
+        if !isLocationUpdated {
+            fetchStreamerData()
+            isLocationUpdated = true
+        }
     }
 }

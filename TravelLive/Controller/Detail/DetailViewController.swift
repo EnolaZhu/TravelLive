@@ -106,7 +106,6 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
             DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
                 if result == "" {
                     self?.navigationController?.popViewController(animated: true)
-//                    self?.dismiss(animated: false)
                 } else {
                     self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
                 }
@@ -118,7 +117,17 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         if userID == blockId {
             self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
             return
+        } else if detailData?.ownerId ?? "" == blockId {
+            
+            DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
+                if result == "" {
+                    self?.navigationController?.popViewController(animated: true)
+                } else {
+                    self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                }
+            }
         } else {
+            
             DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
                 if result == "" {
                     self?.fetchComment(propertyId: self?.propertyId ?? "", userId: userID)
