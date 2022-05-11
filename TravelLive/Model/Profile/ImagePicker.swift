@@ -53,7 +53,9 @@ class ImagePicker: NSObject {
                         self.openImagePicker(with: .camera)
                     }
                 case .error(let message):
-                    self.resultClouser(.error(message: message))
+                    DispatchQueue.main.async {
+                        self.resultClouser(.error(message: message))
+                    }
                 }
             }
         case .gallary :
@@ -64,7 +66,9 @@ class ImagePicker: NSObject {
                         self.openImagePicker(with: .photoLibrary)
                     }
                 case .error(let message):
-                    self.resultClouser(.error(message: message))
+                    DispatchQueue.main.async {
+                        self.resultClouser(.error(message: message))
+                    }
                 }
             }
         }

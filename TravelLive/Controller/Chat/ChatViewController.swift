@@ -9,7 +9,7 @@ import UIKit
 import PubNub
 import Lottie
 
-class ChatViewController: BaseViewController, PNEventsListener {
+class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecognizerDelegate {
     private struct Message {
         var message: String
         var username: String
@@ -231,6 +231,44 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
         guard let messageCell = cell as? MessageCell else { return cell }
         messageCell.userNameLabel.text = messages[indexPath.row].username
         messageCell.messageLabel.text = messages[indexPath.row].message
+        
+        messageCell.isUserInteractionEnabled = true
+        let longPressGesture: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(sender:)))
+        longPressGesture.delegate = self
+        messageCell.addGestureRecognizer(longPressGesture)
+
         return messageCell
+    }
+    
+    @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            let touchPoint = sender.location(in: chatView)
+            if let indexPath = chatView.indexPathForRow(at: touchPoint) {
+                createBlockReviewerAlert(index: indexPath.row)
+            }
+        }
+    }
+    
+    private func createBlockReviewerAlert(index: Int) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "檢舉此則訊息的主人", style: .destructive, handler: { _ in
+            self.view.makeToast("已檢舉", duration: 1, position: .center)
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+        }))
+        
+        alertController.view.tintColor = UIColor.black
+        
+        // iPad specific code
+        alertController.popoverPresentationController?.sourceView = self.view
+        
+        let xOrigin = self.view.bounds.width / 2
+        
+        let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+        
+        alertController.popoverPresentationController?.sourceRect = popoverRect
+        
+        alertController.popoverPresentationController?.permittedArrowDirections = .up
+        self.present(alertController, animated: true)
     }
 }
