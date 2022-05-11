@@ -50,6 +50,8 @@ enum ImageAsset: String {
     case onAir
     // logo
     case Logo
+    // pull
+    case warning
 }
 
 extension UIImage {
