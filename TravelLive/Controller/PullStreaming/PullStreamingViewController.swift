@@ -17,11 +17,11 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     private var shareButton = UIButton()
     
     private let ruleMessage = """
-進入直播間聊天室，請遵守以下規則：
+進入聊天室，請遵守以下規則：
 ⦿ 不得發送違法訊息
-⦿ 不得發送情色、賭、毒訊息
 ⦿ 不得侵犯智慧財產權
-⦿ 不得進行歧視、霸凌、語言暴力行為
+⦿ 不得發送情色、賭、毒訊息
+⦿ 不得進行歧視、霸凌、語言暴力
 """
     
     override func viewDidLoad() {
