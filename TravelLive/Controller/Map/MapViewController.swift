@@ -32,6 +32,7 @@ class MapViewController: UIViewController {
     let placeButton = UIButton()
     let eventButton = UIButton()
     let streamButton = UIButton()
+    let videoButton = UIButton()
     var showTypeOfMarker = String()
     var isButtonSelected = false
     var isLocationUpdated = false
@@ -48,6 +49,7 @@ class MapViewController: UIViewController {
         setUpStreamButton()
         setUpPlaceButton()
         setUpEventButton()
+        setUpVideoButton()
         
         if CLLocationManager.authorizationStatus() == .denied {
             DispatchQueue.main.async { [self] in
@@ -82,6 +84,7 @@ class MapViewController: UIViewController {
         placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
         streamButton.addTarget(self, action: #selector(getStreamerData), for: .touchUpInside)
+        videoButton.addTarget(self, action: #selector(showVideos), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -148,13 +151,30 @@ class MapViewController: UIViewController {
         )
     }
     
+    private func setUpVideoButton() {
+        view.addSubview(videoButton)
+        setUpButtonBasicColor(videoButton, UIImage.asset(.play)!, color: UIColor.primary)
+        videoButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [videoButton.widthAnchor.constraint(equalToConstant: 42),
+             videoButton.heightAnchor.constraint(equalToConstant: 42),
+             videoButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+             videoButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15)]
+        )
+    }
+    
     private func setUpButtons() {
         setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
         setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.primary)
     }
     
-   
+    @objc func showVideos(_ sender: UIButton) {
+        let videoWallVC = UIStoryboard.videoWall.instantiateViewController(withIdentifier: String(describing: VideoWallViewController.self)
+        )
+        guard let videoVC = videoWallVC as? VideoWallViewController else { return }
+        show(videoVC, sender: nil)
+    }
     
     @objc func getStreamerData(_ sender: UIButton) {
         fetchStreamerData()
