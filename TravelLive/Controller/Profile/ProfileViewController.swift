@@ -143,7 +143,7 @@ class ProfileViewController: UIViewController {
                     self.presentCropViewController(selectedImage)
                 }
             case .error(let _):
-                self.view.makeToast("請去設定中打開權限方能使用哦", duration: 1, position: .center)
+                self.view.makeToast("請去設定中打開權限方能使用哦", duration: 2, position: .center)
             }
         })
     }

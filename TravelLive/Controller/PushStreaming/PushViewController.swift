@@ -38,6 +38,17 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
     let imagePickerController = UIImagePickerController()
     var startLiveButton = UIButton()
     
+    private let ruleMessage = """
+若出現以下違規，將結束直播：
+⦿ 違法
+⦿ 情色、裸露
+⦿ 煙、酒、賭、毒
+⦿ 侵犯智慧財產權
+⦿ 屢次遭到封鎖、檢舉
+⦿ 歧視、霸凌、語言暴力
+⦿ 暴力、傷害、血腥、危險
+"""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Location
@@ -73,6 +84,12 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         setUpStartButton()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        createPushStreamingRuleAlert()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
@@ -104,6 +121,17 @@ class PushViewController: UIViewController, LFLiveSessionDelegate {
         beautyButton.addTarget(self, action: #selector(didTappedBeautyButton(_:)), for: .touchUpInside)
         stopLiveButton.addTarget(self, action: #selector(didTappedStopLiveButton(_:)), for: .touchUpInside)
         recordButton.addTarget(self, action: #selector(didTappedRecordButton(_:)), for: .touchUpInside)
+    }
+    
+    private func createPushStreamingRuleAlert() {
+        let ruleAlertController = UIAlertController(title: "警告", message: ruleMessage, preferredStyle: .alert)
+        
+        ruleAlertController.addAction(UIAlertAction(title: "我會遵守直播規則", style: .default, handler: { _ in
+        }))
+        
+        ruleAlertController.view.tintColor = UIColor.black
+        ruleAlertController.setMessageAlignment(.left)
+        self.present(ruleAlertController, animated: true)
     }
     
     func requestPermission() {
