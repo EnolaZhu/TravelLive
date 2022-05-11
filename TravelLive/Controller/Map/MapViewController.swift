@@ -65,7 +65,7 @@ class MapViewController: UIViewController {
                 latitude = locationManager.location?.coordinate.latitude ?? CLLocationDegrees(25.0461031)
             }
         }
-        fetchStreamerData()
+//        fetchStreamerData()
         mapView.delegate = self
     }
     
@@ -73,7 +73,7 @@ class MapViewController: UIViewController {
         super.viewWillAppear(true)
         // Hide the Navigation Bar
         mapView.clear()
-//        fetchStreamerData()
+        fetchStreamerData()
         
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(true, animated: true)

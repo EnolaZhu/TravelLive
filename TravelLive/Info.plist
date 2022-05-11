@@ -7,7 +7,7 @@
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-3208816489149545~8888517840</string>
 	<key>Privacy - Location Always And When In Use Usage Description</key>
-	<string>en</string>
+	<string>TravelLive需要您的地理位置，來進行定位、以及推薦景點和活動</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
@@ -160,7 +160,7 @@
 		</dict>
 	</array>
 	<key>SignIn with Apple</key>
-	<string>en</string>
+	<string>TravelLive需要您的登錄信息，來進行 App 內的使用，您的個人信息不會被進行商業用途</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
