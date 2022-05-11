@@ -16,6 +16,14 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     private var streamId: String?
     private var shareButton = UIButton()
     
+    private let ruleMessage = """
+進入直播間聊天室，請遵守以下規則：
+⦿ 不得發送違法訊息
+⦿ 不得發送情色、賭、毒訊息
+⦿ 不得侵犯智慧財產權
+⦿ 不得進行歧視、霸凌、語言暴力行為
+"""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,6 +41,7 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
         super.viewDidAppear(animated)
         
         tabBarController?.tabBar.isHidden = true
+        createPullStreamingRuleAlert()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -43,6 +52,17 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    private func createPullStreamingRuleAlert() {
+        let ruleAlertController = UIAlertController(title: "警告", message: ruleMessage, preferredStyle: .alert)
+        
+        ruleAlertController.addAction(UIAlertAction(title: "我會遵守聊天室規則", style: .default, handler: { _ in
+        }))
+        
+        ruleAlertController.view.tintColor = UIColor.black
+        ruleAlertController.setMessageAlignment(.left)
+        self.present(ruleAlertController, animated: true)
     }
     
     func startPlay(_ url: String) {
