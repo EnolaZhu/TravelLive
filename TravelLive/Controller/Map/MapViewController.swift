@@ -11,27 +11,31 @@ import CoreLocation
 import Toast_Swift
 
 class MapViewController: UIViewController {
-    
+
     @IBOutlet weak var mapView: GMSMapView!
     
+    static let defaultLongitude = 121.5255809
+    static let defaultLatitude = 25.0461031
+    static let defaultZoom: Float = 15.81
+    
+    let locationManager = CLLocationManager()
     let mapDataProvider = MapDataProvider()
+    let containerView = UIView()
+    let placeButton = UIButton()
+    let eventButton = UIButton()
+    let streamButton = UIButton()
+    
     var avater = UIImage()
     var streamerData: StreamerDataObject?
     var placeData: PlaceDataObject?
     var eventData: EventDataObject?
-    let locationManager = CLLocationManager()
     var specificStreamer: [Streamer]?
     var specificEvent: [Event]?
     var specificPlace: [Place]?
     var url = String()
-    var longitude = CLLocationDegrees(121.5255809)
-    var latitude = CLLocationDegrees(25.0461031)
-    
+    var longitude = CLLocationDegrees(MapViewController.defaultLongitude)
+    var latitude = CLLocationDegrees(MapViewController.defaultLatitude)
     var currentLocation: CLLocation!
-    var containerView = UIView()
-    let placeButton = UIButton()
-    let eventButton = UIButton()
-    let streamButton = UIButton()
     var showTypeOfMarker = String()
     var isButtonSelected = false
     var isLocationUpdated = false
@@ -51,7 +55,7 @@ class MapViewController: UIViewController {
         
         if CLLocationManager.authorizationStatus() == .denied {
             DispatchQueue.main.async { [self] in
-                let camera = GMSCameraPosition(latitude: self.latitude, longitude: longitude, zoom: 15.81)
+                let camera = GMSCameraPosition(latitude: self.latitude, longitude: longitude, zoom: MapViewController.defaultZoom)
                 self.mapView.camera = camera
             }
         } else {
@@ -59,8 +63,8 @@ class MapViewController: UIViewController {
             locationManager.startUpdatingLocation()
             
             if locationManager.location?.coordinate.longitude != nil {
-                longitude = locationManager.location?.coordinate.longitude ?? CLLocationDegrees(121.5255809)
-                latitude = locationManager.location?.coordinate.latitude ?? CLLocationDegrees(25.0461031)
+                longitude = locationManager.location?.coordinate.longitude ?? CLLocationDegrees(MapViewController.defaultLongitude)
+                latitude = locationManager.location?.coordinate.latitude ?? CLLocationDegrees(MapViewController.defaultLatitude)
             }
         }
 //        fetchStreamerData()
@@ -167,7 +171,7 @@ class MapViewController: UIViewController {
         mapView.clear()
         showTypeOfMarker = "streamer"
 //        mapView.camera
-//        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: 15.81)
+//        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: MapViewController.defaultZoom)
 //        mapView.camera = camera
         
         mapDataProvider.fetchStreamerInfo(userid: userID, latitude: latitude, longitude: longitude) { [weak self] result in
@@ -178,11 +182,11 @@ class MapViewController: UIViewController {
                 guard let streamerData = self?.streamerData else { return }
                 
                 if self?.mapView.camera == nil {
-                    let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude, longitude: streamerData.nearLiveLongitude, zoom: 15.81)
+                    let camera = GMSCameraPosition(latitude: streamerData.nearLiveLatitude, longitude: streamerData.nearLiveLongitude, zoom: MapViewController.defaultZoom)
                     self?.mapView.camera = camera
                     
                 } else {
-                    let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude, longitude: streamerData.nearLiveLongitude, zoom: 15.81)
+                    let location = GMSCameraPosition(latitude: streamerData.nearLiveLatitude, longitude: streamerData.nearLiveLongitude, zoom: MapViewController.defaultZoom)
                     self?.mapView.animate(to: location)
                 }
                 
