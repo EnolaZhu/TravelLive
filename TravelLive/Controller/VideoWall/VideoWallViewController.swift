@@ -79,8 +79,13 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-//        navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        stopVideo()
         tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func stopVideo() {
+        ASVideoPlayerController.sharedVideoPlayer.pausePlayeVideosFor(tableView: tableView, appEnteredFromBackground: true, isStopVideo: true)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -128,5 +133,4 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     @objc func appEnteredFromBackground() {
         ASVideoPlayerController.sharedVideoPlayer.pausePlayeVideosFor(tableView: tableView, appEnteredFromBackground: true)
     }
-    
 }

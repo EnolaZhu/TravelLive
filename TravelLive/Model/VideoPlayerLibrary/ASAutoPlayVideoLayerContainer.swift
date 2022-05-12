@@ -103,7 +103,7 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
         // Give chance for current video player to be ready to play
         DispatchQueue.main.async {
             if let videoContainer = self.videoCache.object(forKey: url as NSString),
-                videoContainer.player.currentItem?.status == .readyToPlay  {
+                videoContainer.player.currentItem?.status == .readyToPlay {
                 videoContainer.playOn = true
             }
         }
@@ -114,7 +114,7 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
         currentLayer = nil
         if let videoContainer = self.videoCache.object(forKey: url as NSString) {
             videoContainer.playOn = false
-            //videoContainer.play = false
+            // videoContainer.play = false
             removeObserverFor(url: url)
         }
     }
@@ -166,10 +166,7 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
                                                            forKeyPath: "status",
                                                            options: [.new, .initial],
                                                            context: &ASVideoPlayerController.playerViewControllerKVOContext)
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(self.playerDidFinishPlaying(note:)),
-                                                   name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                                   object: videoContainer.player.currentItem)
+            NotificationCenter.default.addObserver(self,selector: #selector(self.playerDidFinishPlaying(note:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: videoContainer.player.currentItem)
             self.observingURLs[url] = true
         }
     }
@@ -177,12 +174,8 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
     private func removeObserverFor(url: String) {
         if let videoContainer = self.videoCache.object(forKey: url as NSString) {
             if let currentItem = videoContainer.player.currentItem, observingURLs[url] == true {
-                currentItem.removeObserver(self,
-                                           forKeyPath: "status",
-                                           context: &ASVideoPlayerController.playerViewControllerKVOContext)
-                NotificationCenter.default.removeObserver(self,
-                                                          name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                                          object: currentItem)
+                currentItem.removeObserver(self, forKeyPath: "status", context: &ASVideoPlayerController.playerViewControllerKVOContext)
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: currentItem)
                 observingURLs[url] = false
             }
         }
@@ -192,7 +185,7 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
      Play UITableViewCell's videoplayer that has max visible video layer height
      when the scroll stops.
      */
-    func pausePlayeVideosFor(tableView: UITableView, appEnteredFromBackground: Bool = false) {
+    func pausePlayeVideosFor(tableView: UITableView, appEnteredFromBackground: Bool = false, isStopVideo: Bool = false) {
         let visisbleCells = tableView.visibleCells
         var videoCellContainer: ASAutoPlayVideoLayerContainer?
         var maxHeight: CGFloat = 0.0
@@ -222,7 +215,9 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
             if appEnteredFromBackground {
                 setupVideoFor(url: videoCellURL)
             }
-            playVideo(withLayer: videoCell.videoLayer, url: videoCellURL)
+            if !isStopVideo {
+                playVideo(withLayer: videoCell.videoLayer, url: videoCellURL)
+            }
         }
     }
     

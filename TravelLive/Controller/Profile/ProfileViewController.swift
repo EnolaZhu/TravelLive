@@ -216,7 +216,7 @@ class ProfileViewController: UIViewController {
                         }
                     }
                 }
-            case .failure(let error):
+            case .failure(_):
                 self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
@@ -254,8 +254,7 @@ class ProfileViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "登出", style: .destructive, handler: { [weak self] _ in
             self?.signOut()
         }))
-        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { [weak self]
-            _ in
+        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { [weak self] _ in
             ProfileProvider.shared.deleteAccount(userId: userID)
             self?.signOut()
         }))
