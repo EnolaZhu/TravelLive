@@ -54,8 +54,6 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.estimatedRowHeight = 300
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         
         var cellNib = UINib(nibName: videoWallTableViewCellIdentifier, bundle: nil)
@@ -63,21 +61,26 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         cellNib = UINib(nibName: loadingCellTableViewCellCellIdentifier, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: loadingCellTableViewCellCellIdentifier)
         tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         NotificationCenter.default.addObserver(self, selector: #selector(self.appEnteredFromBackground), name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationController?.navigationBar.tintColor = UIColor.primary
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         pausePlayeVideos()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+//        navigationController?.setNavigationBarHidden(false, animated: false)
+        tabBarController?.tabBar.isHidden = false
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -96,6 +99,10 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
             videoWallCell.configureCell(imageUrl: videos[indexPath.row], videoUrl: nil)
         }
         return videoWallCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        view.safeAreaLayoutGuide.layoutFrame.height + view.safeAreaInsets.bottom
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
