@@ -101,7 +101,6 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     private func postBlockImageData(blockId: String) {
         if userID == blockId {
             self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
-            return
         } else {
             DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
                 if result == "" {

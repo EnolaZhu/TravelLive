@@ -25,6 +25,7 @@ class VideoWallTableViewCell: UITableViewCell, ASAutoPlayVideoLayerContainer {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+//        videoLayer.videoGravity = .resizeAspectFill
         videoWallImageView.layer.cornerRadius = 5
         videoWallImageView.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
         videoWallImageView.clipsToBounds = true
