@@ -143,7 +143,7 @@ class ProfileViewController: UIViewController {
                     self.presentCropViewController(selectedImage)
                 }
             case .error(let _):
-                self.view.makeToast("上傳失敗", duration: 0.5, position: .center)
+                self.view.makeToast("請去設定中打開權限方能使用哦", duration: 2, position: .center)
             }
         })
     }
@@ -161,7 +161,7 @@ class ProfileViewController: UIViewController {
                 }
             case .failure(let error):
                 print(error)
-                self?.view.makeToast("失敗，請稍後再試。", duration: 0.5, position: .center)
+                self?.view.makeToast("失敗，請稍後再試。", duration: 1, position: .center)
             }
         }
     }
@@ -191,7 +191,7 @@ class ProfileViewController: UIViewController {
                 self?.profileView.mj_header?.endRefreshing()
                 
             case .failure(let _):
-                self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                self?.view.makeToast("失敗", duration: 1, position: .center)
             }
         }
     }

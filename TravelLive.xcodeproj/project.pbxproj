@@ -57,6 +57,7 @@
 		4B5BC3E6282BA56E0049B39C /* ASAutoPlayVideoLayerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BC3E5282BA56E0049B39C /* ASAutoPlayVideoLayerContainer.swift */; };
 		4B5BC3E8282BA59E0049B39C /* ASVideoLayerObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BC3E7282BA59E0049B39C /* ASVideoLayerObject.swift */; };
 		4B5BC3EB282BAB070049B39C /* VideoWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BC3EA282BAB070049B39C /* VideoWallViewController.swift */; };
+		4B5BC3ED282C0CC20049B39C /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BC3EC282C0CC20049B39C /* UIAlertController+Extension.swift */; };
 		4B66896A2818E2F6003CA423 /* ProfilePropertyObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6689662818E2F6003CA423 /* ProfilePropertyObject.swift */; };
 		4B66896B2818E2F6003CA423 /* ProfileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6689672818E2F6003CA423 /* ProfileProvider.swift */; };
 		4B66896C2818E2F6003CA423 /* ProfileLikedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6689682818E2F6003CA423 /* ProfileLikedObject.swift */; };
@@ -202,6 +203,7 @@
 		4B5BC3E5282BA56E0049B39C /* ASAutoPlayVideoLayerContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASAutoPlayVideoLayerContainer.swift; sourceTree = "<group>"; };
 		4B5BC3E7282BA59E0049B39C /* ASVideoLayerObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASVideoLayerObject.swift; sourceTree = "<group>"; };
 		4B5BC3EA282BAB070049B39C /* VideoWallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoWallViewController.swift; sourceTree = "<group>"; };
+		4B5BC3EC282C0CC20049B39C /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		4B6689662818E2F6003CA423 /* ProfilePropertyObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePropertyObject.swift; sourceTree = "<group>"; };
 		4B6689672818E2F6003CA423 /* ProfileProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProvider.swift; sourceTree = "<group>"; };
 		4B6689682818E2F6003CA423 /* ProfileLikedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLikedObject.swift; sourceTree = "<group>"; };
@@ -759,6 +761,7 @@
 				4B503BF9281FBF1500E23942 /* UINavigationController+Extension.swift */,
 				4B1950E42826E12600B6A789 /* UITapGestureRecognizer+Extension.swift */,
 				4B1950E62826EA6500B6A789 /* NSMutableAttributedString+Extension.swift */,
+				4B5BC3EC282C0CC20049B39C /* UIAlertController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1109,6 +1112,7 @@
 				4B4AA43E280296470066C602 /* PushStreamingRequest.swift in Sources */,
 				4B12BAB72803CBDB0096359B /* GMSMarker+Extension.swift in Sources */,
 				4B17A8552815BE080006BB2D /* ImageCell.swift in Sources */,
+				4B5BC3ED282C0CC20049B39C /* UIAlertController+Extension.swift in Sources */,
 				4B9788032810462B0003CC9F /* Date+Extension.swift in Sources */,
 				4B66896D2818E2F6003CA423 /* ProfileObject.swift in Sources */,
 				4BA5E3A9280E9FB400D421D0 /* DetailViewController.swift in Sources */,

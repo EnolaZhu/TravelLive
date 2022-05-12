@@ -25,13 +25,23 @@ class LoginViewController: UIViewController {
     private let authorizationButton = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
     private let containerView = UIView()
     private let licenseLabel = UILabel()
+    private var checkButton = UIButton()
+    private var isChecked = false
+//    {
+//        didSet {
+//            checkButton.setImage(UIImage.asset(.check)?.maskWithColor(color: UIColor.primary), for: .normal)
+//            checkButton.setImage(UIImage.asset(.checkbox)?.maskWithColor(color: UIColor.primary), for: .selected)
+//        }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.redirectNewPage(_:)), name: .redirectNewViewKey, object: nil)
         
-        self.authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
+        authorizationButton.isEnabled = false
+        authorizationButton.addTarget(self, action: #selector(loginWithApple), for: .touchUpInside)
+        checkButton.addTarget(self, action: #selector(checkBox), for: .touchUpInside)
         view.backgroundColor = UIColor.backgroundColor
     }
     
@@ -54,6 +64,7 @@ class LoginViewController: UIViewController {
              containerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -40)]
         )
         createLoginButton()
+        createCheckButton()
         createLisencelabel()
     }
     
@@ -77,10 +88,24 @@ class LoginViewController: UIViewController {
         licenseLabel.font = licenseLabel.font.withSize(12)
         
         NSLayoutConstraint.activate(
-            [licenseLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+            [licenseLabel.leftAnchor.constraint(equalTo: checkButton.rightAnchor),
              licenseLabel.heightAnchor.constraint(equalToConstant: 30),
              licenseLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
              licenseLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor)]
+        )
+    }
+    
+    private func createCheckButton() {
+        containerView.addSubview(checkButton)
+        checkButton.translatesAutoresizingMaskIntoConstraints = false
+        checkButton.setImage(UIImage.asset(.check)?.maskWithColor(color: UIColor.primary), for: .normal)
+        checkButton.setImage(UIImage.asset(.checkbox)?.maskWithColor(color: UIColor.primary), for: .selected)
+        
+        NSLayoutConstraint.activate(
+            [checkButton.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 5),
+             checkButton.heightAnchor.constraint(equalToConstant: 25),
+             checkButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+             checkButton.widthAnchor.constraint(equalToConstant: 25)]
         )
     }
     
@@ -144,6 +169,19 @@ class LoginViewController: UIViewController {
             return
         }
         self.present(webVC, animated: true, completion: nil)
+    }
+    
+    @objc private func checkBox(_ sender: UIButton) {
+        isChecked.toggle()
+        
+        sender.checkboxAnimation {
+            if self.isChecked {
+                self.authorizationButton.isEnabled = true
+            } else {
+                self.authorizationButton.isEnabled = false
+                self.view.makeToast("必須接受這些規則方能登錄哦", duration: 0.5, position: .center)
+            }
+        }
     }
     
     private func login() {

@@ -9,12 +9,20 @@ import UIKit
 import TXLiteAVSDK_Professional
 
 class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
+    
     private let loveButton = UIButton()
-    var streamingUrl = String()
-    var channelName = String()
     private var livePlayer = V2TXLivePlayer()
-    private var streamId: String?
-    private var shareButton = UIButton()
+    private let shareButton = UIButton()
+    private let blockButton = UIButton()
+    private let ruleMessage = """
+進入聊天室，請遵守以下規則：
+⦿ 不得發送違法訊息
+⦿ 不得侵犯智慧財產權
+⦿ 不得發送情色、賭、毒訊息
+⦿ 不得進行歧視、霸凌、語言暴力
+"""
+    var streamingUrl = String()
+    var channelName = String() // 即 streamerId
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +31,10 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
         addChatView()
         createAnimationButton()
         createShareButton()
+        createBlockButton()
         loveButton.addTarget(self, action: #selector(click), for: .touchUpInside)
         shareButton.addTarget(self, action: #selector(shareLink(_:)), for: .touchUpInside)
+        blockButton.addTarget(self, action: #selector(createBlockSheet(_:)), for: .touchUpInside)
         
         self.navigationController?.navigationBar.tintColor = UIColor.primary
     }
@@ -33,6 +43,7 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
         super.viewDidAppear(animated)
         
         tabBarController?.tabBar.isHidden = true
+        createPullStreamingRuleAlert()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -43,6 +54,17 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    private func createPullStreamingRuleAlert() {
+        let ruleAlertController = UIAlertController(title: "警告", message: ruleMessage, preferredStyle: .alert)
+        
+        ruleAlertController.addAction(UIAlertAction(title: "我會遵守聊天室規則", style: .default, handler: { _ in
+        }))
+        
+        ruleAlertController.view.tintColor = UIColor.black
+        ruleAlertController.setMessageAlignment(.left)
+        self.present(ruleAlertController, animated: true)
     }
     
     func startPlay(_ url: String) {
@@ -65,9 +87,9 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
         loveButton.setImage(UIImage.asset(.heart), for: UIControl.State())
         NSLayoutConstraint.activate(
             [loveButton.widthAnchor.constraint(equalToConstant: 44),
-            loveButton.heightAnchor.constraint(equalToConstant: 44),
-            loveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
-            loveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)]
+             loveButton.heightAnchor.constraint(equalToConstant: 44),
+             loveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
+             loveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)]
         )
     }
     
@@ -83,9 +105,52 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
         setUpButtonBasicColor(shareButton, UIImage.asset(.secondShare) ?? UIImage(), color: UIColor.primary)
     }
     
+    private func createBlockButton() {
+        view.addSubview(blockButton)
+        blockButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [blockButton.widthAnchor.constraint(equalToConstant: 44),
+             blockButton.heightAnchor.constraint(equalToConstant: 44),
+             blockButton.bottomAnchor.constraint(equalTo: shareButton.topAnchor, constant: -20),
+             blockButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)]
+        )
+        setUpButtonBasicColor(blockButton, UIImage.asset(.warning) ?? UIImage(), color: UIColor.primary)
+    }
+    
     @objc private func shareLink(_ sender: UIButton) {
-        let url = "https://travellive.page.link/?link=https://travellive-1d79e.web.app/WebRTCPlayer.html?live=" + (streamId ?? "")
+        let url = "https://travellive.page.link/?link=https://travellive-1d79e.web.app/WebRTCPlayer.html?live=" + (channelName)
         ShareManager.share.shareLink(textToShare: "快來看這個直播", shareUrl: url, thevVC: self, sender: sender)
+    }
+    
+    @objc private func createBlockSheet(_ sender: UIButton) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "封鎖此直播間的主人", style: .destructive, handler: { [weak self] _ in
+            self?.postBlockStreamerData(blockId: self?.channelName ?? "")
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+        }))
+        
+        alertController.view.tintColor = UIColor.black
+        
+        // iPad specific code
+        alertController.popoverPresentationController?.sourceView = self.view
+        let xOrigin = self.view.bounds.width / 2
+        let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+        alertController.popoverPresentationController?.sourceRect = popoverRect
+        alertController.popoverPresentationController?.permittedArrowDirections = .up
+        
+        self.present(alertController, animated: true)
+    }
+    
+    private func postBlockStreamerData(blockId: String) {
+        DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
+            if result == "" {
+                self?.navigationController?.popViewController(animated: true)
+            } else {
+                self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+            }
+        }
     }
     
     @objc func click() {
