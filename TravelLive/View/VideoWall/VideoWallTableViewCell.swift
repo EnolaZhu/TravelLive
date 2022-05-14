@@ -19,33 +19,48 @@ class VideoWallTableViewCell: UITableViewCell, ASAutoPlayVideoLayerContainer {
             videoLayer.isHidden = videoURL == nil
         }
     }
-    
-
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var blockButton: UIButton!
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var videoWallImageView: UIImageView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        setUpComponents()
+        selectionStyle = .none
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+    
+    private func setUpComponents() {
+        setUpButtonBasicColor(blockButton, UIImage.asset(.block)!, color: UIColor.primary)
         
-//        videoLayer.videoGravity = .resizeAspectFill
+        nameLabel.textColor = UIColor.primary
+        
+        avatarImageView.layer.cornerRadius = 30
+        avatarImageView.clipsToBounds = true
+        
+        avatarImageView.layer.masksToBounds = true
+        avatarImageView.layer.borderWidth = 1
+        avatarImageView.layer.borderColor = UIColor.white.cgColor
+        
         videoWallImageView.layer.cornerRadius = 5
         videoWallImageView.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
         videoWallImageView.clipsToBounds = true
         videoWallImageView.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
         videoWallImageView.layer.borderWidth = 0.5
         videoLayer.backgroundColor = UIColor.clear.cgColor
-        videoLayer.videoGravity = AVLayerVideoGravity.resize
+        videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         videoWallImageView.layer.addSublayer(videoLayer)
-        selectionStyle = .none
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
-    func configureCell(imageUrl: String?, videoUrl: String?) {
-        self.videoWallImageView.imageURL = imageUrl
-        self.videoURL = videoUrl
+    func configureCell(imageUrl: String?, videoUrl: String?, name: String) {
+        videoWallImageView.imageURL = imageUrl
+        videoURL = videoUrl
+        nameLabel.text = name
     }
 
     override func prepareForReuse() {

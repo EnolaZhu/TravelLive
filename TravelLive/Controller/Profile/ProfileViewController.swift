@@ -399,8 +399,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             PhotoVideoManager.shared.uploadFileFromIo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
                 if result == "" {
                     self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
-                    self?.getUserInfo(id: userID)
-                    self?.getUserProperty(id: userID, byUser: userID)
                 } else {
                     self?.view.makeToast("失敗", duration: 0.5, position: .center)
                 }
