@@ -40,7 +40,7 @@ class ProfileViewController: UIViewController {
         }
     }
     lazy var postButton: UIButton = {
-        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 230, width: 88, height: 88))
+        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 180, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
         postButton.setImage(UIImage.asset(.add), for: UIControl.State())
         return postButton
@@ -216,7 +216,7 @@ class ProfileViewController: UIViewController {
                         }
                     }
                 }
-            case .failure(let error):
+            case .failure(_):
                 self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
@@ -254,8 +254,7 @@ class ProfileViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "登出", style: .destructive, handler: { [weak self] _ in
             self?.signOut()
         }))
-        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { [weak self]
-            _ in
+        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { [weak self] _ in
             ProfileProvider.shared.deleteAccount(userId: userID)
             self?.signOut()
         }))
@@ -382,7 +381,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 
                 let imageUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
                 guard let imgUrl = imageUrl else { return }
-                PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPathWithTag) { [weak self] result in
+                PhotoVideoManager.shared.uploadFileFromIo(url: String(describing: imgUrl), child: storageRefPathWithTag) { [weak self] result in
                     if result == "" {
                         self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
                         self?.getUserInfo(id: userID)
@@ -397,13 +396,23 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         if let mediaUrl = info[.mediaURL] as? URL {
             // Upload video file
             let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
-            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
+            PhotoVideoManager.shared.uploadFileFromIo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
                 if result == "" {
                     self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
-                    self?.getUserInfo(id: userID)
-                    self?.getUserProperty(id: userID, byUser: userID)
                 } else {
                     self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                }
+            }
+            // Extract frame from video
+            PhotoVideoManager.shared.getImageFromVideo(url: mediaUrl, at: TimeInterval(uploadTimestamp)) { image in
+                let storageRefImagePath = "videoimage_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
+                guard let image = image else { return }
+                PhotoVideoManager.shared.uploadFileFromMemory(image: image, child: storageRefImagePath) { result in
+                    if result == "" {
+                        print("extra frame from video success")
+                    } else {
+                        print("extra frame from video falil")
+                    }
                 }
             }
             
@@ -413,7 +422,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 switch result {
                 case .success(let urlOfGIF):
                     // Upload GIF file
-                    PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath) { [weak self] result in
+                    PhotoVideoManager.shared.uploadFileFromIo(url: urlOfGIF, child: storageRefGifPath) { [weak self] result in
                         if result == "" {
                             self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
                             self?.getUserInfo(id: userID)

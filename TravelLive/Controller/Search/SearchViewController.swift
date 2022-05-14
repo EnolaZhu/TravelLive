@@ -46,8 +46,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             tempStorage = !tempStorage
         }
         
-        
-        
         view.backgroundColor = .backgroundColor
         searchCollectionView.backgroundColor = .backgroundColor
         searchCollectionView.dataSource = self
@@ -231,9 +229,9 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     private func getThumbnail(searchData: SearchData, index: Int) {
         // video GIF
-        ImageManager.shared.fetchUserGIF(thumbnailUrl: searchData.thumbnailUrl) { gif in
-            self.images[index] = gif
-            self.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+        ImageManager.shared.fetchUserGIF(thumbnailUrl: searchData.thumbnailUrl) { [weak self] gif in
+            self?.images[index] = gif
+            self?.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
     

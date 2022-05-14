@@ -35,6 +35,7 @@ enum ImageAsset: String {
     case event
     case place
     case mapIcon
+    case video
     // profile
     case menu
     case right_segment_heart
@@ -55,6 +56,7 @@ enum ImageAsset: String {
     // login
     case check
     case checkbox
+    case block
 }
 
 extension UIImage {

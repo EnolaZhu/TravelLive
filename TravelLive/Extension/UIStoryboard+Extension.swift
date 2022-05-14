@@ -18,6 +18,7 @@ private struct StoryboardCategory {
     static let pullStreaming = "PullStreaming"
     static let mapDetail = "MapDetailViewController"
     static let propertyDetail = "DetailViewController"
+    static let videoWall = "VideoWall"
 }
 
 extension UIStoryboard {
@@ -31,6 +32,7 @@ extension UIStoryboard {
     static var pullStreaming: UIStoryboard { return stStoryboard(name: StoryboardCategory.pullStreaming) }
     static var mapDetail: UIStoryboard { return stStoryboard(name: StoryboardCategory.mapDetail) }
     static var propertyDetail: UIStoryboard { return stStoryboard(name: StoryboardCategory.propertyDetail) }
+    static var videoWall: UIStoryboard { return stStoryboard(name: StoryboardCategory.videoWall) }
 
     private static func stStoryboard(name: String) -> UIStoryboard {
         return UIStoryboard(name: name, bundle: nil)
