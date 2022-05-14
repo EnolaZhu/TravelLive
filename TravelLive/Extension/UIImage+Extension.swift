@@ -55,6 +55,7 @@ enum ImageAsset: String {
     // login
     case check
     case checkbox
+    case block
 }
 
 extension UIImage {

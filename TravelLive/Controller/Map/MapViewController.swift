@@ -305,12 +305,7 @@ class MapViewController: UIViewController {
         
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
         var rect = CGRect()
-        
-        if isStreamer {
-            rect = CGRect(x: 0, y: 0, width: 100, height: 100)
-        } else {
-            rect = CGRect(x: 0, y: 0, width: 100, height: 100)
-        }
+        rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         
         let imageView = UIImageView(frame: rect)
         imageView.layer.cornerRadius = imageView.frame.size.width / 2

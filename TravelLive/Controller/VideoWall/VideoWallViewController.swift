@@ -14,15 +14,20 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     let videoWallTableViewCellIdentifier = "VideoWallTableViewCell"
     let loadingCellTableViewCellCellIdentifier = "LoadingCellTableViewCell"
     var resultDataObjc: SearchDataObject?
+    var videoData: [SearchData]?
     var videoUrls = [String]()
     var imageUrls = [String]()
+    lazy var blockButton = UIButton()
+    lazy var avatarView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+//        tableView.isPagingEnabled = true
         
         fetchVideoData(userId: userID, tag: nil)
+        tableView.isPagingEnabled = true
         
         var cellNib = UINib(nibName: videoWallTableViewCellIdentifier, bundle: nil)
         self.tableView.register(cellNib, forCellReuseIdentifier: videoWallTableViewCellIdentifier)
@@ -68,12 +73,63 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: videoWallTableViewCellIdentifier, for: indexPath)
         guard let videoWallCell = cell as? VideoWallTableViewCell else { return cell }
         
-        videoWallCell.configureCell(imageUrl: imageUrls[indexPath.row], videoUrl: videoUrls[indexPath.row])
+        videoWallCell.configureCell(imageUrl: imageUrls[indexPath.row], videoUrl: videoUrls[indexPath.row], name: videoData?[indexPath.row].name ?? "")
+        ImageManager.shared.loadImage(imageView: videoWallCell.avatarImageView, url: videoData?[indexPath.row].avatar ?? "")
+        videoWallCell.blockButton.addTarget(self, action: #selector(blockVideoOwner(_:)), for: .touchUpInside)
         return videoWallCell
+    }
+                                            
+    @objc private func blockVideoOwner(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        guard let indexPath = tableView.indexPathForRow(at: point) else { return }
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "封鎖此人", style: .destructive, handler: { [weak self] _ in
+            guard let strongSelf = self else { return }
+            guard let ownerID = strongSelf.videoData?[indexPath.row].ownerId else { return }
+            
+            if ownerID == userID {
+                strongSelf.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
+            } else {
+                strongSelf.postBlockData(blockId: self?.videoData?[indexPath.row].ownerId ?? "")
+            }
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+        }))
+        
+        alertController.view.tintColor = UIColor.black
+        // iPad specific code
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alertController.popoverPresentationController?.sourceView = self.view
+            
+            let xOrigin = self.view.bounds.width / 2
+            
+            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+            
+            alertController.popoverPresentationController?.sourceRect = popoverRect
+            
+            alertController.popoverPresentationController?.permittedArrowDirections = .up
+        }
+        
+        self.present(alertController, animated: true)
+    }
+    
+    private func postBlockData(blockId: String) {
+        DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if result == "" {
+                strongSelf.fetchVideoData(userId: userID, tag: nil)
+                strongSelf.tableView.reloadData()
+//                self?.navigationController?.popToRootViewController(animated: true)
+            } else {
+                strongSelf.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        view.safeAreaLayoutGuide.layoutFrame.height + view.safeAreaInsets.bottom
+        view.safeAreaLayoutGuide.layoutFrame.height
+//        + view.safeAreaInsets.bottom
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -102,20 +158,23 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private func fetchVideoData(userId: String, tag: String?) {
         SearchDataProvider().fetchSearchData(userId: userId, tag: tag) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
             switch result {
             case .success(let data):
-                self?.resultDataObjc = data
-                guard let resultDataObjc = self?.resultDataObjc else { return }
-                let videoData = resultDataObjc.data.filter({ $0.type == "video" })
+                strongSelf.resultDataObjc = data
+                guard let resultDataObjc = strongSelf.resultDataObjc else { return }
+                strongSelf.videoData = resultDataObjc.data.filter({ $0.type == "video" })
+                guard let videoData = strongSelf.videoData else { return }
                 
                 for index in 0..<videoData.count {
-                    self?.videoUrls.append(videoData[index].fileUrl)
-                    self?.imageUrls.append(videoData[index].videoImageUrl)
+                    strongSelf.videoUrls.append(videoData[index].fileUrl)
+                    strongSelf.imageUrls.append(videoData[index].videoImageUrl)
                 }
-                self?.tableView.reloadData()
+                strongSelf.tableView.reloadData()
                 
             case .failure:
-                self?.view.makeToast("搜尋影片失敗", duration: 1, position: .center)
+                strongSelf.view.makeToast("搜尋影片失敗", duration: 1, position: .center)
             }
         }
     }
