@@ -40,7 +40,7 @@ class ProfileViewController: UIViewController {
         }
     }
     lazy var postButton: UIButton = {
-        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 230, width: 88, height: 88))
+        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 180, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
         postButton.setImage(UIImage.asset(.add), for: UIControl.State())
         return postButton

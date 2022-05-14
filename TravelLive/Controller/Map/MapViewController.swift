@@ -154,7 +154,7 @@ class MapViewController: UIViewController {
     
     private func setUpVideoButton() {
         view.addSubview(videoButton)
-        setUpButtonBasicColor(videoButton, UIImage.asset(.play)!, color: UIColor.primary)
+        videoButton.setImage(UIImage.asset(.video), for: .normal)
         videoButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
             [videoButton.widthAnchor.constraint(equalToConstant: 42),

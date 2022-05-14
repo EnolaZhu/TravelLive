@@ -36,24 +36,23 @@ class VideoWallTableViewCell: UITableViewCell, ASAutoPlayVideoLayerContainer {
     }
     
     private func setUpComponents() {
-        setUpButtonBasicColor(blockButton, UIImage.asset(.block)!, color: UIColor.primary)
+        setUpButtonBasicColor(blockButton, UIImage.asset(.block)!, color: UIColor.white)
+        nameLabel.textColor = UIColor.white
         
-        nameLabel.textColor = UIColor.primary
-        
-        avatarImageView.layer.cornerRadius = 30
+        avatarImageView.layer.cornerRadius = 20
         avatarImageView.clipsToBounds = true
         
         avatarImageView.layer.masksToBounds = true
         avatarImageView.layer.borderWidth = 1
         avatarImageView.layer.borderColor = UIColor.white.cgColor
         
-        videoWallImageView.layer.cornerRadius = 5
-        videoWallImageView.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
+        videoWallImageView.backgroundColor = UIColor.black
         videoWallImageView.clipsToBounds = true
-        videoWallImageView.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
+        videoWallImageView.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
         videoWallImageView.layer.borderWidth = 0.5
+        videoWallImageView.contentMode = .scaleAspectFit
         videoLayer.backgroundColor = UIColor.clear.cgColor
-        videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoLayer.videoGravity = AVLayerVideoGravity.resizeAspect
         videoWallImageView.layer.addSublayer(videoLayer)
     }
     
