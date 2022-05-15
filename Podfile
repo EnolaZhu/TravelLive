@@ -6,7 +6,6 @@ target 'TravelLive' do
   use_frameworks!
 
   # Pods for TravelLive
-  pod 'LFLiveKit'
   pod 'GoogleMaps'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
@@ -30,6 +29,7 @@ target 'TravelLive' do
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
   pod 'Firebase/Crashlytics'
+  pod 'TXLiteAVSDK_Professional'
 
 post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
