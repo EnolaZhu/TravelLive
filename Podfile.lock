@@ -199,7 +199,6 @@ PODS:
   - GTMSessionFetcher/Core (1.7.1)
   - IQKeyboardManagerSwift (6.5.9)
   - Kingfisher (7.2.1)
-  - LFLiveKit (2.6)
   - lottie-ios (3.3.0)
   - MJRefresh (3.7.5)
   - MLImage (1.0.0-beta2)
@@ -271,7 +270,6 @@ DEPENDENCIES:
   - GoogleToolboxForMac (~> 2.3)
   - IQKeyboardManagerSwift
   - Kingfisher (~> 7.0)
-  - LFLiveKit
   - lottie-ios
   - MJRefresh
   - mobile-ffmpeg-full (~> 4.4)
@@ -307,7 +305,6 @@ SPEC REPOS:
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
     - Kingfisher
-    - LFLiveKit
     - lottie-ios
     - MJRefresh
     - MLImage
@@ -353,7 +350,6 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
   Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
-  LFLiveKit: 2219563721f8aa0f188effc3395a06e2d53b23f2
   lottie-ios: 6ac74dcc09904798f59b18cb3075c089d76be9ae
   MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
   MLImage: a454f9f8ecfd537783a12f9488f5be1a68820829
@@ -376,6 +372,6 @@ SPEC CHECKSUMS:
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   TXLiteAVSDK_Professional: 645670c9d1bbabb88e8dff998fb097a22fe71208
 
-PODFILE CHECKSUM: 16cc416075e2ef9f7de5224c79b9fb79b61d3fdd
+PODFILE CHECKSUM: 6738f389763691fea0d6f9acc8c6db80329a3d3c
 
 COCOAPODS: 1.11.3
