@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>en</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>en</string>
 	<key>BaseUrl</key>
 	<string>https://asia-east1-travellive-1d79e.cloudfunctions.net</string>
 	<key>GADApplicationIdentifier</key>

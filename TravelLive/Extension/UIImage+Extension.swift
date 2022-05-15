@@ -43,6 +43,7 @@ enum ImageAsset: String {
     case close
     case add
     case property
+    case money
     // detail
     case send
     case share
