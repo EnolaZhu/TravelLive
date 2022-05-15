@@ -11,8 +11,10 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var eventImageView: UIImageView!
     let cornerRadius = 18.0
-    let titleLabel = UILabel()
-    let locationLabel = UILabel()
+//    let titleLabel = UILabel()
+//    let locationLabel = UILabel()
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,8 +25,12 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     func layoutCell(image: UIImage, title: String, location: String) {
         eventImageView.image = image
-        eventImageView.addSubview(getTitleLabel(title: title))
-        eventImageView.addSubview(getLocationLabel(title: location))
+        titleLabel.text = location
+        locationLabel.text = title
+        titleLabel.textColor = UIColor.white
+        locationLabel.textColor = UIColor.white
+//        eventImageView.addSubview(getTitleLabel(title: title))
+//        eventImageView.addSubview(getLocationLabel(title: location))
     }
     
     private func getgradient() -> CAGradientLayer {
@@ -45,35 +51,22 @@ class EventCollectionViewCell: UICollectionViewCell {
         return gradient
     }
     
-    private func getLocationLabel(title: String) -> UILabel {
-        locationLabel.frame = CGRect(x: cornerRadius, y: Double(eventImageView.bounds.maxY - 90), width: 250 - cornerRadius * 2, height: 30)
-        locationLabel.text = title
-        locationLabel.textColor = UIColor.white
-        locationLabel.font = locationLabel.font.withSize(16)
-        locationLabel.numberOfLines = 1
-        return locationLabel
-    }
+//    private func getLocationLabel(title: String) -> UILabel {
+//        locationLabel.frame = CGRect(x: cornerRadius, y: Double(eventImageView.bounds.maxY - 90), width: 250 - cornerRadius * 2, height: 30)
+//        locationLabel.text = title
+//        locationLabel.textColor = UIColor.white
+//        locationLabel.font = locationLabel.font.withSize(16)
+//        locationLabel.numberOfLines = 1
+//        return locationLabel
+//    }
     
-    private func getTitleLabel(title: String) -> UILabel {
-        titleLabel.frame = CGRect(x: cornerRadius, y: Double(eventImageView.bounds.maxY - 60), width: 250 - cornerRadius * 2, height: 60)
-        titleLabel.text = title
-        titleLabel.textColor = UIColor.white
-        titleLabel.font = titleLabel.font.withSize(18)
-        titleLabel.numberOfLines = 2
-        return titleLabel
-    }
+//    private func getTitleLabel(title: String) -> UILabel {
+//        titleLabel.frame = CGRect(x: cornerRadius, y: Double(eventImageView.bounds.maxY - 60), width: 250 - cornerRadius * 2, height: 60)
+//        titleLabel.text = title
+//        titleLabel.textColor = UIColor.white
+//        titleLabel.font = titleLabel.font.withSize(18)
+//        titleLabel.numberOfLines = 2
+//        return titleLabel
+//    }
     
-    
-    
-    //    override var isSelected: Bool {
-    //        didSet {
-    //            if self.isSelected {
-    //                self.layer.borderColor = UIColor.primary.cgColor
-    //                self.layer.borderWidth = 5
-    //            } else {
-    //                self.layer.borderColor = UIColor.white.cgColor
-    //                self.layer.borderWidth = 5
-    //            }
-    //        }
-    //    }
 }
