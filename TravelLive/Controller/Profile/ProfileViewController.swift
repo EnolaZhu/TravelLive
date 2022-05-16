@@ -521,10 +521,14 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         
         let okAction = UIAlertAction(title: "完成", style: .default) { [unowned controller] _ in
-            let displayName = controller.textFields?[0].text
+            if controller.textFields?[0].text == "" {
+                self.view.makeToast("名字不可為空哦", duration: 1.0, position: .center)
+            } else {
+                let displayName = controller.textFields?[0].text
+                ProfileProvider.shared.putModifyUserInfo(userID: userID, name: displayName ?? userID)
+                self.displayName = displayName
+            }
             
-            ProfileProvider.shared.putModifyUserInfo(userID: userID, name: displayName ?? userID)
-            self.displayName = displayName
         }
         
         controller.view.tintColor = UIColor.black
