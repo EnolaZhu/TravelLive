@@ -37,7 +37,7 @@ public class CircleCropView: UIView {
         context.clear(holeInset)
         let bundel = Bundle(for: CircleCropView.self)
 
-        context.draw(UIImage(named: "WhiteGrid.png",in: bundel,compatibleWith: nil)!.cgImage!, in: holeInset)
+        context.draw(UIImage(named: "WhiteGrid.png", in: bundel, compatibleWith: nil)!.cgImage!, in: holeInset)
         context.setFillColor(UIColor.clear.cgColor)
         context.fill( holeInset)
         context.setStrokeColor(UIColor.white.cgColor)

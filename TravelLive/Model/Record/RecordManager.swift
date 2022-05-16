@@ -33,10 +33,11 @@ class RecordManager {
                 }
                 pvc.previewControllerDelegate = theVC as? RPPreviewViewControllerDelegate
                 theVC.present(pvc, animated: true, completion: nil)
+                guard let previewViewController = previewViewController else { return }
                 completion(Result.success(previewViewController))
             } else if let error = error {
                 print(error.localizedDescription)
-                    completion(Result.failure(error))
+                completion(Result.failure(error))
             }
         })
     }

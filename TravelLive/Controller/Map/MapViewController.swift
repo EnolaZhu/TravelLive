@@ -270,7 +270,7 @@ class MapViewController: UIViewController {
         mapView.animate(toZoom: 10.0)
         showTypeOfMarker = "place"
         
-        mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 10) { [weak self] result in
+        mapDataProvider.fetchPlaceInfo(latitude: latitude, longitude: longitude, limit: 10) { [weak self] result in
             switch result {
                 
             case .success(let places):

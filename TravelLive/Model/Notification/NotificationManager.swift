@@ -12,7 +12,7 @@ class NotificationManager {
     
     func subscribeTopic(topic: String) {
         // Make user subscribe topic
-        Messaging.messaging().subscribe(toTopic: topic) { error in
+        Messaging.messaging().subscribe(toTopic: topic) { _ in
             print("Subscribed to \(topic)")
         }
     }

@@ -17,7 +17,7 @@ class EventViewController: UIViewController {
         EventCollectionViewController(),
         EventCollectionViewController(),
         EventCollectionViewController(),
-        EventCollectionViewController(),
+        EventCollectionViewController()
     ]
     var citys = ["臺北": 0, "新北": 1, "臺中": 3, "臺南": 4, "高雄": 5]
     let animationView = AnimationView(name: "loading")
@@ -95,9 +95,10 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
         return 250
     }
     
-    // swiftlint:disable force_cast identifier_name
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: EventTableViewCell.self)) as! EventTableViewCell
+        guard let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: EventTableViewCell.self)) as? EventTableViewCell else {
+            fatalError("Couldn't create cell")
+        }
         
         self.smallCollectionViewControllers[indexPath.section].view.frame = eventTableViewCell.bounds
         
@@ -129,9 +130,7 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
 extension EventViewController {
     
     func getPlaceData(city: Int, limit: Int) {
-        //        self.smallCollectionViewControllers[city].images.removeAll()
-        
-        MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit)  { [weak self] result in
+        MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit) { [weak self] result in
             switch result {
             case .success(let data):
                 
@@ -157,27 +156,4 @@ extension EventViewController {
             }
         }
     }
-    
-    //    func getEventData(city: Int, limit: Int) {
-    //
-    //        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
-    //            switch result {
-    //
-    //            case .success(let data):
-    //                self?.specificEventData = data
-    //                guard let specificEventData = self?.specificEventData else { return }
-    //
-    //                if specificEventData.data.count > 0 {
-    //                    guard let specificEventData = self?.specificEventData else { return }
-    //                    for index in 0...specificEventData.data.count - 1 {
-    //                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { [weak self] image in
-    //                            print("success")
-    //                        }
-    //                    }
-    //                }
-    //            case .failure(let error):
-    //                print(error)
-    //            }
-    //        }
-    //    }
 }

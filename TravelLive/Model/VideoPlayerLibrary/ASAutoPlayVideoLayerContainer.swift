@@ -21,14 +21,14 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
     var preferredPeakBitRate: Double = 1000000
     static private var playerViewControllerKVOContext = 0
     static let sharedVideoPlayer = ASVideoPlayerController()
-    //video url for currently playing video
+    // Video url for currently playing video
     private var videoURL: String?
     /**
      Stores video url as key and true as value when player item associated to the url
      is being observed for its status change.
      Helps in removing observers for player items that are not being played.
      */
-    private var observingURLs = Dictionary<String, Bool>()
+    private var observingURLs = [String: Bool]()
     // Cache of player and player item
     private var videoCache = NSCache<NSString, ASVideoContainer>()
     private var videoLayers = VideoLayers()
@@ -63,15 +63,15 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
              AVPlayer and AVPlayerItem and return without caching the videocontainer,
              so that, the assets can be tried to be downloaded again when need be.
              */
-            var error: NSError? = nil
+            var error: NSError?
             let status = asset.statusOfValue(forKey: "playable", error: &error)
             switch status {
-                case .loaded:
+            case .loaded:
                     break
-                case .failed, .cancelled:
+            case .failed, .cancelled:
                     print("Failed to load asset successfully")
                     return
-                default:
+            default:
                     print("Unkown state of asset")
                     return
             }
@@ -135,7 +135,7 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
         layer.player = nil
     }
     
-    private func pauseRemoveLayer(layer: AVPlayerLayer,url: String, layerHeight: CGFloat) {
+    private func pauseRemoveLayer(layer: AVPlayerLayer, url: String, layerHeight: CGFloat) {
         pauseVideo(forLayer: layer, url: url)
     }
     
@@ -166,7 +166,7 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
                                                            forKeyPath: "status",
                                                            options: [.new, .initial],
                                                            context: &ASVideoPlayerController.playerViewControllerKVOContext)
-            NotificationCenter.default.addObserver(self,selector: #selector(self.playerDidFinishPlaying(note:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: videoContainer.player.currentItem)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.playerDidFinishPlaying(note:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: videoContainer.player.currentItem)
             self.observingURLs[url] = true
         }
     }
@@ -254,8 +254,7 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
                         currentVideoContainer()?.playOn = true
                     }
                 }
-            }
-            else {
+            } else {
                 newStatus = .unknown
             }
             if newStatus == .failed {
@@ -268,4 +267,3 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
         
     }
 }
-

@@ -25,6 +25,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getSearchData()
         
         navigationItem.searchController = searchController
         searchCollectionView.isUserInteractionEnabled = true
@@ -67,7 +68,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         searchController.searchBar.placeholder = "搜尋"
         searchController.searchBar.tintColor = UIColor.primary
         
-        getSearchData()
         setNeedsStatusBarAppearanceUpdate()
         navigationController?.navigationBar.backgroundColor = .backgroundColor
     }
@@ -287,7 +287,7 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate {
     }
 }
 
-enum SearchQuery: String {
-    case video = "video"
-    case image = "image"
+private enum SearchQuery {
+    case video
+    case image
 }

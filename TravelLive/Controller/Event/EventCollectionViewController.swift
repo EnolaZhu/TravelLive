@@ -71,9 +71,8 @@ extension EventCollectionViewController: UICollectionViewDataSource, UICollectio
         images.count
 
     }
-    // swiftlint:disable force_cast identifier_name
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: EventCollectionViewCell.self), for: indexPath) as? EventCollectionViewCell else {
             fatalError("Couldn't create cell")
         }
@@ -133,7 +132,7 @@ extension EventCollectionViewController: UICollectionViewDelegateFlowLayout {
     
     func getPlaceData(city: Int, limit: Int) {
 
-        MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit)  { [weak self] result in
+        MapDataProvider.shared.fetchSpecificPlaceInfo(city: city, limit: limit) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.specificPlaceData = data
@@ -156,32 +155,3 @@ extension EventCollectionViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 }
-
-//extension EventCollectionViewController {
-//
-//
-//}
-
-//    func getEventData(city: Int, limit: Int) {
-//
-//        MapDataProvider.shared.fetchSpecificEventInfo(city: city, limit: limit)  { [weak self] result in
-//            switch result {
-//
-//            case .success(let data):
-//                self?.specificEventData = data
-//                guard let specificEventData = self?.specificEventData else { return }
-//
-//                if specificEventData.data.count > 0 {
-//                    guard let specificEventData = self?.specificEventData else { return }
-//                    for index in 0...specificEventData.data.count - 1 {
-//                        ImageManager.shared.fetchImage(imageUrl: specificEventData.data[index].image) { image in
-//                            print("success")
-//                        }
-//                    }
-//                }
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
-//}

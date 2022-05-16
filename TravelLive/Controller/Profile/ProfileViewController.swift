@@ -499,7 +499,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             title: "提示",
             message: "你確定要刪除這張圖片嗎",
             preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "確定", style: .default, handler: { (action: UIAlertAction!) -> Void in
+        let okAction = UIAlertAction(title: "確定", style: .default, handler: { (_: UIAlertAction!) -> Void in
             guard let indexPath = self.profileView.indexPathForItem(at: index ?? CGPoint()) else { return }
             // delete image from local
             self.propertyImages.remove(at: indexPath.row)
