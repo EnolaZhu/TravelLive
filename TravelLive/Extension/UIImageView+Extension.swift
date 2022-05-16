@@ -11,18 +11,18 @@ private var xoAssociationKey: UInt8 = 0
 
 extension UIImageView {
     
-    @nonobjc static var imageCache = NSCache<NSString ,AnyObject>()
+    @nonobjc static var imageCache = NSCache<NSString, AnyObject>()
     var imageURL: String? {
         get {
             return objc_getAssociatedObject(self, &xoAssociationKey) as? String
         }
         set(newValue) {
             guard let urlString = newValue else {
-                objc_setAssociatedObject(self,&xoAssociationKey ,newValue ,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+                objc_setAssociatedObject(self, &xoAssociationKey, newValue ,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
                 image = nil
                 return
             }
-            objc_setAssociatedObject(self,&xoAssociationKey ,newValue ,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self, &xoAssociationKey, newValue ,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
             if let image = UIImageView.imageCache.object(forKey: "\((urlString as NSString).hash)" as NSString) as? UIImage {
                 self.image = image
                 return

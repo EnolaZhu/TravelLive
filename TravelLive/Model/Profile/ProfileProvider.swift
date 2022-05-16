@@ -81,7 +81,7 @@ class ProfileProvider {
         
         HTTPClient.shared.request(request, completion: { data in
             switch data {
-            case .success(_):
+            case .success:
                 print("Post user info successfully")
             case .failure(let error):
                 print(error)
@@ -95,7 +95,7 @@ class ProfileProvider {
         
         HTTPClient.shared.request(request, completion: { data in
             switch data {
-            case .success(_):
+            case .success:
                 print("Post user avatar successfully")
             case .failure(let error):
                 print(error)
@@ -110,7 +110,7 @@ class ProfileProvider {
         
         HTTPClient.shared.request(request, completion: { data in
             switch data {
-            case .success(_):
+            case .success:
                 print("Delete  successfully")
             case .failure(let error):
                 print(error)
@@ -124,7 +124,7 @@ class ProfileProvider {
         
         HTTPClient.shared.request(request, completion: { data in
             switch data {
-            case .success( _):
+            case .success:
                 print("Delete  successfully")
             case .failure(let error):
                 print(error)
@@ -138,7 +138,7 @@ class ProfileProvider {
         
         HTTPClient.shared.request(request, completion: { data in
             switch data {
-            case .success(_):
+            case .success:
                 print("Post user info successfully")
             case .failure(let error):
                 print(error)

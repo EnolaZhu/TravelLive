@@ -104,7 +104,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
             title: "主播已下播",
             message: "去別的地方看看吧！",
             preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "好~", style: .default, handler: { (action: UIAlertAction!) -> Void in
+        let okAction = UIAlertAction(title: "好~", style: .default, handler: { (_: UIAlertAction!) -> Void in
             self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
             self.navigationController?.popToRootViewController(animated: true)
         })

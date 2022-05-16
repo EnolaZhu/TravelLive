@@ -16,8 +16,7 @@ class ASVideoContainer {
             playerItem.preferredPeakBitRate = ASVideoPlayerController.sharedVideoPlayer.preferredPeakBitRate
             if playOn && playerItem.status == .readyToPlay {
                 player.play()
-            }
-            else{
+            } else {
                 player.pause()
             }
         }
@@ -33,4 +32,3 @@ class ASVideoContainer {
         playOn = false
     }
 }
-

@@ -78,7 +78,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         
         LottieAnimationManager.shared.createlottieAnimation(name: "loading", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 8, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
         
-        //创建一个 view 对象，并将其嵌入到当前界面中
+        // 创建一个 view 对象，并将其嵌入到当前界面中
         pusher.setRenderView(view)
         addPushPreview()
         closeButton.isHidden = false
@@ -119,7 +119,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         requestAccessForVideo()
         requestAccessForAudio()
         
-        //启动本地摄像头预览
+        //  啟動本地攝像頭預覽
         pusher.startCamera(true)
         pusher.startMicrophone()
         
@@ -280,7 +280,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         }
     }
 
-    func onPushStatusUpdate(_ status: V2TXLivePushStatus, message msg: String!, extraInfo: [AnyHashable : Any]!) {
+    func onPushStatusUpdate(_ status: V2TXLivePushStatus, message msg: String!, extraInfo: [AnyHashable: Any]!) {
         if status == V2TXLivePushStatus.connectSuccess {
             changeButtonTintColor(stateButton, true, UIImage.asset(.onAir) ?? UIImage())
         } else {
@@ -432,7 +432,6 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     
     // record
     @objc func didTappedRecordButton(_ button: UIButton) {
-        // swiftlint:disable force_cast identifier_name
         // Limit streamer recording time
         recordingLimitTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementSeconds), userInfo: nil, repeats: true)
         
@@ -452,9 +451,9 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         if record.isRecording {
             RecordManager.record.stopRecording(record, self) { result in
                 switch result {
-                case .success(_):
+                case .success:
                     LottieAnimationManager.shared.createlottieAnimation(name: "Success", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
-                case .failure(_):
+                case .failure:
                     LottieAnimationManager.shared.createlottieAnimation(name: "Fail", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
                 }
             }
@@ -473,11 +472,12 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
                 // 增加停止提醒
                 
                 switch result {
-                case .success(_):
+                case .success:
                     self?.createRecordDoneAlert(message: "錄製時間已到")
                     
                     LottieAnimationManager.shared.createlottieAnimation(name: "Success", view: self?.view ?? UIView(), animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
-                case .failure(_):
+                    
+                case .failure:
                     LottieAnimationManager.shared.createlottieAnimation(name: "Fail", view: self?.view ?? UIView(), animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
                 }
             }
@@ -506,7 +506,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     }
     
     func deletePushStreming() {
-        pushStreamingProvider.deletePushStreamingInfo(streamerId: userID) { [weak self] result in
+        pushStreamingProvider.deletePushStreamingInfo(streamerId: userID) { _ in
             print("delete success")
         }
     }
@@ -520,27 +520,6 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
             pusher.startPush(url)
             startSpeechRecognization()
         } catch {
-        }
-    }
-}
-
-private enum ComponentText {
-    case noConnect
-    case connecting
-    case connected
-    case connectError
-    case disconnect
-    case startLive
-    case closelive
-    var text: String {
-        switch self {
-        case .noConnect: return "沒有連線"
-        case .connecting: return "連線中"
-        case .connected: return "已連線"
-        case .connectError: return "連線失敗"
-        case .disconnect: return "關閉連線"
-        case .startLive: return "開始"
-        case .closelive: return "停止"
         }
     }
 }

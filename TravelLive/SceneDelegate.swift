@@ -6,7 +6,7 @@
 //
 
 import UIKit
-//import FirebaseDynamicLinks
+// Import FirebaseDynamicLinks
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

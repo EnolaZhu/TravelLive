@@ -20,7 +20,7 @@ class PhotoVideoManager {
         let localFile = URL(string: url)!
         let riversRef = storageRef.child(child)
         
-        let uploadTask = riversRef.putFile(from: localFile, metadata: nil) { metadata, error in
+        _ = riversRef.putFile(from: localFile, metadata: nil) { _, _ in
             riversRef.downloadURL { (url, error) in
                 print("\(String(describing: url))")
                 if error != nil {
@@ -36,8 +36,8 @@ class PhotoVideoManager {
         let data = image.pngData() ?? Data()
         let riversRef = storageRef.child(child)
         
-        let uploadTask = riversRef.putData(data, metadata: nil) { metadata, error in
-            riversRef.downloadURL { (url, error) in
+        _ = riversRef.putData(data, metadata: nil) { _, _ in
+            riversRef.downloadURL { (url, _) in
                 print("\(String(describing: url))")
                 if url == nil {
                     completion("error")

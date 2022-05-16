@@ -28,8 +28,8 @@ extension String {
         return String(self[fromIndex...])
     }
 
-    func substring(to: Int) -> String {
-        let toIndex = index(from: to)
+    func substring(toIndex: Int) -> String {
+        let toIndex = index(from: toIndex)
         return String(self[..<toIndex])
     }
 
