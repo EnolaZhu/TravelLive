@@ -78,7 +78,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         
         LottieAnimationManager.shared.createlottieAnimation(name: "loading", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 8, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
         
-        //创建一个 view 对象，并将其嵌入到当前界面中
+        // 创建一个 view 对象，并将其嵌入到当前界面中
         pusher.setRenderView(view)
         addPushPreview()
         closeButton.isHidden = false
@@ -280,7 +280,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         }
     }
 
-    func onPushStatusUpdate(_ status: V2TXLivePushStatus, message msg: String!, extraInfo: [AnyHashable : Any]!) {
+    func onPushStatusUpdate(_ status: V2TXLivePushStatus, message msg: String!, extraInfo: [AnyHashable: Any]!) {
         if status == V2TXLivePushStatus.connectSuccess {
             changeButtonTintColor(stateButton, true, UIImage.asset(.onAir) ?? UIImage())
         } else {
@@ -477,6 +477,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
                     self?.createRecordDoneAlert(message: "錄製時間已到")
                     
                     LottieAnimationManager.shared.createlottieAnimation(name: "Success", view: self?.view ?? UIView(), animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
+                    
                 case .failure(_):
                     LottieAnimationManager.shared.createlottieAnimation(name: "Fail", view: self?.view ?? UIView(), animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
                 }

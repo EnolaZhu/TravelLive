@@ -142,7 +142,7 @@ class ProfileViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.presentCropViewController(selectedImage)
                 }
-            case .error(let _):
+            case .error:
                 self.view.makeToast("請去設定中打開權限方能使用哦", duration: 2, position: .center)
             }
         })
@@ -190,7 +190,7 @@ class ProfileViewController: UIViewController {
                 self?.profileView.reloadData()
                 self?.profileView.mj_header?.endRefreshing()
                 
-            case .failure(let _):
+            case .failure:
                 self?.view.makeToast("失敗", duration: 1, position: .center)
             }
         }
@@ -216,7 +216,7 @@ class ProfileViewController: UIViewController {
                         }
                     }
                 }
-            case .failure(_):
+            case .failure:
                 self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
@@ -362,7 +362,7 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         let uploadDate = Date()
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "SSSSSS"
@@ -528,7 +528,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
                 ProfileProvider.shared.putModifyUserInfo(userID: userID, name: displayName ?? userID)
                 self.displayName = displayName
             }
-            
         }
         
         controller.view.tintColor = UIColor.black
@@ -591,13 +590,9 @@ extension ProfileViewController {
         // iPad specific code
         if UIDevice.current.userInterfaceIdiom == .pad {
             cameraActionSheet.popoverPresentationController?.sourceView = self.view
-            
             let xOrigin = self.view.bounds.width / 2
-            
             let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-            
             cameraActionSheet.popoverPresentationController?.sourceRect = popoverRect
-            
             cameraActionSheet.popoverPresentationController?.permittedArrowDirections = .up
         }
         

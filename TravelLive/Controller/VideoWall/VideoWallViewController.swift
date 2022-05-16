@@ -24,7 +24,6 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-//        tableView.isPagingEnabled = true
         
         fetchVideoData(userId: userID, tag: nil)
         tableView.isPagingEnabled = true
@@ -101,13 +100,9 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         // iPad specific code
         if UIDevice.current.userInterfaceIdiom == .pad {
             alertController.popoverPresentationController?.sourceView = self.view
-            
             let xOrigin = self.view.bounds.width / 2
-            
             let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-            
             alertController.popoverPresentationController?.sourceRect = popoverRect
-            
             alertController.popoverPresentationController?.permittedArrowDirections = .up
         }
         
@@ -129,7 +124,6 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         view.safeAreaLayoutGuide.layoutFrame.height
-//        + view.safeAreaInsets.bottom
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
