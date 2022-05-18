@@ -7,11 +7,12 @@
 
 import UIKit
 import CoreLocation
-import Speech
 import ReplayKit
 import TXLiteAVSDK_Professional
+import SwiftUI
 
 class PushViewController: UIViewController, V2TXLivePusherObserver {
+    // MARK: - Property
     var date = Int(Date().timeIntervalSince1970)
     var longitude = Double()
     var latitude = Double()
@@ -23,21 +24,16 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     // PushStreaming
     var pusher: V2TXLivePusher! = V2TXLivePusher.init(liveMode: V2TXLiveMode.RTMP)
     let pushStreamingProvider = PushStreamingProvider()
-    // STT
-    let audioEngine = AVAudioEngine()
-    let speechRecognizer: SFSpeechRecognizer! = SFSpeechRecognizer(locale: Locale.init(identifier: "zh-Hant-TW"))
-    var request: SFSpeechAudioBufferRecognitionRequest?
-    var task: SFSpeechRecognitionTask!
     var streamingUrl: PushStreamingObject?
     var lastSegmentIndex = 0
     
+    private let STTManagerShared = STTManager()
     // record
     var recordingTime = Int()
     let record = RPScreenRecorder.shared()
     var isRecordingClicked = false
     private var recordingSeconds = 0
     
-    let imagePickerController = UIImagePickerController()
     var startLiveButton = UIButton()
     
     private let ruleMessage = """
@@ -142,67 +138,8 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         self.present(ruleAlertController, animated: true)
     }
     
-    func requestPermission(_ callback: @escaping () -> Void) {
-        SFSpeechRecognizer.requestAuthorization { authState in
-            OperationQueue.main.addOperation {
-                if authState == .authorized {
-                    callback()
-                } else if authState == .denied {
-                    self.alertView(message: "使用者拒絕開放權限")
-                } else if authState == .notDetermined {
-                    self.alertView(message: "使用者手機裡沒有聲音辨識")
-                } else if authState == .restricted {
-                    self.alertView(message: "使用者限制權限")
-                }
-            }
-        }
-    }
-    
-    func alertView(message: String) {
-        let controller = UIAlertController.init(title: "發生錯誤.", message: message, preferredStyle: .alert)
-        controller.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
-            controller.dismiss(animated: true, completion: nil)
-        }))
-        self.present(controller, animated: true, completion: nil)
-    }
-    
     private func startSpeechRecognization() {
-        audioEngine.inputNode.removeTap(onBus: 0)
-        let node = audioEngine.inputNode
-        let recordingFormat = node.outputFormat(forBus: 0)
-        request = SFSpeechAudioBufferRecognitionRequest()
-        guard let recognitionRequest = request else { fatalError("Unable to created a SFSpeechAudioBufferRecognitionRequest object") }
-        node.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, _) in
-            recognitionRequest.append(buffer)
-        }
-        audioEngine.prepare()
-        do {
-            try audioEngine.start()
-        } catch let error {
-            alertView(message: "Error comes here for starting the audio listner =\(error.localizedDescription)")
-        }
-        
-        guard let myRecognization = SFSpeechRecognizer() else {
-            self.alertView(message: "Recognization is not allow on your local")
-            return
-        }
-        
-        if !myRecognization.isAvailable {
-            self.alertView(message: "Recognization is free right now, Please try again after some time.")
-        }
-        
-        task = speechRecognizer.recognitionTask(with: recognitionRequest, resultHandler: { (response, error) in
-            guard let response = response else {
-                if self.task == nil {
-                    return
-                }
-                if error != nil {
-                    self.alertView(message: error.debugDescription)
-                } else {
-                    self.alertView(message: "Problem in giving the response")
-                }
-                return
-            }
+        STTManagerShared.startRecognization(view: view) { response in
             var message = ""
             while self.lastSegmentIndex <= response.bestTranscription.segments.count - 1 {
                 message += response.bestTranscription.segments[self.lastSegmentIndex].substring
@@ -210,7 +147,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
             }
             let streamerText = ["streamer": message.replacingOccurrences(of: "。", with: "").replacingOccurrences(of: ".", with: "")]
             NotificationCenter.default.post(name: .textNotificationKey, object: nil, userInfo: streamerText)
-        })
+        }
     }
     
     // swiftlint:disable trailing_whitespace
@@ -264,20 +201,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     }
     
     func cancelSpeechRecognization() {
-        audioEngine.stop()
-        if audioEngine.inputNode.numberOfInputs > 0 {
-            audioEngine.inputNode.removeTap(onBus: 0)
-        }
-        request?.endAudio()
-        request?.shouldReportPartialResults = false
-        
-        if task == nil {
-            return
-        } else {
-            task.finish()
-            task.cancel()
-            task = nil
-        }
+        STTManagerShared.cancelRecognization()
     }
 
     func onPushStatusUpdate(_ status: V2TXLivePushStatus, message msg: String!, extraInfo: [AnyHashable: Any]!) {
@@ -288,50 +212,46 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         }
     }
 
-    // View
-    // swiftlint:disable line_length
     lazy var containerView: UIView = {
         let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height))
         containerView.backgroundColor = UIColor.clear
         containerView.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleHeight]
         return containerView
     }()
-    // Label
+    
     lazy var stateButton: UIButton = {
         let stateLabel = UIButton(frame: CGRect(x: 20, y: 40, width: 80, height: 40))
         stateLabel.roundCorners(cornerRadius: 8)
-//        stateLabel.isEnabled = false
-//        stateLabel.text = ComponentText.noConnect.text
         stateLabel.setImage(UIImage.asset(.onAir), for: .normal)
         return stateLabel
     }()
-    // close
+    
     lazy var closeButton: UIButton = {
         let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: 70, width: 32, height: 32))
         closeButton.setImage(UIImage.asset(.close)?.maskWithColor(color: UIColor.primary), for: UIControl.State())
         return closeButton
     }()
-    // camera
+    
     lazy var cameraButton: UIButton = {
         let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 110, y: UIScreen.height - 180, width: 44, height: 44))
         cameraButton.setImage(UIImage.asset(.Icons_camera_preview)?.maskWithColor(color: .primary), for: UIControl.State())
         return cameraButton
     }()
-    //  camera
+    
     lazy var beautyButton: UIButton = {
         let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 160, y: UIScreen.height - 180, width: 44, height: 44))
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty)?.maskWithColor(color: .primary), for: UIControl.State.selected)
         beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close)?.maskWithColor(color: .primary), for: UIControl.State())
         return beautyButton
     }()
-    // record
+    
     lazy var recordButton: UIButton = {
         let recordButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 180, width: 44, height: 44))
         recordButton.setImage(UIImage.asset(.play)?.maskWithColor(color: .primary), for: UIControl.State())
         return recordButton
     }()
     
-    // 結束直播
+    // Close live
     lazy var stopLiveButton: UIButton = {
         let stopLiveButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: 70, width: 44, height: 44))
         stopLiveButton.layer.cornerRadius = 22
@@ -364,9 +284,8 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     // MARK: - Events
     
     // start streming
-    
     @objc func requestLive(_ sender: UIButton) {
-        requestPermission {
+        STTManagerShared.requestPermission(view: view) {
             self.postPushStreamingInfo()
             self.startLiveButton.isHidden = true
             self.closeButton.isHidden = true
@@ -394,7 +313,6 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         tabBarController?.selectedIndex = 0
     }
 
-    // beautify
     @objc func didTappedBeautyButton(_ button: UIButton) {
         if beautyButton.isSelected {
             pusher.getBeautyManager().setBeautyStyle(TXBeautyStyle.nature)
@@ -406,12 +324,10 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         beautyButton.isSelected = !beautyButton.isSelected
     }
     
-    // 摄像头
     @objc func didTappedCameraButton(_ button: UIButton) {
         pusher.getDeviceManager().switchCamera(!pusher.getDeviceManager().isFrontCamera())
     }
     
-    // close
     @objc func didTappedCloseButton(_ button: UIButton) {
         
         print("=== didTappedCloseButton")
@@ -419,22 +335,15 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         stopStreaming()
 //        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
         
-        // Make into map view
+        //  Guide into map view
         view.removeFromSuperview()
         tabBarController?.selectedIndex = 0
-        //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-        //        if let tabBarController = self.presentingViewController as? UITabBarController {
-        //                       tabBarController.selectedIndex = 0
-        //                   }
-        //        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-        //        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
     // record
     @objc func didTappedRecordButton(_ button: UIButton) {
         // Limit streamer recording time
         recordingLimitTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementSeconds), userInfo: nil, repeats: true)
-        
         // change button image
         isRecordingClicked = !isRecordingClicked
         if isRecordingClicked {
@@ -443,7 +352,6 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
             recordButton.setImage(UIImage.asset(.play)?.maskWithColor(color: .primary), for: .normal)
         }
         // start record
-        
         guard record.isAvailable else {
             print("ReplayKit unavailable")
             return
@@ -484,7 +392,6 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         }
     }
     
-    
     func createRecordDoneAlert(message: String) {
             let controller = UIAlertController.init(title: "提示", message: message, preferredStyle: .alert)
             controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
@@ -520,6 +427,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
             pusher.startPush(url)
             startSpeechRecognization()
         } catch {
+            view.makeToast("開始直錯誤", duration: 1.0, position: .center)
         }
     }
 }
@@ -534,7 +442,4 @@ extension PushViewController: CLLocationManagerDelegate, RPPreviewViewController
     func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
         previewController.dismiss(animated: true, completion: nil)
     }
-}
-
-extension PushViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 }
