@@ -9,7 +9,6 @@ import UIKit
 import CoreLocation
 import ReplayKit
 import TXLiteAVSDK_Professional
-import SwiftUI
 
 class PushViewController: UIViewController, V2TXLivePusherObserver {
     // MARK: - Property
@@ -18,16 +17,15 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     var latitude = Double()
     var postStreamerInfoTimer = Timer()
     var recordingLimitTimer = Timer()
-    private let secondDayMillis = 86400
-    private let time = 1000 * 3 * 60
+//    private let secondDayMillis = 86400
+//    private let time = 1000 * 3 * 60
     let locationManager = CLLocationManager()
-    // PushStreaming
-    var pusher: V2TXLivePusher! = V2TXLivePusher.init(liveMode: V2TXLiveMode.RTMP)
     let pushStreamingProvider = PushStreamingProvider()
     var streamingUrl: PushStreamingObject?
     var lastSegmentIndex = 0
     
     private let STTManagerShared = STTManager()
+    private let pushStreamingShared = PushStreamingManager()
     // record
     var recordingTime = Int()
     let record = RPScreenRecorder.shared()
@@ -37,15 +35,15 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     var startLiveButton = UIButton()
     
     private let ruleMessage = """
-若出現以下違規，將結束直播：
-⦿ 違法
-⦿ 情色、裸露
-⦿ 煙、酒、賭、毒
-⦿ 侵犯智慧財產權
-⦿ 屢次遭到封鎖、檢舉
-⦿ 歧視、霸凌、語言暴力
-⦿ 暴力、傷害、血腥、危險
-"""
+    若出現以下違規，將結束直播：
+    ⦿ 違法
+    ⦿ 情色、裸露
+    ⦿ 煙、酒、賭、毒
+    ⦿ 侵犯智慧財產權
+    ⦿ 屢次遭到封鎖、檢舉
+    ⦿ 歧視、霸凌、語言暴力
+    ⦿ 暴力、傷害、血腥、危險
+    """
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +57,8 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         }
         // check if streamer is streaming by 5s
         //        postStreamerInfoTimer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
-        pusher.setObserver(self)
+        pushStreamingShared.createObserver(pushVC: self)
+//        pushStreamingShared.updateStatus(stateButton: stateButton)
         
         self.navigationController?.isNavigationBarHidden = true
     }
@@ -75,7 +74,8 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         LottieAnimationManager.shared.createlottieAnimation(name: "loading", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 8, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
         
         // 创建一个 view 对象，并将其嵌入到当前界面中
-        pusher.setRenderView(view)
+        pushStreamingShared.createRenderView(view: view)
+        
         addPushPreview()
         closeButton.isHidden = false
         view.addSubview(closeButton)
@@ -116,8 +116,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         requestAccessForAudio()
         
         //  啟動本地攝像頭預覽
-        pusher.startCamera(true)
-        pusher.startMicrophone()
+        pushStreamingShared.createStartCamera(isStartCamera: true)
         
         view.backgroundColor = UIColor.clear
         view.addSubview(containerView)
@@ -203,7 +202,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     func cancelSpeechRecognization() {
         STTManagerShared.cancelRecognization()
     }
-
+    
     func onPushStatusUpdate(_ status: V2TXLivePushStatus, message msg: String!, extraInfo: [AnyHashable: Any]!) {
         if status == V2TXLivePushStatus.connectSuccess {
             changeButtonTintColor(stateButton, true, UIImage.asset(.onAir) ?? UIImage())
@@ -299,9 +298,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     }
     
     private func stopStreaming() {
-        pusher.stopPush()
-        pusher.stopMicrophone()
-        pusher.stopCamera()
+        pushStreamingShared.stopStreaming()
         deletePushStreming()
         cancelSpeechRecognization()
     }
@@ -315,17 +312,15 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
 
     @objc func didTappedBeautyButton(_ button: UIButton) {
         if beautyButton.isSelected {
-            pusher.getBeautyManager().setBeautyStyle(TXBeautyStyle.nature)
-            pusher.getBeautyManager().setBeautyLevel(Float(0))
+            pushStreamingShared.startBeauty()
         } else {
-            pusher.getBeautyManager().setBeautyStyle(TXBeautyStyle.smooth)
-            pusher.getBeautyManager().setBeautyLevel(Float(9))
+            pushStreamingShared.closeBeauty()
         }
         beautyButton.isSelected = !beautyButton.isSelected
     }
     
     @objc func didTappedCameraButton(_ button: UIButton) {
-        pusher.getDeviceManager().switchCamera(!pusher.getDeviceManager().isFrontCamera())
+        pushStreamingShared.switchCamera()
     }
     
     @objc func didTappedCloseButton(_ button: UIButton) {
@@ -424,7 +419,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
             try audioSession.setCategory(.playAndRecord, options: .defaultToSpeaker)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
             
-            pusher.startPush(url)
+            pushStreamingShared.startPush(url: url)
             startSpeechRecognization()
         } catch {
             view.makeToast("開始直錯誤", duration: 1.0, position: .center)
