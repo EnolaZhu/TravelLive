@@ -160,7 +160,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
                 self?.userDisplayName = data.name
             case .failure(let error):
                 print(error)
-                self?.view.makeToast("失敗，請稍後再試。", duration: 0.5, position: .center)
+                self?.view.makeToast("失敗，請稍後再試", duration: 0.5, position: .center)
             }
         }
     }
