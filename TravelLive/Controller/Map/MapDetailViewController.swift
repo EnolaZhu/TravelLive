@@ -8,18 +8,38 @@
 import UIKit
 import GoogleMaps
 
+private enum PlaceEventCellType {
+    case title
+    case location
+    case description
+    case time
+
+    var identifier: String {
+        switch self {
+        case .title: return String(describing: PlaceEventViewTitleCell.self)
+        case .location: return String(describing: PlaceEventViewLocationCell.self)
+        case .description: return String(describing: PlaceEventViewContentCell.self)
+        case .time: return String(describing: PlaceEventViewReuseCell.self)
+        }
+    }
+}
+
 class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
-    @IBOutlet weak var mapDetailTableView: UITableView!
+    @IBOutlet weak var mapDetailTableView: UITableView! {
+        didSet {
+            mapDetailTableView.delegate = self
+            mapDetailTableView.dataSource = self
+        }
+    }
     var detailEventData: Event?
     var detailPlaceData: Place?
     lazy var header = StretchyTableHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width))
     lazy var maskView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: 250))
+    private let datas: [PlaceEventCellType] = [.title, .location, .description, .time]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
-        mapDetailTableView.delegate = self
-        mapDetailTableView.dataSource = self
         setUpView()
         addGestureOnMaskView()
         
@@ -76,6 +96,62 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         mapDetailTableView.registerCellWithNib(identifier: String(describing: PlaceEventViewReuseCell.self), bundle: nil)
     }
     
+    
+    private func manipulaterCell(_ cell: UITableViewCell, type: PlaceEventCellType) {
+
+        switch type {
+
+        case .title:
+            updateTitleSelectionCell(cell)
+        case .location:
+            updateLocationSelectionCell(cell)
+        case .description:
+            updateDescriptionSelectionCell(cell)
+        case .time:
+            updateTimeSelectionCell(cell)
+        }
+    }
+    
+    private func updateTitleSelectionCell(_ cell: UITableViewCell) {
+        guard let placeEventViewTitleCell = cell as? PlaceEventViewTitleCell else { return }
+        
+        if detailPlaceData == nil {
+            placeEventViewTitleCell.layoutCell(title: detailEventData?.title ?? "暫無")
+        } else {
+            placeEventViewTitleCell.layoutCell(title: detailPlaceData?.title ?? "暫無")
+        }
+    }
+    
+    private func updateLocationSelectionCell(_ cell: UITableViewCell) {
+        guard let placeEventViewLocationCell = cell as? PlaceEventViewLocationCell else { return }
+        
+        if detailPlaceData == nil {
+            placeEventViewLocationCell.layoutCell(title: detailEventData?.city ?? "暫無資料", detail: detailEventData?.address ?? "暫無資料")
+        } else {
+            placeEventViewLocationCell.layoutCell(title: detailPlaceData?.city ?? "暫無資料", detail: detailPlaceData?.distric ?? "暫無資料")
+        }
+    }
+    
+    private func updateDescriptionSelectionCell(_ cell: UITableViewCell) {
+        guard let placeEventViewContentCell = cell as? PlaceEventViewContentCell else { return }
+        
+        if detailPlaceData == nil {
+            placeEventViewContentCell.layoutCell(content: detailEventData?.content ?? "暫無資料")
+        } else {
+            placeEventViewContentCell.layoutCell(content: detailPlaceData?.content ?? "暫無資料")
+        }
+    }
+    
+    private func updateTimeSelectionCell(_ cell: UITableViewCell) {
+        guard let placeEventViewReuseCell = cell as? PlaceEventViewReuseCell else { return }
+        
+        if detailPlaceData == nil {
+            placeEventViewReuseCell.layoutCell(start: detailEventData?.start ?? " 暫無資料", end: detailEventData?.end ?? " 暫無資料")
+        } else {
+            placeEventViewReuseCell.layoutCell(start: detailPlaceData?.start ?? " 暫無資料", end: detailPlaceData?.end ?? " 暫無資料")
+        }
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let header = mapDetailTableView.tableHeaderView as? StretchyTableHeaderView else { return }
         header.scrollViewDidScroll(scrollView: mapDetailTableView)
@@ -84,58 +160,13 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
 
 extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        4
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewTitleCell.self), for: indexPath)
-            guard let placeEventViewTitleCell = cell as? PlaceEventViewTitleCell else { return cell }
-            placeEventViewTitleCell.selectionStyle = .none
-            
-            if detailPlaceData == nil {
-                placeEventViewTitleCell.layoutCell(title: detailEventData?.title ?? "暫無")
-            } else {
-                placeEventViewTitleCell.layoutCell(title: detailPlaceData?.title ?? "暫無")
-            }
-            return placeEventViewTitleCell
-            
-        } else if indexPath.row == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewLocationCell.self), for: indexPath)
-            guard let placeEventViewLocationCell = cell as? PlaceEventViewLocationCell else { return cell }
-            placeEventViewLocationCell.selectionStyle = .none
-            
-            if detailPlaceData == nil {
-                placeEventViewLocationCell.layoutCell(title: detailEventData?.city ?? "暫無資料", detail: detailEventData?.address ?? "暫無資料")
-            } else {
-                placeEventViewLocationCell.layoutCell(title: detailPlaceData?.city ?? "暫無資料", detail: detailPlaceData?.distric ?? "暫無資料")
-            }
-            return placeEventViewLocationCell
-            
-        } else if indexPath.row == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewContentCell.self), for: indexPath)
-            guard let placeEventViewContentCell = cell as? PlaceEventViewContentCell else { return cell }
-            placeEventViewContentCell.selectionStyle = .none
-            
-            if detailPlaceData == nil {
-                placeEventViewContentCell.layoutCell(content: detailEventData?.content ?? "暫無資料")
-            } else {
-                placeEventViewContentCell.layoutCell(content: detailPlaceData?.content ?? "暫無資料")
-            }
-            return placeEventViewContentCell
-            
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PlaceEventViewReuseCell.self), for: indexPath)
-            guard let placeEventViewReuseCell = cell as? PlaceEventViewReuseCell else { return cell }
-            placeEventViewReuseCell.selectionStyle = .none
-            
-            if detailPlaceData == nil {
-                placeEventViewReuseCell.layoutCell(start: detailEventData?.start ?? " 暫無資料", end: detailEventData?.end ?? " 暫無資料")
-            } else {
-                placeEventViewReuseCell.layoutCell(start: detailPlaceData?.start ?? " 暫無資料", end: detailPlaceData?.end ?? " 暫無資料")
-            }
-            return placeEventViewReuseCell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: datas[indexPath.row].identifier, for: indexPath)
+        manipulaterCell(cell, type: datas[indexPath.row])
+        return cell
     }
     
     func createMapView(latitude: Float, longitude: Float) {

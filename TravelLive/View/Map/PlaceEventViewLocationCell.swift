@@ -15,6 +15,7 @@ class PlaceEventViewLocationCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.selectionStyle = .none
         self.backgroundColor = UIColor.backgroundColor
     }
 
