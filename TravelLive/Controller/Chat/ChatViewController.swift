@@ -55,18 +55,18 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
         
         getUserInfo(id: UserManager.shared.userID)
         setupChatView()
-        // Setting up our PubNub object
+        // setting up our PubNub object
         let configuration = PNConfiguration(publishKey: Secret.pubNubPublishKey.title, subscribeKey: Secret.pubNubSubscribeKey.title)
         configuration.uuid = UUID().uuidString
         client = PubNub.clientWithConfiguration(configuration)
         client.addListener(self)
         client.subscribeToChannels([channelName], withPresence: true)
         
-        // Add observer for animation
+        // add observer for animation
         NotificationCenter.default.addObserver(self, selector: #selector(self.showAnimation(_:)), name: .animationNotificationKey, object: nil)
-        // Add observer for STT text
+        // add observer for STT text
         NotificationCenter.default.addObserver(self, selector: #selector(self.getStreamerText(_:)), name: .textNotificationKey, object: nil)
-        // Add streamer close live observer
+        // add streamer close live observer
         NotificationCenter.default.addObserver(self, selector: #selector(self.closePullingView(_:)), name: .closePullingViewKey, object: nil)
         
         if isFromStreamer {
@@ -76,7 +76,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Clear caption
+        // clear caption
         caption.text = ""
     }
     
@@ -171,7 +171,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
             guard let theMessage = message.data.message as? [String: String] else { return }
             
             if theMessage["username"] == "animation" {
-                LottieAnimationManager.shared.createlottieAnimation(name: "Heart falling", view: self.view, location: CGRect(x: -20, y: -20, width: Int(UIScreen.width), height: Int(UIScreen.height) + 50))
+                LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.fallHeart.title, view: self.view, location: CGRect(x: -20, y: -20, width: Int(UIScreen.width), height: Int(UIScreen.height) + 50))
                 
             } else if theMessage["username"] == "STT" {
                 print("receive = " + (theMessage["message"] ?? ""))
@@ -184,7 +184,6 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
                 messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
             }
         }
-        print("Received message in Channel:", message.data.message!)
     }
     
     private func scroolRowToNewestRow(_ tableView: UITableView) {
@@ -210,7 +209,6 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     
     private func sendPubNub(message: String) {
         if !message.isEmpty {
-            print("send message = " + message)
             self.client.publish(["message": message,
                                  "username": "STT",
                                  "uuid": self.client.uuid()
@@ -255,8 +253,7 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
         alertController.addAction(UIAlertAction(title: "檢舉此則訊息的主人", style: .destructive, handler: { _ in
             self.view.makeToast("已檢舉", duration: 1, position: .center)
         }))
-        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
-        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
         alertController.view.tintColor = UIColor.black
         

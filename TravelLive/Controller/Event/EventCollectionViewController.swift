@@ -144,7 +144,6 @@ extension EventCollectionViewController: UICollectionViewDelegateFlowLayout {
                         ImageManager.shared.fetchImage(imageUrl: specificPlaceData.data[index].image) { [weak self] image in
                             self?.images.append(image)
                             self?.collectionView.reloadData()
-                            print("success")
                         }
                     }
                 }

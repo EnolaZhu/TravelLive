@@ -69,6 +69,7 @@
 		4B66E94D2817BC6400BD62C6 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B66E94B2817BC6400BD62C6 /* EventTableViewCell.swift */; };
 		4B66E94E2817BC6500BD62C6 /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B66E94C2817BC6400BD62C6 /* EventTableViewCell.xib */; };
 		4B7AA60528349E83007C1ABF /* PushStreamingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7AA60428349E83007C1ABF /* PushStreamingManager.swift */; };
+		4B8AE2B02835EA3800923D6B /* TextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8AE2AF2835EA3800923D6B /* TextManager.swift */; };
 		4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */; };
 		4B9787FB280FEB490003CC9F /* CommentBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9787FA280FEB490003CC9F /* CommentBody.swift */; };
 		4B9787FD280FEFB90003CC9F /* CommentObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9787FC280FEFB90003CC9F /* CommentObject.swift */; };
@@ -217,6 +218,7 @@
 		4B66E94B2817BC6400BD62C6 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		4B66E94C2817BC6400BD62C6 /* EventTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
 		4B7AA60428349E83007C1ABF /* PushStreamingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingManager.swift; sourceTree = "<group>"; };
+		4B8AE2AF2835EA3800923D6B /* TextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextManager.swift; sourceTree = "<group>"; };
 		4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		4B9787FA280FEB490003CC9F /* CommentBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBody.swift; sourceTree = "<group>"; };
 		4B9787FC280FEFB90003CC9F /* CommentObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentObject.swift; sourceTree = "<group>"; };
@@ -487,6 +489,14 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		4B8AE2AE2835EA2400923D6B /* String */ = {
+			isa = PBXGroup;
+			children = (
+				4B8AE2AF2835EA3800923D6B /* TextManager.swift */,
+			);
+			path = String;
+			sourceTree = "<group>";
+		};
 		4B97880628105A440003CC9F /* LottieAnimation */ = {
 			isa = PBXGroup;
 			children = (
@@ -701,6 +711,7 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4B8AE2AE2835EA2400923D6B /* String */,
 				4B5BC3E2282BA4D30049B39C /* VideoPlayerLibrary */,
 				4BA36588281AEB3C00A2E724 /* Image */,
 				4B6689652818E2AA003CA423 /* Profile */,
@@ -1110,6 +1121,7 @@
 				4BC0EE6828000B2000C5673B /* ChatViewController.swift in Sources */,
 				4BEAF8252833FD2A00878AF5 /* STTManager.swift in Sources */,
 				4BC0EE6027FF327800C5673B /* MessageCell.swift in Sources */,
+				4B8AE2B02835EA3800923D6B /* TextManager.swift in Sources */,
 				4B66E9492817BB0400BD62C6 /* EventCollectionViewCell.swift in Sources */,
 				4B3AAAED280825BB00CBFE89 /* EventDataObject.swift in Sources */,
 				4B9787FB280FEB490003CC9F /* CommentBody.swift in Sources */,

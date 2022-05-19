@@ -84,17 +84,16 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "封鎖此人", style: .destructive, handler: { [weak self] _ in
-            guard let strongSelf = self else { return }
-            guard let ownerID = strongSelf.videoData?[indexPath.row].ownerId else { return }
+            guard let self = self else { return }
+            guard let ownerID = self.videoData?[indexPath.row].ownerId else { return }
             
             if ownerID == UserManager.shared.userID {
-                strongSelf.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
+                self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
             } else {
-                strongSelf.postBlockData(blockId: self?.videoData?[indexPath.row].ownerId ?? "")
+                self.postBlockData(blockId: self.videoData?[indexPath.row].ownerId ?? "")
             }
         }))
-        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
-        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
         alertController.view.tintColor = UIColor.black
         // iPad specific code
@@ -111,13 +110,13 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private func postBlockData(blockId: String) {
         DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] result in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             if result == "" {
-                strongSelf.fetchVideoData(userId: UserManager.shared.userID, tag: nil)
-                strongSelf.tableView.reloadData()
+                self.fetchVideoData(userId: UserManager.shared.userID, tag: nil)
+                self.tableView.reloadData()
 //                self?.navigationController?.popToRootViewController(animated: true)
             } else {
-                strongSelf.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                self.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
             }
         }
     }
@@ -152,23 +151,23 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private func fetchVideoData(userId: String, tag: String?) {
         SearchDataProvider().fetchSearchData(userId: userId, tag: tag) { [weak self] result in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             
             switch result {
             case .success(let data):
-                strongSelf.resultDataObjc = data
-                guard let resultDataObjc = strongSelf.resultDataObjc else { return }
-                strongSelf.videoData = resultDataObjc.data.filter({ $0.type == "video" })
-                guard let videoData = strongSelf.videoData else { return }
+                self.resultDataObjc = data
+                guard let resultDataObjc = self.resultDataObjc else { return }
+                self.videoData = resultDataObjc.data.filter({ $0.type == "video" })
+                guard let videoData = self.videoData else { return }
                 
                 for index in 0..<videoData.count {
-                    strongSelf.videoUrls.append(videoData[index].fileUrl)
-                    strongSelf.imageUrls.append(videoData[index].videoImageUrl)
+                    self.videoUrls.append(videoData[index].fileUrl)
+                    self.imageUrls.append(videoData[index].videoImageUrl)
                 }
-                strongSelf.tableView.reloadData()
+                self.tableView.reloadData()
                 
             case .failure:
-                strongSelf.view.makeToast("搜尋影片失敗", duration: 1, position: .center)
+                self.view.makeToast("搜尋影片失敗", duration: 1, position: .center)
             }
         }
     }

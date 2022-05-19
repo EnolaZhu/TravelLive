@@ -39,19 +39,14 @@ class ProfileViewController: UIViewController {
             profileView.reloadData()
         }
     }
-    lazy var postButton: UIButton = {
-        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 180, width: 88, height: 88))
-        postButton.tintColor = UIColor.primary
-        postButton.setImage(UIImage.asset(.add), for: UIControl.State())
-        return postButton
-    }()
+    lazy var postButton = UIButton()
     
-    let animationView = AnimationView(name: "loading")
+    let animationView = AnimationView(name: LottieAnimation.lodingAnimation.title)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: LottieAnimation.lodingAnimation.title)
         
         // Add observer of change images
         NotificationCenter.default.addObserver(self, selector: #selector(self.showUserProperty(_:)), name: .showUserPropertyKey, object: nil)
@@ -69,6 +64,7 @@ class ProfileViewController: UIViewController {
         profileView.contentInsetAdjustmentBehavior = .never
         profileView.showsVerticalScrollIndicator = false
         profileView.backgroundColor = UIColor.backgroundColor
+        setUpPostButton()
         
         if isFromOther {
             getUserInfo(id: propertyOwnerId)
@@ -113,6 +109,19 @@ class ProfileViewController: UIViewController {
                 self.openImagePicker(with: state)
             }
         }
+    }
+    
+    private func setUpPostButton() {
+        view.addSubview(postButton)
+        postButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            postButton.widthAnchor.constraint(equalToConstant: 88),
+            postButton.heightAnchor.constraint(equalToConstant: 88),
+            postButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: UIScreen.width - 100),
+            postButton.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.height - 180)
+        ])
+        postButton.tintColor = UIColor.primary
+        postButton.setImage(UIImage.asset(.add), for: UIControl.State())
     }
     
     private func addRefreshHeader() {
@@ -217,7 +226,7 @@ class ProfileViewController: UIViewController {
                     }
                 }
             case .failure:
-                self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                self?.view.makeToast(TextManager.fail.text, duration: 0.5, position: .center)
             }
         }
     }
@@ -387,7 +396,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                         self?.getUserInfo(id: UserManager.shared.userID)
                         self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
                     } else {
-                        self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                        self?.view.makeToast(TextManager.fail.text, duration: 0.5, position: .center)
                     }
                 }
             }
@@ -400,7 +409,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 if result == "" {
                     self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
                 } else {
-                    self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                    self?.view.makeToast(TextManager.fail.text, duration: 0.5, position: .center)
                 }
             }
             // Extract frame from video
@@ -428,7 +437,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                             self?.getUserInfo(id: UserManager.shared.userID)
                             self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
                         } else {
-                            self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                            self?.view.makeToast(TextManager.fail.text, duration: 0.5, position: .center)
                         }
                     }
                 case .failure:
@@ -538,7 +547,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //        itemSize
         return CGSize(width: imageWidth, height: imageWidth)
     }
     

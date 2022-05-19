@@ -14,10 +14,8 @@ class RecordManager {
     func startRecording(_ record: RPScreenRecorder, completion: @escaping (String?) -> Void) {
         record.startRecording(handler: { (error: Error?) -> Void in
             if error == nil {
-                // Recording has started
                 completion("")
             } else {
-                // Handle error
                 completion(nil)
             }
         })
@@ -26,6 +24,7 @@ class RecordManager {
     func stopRecording(_ record: RPScreenRecorder, _ theVC: UIViewController, completion: @escaping (Result<Any>) -> Void) {
         record.stopRecording(handler: { previewViewController, error in
             if let pvc = previewViewController {
+                
                 if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
                     pvc.modalPresentationStyle = UIModalPresentationStyle.popover
                     pvc.popoverPresentationController?.sourceRect = CGRect.zero

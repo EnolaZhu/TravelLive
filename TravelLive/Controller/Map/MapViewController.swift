@@ -218,9 +218,9 @@ class MapViewController: UIViewController {
                 }
                 
             case .failure:
-                guard let strongSelf = self else { return }
-                let camera = GMSCameraPosition(latitude: strongSelf.latitude, longitude: strongSelf.longitude, zoom: 10.81)
-                strongSelf.mapView.camera = camera
+                guard let self = self else { return }
+                let camera = GMSCameraPosition(latitude: self.latitude, longitude: self.longitude, zoom: 10.81)
+                self.mapView.camera = camera
             }
         }
     }

@@ -15,6 +15,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var sendCommentButton: UIButton!
     @IBOutlet weak var detailTableView: UITableView!
     let reportMaskView = UIView()
+    let animationView = AnimationView(name: LottieAnimation.lodingAnimation.title)
     var allCommentData: CommentObject?
     var detailData: SearchData?
     var detailPageImage = UIImage()
@@ -26,8 +27,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     var isLiked = Bool()
     var isFromProfile = false
     var allMessageArray = [String]()
-    let animationView = AnimationView(name: "loading")
-    var placeHolderImage = UIImage(named: "placeholder")
+    var placeHolderImage = UIImage.asset(.placeholder)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +48,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // owner id 換成 property id   從 search 頁和圖片一起帶過來
+        
         LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
         
         fetchComment(propertyId: propertyId, userId: UserManager.shared.userID)
@@ -87,26 +87,23 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         
         // iPad specific code
         alertController.popoverPresentationController?.sourceView = self.view
-        
         let xOrigin = self.view.bounds.width / 2
-        
         let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-        
         alertController.popoverPresentationController?.sourceRect = popoverRect
-        
         alertController.popoverPresentationController?.permittedArrowDirections = .up
+        
         self.present(alertController, animated: true)
     }
     
     private func postBlockImageData(blockId: String) {
         if UserManager.shared.userID == blockId {
-            self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
+            self.view.makeToast(TextManager.blockSelf.text, duration: 0.5, position: .center)
         } else {
             DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] result in
                 if result == "" {
                     self?.navigationController?.popViewController(animated: true)
                 } else {
-                    self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                    self?.view.makeToast(TextManager.blockFail.text, duration: 0.5, position: .center)
                 }
             }
         }
@@ -114,7 +111,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     private func postBlockCommentData(blockId: String) {
         if UserManager.shared.userID == blockId {
-            self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
+            self.view.makeToast(TextManager.blockSelf.text, duration: 0.5, position: .center)
             return
         } else if detailData?.ownerId ?? "" == blockId {
             
@@ -122,7 +119,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
                 if result == "" {
                     self?.navigationController?.popViewController(animated: true)
                 } else {
-                    self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                    self?.view.makeToast(TextManager.blockFail.text, duration: 0.5, position: .center)
                 }
             }
         } else {
@@ -131,7 +128,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
                 if result == "" {
                     self?.fetchComment(propertyId: self?.propertyId ?? "", userId: UserManager.shared.userID)
                 } else {
-                    self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                    self?.view.makeToast(TextManager.blockFail.text, duration: 0.5, position: .center)
                 }
             }
         }
@@ -258,9 +255,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc private func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        // swiftlint:disable force_cast
-        _ = tapGestureRecognizer.view as! UIImageView
-        LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, location: CGRect(x: 0, y: Int(UIScreen.height) / 4, width: 400, height: 400))
+        LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.heart.title, view: self.view, location: CGRect(x: 0, y: Int(UIScreen.height) / 4, width: 400, height: 400))
         // change heart button
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
     }
@@ -280,8 +275,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             self?.postBlockImageData(blockId: self?.detailData?.ownerId ?? "")
         }))
         
-        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
-        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
         alertController.view.tintColor = UIColor.black
         
@@ -299,13 +293,13 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc private func clickLoveButton(_ sender: UIButton) {
         if sender.hasImage(named: "theheart", for: .normal) {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: UserManager.shared.userID, isLiked: false)
-            LottieAnimationManager.shared.createlottieAnimation(name: "Heart break", view: self.view, animationSpeed: 1, location: CGRect(x: 0, y: Int(UIScreen.height) / 8, width: 400, height: Int(UIScreen.height) + 50))
+            LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.breakHeart.title, view: self.view, animationSpeed: 1, location: CGRect(x: 0, y: Int(UIScreen.height) / 8, width: 400, height: Int(UIScreen.height) + 50))
             
             setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
         } else {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: UserManager.shared.userID, isLiked: true)
             
-            LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, location: CGRect(x: 0, y: Int(UIScreen.height) / 4, width: 400, height: 400))
+            LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.heart.title, view: self.view, location: CGRect(x: 0, y: Int(UIScreen.height) / 4, width: 400, height: 400))
             setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
     }
