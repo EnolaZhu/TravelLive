@@ -51,7 +51,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         // owner id 換成 property id   從 search 頁和圖片一起帶過來
         LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
         
-        fetchComment(propertyId: propertyId, userId: userID)
+        fetchComment(propertyId: propertyId, userId: UserManager.shared.userID)
     }
     
     override func viewWillLayoutSubviews() {
@@ -99,10 +99,10 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     private func postBlockImageData(blockId: String) {
-        if userID == blockId {
+        if UserManager.shared.userID == blockId {
             self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
         } else {
-            DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
+            DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] result in
                 if result == "" {
                     self?.navigationController?.popViewController(animated: true)
                 } else {
@@ -113,12 +113,12 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     private func postBlockCommentData(blockId: String) {
-        if userID == blockId {
+        if UserManager.shared.userID == blockId {
             self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
             return
         } else if detailData?.ownerId ?? "" == blockId {
             
-            DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
+            DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] result in
                 if result == "" {
                     self?.navigationController?.popViewController(animated: true)
                 } else {
@@ -127,9 +127,9 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
             }
         } else {
             
-            DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
+            DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] result in
                 if result == "" {
-                    self?.fetchComment(propertyId: self?.propertyId ?? "", userId: userID)
+                    self?.fetchComment(propertyId: self?.propertyId ?? "", userId: UserManager.shared.userID)
                 } else {
                     self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
                 }
@@ -191,9 +191,9 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         if commentTextField.text == "" {
             return
         } else {
-            DetailDataProvider.shared.postComment(id: propertyId, reviewerId: userID, message: commentTextField.text ?? "") { [weak self] result in
+            DetailDataProvider.shared.postComment(id: propertyId, reviewerId: UserManager.shared.userID, message: commentTextField.text ?? "") { [weak self] result in
                 if result == "" {
-                    self?.fetchComment(propertyId: self?.propertyId ?? "", userId: userID)
+                    self?.fetchComment(propertyId: self?.propertyId ?? "", userId: UserManager.shared.userID)
                 } else {
                     self?.view.makeToast("失敗", duration: 0.5, position: .center)
                 }
@@ -260,7 +260,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc private func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         // swiftlint:disable force_cast
         _ = tapGestureRecognizer.view as! UIImageView
-        LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
+        LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, location: CGRect(x: 0, y: Int(UIScreen.height) / 4, width: 400, height: 400))
         // change heart button
         NotificationCenter.default.post(name: .changeLoveButtonKey, object: nil)
     }
@@ -298,13 +298,14 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     @objc private func clickLoveButton(_ sender: UIButton) {
         if sender.hasImage(named: "theheart", for: .normal) {
-            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: false)
+            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: UserManager.shared.userID, isLiked: false)
+            LottieAnimationManager.shared.createlottieAnimation(name: "Heart break", view: self.view, animationSpeed: 1, location: CGRect(x: 0, y: Int(UIScreen.height) / 4, width: 400, height: Int(UIScreen.height) + 50))
             
-            LottieAnimationManager.shared.createlottieAnimation(name: "Heart break", view: self.view, animationSpeed: 1, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
             setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
         } else {
-            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: userID, isLiked: true)
-            LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, animationSpeed: 4, isRemove: false, theX: 0, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
+            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: UserManager.shared.userID, isLiked: true)
+            
+            LottieAnimationManager.shared.createlottieAnimation(name: "Hearts moving", view: self.view, location: CGRect(x: 0, y: Int(UIScreen.height) / 4, width: 400, height: 400))
             setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
     }

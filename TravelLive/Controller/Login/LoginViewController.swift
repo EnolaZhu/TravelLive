@@ -117,13 +117,13 @@ class LoginViewController: UIViewController {
                 if element < self.animationArray.count {
                     switch element {
                     case 0:
-                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: 0, theY: 0, width: 200, height: 200)
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, location: CGRect(x: 0, y: 0, width: 200, height: 200))
                     case 1:
-                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: Int(UIScreen.width) - 200, theY: Int(UIScreen.height) / 4, width: 200, height: 200)
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, location: CGRect(x: Int(UIScreen.width) - 200, y: Int(UIScreen.height) / 4, width: 200, height: 200))
                     case 2:
-                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: 0, theY: Int(UIScreen.height) * 2 / 4, width: 200, height: 200)
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, location: CGRect(x: 0, y: Int(UIScreen.height) * 2 / 4, width: 200, height: 200))
                     case 3:
-                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: Int(UIScreen.width) - 200, theY: Int(UIScreen.height) * 3 / 4, width: 200, height: 200)
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, location: CGRect(x: Int(UIScreen.width) - 200, y: Int(UIScreen.height) * 3 / 4, width: 200, height: 200))
                     default:
                         break
                     }
@@ -131,7 +131,7 @@ class LoginViewController: UIViewController {
             }, onError: { error in
                 print(error)
             }, onCompleted: {
-                if userID == "" {
+                if UserManager.shared.userID == "" {
                     self.createContainerView()
                     return
                 } else {
@@ -336,7 +336,7 @@ extension LoginViewController {
                 self.view.makeToast("授權失敗", duration: 0.5, position: .center)
                 return
             }
-            userID = (authResult?.user.uid)!
+            UserManager.shared.userID = (authResult?.user.uid)!
             self.getFirebaseUserInfo()
             self.showMainView()
         }
@@ -345,9 +345,9 @@ extension LoginViewController {
     // MARK: - Firebase 取得登入使用者的資訊
     func getFirebaseUserInfo() {
         let currentUser = Auth.auth().currentUser
-        let userid = currentUser?.uid ?? userID
-        userID = userid
-        ProfileProvider.shared.postUserInfo(userID: userid, name: fullName ?? userID)
+        let userid = currentUser?.uid ?? UserManager.shared.userID
+        UserManager.shared.userID = userid
+        ProfileProvider.shared.postUserInfo(userID: userid, name: fullName ?? UserManager.shared.userID)
     }
 }
 

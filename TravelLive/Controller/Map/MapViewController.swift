@@ -193,7 +193,7 @@ class MapViewController: UIViewController {
 //        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: MapViewController.defaultZoom)
 //        mapView.camera = camera
         
-        mapDataProvider.fetchStreamerInfo(userid: userID, latitude: latitude, longitude: longitude) { [weak self] result in
+        mapDataProvider.fetchStreamerInfo(userid: UserManager.shared.userID, latitude: latitude, longitude: longitude) { [weak self] result in
             switch result {
                 
             case .success(let user):

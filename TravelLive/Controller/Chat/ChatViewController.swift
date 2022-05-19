@@ -53,7 +53,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getUserInfo(id: userID)
+        getUserInfo(id: UserManager.shared.userID)
         setupChatView()
         // Setting up our PubNub object
         let configuration = PNConfiguration(publishKey: Secret.pubNubPublishKey.title, subscribeKey: Secret.pubNubSubscribeKey.title)
@@ -171,7 +171,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
             guard let theMessage = message.data.message as? [String: String] else { return }
             
             if theMessage["username"] == "animation" {
-                LottieAnimationManager.shared.createlottieAnimation(name: "Heart falling", view: self.view, animationSpeed: 4, isRemove: false, theX: -20, theY: -20, width: Int(UIScreen.width), height: Int(UIScreen.height) + 50)
+                LottieAnimationManager.shared.createlottieAnimation(name: "Heart falling", view: self.view, location: CGRect(x: -20, y: -20, width: Int(UIScreen.width), height: Int(UIScreen.height) + 50))
                 
             } else if theMessage["username"] == "STT" {
                 print("receive = " + (theMessage["message"] ?? ""))
