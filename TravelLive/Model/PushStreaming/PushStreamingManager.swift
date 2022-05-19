@@ -8,7 +8,7 @@
 import UIKit
 import TXLiteAVSDK_Professional
 
-class PushStreamingManager {
+class PushStreamingManager: NSObject, V2TXLivePusherObserver {
     var pusher: V2TXLivePusher! = V2TXLivePusher.init(liveMode: V2TXLiveMode.RTMP)
     
     func createObserver(pushVC: V2TXLivePusherObserver!) {
@@ -26,10 +26,11 @@ class PushStreamingManager {
         }
     }
     
-    func stopStreaming() {
+    func stopStreaming(completion: @escaping () -> Void) {
         pusher.stopPush()
         pusher.stopMicrophone()
         pusher.stopCamera()
+        completion()
     }
     
     func startBeauty() {
@@ -48,5 +49,30 @@ class PushStreamingManager {
     
     func startPush(url: String) {
         pusher.startPush(url)
+    }
+    
+    func requestAccessForVideo() { //
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        switch status {
+            // request authorization license
+        case AVAuthorizationStatus.notDetermined:
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted) in
+                if granted {
+                    DispatchQueue.main.async {
+                    }
+                }
+            })
+        default: break
+        }
+    }
+    
+    func requestAccessForAudio() { //
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.audio)
+        switch status {
+            // request authorization license
+        case AVAuthorizationStatus.notDetermined:
+            AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: { _ in })
+        default: break
+        }
     }
 }

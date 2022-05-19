@@ -7,46 +7,32 @@
 
 import UIKit
 import CoreLocation
-import ReplayKit
 import TXLiteAVSDK_Professional
 
 class PushViewController: UIViewController, V2TXLivePusherObserver {
     // MARK: - Property
     private var date = Int(Date().timeIntervalSince1970)
-    private var longitude = Double()
-    private var latitude = Double()
+    private var location = CLLocationCoordinate2D()
     private var postStreamerInfoTimer = Timer()
     private var recordingLimitTimer = Timer()
     private let time = 1000 * 3 * 60
+    // post streamer location by 3s
     private let locationManager = CLLocationManager()
     private let pushStreamingProvider = PushStreamingProvider()
     private var lastSegmentIndex = 0
     var streamingUrl: PushStreamingObject?
     
-    private let STTManagerShared = STTManager()
-    private let pushStreamingShared = PushStreamingManager()
+    private let sttManager = STTManager()
+    private let pushStreamingManager = PushStreamingManager()
     // record
-    private let record = RPScreenRecorder.shared()
-    private var recordingSeconds = 0
+    private let recorder = RPScreenRecorder.shared() //
+    private var recordingSeconds = 0 // data
     private var isRecordingClicked = false
-    
-    lazy var startLiveButton = UIButton()
-    
-    private let ruleMessage = """
-    若出現以下違規，將結束直播：
-    ⦿ 違法
-    ⦿ 情色、裸露
-    ⦿ 煙、酒、賭、毒
-    ⦿ 侵犯智慧財產權
-    ⦿ 屢次遭到封鎖、檢舉
-    ⦿ 歧視、霸凌、語言暴力
-    ⦿ 暴力、傷害、血腥、危險
-    """
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Location
+        // location
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
@@ -56,7 +42,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         }
         // check if streamer is streaming by 5s
         //        postStreamerInfoTimer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
-        pushStreamingShared.createObserver(pushVC: self)
+        pushStreamingManager.createObserver(pushVC: self) //
         
         self.navigationController?.isNavigationBarHidden = true
     }
@@ -64,14 +50,15 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        // 3-4 param
+        LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.lodingAnimation.title, view: view, isRemove: false, location: CGRect(x: Int(UIScreen.width) / 8, y: Int(UIScreen.height) / 4, width: 400, height: 400))
         
-        LottieAnimationManager.shared.createlottieAnimation(name: "loading", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 8, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
-        
-        // Create pushStreaming view
-        pushStreamingShared.createRenderView(view: view)
+        // create pushStreaming view
+        pushStreamingManager.createRenderView(view: view)
         
         addPushPreview()
         closeButton.isHidden = false
+        setUpCloseButton()
         view.addSubview(closeButton)
         closeButton.addTarget(self, action: #selector(didTappedCloseButton(_:)), for: .touchUpInside)
         setUpStartButton()
@@ -85,74 +72,107 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        // 將timer的執行緒停止
+        // stop timer thread
+        recordingLimitTimer.invalidate()
         postStreamerInfoTimer.invalidate()
-        deletePushStreming()
+        deletePushStreaming()
         
         tabBarController?.tabBar.isHidden = false
         startLiveButton.isHidden = false
         
+        //
         for view in self.view.subviews {
             view.removeFromSuperview()
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     // MARK: - Components
     
-    lazy var containerView: UIView = {
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height))
-        containerView.backgroundColor = UIColor.clear
-        containerView.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleHeight]
-        return containerView
-    }()
+    lazy var startLiveButton = UIButton()
+    lazy var closeButton = UIButton()
+    lazy var stateButton = UIButton()
+    lazy var cameraButton = UIButton()
+    lazy var beautyButton = UIButton()
+    lazy var recordButton = UIButton()
+    lazy var stopLiveButton = UIButton()
     
-    lazy var stateButton: UIButton = {
-        let stateLabel = UIButton(frame: CGRect(x: 20, y: 40, width: 80, height: 40))
-        stateLabel.roundCorners(cornerRadius: 8)
-        stateLabel.setImage(UIImage.asset(.onAir), for: .normal)
-        return stateLabel
-    }()
+    func setUpStateButton() {
+        view.addSubview(stateButton)
+        stateButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stateButton.widthAnchor.constraint(equalToConstant: 80),
+            stateButton.heightAnchor.constraint(equalToConstant: 40),
+            stateButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            stateButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 40)
+        ])
+        stateButton.setImage(UIImage.asset(.onAir)?.maskWithColor(color: UIColor.primary), for: .normal)
+    }
     
-    lazy var closeButton: UIButton = {
-        let closeButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: 70, width: 32, height: 32))
-        closeButton.setImage(UIImage.asset(.close)?.maskWithColor(color: UIColor.primary), for: UIControl.State())
-        return closeButton
-    }()
+    func setUpCloseButton() {
+        view.addSubview(closeButton)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            closeButton.widthAnchor.constraint(equalToConstant: 32),
+            closeButton.heightAnchor.constraint(equalToConstant: 32),
+            closeButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: UIScreen.width - 60),
+            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70)
+        ])
+        closeButton.setImage(UIImage.asset(.close)?.maskWithColor(color: UIColor.primary), for: .normal)
+    }
     
-    lazy var cameraButton: UIButton = {
-        let cameraButton = UIButton(frame: CGRect(x: UIScreen.width - 110, y: UIScreen.height - 180, width: 44, height: 44))
-        cameraButton.setImage(UIImage.asset(.Icons_camera_preview)?.maskWithColor(color: .primary), for: UIControl.State())
-        return cameraButton
-    }()
+    func setUpCameraButton() {
+        view.addSubview(cameraButton)
+        cameraButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            cameraButton.widthAnchor.constraint(equalToConstant: 44),
+            cameraButton.heightAnchor.constraint(equalToConstant: 44),
+            cameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: UIScreen.width - 110),
+            cameraButton.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.height - 180)
+        ])
+        cameraButton.setImage(UIImage.asset(.Icons_camera_preview)?.maskWithColor(color: UIColor.primary), for: .normal)
+    }
     
-    lazy var beautyButton: UIButton = {
-        let beautyButton = UIButton(frame: CGRect(x: UIScreen.width - 160, y: UIScreen.height - 180, width: 44, height: 44))
-        beautyButton.setImage(UIImage.asset(.Icons_camera_beauty)?.maskWithColor(color: .primary), for: UIControl.State.selected)
-        beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close)?.maskWithColor(color: .primary), for: UIControl.State())
-        return beautyButton
-    }()
+    func setUpBeautyButton() {
+        view.addSubview(beautyButton)
+        beautyButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            beautyButton.widthAnchor.constraint(equalToConstant: 44),
+            beautyButton.heightAnchor.constraint(equalToConstant: 44),
+            beautyButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: UIScreen.width - 160),
+            beautyButton.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.height - 180)
+        ])
+        beautyButton.setImage(UIImage.asset(.Icons_camera_beauty_close)?.maskWithColor(color: UIColor.primary), for: .normal)
+        beautyButton.setImage(UIImage.asset(.Icons_camera_beauty)?.maskWithColor(color: UIColor.primary), for: .selected)
+    }
     
-    lazy var recordButton: UIButton = {
-        let recordButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: UIScreen.height - 180, width: 44, height: 44))
-        recordButton.setImage(UIImage.asset(.play)?.maskWithColor(color: .primary), for: UIControl.State())
-        return recordButton
-    }()
+    func setUpRecordButton() {
+        view.addSubview(recordButton)
+        recordButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            recordButton.widthAnchor.constraint(equalToConstant: 44),
+            recordButton.heightAnchor.constraint(equalToConstant: 44),
+            recordButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: UIScreen.width - 60),
+            recordButton.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.height - 180)
+        ])
+        recordButton.setImage(UIImage.asset(.play)?.maskWithColor(color: UIColor.primary), for: .normal)
+    }
     
-    // Close live
-    lazy var stopLiveButton: UIButton = {
-        let stopLiveButton = UIButton(frame: CGRect(x: UIScreen.width - 60, y: 70, width: 44, height: 44))
+    func setUpStopLiveButton() {
+        view.addSubview(stopLiveButton)
+        stopLiveButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stopLiveButton.widthAnchor.constraint(equalToConstant: 44),
+            stopLiveButton.heightAnchor.constraint(equalToConstant: 44),
+            stopLiveButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: UIScreen.width - 60),
+            stopLiveButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70)
+        ])
         stopLiveButton.layer.cornerRadius = 22
-        stopLiveButton.setTitleColor(UIColor.black, for: UIControl.State())
-        stopLiveButton.setTitle("停止", for: UIControl.State())
-        stopLiveButton.titleLabel!.font = UIFont.systemFont(ofSize: 14)
+        stopLiveButton.setTitleColor(UIColor.black, for: .normal)
+        stopLiveButton.setTitle("停止", for: .normal)
+        stopLiveButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         stopLiveButton.backgroundColor = UIColor.primary
-        return stopLiveButton
-    }()
-
+    }
+    
     private func setUpStartButton() {
         view.addSubview(startLiveButton)
         startLiveButton.translatesAutoresizingMaskIntoConstraints = false
@@ -165,7 +185,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         
         startLiveButton.layer.cornerRadius = 22
         startLiveButton.setTitleColor(UIColor.black, for: UIControl.State())
-        startLiveButton.setTitle("開始直播", for: UIControl.State())
+        startLiveButton.setTitle("開始直播", for: UIControl.State()) //
         startLiveButton.setTitleColor(UIColor.white, for: .normal)
         startLiveButton.titleLabel!.font = UIFont.systemFont(ofSize: 22)
         startLiveButton.backgroundColor = UIColor.primary
@@ -175,16 +195,16 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     // MARK: - IBAction
     
     @objc func requestLive(_ sender: UIButton) {
-        STTManagerShared.requestPermission(view: view) {
+        sttManager.requestPermission(view: view) {
             self.postPushStreamingInfo()
             self.startLiveButton.isHidden = true
             self.closeButton.isHidden = true
             self.addChatView()
-            self.view.addSubview(self.cameraButton)
-            self.view.addSubview(self.beautyButton)
-            self.view.addSubview(self.recordButton)
-            self.view.addSubview(self.stopLiveButton)
-            self.view.addSubview(self.stateButton)
+            self.setUpCameraButton()
+            self.setUpBeautyButton()
+            self.setUpRecordButton()
+            self.setUpStopLiveButton()
+            self.setUpStateButton()
         }
     }
     
@@ -194,23 +214,23 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         view.removeFromSuperview()
         tabBarController?.selectedIndex = 0
     }
-
+    
     @objc private func didTappedBeautyButton(_ button: UIButton) {
         if beautyButton.isSelected {
-            pushStreamingShared.startBeauty()
+            pushStreamingManager.startBeauty()
         } else {
-            pushStreamingShared.closeBeauty()
+            pushStreamingManager.closeBeauty()
         }
         beautyButton.isSelected = !beautyButton.isSelected
     }
     
     @objc private func didTappedCameraButton(_ button: UIButton) {
-        pushStreamingShared.switchCamera()
+        pushStreamingManager.switchCamera()
     }
     
     @objc private func didTappedCloseButton(_ button: UIButton) {
         stopStreaming()
-//        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
+        //        NotificationCenter.default.post(name: .closePullingViewKey, object: nil)
         
         //  Guide into map view
         view.removeFromSuperview()
@@ -228,20 +248,29 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
             recordButton.setImage(UIImage.asset(.play)?.maskWithColor(color: .primary), for: .normal)
         }
         // start record
-        guard record.isAvailable else {
+        guard recorder.isAvailable else {
             return view.makeToast("錄製失效", duration: 0.5, position: .center)
         }
-        if record.isRecording {
-            RecordManager.record.stopRecording(record, self) { result in
+        if recorder.isRecording {
+            RecordManager.record.stopRecording(recorder, self) { [weak self] result in
+                guard let self = self else { return }
+                let location = CGRect(x: Int(UIScreen.width) / 4, y: Int(UIScreen.height) / 4, width: 400, height: 400)
+                
                 switch result {
                 case .success:
-                    LottieAnimationManager.shared.createlottieAnimation(name: "Success", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
+                    LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.success.title, view: self.view, location: location)
                 case .failure:
-                    LottieAnimationManager.shared.createlottieAnimation(name: "Fail", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 2, theY: Int(UIScreen.height) / 2, width: 400, height: 400)
+                    LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.fail.title, view: self.view, location: location)
                 }
             }
         } else {
-            RecordManager.record.startRecording(button, record)
+            RecordManager.record.startRecording(recorder) { [weak self] result in
+                if result == "" {
+                    button.setImage(UIImage.asset(.stop), for: .normal)
+                } else {
+                    self?.view.makeToast("開始錄製失敗", duration: 1.0, position: .center)
+                }
+            }
         }
     }
     
@@ -249,9 +278,9 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         recordingSeconds += 1
         if recordingSeconds == 10 {
             // Stop timer
-            recordingLimitTimer.invalidate()
+            recordingLimitTimer.invalidate()// better
             
-            RecordManager.record.stopRecording(record, self) { [weak self] result in
+            RecordManager.record.stopRecording(recorder, self) { [weak self] result in
                 // 增加停止提醒
                 switch result {
                 case .success:
@@ -266,13 +295,13 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     }
     
     @objc private func postPushStreamingInfo() {
-        pushStreamingProvider.postPushStreamingInfo(streamerId: userID, longitude: longitude, latitude: latitude) { [weak self] result in
+        pushStreamingProvider.postPushStreamingInfo(streamerId: UserManager.shared.userID, longitude: location.longitude, latitude: location.latitude) { [weak self] result in
             switch result {
             case .success(let url):
                 self?.streamingUrl = url
                 self?.startLive(self?.streamingUrl?.pushUrl ?? "")
             case .failure:
-                print("Failed")
+                self?.view.makeToast("直播主定位失敗", duration: 1.0, position: .center)
             }
         }
     }
@@ -280,22 +309,21 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     // MARK: - Method
     
     private func addPushPreview() {
-        requestAccessForVideo()
-        requestAccessForAudio()
+        pushStreamingManager.requestAccessForVideo()
+        pushStreamingManager.requestAccessForAudio()
         
         // Start local camera preview
-        pushStreamingShared.createStartCamera(isStartCamera: true)
+        pushStreamingManager.createStartCamera(isStartCamera: true)
         
         view.backgroundColor = UIColor.clear
-        view.addSubview(containerView)
         cameraButton.addTarget(self, action: #selector(didTappedCameraButton(_:)), for: .touchUpInside)
         beautyButton.addTarget(self, action: #selector(didTappedBeautyButton(_:)), for: .touchUpInside)
         stopLiveButton.addTarget(self, action: #selector(didTappedStopLiveButton(_:)), for: .touchUpInside)
         recordButton.addTarget(self, action: #selector(didTappedRecordButton(_:)), for: .touchUpInside)
     }
     
-    private func startSpeechRecognization() {
-        STTManagerShared.startRecognization(view: view) { response in
+    private func startSpeechRecognization() { // baochuqu
+        sttManager.startRecognization(view: view) { response in
             var message = ""
             while self.lastSegmentIndex <= response.bestTranscription.segments.count - 1 {
                 message += response.bestTranscription.segments[self.lastSegmentIndex].substring
@@ -307,54 +335,13 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     }
     
     private func addChatView() {
-        let chatMessageVC = UIStoryboard.chat.instantiateViewController(withIdentifier: String(describing: ChatViewController.self)
+        let chatMessageVC = UIStoryboard.chat.instantiateViewController(withIdentifier: String(describing: ChatViewController.self) //
         )
         guard let chatVC = chatMessageVC as? ChatViewController else { return }
         chatVC.isFromStreamer = true
-        chatVC.channelName = userID
+        chatVC.channelName = UserManager.shared.userID
         view.addSubview(chatVC.view)
         self.addChild(chatVC)
-    }
-    
-    func requestAccessForVideo() {
-        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
-        switch status {
-            // request authorization license
-        case AVAuthorizationStatus.notDetermined:
-            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted) in
-                if granted {
-                    DispatchQueue.main.async {
-                    }
-                }
-            })
-            // open authorizatio, continuew
-        case AVAuthorizationStatus.authorized:
-            // user defuse authorization, or can't access camera
-            break
-        case AVAuthorizationStatus.denied: break
-        case AVAuthorizationStatus.restricted:break
-        default:
-            break
-        }
-    }
-    
-    func requestAccessForAudio() {
-        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.audio)
-        switch status {
-            // request authorization license
-        case AVAuthorizationStatus.notDetermined:
-            AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: { _ in })
-            // open authorizatio, continuew
-        case AVAuthorizationStatus.authorized: break
-            // user defuse authorization, or can't access camera
-        case AVAuthorizationStatus.denied: break
-        case AVAuthorizationStatus.restricted: break
-        default: break
-        }
-    }
-    
-    private func cancelSpeechRecognization() {
-        STTManagerShared.cancelRecognization()
     }
     
     func onPushStatusUpdate(_ status: V2TXLivePushStatus, message msg: String!, extraInfo: [AnyHashable: Any]!) {
@@ -365,33 +352,38 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         }
     }
     
+    private func cancelSpeechRecognization() {
+        sttManager.cancelRecognization()
+    }
+    
     private func stopStreaming() {
-        pushStreamingShared.stopStreaming()
-        deletePushStreming()
-        cancelSpeechRecognization()
-    }
-    
-    func createRecordDoneAlert(message: String) {
-            let controller = UIAlertController.init(title: "提示", message: message, preferredStyle: .alert)
-            controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
-                controller.dismiss(animated: true, completion: nil)
-            }))
-            self.present(controller, animated: true, completion: nil)
-    }
-    
-    private func deletePushStreming() {
-        pushStreamingProvider.deletePushStreamingInfo(streamerId: userID) { _ in
-            print("delete success")
+        pushStreamingManager.stopStreaming {
+            self.deletePushStreaming()
+            self.cancelSpeechRecognization()
         }
     }
     
-    private func startLive(_ url: String) {
+    func createRecordDoneAlert(message: String) {
+        let controller = UIAlertController.init(title: "提示", message: message, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            controller.dismiss(animated: true, completion: nil)
+        }))
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    private func deletePushStreaming() {
+        pushStreamingProvider.deletePushStreamingInfo(streamerId: UserManager.shared.userID) { _ in
+            print("delete success") //
+        }
+    }
+    
+    private func startLive(_ url: String) { //
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setCategory(.playAndRecord, options: .defaultToSpeaker)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
             
-            pushStreamingShared.startPush(url: url)
+            pushStreamingManager.startPush(url: url)
             startSpeechRecognization()
         } catch {
             view.makeToast("開始直播發生錯誤", duration: 1.0, position: .center)
@@ -399,10 +391,9 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     }
     
     private func createPushStreamingRuleAlert() {
-        let ruleAlertController = UIAlertController(title: "警告", message: ruleMessage, preferredStyle: .alert)
+        let ruleAlertController = UIAlertController(title: "警告", message: TextManager.pushRuleMessage.text, preferredStyle: .alert)
         
-        ruleAlertController.addAction(UIAlertAction(title: "我會遵守直播規則", style: .default, handler: { _ in
-        }))
+        ruleAlertController.addAction(UIAlertAction(title: "我會遵守直播規則", style: .default, handler: nil))
         
         ruleAlertController.view.tintColor = UIColor.black
         ruleAlertController.setMessageAlignment(.left)
@@ -413,8 +404,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
 extension PushViewController: CLLocationManagerDelegate, RPPreviewViewControllerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        longitude = locValue.longitude
-        latitude = locValue.latitude
+        location = locValue
     }
     
     func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
