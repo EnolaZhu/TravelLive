@@ -14,7 +14,7 @@ public class CropViewController: UIViewController {
     let scrollView: UIScrollView
     let completion: (UIImage?) -> Void
     private var circleView: CircleCropView?
-
+    lazy var okButton = UIButton()
 
     var backButton: UIButton = {
         let button = UIButton()
@@ -26,17 +26,23 @@ public class CropViewController: UIViewController {
         button.layer.cornerRadius = 8
         return button
     }()
-
-    var okButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        button.setTitle("Crop Image", for: .normal)
-        button.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        button.setTitleColor(.white, for: .normal)
-        button.addTarget(CropViewController.self, action: #selector(okClick), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 20
-        return button
-    }()
+    
+    func setUpOKButton() {
+        view.addSubview(okButton)
+        okButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            okButton.widthAnchor.constraint(equalToConstant: 200),
+            okButton.heightAnchor.constraint(equalToConstant: 200),
+            okButton.leftAnchor.constraint(equalTo: view.leftAnchor),
+            okButton.topAnchor.constraint(equalTo: view.topAnchor)
+        ])
+        
+        okButton.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        okButton.setTitleColor(.white, for: .normal)
+        okButton.addTarget(CropViewController.self, action: #selector(okClick), for: .touchUpInside)
+        okButton.translatesAutoresizingMaskIntoConstraints = false
+        okButton.layer.cornerRadius = 20
+    }
 
     var titleLabel: UILabel = {
         let label = UILabel()
@@ -61,8 +67,8 @@ public class CropViewController: UIViewController {
         circleView = CircleCropView(frame: self.view.bounds)
         view.addSubview(scrollView)
         view.addSubview(circleView!)
-        view.addSubview(okButton)
         view.addSubview(backButton)
+        setUpOKButton()
         scrollView.addSubview(imageView)
         scrollView.contentSize = image.size
         scrollView.delegate = self

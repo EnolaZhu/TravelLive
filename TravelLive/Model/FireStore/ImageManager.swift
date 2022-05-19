@@ -50,7 +50,7 @@ class ImageManager {
     
     func fetchImageWithoutCache(imageUrl: String, completion: @escaping (UIImage) -> Void) {
         self.downloadImage(isAvatar: true, with: imageUrl) { uiImage in
-            completion((uiImage ?? UIImage())!)
+            completion((uiImage ?? UIImage()))
         }
     }
     

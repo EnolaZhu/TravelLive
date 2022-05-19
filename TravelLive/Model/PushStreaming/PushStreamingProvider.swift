@@ -27,7 +27,7 @@ class PushStreamingProvider {
             }
         })
     }
-    func deletePushStreamingInfo(streamerId: String, completion: @escaping (Result<Void>) -> Void) {
+    func deletePushStreamingInfo(streamerId: String, completion: @escaping (Result<Void>) -> Void?) {
         HTTPClient.shared.request(PushStreamingRequest.stopPushStreaming(streamerId), completion: { result in
             switch result {
             case .success:

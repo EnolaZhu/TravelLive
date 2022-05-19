@@ -97,7 +97,7 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: EventTableViewCell.self)) as? EventTableViewCell else {
-            fatalError("Couldn't create cell")
+            return UITableViewCell()
         }
         
         self.smallCollectionViewControllers[indexPath.section].view.frame = eventTableViewCell.bounds
@@ -111,7 +111,16 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionView = UIView()
-        let label = UILabel(frame: CGRect(x: 24, y: -18, width: 60, height: 30))
+        let label = UILabel()
+        view.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.widthAnchor.constraint(equalToConstant: 60),
+            label.heightAnchor.constraint(equalToConstant: 30),
+            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: -18)
+        ])
+        
         var titles = [String]()
         for (title, _) in Array(citys).sorted(by: {$0.value < $1.value}) {
             titles.append(title)
@@ -145,14 +154,13 @@ extension EventViewController {
                         ImageManager.shared.fetchImage(imageUrl: data.data[index].image) { [weak self] image in
                             self?.smallCollectionViewControllers[theCity].images.append(image)
                             self?.eventTableView.reloadData()
-                            print("success")
                         }
                     }
                     LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
                 }
                 
-            case .failure(let error):
-                print(error)
+            case .failure:
+                self?.view.makeToast("獲取資料失敗", duration: 1.0, position: .center)
             }
         }
     }

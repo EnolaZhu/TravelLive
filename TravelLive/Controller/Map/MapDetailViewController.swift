@@ -8,7 +8,7 @@
 import UIKit
 import GoogleMaps
 
-private enum PlaceEventCellType {
+private enum PlaceEventCellType: CaseIterable {
     case title
     case location
     case description
@@ -33,14 +33,15 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
     }
     var detailEventData: Event?
     var detailPlaceData: Place?
-    lazy var header = StretchyTableHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width))
-    lazy var maskView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: 250))
-    private let datas: [PlaceEventCellType] = [.title, .location, .description, .time]
+    lazy var header = StretchyTableHeaderView()
+    lazy var maskView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
         setUpView()
+        setUpMaskView()
+        setUpHeader()
         addGestureOnMaskView()
         
         // Setting navigationbar back button color
@@ -56,6 +57,17 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func setUpMaskView() {
+        view.addSubview(maskView)
+        maskView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            maskView.widthAnchor.constraint(equalToConstant: UIScreen.width),
+            maskView.heightAnchor.constraint(equalToConstant: 250),
+            maskView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            maskView.topAnchor.constraint(equalTo: view.topAnchor)
+        ])
     }
     
     private func addGestureOnMaskView() {
@@ -87,6 +99,17 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
             }
             createMapView(latitude: Float(detailPlaceData?.latitude ?? 0), longitude: Float(detailPlaceData?.longitude ?? 0))
         }
+    }
+    
+    private func setUpHeader() {
+        view.addSubview(header)
+        header.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            header.widthAnchor.constraint(equalToConstant: view.frame.width),
+            header.heightAnchor.constraint(equalToConstant: view.frame.width),
+            header.leftAnchor.constraint(equalTo: view.leftAnchor),
+            header.topAnchor.constraint(equalTo: view.topAnchor)
+        ])
     }
     
     private func registerCell() {
@@ -164,8 +187,8 @@ extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: datas[indexPath.row].identifier, for: indexPath)
-        manipulaterCell(cell, type: datas[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: PlaceEventCellType.allCases[indexPath.row].identifier, for: indexPath)
+        manipulaterCell(cell, type: PlaceEventCellType.allCases[indexPath.row])
         return cell
     }
     
