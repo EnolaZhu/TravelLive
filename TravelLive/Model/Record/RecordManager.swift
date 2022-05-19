@@ -11,14 +11,14 @@ import ReplayKit
 class RecordManager {
     static let record = RecordManager()
     
-    func startRecording(_ sender: UIButton, _ record: RPScreenRecorder) {
+    func startRecording(_ record: RPScreenRecorder, completion: @escaping (String?) -> Void) {
         record.startRecording(handler: { (error: Error?) -> Void in
             if error == nil {
                 // Recording has started
-                sender.setImage(UIImage.asset(.stop), for: .normal)
+                completion("")
             } else {
                 // Handle error
-                print(error?.localizedDescription ?? "Unknown error")
+                completion(nil)
             }
         })
     }

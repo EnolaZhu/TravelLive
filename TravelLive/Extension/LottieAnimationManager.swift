@@ -11,8 +11,8 @@ import Lottie
 class LottieAnimationManager {
     static let shared = LottieAnimationManager()
     // swiftlint:disable function_parameter_count
-    func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat, isRemove: Bool, theX: Int, theY: Int, width: Int, height: Int) {
-        createlottieAnimation(name: name, view: view, animationSpeed: animationSpeed, isRemove: isRemove, theX: theX, theY: theY, width: width, height: height, completion: nil)
+    func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat? = 4, isRemove: Bool? = false, location: CGRect) {
+        createlottieAnimation(name: name, view: view, animationSpeed: animationSpeed ?? 4, isRemove: isRemove ?? false, theX: Int(location.minX), theY: Int(location.minY), width: Int(location.width), height: Int(location.height), completion: nil)
     }
     
     func createlottieAnimation(name: String, view: UIView, animationSpeed: CGFloat, isRemove: Bool, theX: Int, theY: Int, width: Int, height: Int, completion: (() -> Void)?) {

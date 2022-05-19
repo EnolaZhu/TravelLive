@@ -299,7 +299,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     @objc private func clickLoveButton(_ sender: UIButton) {
         if sender.hasImage(named: "theheart", for: .normal) {
             DetailDataProvider.shared.postLike(propertyId: propertyId, userId: UserManager.shared.userID, isLiked: false)
-            LottieAnimationManager.shared.createlottieAnimation(name: "Heart break", view: self.view, animationSpeed: 1, location: CGRect(x: 0, y: Int(UIScreen.height) / 4, width: 400, height: Int(UIScreen.height) + 50))
+            LottieAnimationManager.shared.createlottieAnimation(name: "Heart break", view: self.view, animationSpeed: 1, location: CGRect(x: 0, y: Int(UIScreen.height) / 8, width: 400, height: Int(UIScreen.height) + 50))
             
             setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
         } else {

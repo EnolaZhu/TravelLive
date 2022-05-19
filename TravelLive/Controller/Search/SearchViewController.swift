@@ -112,8 +112,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     }
     
     @objc private func imageTapped(tapGestureRecognizer: UILongPressGestureRecognizer) {
-        // swiftlint:disable force_cast
-        _ = tapGestureRecognizer.view as! UIImageView
         let point = tapGestureRecognizer.view?.convert(CGPoint.zero, to: searchCollectionView)
         blockUser(index: point)
     }
@@ -143,11 +141,11 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     }
     
     private func postBlockData(blockId: String) {
-        if userID == blockId {
+        if UserManager.shared.userID == blockId {
             self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
             return
         } else {
-            DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] resultString in
+            DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] resultString in
                 if resultString == "" {
                     self?.images.removeAll()
                     self?.getSearchData()
@@ -181,7 +179,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     // Fetch search data
     private func getSearchData() {
-        fetchSearchData(userId: userID, tag: nil)
+        fetchSearchData(userId: UserManager.shared.userID, tag: nil)
     }
     
     private func fetchSearchData(userId: String, tag: String?) {
@@ -276,14 +274,14 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate {
         if text != "" {
             images.removeAll()
             searchBar.resignFirstResponder()
-            fetchSearchData(userId: userID, tag: text.lowercased())
+            fetchSearchData(userId: UserManager.shared.userID, tag: text.lowercased())
         }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         searchBar.resignFirstResponder()
-        fetchSearchData(userId: userID, tag: nil)
+        fetchSearchData(userId: UserManager.shared.userID, tag: nil)
     }
 }
 
