@@ -27,12 +27,12 @@ class LoginViewController: UIViewController {
     private let licenseLabel = UILabel()
     private var checkButton = UIButton()
     private var isChecked = false
-//    {
-//        didSet {
-//            checkButton.setImage(UIImage.asset(.check)?.maskWithColor(color: UIColor.primary), for: .normal)
-//            checkButton.setImage(UIImage.asset(.checkbox)?.maskWithColor(color: UIColor.primary), for: .selected)
-//        }
-//    }
+    //    {
+    //        didSet {
+    //            checkButton.setImage(UIImage.asset(.check)?.maskWithColor(color: UIColor.primary), for: .normal)
+    //            checkButton.setImage(UIImage.asset(.checkbox)?.maskWithColor(color: UIColor.primary), for: .selected)
+    //        }
+    //    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -307,15 +307,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         // 登入失敗，處理 Error
         switch error {
         case ASAuthorizationError.canceled:
-            self.view.makeToast("取消登入", duration: 0.5, position: .center)
+            self.view.makeToast(AuthText.cancel.text, duration: 0.5, position: .center)
         case ASAuthorizationError.failed:
-            self.view.makeToast("授權請求失敗", duration: 0.5, position: .center)
+            self.view.makeToast(AuthText.fail.text, duration: 0.5, position: .center)
         case ASAuthorizationError.invalidResponse:
-            self.view.makeToast("授權請求無回應", duration: 0.5, position: .center)
+            self.view.makeToast(AuthText.noResponse.text, duration: 0.5, position: .center)
         case ASAuthorizationError.notHandled:
-            self.view.makeToast("授權請求未處理", duration: 0.5, position: .center)
+            self.view.makeToast(AuthText.noHandle.text, duration: 0.5, position: .center)
         case ASAuthorizationError.unknown:
-            self.view.makeToast("授權失敗，原因不知", duration: 0.5, position: .center)
+            self.view.makeToast(AuthText.noReason.text, duration: 0.5, position: .center)
         default:
             break
         }
@@ -327,7 +327,6 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
         return view.window!
     }
 }
-
 extension LoginViewController {
     // MARK: - 透過 Credential 與 Firebase Auth 串接
     func firebaseSignInWithApple(credential: AuthCredential) {
@@ -349,9 +348,4 @@ extension LoginViewController {
         UserManager.shared.userID = userid
         ProfileProvider.shared.postUserInfo(userID: userid, name: fullName ?? UserManager.shared.userID)
     }
-}
-
-enum LoginUrlString: String {
-    case privacyUrl = "https://firebasestorage.googleapis.com/v0/b/travellive-webplayer/o/Privacy%20Policy.html?alt=media&token=f6de7d54-111d-4a5d-9aed-d54e7505c6b2"
-    case standardLicense = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
 }

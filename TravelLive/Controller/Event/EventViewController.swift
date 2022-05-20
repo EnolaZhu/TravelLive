@@ -20,12 +20,12 @@ class EventViewController: UIViewController {
         EventCollectionViewController()
     ]
     var citys = ["臺北": 0, "新北": 1, "臺中": 3, "臺南": 4, "高雄": 5]
-    let animationView = AnimationView(name: "loading")
+    let animationView = AnimationView(name: LottieAnimation.lodingAnimation.title)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: LottieAnimation.lodingAnimation.title)
         
         setupTableView()
         getData()
@@ -117,8 +117,8 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
         NSLayoutConstraint.activate([
             label.widthAnchor.constraint(equalToConstant: 60),
             label.heightAnchor.constraint(equalToConstant: 30),
-            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24),
-            label.topAnchor.constraint(equalTo: view.topAnchor, constant: -18)
+            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: -10)
         ])
         
         var titles = [String]()

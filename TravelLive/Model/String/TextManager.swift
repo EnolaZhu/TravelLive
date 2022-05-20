@@ -70,3 +70,46 @@ enum LottieAnimation {
         }
     }
 }
+
+enum BlockText {
+    case blockSelf
+    case blockFail
+    
+    var text: String {
+        switch self {
+        case .blockSelf:
+            return "不可以封鎖自己哦"
+        case .blockFail:
+             return "封鎖失敗"
+        }
+    }
+}
+
+enum AuthText {
+    case cancel
+    case fail
+    case noResponse
+    case noHandle
+    case noReason
+    
+    var text: String {
+        switch self {
+        case .cancel:
+            return "取消登入"
+        case .fail:
+            return "授權請求失敗"
+        case .noResponse:
+            return "授權請求無回應"
+        case .noHandle:
+            return "授權請求未處理"
+        case .noReason:
+            return "授權失敗，原因不知"
+        }
+    }
+}
+
+
+enum LoginUrlString: String {
+case privacyUrl = "https://firebasestorage.googleapis.com/v0/b/travellive-webplayer/o/Privacy%20Policy.html?alt=media&token=f6de7d54-111d-4a5d-9aed-d54e7505c6b2"
+case standardLicense = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+}
