@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if let user = Auth.auth().currentUser {
-            userID = "\(user.uid)"
+            UserManager.shared.userID = "\(user.uid)"
         }
         
         GADMobileAds.sharedInstance().start(completionHandler: nil)
