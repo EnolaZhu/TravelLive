@@ -11,8 +11,9 @@ class IAPManager: NSObject {
     static let shared = IAPManager()
     var products = [SKProduct]()
     fileprivate var productRequest: SKProductsRequest!
-func getProductIDs() -> [String] {
-        ["removeAd"]
+    
+    func getProductIDs() -> [String] {
+        ["com.enola.TravelLive.product01"]
     }
     
     func getProducts() {
@@ -25,7 +26,7 @@ func getProductIDs() -> [String] {
 }
 extension IAPManager: SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        response.products.forEach {
+        response.products.forEach { // response.products == 0 element
             print($0.localizedTitle, $0.price, $0.localizedDescription)
         }
         self.products = response.products

@@ -252,9 +252,9 @@ class ProfileViewController: UIViewController {
             self?.createModifyNameAlert()
         }))
         
-        alertController.addAction(UIAlertAction(title: "付費", style: .destructive, handler: { [weak self] _ in
-            IAPManager.shared.getProducts()
-        }))
+//        alertController.addAction(UIAlertAction(title: "付費", style: .destructive, handler: { _ in
+//            IAPManager.shared.getProducts()
+//        }))
         
         alertController.addAction(UIAlertAction(title: "登出", style: .destructive, handler: { [weak self] _ in
             self?.signOut()
