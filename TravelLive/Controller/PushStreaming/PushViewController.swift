@@ -10,6 +10,7 @@ import CoreLocation
 import Speech
 import ReplayKit
 import TXLiteAVSDK_Professional
+import FirebaseAnalytics
 
 class PushViewController: UIViewController, V2TXLivePusherObserver {
     var date = Int(Date().timeIntervalSince1970)
@@ -366,6 +367,9 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     // start streming
     
     @objc func requestLive(_ sender: UIButton) {
+        
+        AnalyticsManager.shared.postAnalitic(eventName: "click_startLive", name: userID, text: ("\(latitude)" + "\(longitude)"))
+        
         requestPermission {
             self.postPushStreamingInfo()
             self.startLiveButton.isHidden = true
