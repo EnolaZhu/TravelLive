@@ -72,11 +72,11 @@ class ProfileViewController: UIViewController {
         
         if isFromOther {
             getUserInfo(id: propertyOwnerId)
-            getUserProperty(id: userID, byUser: propertyOwnerId)
+            getUserProperty(id: UserManager.shared.userID, byUser: propertyOwnerId)
         } else {
             addRefreshHeader()
-            getUserInfo(id: userID)
-            getUserProperty(id: userID, byUser: userID)
+            getUserInfo(id: UserManager.shared.userID)
+            getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
         }
     }
     
@@ -117,7 +117,7 @@ class ProfileViewController: UIViewController {
     
     private func addRefreshHeader() {
         MJRefreshNormalHeader { [weak self] in
-            self?.getUserProperty(id: userID, byUser: userID)
+            self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
         }.autoChangeTransparency(true)
             .link(to: profileView)
     }
@@ -129,7 +129,7 @@ class ProfileViewController: UIViewController {
             
             // Put user selected image to firebase
             let imageBase64 = ConvertImageTOBase64Manager().convertImageToBase64String(image: croppedImage ?? UIImage())
-            ProfileProvider.shared.putUserAvatar(userID: userID, photoBase64: imageBase64)
+            ProfileProvider.shared.putUserAvatar(userID: UserManager.shared.userID, photoBase64: imageBase64)
         }
         self.present(cropViewController, animated: true, completion: nil)
     }
@@ -237,12 +237,12 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func showUserProperty(_ notification: NSNotification) {
-        getUserProperty(id: userID, byUser: userID)
+        getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
         postButton.isHidden = false
     }
     
     @objc private func showLikedProperty(_ notification: NSNotification) {
-        getLikedProperty(id: userID)
+        getLikedProperty(id: UserManager.shared.userID)
         postButton.isHidden = true
     }
     
@@ -260,7 +260,7 @@ class ProfileViewController: UIViewController {
             self?.signOut()
         }))
         alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { [weak self] _ in
-            ProfileProvider.shared.deleteAccount(userId: userID)
+            ProfileProvider.shared.deleteAccount(userId: UserManager.shared.userID)
             self?.signOut()
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
@@ -305,7 +305,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func postBlockData() {
-        DetailDataProvider.shared.postBlockData(userId: userID, blockId: propertyOwnerId) { [weak self] result in
+        DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: propertyOwnerId) { [weak self] result in
             if result == "" {
                 self?.navigationController?.popToRootViewController(animated: true)
 //                self?.dismiss(animated: true, completion: nil)
@@ -319,7 +319,7 @@ class ProfileViewController: UIViewController {
     private func signOut() {
         do {
             try Auth.auth().signOut()
-            userID = ""
+            UserManager.shared.userID = ""
             self.view.makeToast("登出成功", duration: 0.5, position: .center)
             // Sign out back to login vc
             backToLoginView()
@@ -372,7 +372,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "SSSSSS"
         let uploadTimestamp = Int(uploadDate.timeIntervalSince1970)
-        let storageRefPath = userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
+        let storageRefPath = UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // Image Labeling
@@ -389,8 +389,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 PhotoVideoManager.shared.uploadFileFromIo(url: String(describing: imgUrl), child: storageRefPathWithTag) { [weak self] result in
                     if result == "" {
                         self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
-                        self?.getUserInfo(id: userID)
-                        self?.getUserProperty(id: userID, byUser: userID)
+                        self?.getUserInfo(id: UserManager.shared.userID)
+                        self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
                     } else {
                         self?.view.makeToast("失敗", duration: 0.5, position: .center)
                     }
@@ -410,7 +410,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             }
             // Extract frame from video
             PhotoVideoManager.shared.getImageFromVideo(url: mediaUrl, at: TimeInterval(uploadTimestamp)) { image in
-                let storageRefImagePath = "videoimage_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
+                let storageRefImagePath = "videoimage_" + UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
                 guard let image = image else { return }
                 PhotoVideoManager.shared.uploadFileFromMemory(image: image, child: storageRefImagePath) { result in
                     if result == "" {
@@ -422,7 +422,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             }
             
             // Convert video type to GIF
-            let storageRefGifPath = "thumbnail_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
+            let storageRefGifPath = "thumbnail_" + UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
             GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
                 switch result {
                 case .success(let urlOfGIF):
@@ -430,8 +430,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                     PhotoVideoManager.shared.uploadFileFromIo(url: urlOfGIF, child: storageRefGifPath) { [weak self] result in
                         if result == "" {
                             self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
-                            self?.getUserInfo(id: userID)
-                            self?.getUserProperty(id: userID, byUser: userID)
+                            self?.getUserInfo(id: UserManager.shared.userID)
+                            self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
                         } else {
                             self?.view.makeToast("失敗", duration: 0.5, position: .center)
                         }
@@ -528,7 +528,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         let okAction = UIAlertAction(title: "完成", style: .default) { [unowned controller] _ in
             let displayName = controller.textFields?[0].text
             
-            ProfileProvider.shared.putModifyUserInfo(userID: userID, name: displayName ?? userID)
+            ProfileProvider.shared.putModifyUserInfo(userID: UserManager.shared.userID, name: displayName ?? UserManager.shared.userID)
             self.displayName = displayName
         }
         

@@ -55,7 +55,7 @@ class DetailViewImageCell: UITableViewCell {
             return
             
         } else {
-            DetailDataProvider.shared.postLike(propertyId: propertyId ?? "", userId: userID, isLiked: true)
+            DetailDataProvider.shared.postLike(propertyId: propertyId ?? "", userId: UserManager.shared.userID, isLiked: true)
             loveButton.setImage(UIImage.asset(.theheart), for: .normal)
             setUpButtonBasicColor(loveButton, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
