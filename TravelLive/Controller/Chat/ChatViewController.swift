@@ -53,7 +53,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getUserInfo(id: userID)
+        getUserInfo(id: UserManager.shared.userID)
         setupChatView()
         // Setting up our PubNub object
         let configuration = PNConfiguration(publishKey: Secret.pubNubPublishKey.title, subscribeKey: Secret.pubNubSubscribeKey.title)

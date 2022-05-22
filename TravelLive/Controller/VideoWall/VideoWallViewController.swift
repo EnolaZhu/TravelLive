@@ -25,7 +25,7 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.dataSource = self
         tableView.delegate = self
         
-        fetchVideoData(userId: userID, tag: nil)
+        fetchVideoData(userId: UserManager.shared.userID, tag: nil)
         tableView.isPagingEnabled = true
         
         var cellNib = UINib(nibName: videoWallTableViewCellIdentifier, bundle: nil)
@@ -87,7 +87,7 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
             guard let strongSelf = self else { return }
             guard let ownerID = strongSelf.videoData?[indexPath.row].ownerId else { return }
             
-            if ownerID == userID {
+            if ownerID == UserManager.shared.userID {
                 strongSelf.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
             } else {
                 strongSelf.postBlockData(blockId: self?.videoData?[indexPath.row].ownerId ?? "")
@@ -110,10 +110,10 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     private func postBlockData(blockId: String) {
-        DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
+        DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] result in
             guard let strongSelf = self else { return }
             if result == "" {
-                strongSelf.fetchVideoData(userId: userID, tag: nil)
+                strongSelf.fetchVideoData(userId: UserManager.shared.userID, tag: nil)
                 strongSelf.tableView.reloadData()
 //                self?.navigationController?.popToRootViewController(animated: true)
             } else {

@@ -144,7 +144,7 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     }
     
     private func postBlockStreamerData(blockId: String) {
-        DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] result in
+        DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] result in
             if result == "" {
                 self?.navigationController?.popViewController(animated: true)
             } else {

@@ -220,7 +220,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         )
         guard let chatVC = chatMessageVC as? ChatViewController else { return }
         chatVC.isFromStreamer = true
-        chatVC.channelName = userID
+        chatVC.channelName = UserManager.shared.userID
         view.addSubview(chatVC.view)
         self.addChild(chatVC)
     }
@@ -368,7 +368,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     
     @objc func requestLive(_ sender: UIButton) {
         
-        AnalyticsManager.shared.postAnalitic(eventName: "click_startLive", name: userID, text: ("\(latitude)" + "\(longitude)"))
+        AnalyticsManager.shared.postAnalitic(eventName: "click_startLive", name: UserManager.shared.userID, text: ("\(latitude)" + "\(longitude)"))
         
         requestPermission {
             self.postPushStreamingInfo()
@@ -498,7 +498,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     }
     
     @objc func postPushStreamingInfo() {
-        pushStreamingProvider.postPushStreamingInfo(streamerId: userID, longitude: longitude, latitude: latitude) { [weak self] result in
+        pushStreamingProvider.postPushStreamingInfo(streamerId: UserManager.shared.userID, longitude: longitude, latitude: latitude) { [weak self] result in
             switch result {
             case .success(let url):
                 self?.streamingUrl = url
@@ -510,7 +510,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     }
     
     func deletePushStreming() {
-        pushStreamingProvider.deletePushStreamingInfo(streamerId: userID) { _ in
+        pushStreamingProvider.deletePushStreamingInfo(streamerId: UserManager.shared.userID) { _ in
             print("delete success")
         }
     }
