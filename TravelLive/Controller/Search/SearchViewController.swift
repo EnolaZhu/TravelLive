@@ -25,6 +25,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getSearchData()
         
         navigationItem.searchController = searchController
         searchCollectionView.isUserInteractionEnabled = true
@@ -45,8 +46,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             }
             tempStorage = !tempStorage
         }
-        
-        
         
         view.backgroundColor = .backgroundColor
         searchCollectionView.backgroundColor = .backgroundColor
@@ -69,7 +68,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         searchController.searchBar.placeholder = "搜尋"
         searchController.searchBar.tintColor = UIColor.primary
         
-        getSearchData()
         setNeedsStatusBarAppearanceUpdate()
         navigationController?.navigationBar.backgroundColor = .backgroundColor
     }
@@ -145,11 +143,11 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     }
     
     private func postBlockData(blockId: String) {
-        if userID == blockId {
+        if UserManager.shared.userID == blockId {
             self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
             return
         } else {
-            DetailDataProvider.shared.postBlockData(userId: userID, blockId: blockId) { [weak self] resultString in
+            DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] resultString in
                 if resultString == "" {
                     self?.images.removeAll()
                     self?.getSearchData()
@@ -183,7 +181,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     // Fetch search data
     private func getSearchData() {
-        fetchSearchData(userId: userID, tag: nil)
+        fetchSearchData(userId: UserManager.shared.userID, tag: nil)
     }
     
     private func fetchSearchData(userId: String, tag: String?) {
@@ -231,9 +229,9 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     private func getThumbnail(searchData: SearchData, index: Int) {
         // video GIF
-        ImageManager.shared.fetchUserGIF(thumbnailUrl: searchData.thumbnailUrl) { gif in
-            self.images[index] = gif
-            self.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+        ImageManager.shared.fetchUserGIF(thumbnailUrl: searchData.thumbnailUrl) { [weak self] gif in
+            self?.images[index] = gif
+            self?.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
     
@@ -278,18 +276,18 @@ extension SearchViewController: UISearchBarDelegate, UICollectionViewDelegate {
         if text != "" {
             images.removeAll()
             searchBar.resignFirstResponder()
-            fetchSearchData(userId: userID, tag: text.lowercased())
+            fetchSearchData(userId: UserManager.shared.userID, tag: text.lowercased())
         }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         searchBar.resignFirstResponder()
-        fetchSearchData(userId: userID, tag: nil)
+        fetchSearchData(userId: UserManager.shared.userID, tag: nil)
     }
 }
 
-enum SearchQuery: String {
-    case video = "video"
-    case image = "image"
+private enum SearchQuery {
+    case video
+    case image
 }

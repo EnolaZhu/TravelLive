@@ -15,7 +15,6 @@ import Lottie
 
 class ProfileViewController: UIViewController {
     
-    //    @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
@@ -40,11 +39,12 @@ class ProfileViewController: UIViewController {
         }
     }
     lazy var postButton: UIButton = {
-        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 230, width: 88, height: 88))
+        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 180, width: 88, height: 88))
         postButton.tintColor = UIColor.primary
         postButton.setImage(UIImage.asset(.add), for: UIControl.State())
         return postButton
     }()
+    lazy var bannerView = GADBannerView()
     
     let animationView = AnimationView(name: "loading")
     
@@ -59,9 +59,7 @@ class ProfileViewController: UIViewController {
         // change avatar
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditAvatarViewKey, object: nil)
         // Add advertisement
-        //        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        //        bannerView.rootViewController = self
-        //        bannerView.load(GADRequest())
+        setUpBannerView()
         
         profileView.delegate = self
         profileView.dataSource = self
@@ -72,11 +70,11 @@ class ProfileViewController: UIViewController {
         
         if isFromOther {
             getUserInfo(id: propertyOwnerId)
-            getUserProperty(id: userID, byUser: propertyOwnerId)
+            getUserProperty(id: UserManager.shared.userID, byUser: propertyOwnerId)
         } else {
             addRefreshHeader()
-            getUserInfo(id: userID)
-            getUserProperty(id: userID, byUser: userID)
+            getUserInfo(id: UserManager.shared.userID)
+            getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
         }
     }
     
@@ -117,9 +115,26 @@ class ProfileViewController: UIViewController {
     
     private func addRefreshHeader() {
         MJRefreshNormalHeader { [weak self] in
-            self?.getUserProperty(id: userID, byUser: userID)
+            self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
         }.autoChangeTransparency(true)
             .link(to: profileView)
+    }
+    
+    // set up banner view
+    private func setUpBannerView() {
+        view.addSubview(bannerView)
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+    
+        NSLayoutConstraint.activate([
+            bannerView.bottomAnchor.constraint(equalTo: profileView.bottomAnchor),
+            bannerView.heightAnchor.constraint(equalToConstant: 50),
+            bannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+        bannerView.backgroundColor = UIColor.clear
+        bannerView.adUnitID = Secret.bannerId.title
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
     }
     
     // show selected image
@@ -129,7 +144,7 @@ class ProfileViewController: UIViewController {
             
             // Put user selected image to firebase
             let imageBase64 = ConvertImageTOBase64Manager().convertImageToBase64String(image: croppedImage ?? UIImage())
-            ProfileProvider.shared.putUserAvatar(userID: userID, photoBase64: imageBase64)
+            ProfileProvider.shared.putUserAvatar(userID: UserManager.shared.userID, photoBase64: imageBase64)
         }
         self.present(cropViewController, animated: true, completion: nil)
     }
@@ -142,7 +157,7 @@ class ProfileViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.presentCropViewController(selectedImage)
                 }
-            case .error(let _):
+            case .error:
                 self.view.makeToast("請去設定中打開權限方能使用哦", duration: 2, position: .center)
             }
         })
@@ -190,7 +205,7 @@ class ProfileViewController: UIViewController {
                 self?.profileView.reloadData()
                 self?.profileView.mj_header?.endRefreshing()
                 
-            case .failure(let _):
+            case .failure:
                 self?.view.makeToast("失敗", duration: 1, position: .center)
             }
         }
@@ -216,7 +231,7 @@ class ProfileViewController: UIViewController {
                         }
                     }
                 }
-            case .failure(let error):
+            case .failure:
                 self?.view.makeToast("失敗", duration: 0.5, position: .center)
             }
         }
@@ -237,12 +252,12 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func showUserProperty(_ notification: NSNotification) {
-        getUserProperty(id: userID, byUser: userID)
+        getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
         postButton.isHidden = false
     }
     
     @objc private func showLikedProperty(_ notification: NSNotification) {
-        getLikedProperty(id: userID)
+        getLikedProperty(id: UserManager.shared.userID)
         postButton.isHidden = true
     }
     
@@ -254,9 +269,8 @@ class ProfileViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "登出", style: .destructive, handler: { [weak self] _ in
             self?.signOut()
         }))
-        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { [weak self]
-            _ in
-            ProfileProvider.shared.deleteAccount(userId: userID)
+        alertController.addAction(UIAlertAction(title: "刪除", style: .destructive, handler: { [weak self] _ in
+            ProfileProvider.shared.deleteAccount(userId: UserManager.shared.userID)
             self?.signOut()
         }))
         alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
@@ -301,7 +315,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func postBlockData() {
-        DetailDataProvider.shared.postBlockData(userId: userID, blockId: propertyOwnerId) { [weak self] result in
+        DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: propertyOwnerId) { [weak self] result in
             if result == "" {
                 self?.navigationController?.popToRootViewController(animated: true)
 //                self?.dismiss(animated: true, completion: nil)
@@ -315,7 +329,7 @@ class ProfileViewController: UIViewController {
     private func signOut() {
         do {
             try Auth.auth().signOut()
-            userID = ""
+            UserManager.shared.userID = ""
             self.view.makeToast("登出成功", duration: 0.5, position: .center)
             // Sign out back to login vc
             backToLoginView()
@@ -363,12 +377,12 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         let uploadDate = Date()
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "SSSSSS"
         let uploadTimestamp = Int(uploadDate.timeIntervalSince1970)
-        let storageRefPath = userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
+        let storageRefPath = UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // Image Labeling
@@ -382,11 +396,11 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 
                 let imageUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL
                 guard let imgUrl = imageUrl else { return }
-                PhotoVideoManager.shared.uploadImageVideo(url: String(describing: imgUrl), child: storageRefPathWithTag) { [weak self] result in
+                PhotoVideoManager.shared.uploadFileFromIo(url: String(describing: imgUrl), child: storageRefPathWithTag) { [weak self] result in
                     if result == "" {
                         self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
-                        self?.getUserInfo(id: userID)
-                        self?.getUserProperty(id: userID, byUser: userID)
+                        self?.getUserInfo(id: UserManager.shared.userID)
+                        self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
                     } else {
                         self?.view.makeToast("失敗", duration: 0.5, position: .center)
                     }
@@ -397,27 +411,37 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         if let mediaUrl = info[.mediaURL] as? URL {
             // Upload video file
             let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
-            PhotoVideoManager.shared.uploadImageVideo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
+            PhotoVideoManager.shared.uploadFileFromIo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
                 if result == "" {
                     self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
-                    self?.getUserInfo(id: userID)
-                    self?.getUserProperty(id: userID, byUser: userID)
                 } else {
                     self?.view.makeToast("失敗", duration: 0.5, position: .center)
                 }
             }
+            // Extract frame from video
+            PhotoVideoManager.shared.getImageFromVideo(url: mediaUrl, at: TimeInterval(uploadTimestamp)) { image in
+                let storageRefImagePath = "videoimage_" + UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
+                guard let image = image else { return }
+                PhotoVideoManager.shared.uploadFileFromMemory(image: image, child: storageRefImagePath) { result in
+                    if result == "" {
+                        print("extra frame from video success")
+                    } else {
+                        print("extra frame from video falil")
+                    }
+                }
+            }
             
             // Convert video type to GIF
-            let storageRefGifPath = "thumbnail_" + userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
+            let storageRefGifPath = "thumbnail_" + UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
             GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
                 switch result {
                 case .success(let urlOfGIF):
                     // Upload GIF file
-                    PhotoVideoManager.shared.uploadImageVideo(url: urlOfGIF, child: storageRefGifPath) { [weak self] result in
+                    PhotoVideoManager.shared.uploadFileFromIo(url: urlOfGIF, child: storageRefGifPath) { [weak self] result in
                         if result == "" {
                             self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
-                            self?.getUserInfo(id: userID)
-                            self?.getUserProperty(id: userID, byUser: userID)
+                            self?.getUserInfo(id: UserManager.shared.userID)
+                            self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
                         } else {
                             self?.view.makeToast("失敗", duration: 0.5, position: .center)
                         }
@@ -490,7 +514,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             title: "提示",
             message: "你確定要刪除這張圖片嗎",
             preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "確定", style: .default, handler: { (action: UIAlertAction!) -> Void in
+        let okAction = UIAlertAction(title: "確定", style: .default, handler: { (_: UIAlertAction!) -> Void in
             guard let indexPath = self.profileView.indexPathForItem(at: index ?? CGPoint()) else { return }
             // delete image from local
             self.propertyImages.remove(at: indexPath.row)
@@ -512,10 +536,13 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         
         let okAction = UIAlertAction(title: "完成", style: .default) { [unowned controller] _ in
-            let displayName = controller.textFields?[0].text
-            
-            ProfileProvider.shared.putModifyUserInfo(userID: userID, name: displayName ?? userID)
-            self.displayName = displayName
+            if controller.textFields?[0].text == "" {
+                self.view.makeToast("名字不可為空哦", duration: 1.0, position: .center)
+            } else {
+                let displayName = controller.textFields?[0].text
+                ProfileProvider.shared.putModifyUserInfo(userID: UserManager.shared.userID, name: displayName ?? UserManager.shared.userID)
+                self.displayName = displayName
+            }
         }
         
         controller.view.tintColor = UIColor.black
@@ -578,13 +605,9 @@ extension ProfileViewController {
         // iPad specific code
         if UIDevice.current.userInterfaceIdiom == .pad {
             cameraActionSheet.popoverPresentationController?.sourceView = self.view
-            
             let xOrigin = self.view.bounds.width / 2
-            
             let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-            
             cameraActionSheet.popoverPresentationController?.sourceRect = popoverRect
-            
             cameraActionSheet.popoverPresentationController?.permittedArrowDirections = .up
         }
         

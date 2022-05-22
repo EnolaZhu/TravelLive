@@ -24,6 +24,7 @@ class MapViewController: UIViewController {
     let placeButton = UIButton()
     let eventButton = UIButton()
     let streamButton = UIButton()
+    let videoButton = UIButton()
     
     var avater = UIImage()
     var streamerData: StreamerDataObject?
@@ -35,7 +36,6 @@ class MapViewController: UIViewController {
     var url = String()
     var longitude = CLLocationDegrees(MapViewController.defaultLongitude)
     var latitude = CLLocationDegrees(MapViewController.defaultLatitude)
-    var currentLocation: CLLocation!
     var showTypeOfMarker = String()
     var isButtonSelected = false
     var isLocationUpdated = false
@@ -52,6 +52,7 @@ class MapViewController: UIViewController {
         setUpStreamButton()
         setUpPlaceButton()
         setUpEventButton()
+        setUpVideoButton()
         
         if CLLocationManager.authorizationStatus() == .denied {
             DispatchQueue.main.async { [self] in
@@ -84,6 +85,7 @@ class MapViewController: UIViewController {
         placeButton.addTarget(self, action: #selector(getPlaceData), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(getEventData), for: .touchUpInside)
         streamButton.addTarget(self, action: #selector(getStreamerData), for: .touchUpInside)
+        videoButton.addTarget(self, action: #selector(showVideos), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -150,13 +152,30 @@ class MapViewController: UIViewController {
         )
     }
     
+    private func setUpVideoButton() {
+        view.addSubview(videoButton)
+        videoButton.setImage(UIImage.asset(.video), for: .normal)
+        videoButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [videoButton.widthAnchor.constraint(equalToConstant: 42),
+             videoButton.heightAnchor.constraint(equalToConstant: 42),
+             videoButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+             videoButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15)]
+        )
+    }
+    
     private func setUpButtons() {
         setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
         setUpButtonBasicColor(eventButton, UIImage.asset(.event)!, color: UIColor.secondary)
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.primary)
     }
     
-   
+    @objc func showVideos(_ sender: UIButton) {
+        let videoWallVC = UIStoryboard.videoWall.instantiateViewController(withIdentifier: String(describing: VideoWallViewController.self)
+        )
+        guard let videoVC = videoWallVC as? VideoWallViewController else { return }
+        show(videoVC, sender: nil)
+    }
     
     @objc func getStreamerData(_ sender: UIButton) {
         fetchStreamerData()
@@ -174,7 +193,7 @@ class MapViewController: UIViewController {
 //        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: MapViewController.defaultZoom)
 //        mapView.camera = camera
         
-        mapDataProvider.fetchStreamerInfo(userid: userID, latitude: latitude, longitude: longitude) { [weak self] result in
+        mapDataProvider.fetchStreamerInfo(userid: UserManager.shared.userID, latitude: latitude, longitude: longitude) { [weak self] result in
             switch result {
                 
             case .success(let user):
@@ -251,7 +270,7 @@ class MapViewController: UIViewController {
         mapView.animate(toZoom: 10.0)
         showTypeOfMarker = "place"
         
-        mapDataProvider.fetchPlaceInfo(latitude: latitude ?? Double(), longitude: longitude ?? Double(), limit: 10) { [weak self] result in
+        mapDataProvider.fetchPlaceInfo(latitude: latitude, longitude: longitude, limit: 10) { [weak self] result in
             switch result {
                 
             case .success(let places):
@@ -286,12 +305,7 @@ class MapViewController: UIViewController {
         
         marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
         var rect = CGRect()
-        
-        if isStreamer {
-            rect = CGRect(x: 0, y: 0, width: 100, height: 100)
-        } else {
-            rect = CGRect(x: 0, y: 0, width: 100, height: 100)
-        }
+        rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         
         let imageView = UIImageView(frame: rect)
         imageView.layer.cornerRadius = imageView.frame.size.width / 2

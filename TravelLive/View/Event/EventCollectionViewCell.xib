@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,18 +20,37 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Yf-Gg-Sal">
                         <rect key="frame" x="0.0" y="0.0" width="189" height="269"/>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="huI-z8-alR">
+                        <rect key="frame" x="18" y="233.5" width="39.5" height="19.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pqc-oa-ra8">
+                        <rect key="frame" x="18" y="200.5" width="44" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
+                <constraint firstItem="huI-z8-alR" firstAttribute="top" secondItem="pqc-oa-ra8" secondAttribute="bottom" constant="12" id="7Cs-Ko-bhV"/>
+                <constraint firstItem="pqc-oa-ra8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="18" id="B4T-gq-m00"/>
                 <constraint firstAttribute="trailing" secondItem="0Yf-Gg-Sal" secondAttribute="trailing" id="EdA-pJ-XSo"/>
                 <constraint firstAttribute="bottom" secondItem="0Yf-Gg-Sal" secondAttribute="bottom" id="FPs-KO-eWH"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="huI-z8-alR" secondAttribute="trailing" constant="18" id="GU4-Uv-ToA"/>
+                <constraint firstAttribute="bottom" secondItem="huI-z8-alR" secondAttribute="bottom" constant="16" id="V4I-rM-HVP"/>
                 <constraint firstItem="0Yf-Gg-Sal" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="cNv-jD-UrB"/>
+                <constraint firstItem="huI-z8-alR" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="18" id="cYf-bF-AmI"/>
                 <constraint firstItem="0Yf-Gg-Sal" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dLZ-8H-YNE"/>
             </constraints>
             <size key="customSize" width="189" height="269"/>
             <connections>
                 <outlet property="eventImageView" destination="0Yf-Gg-Sal" id="UQx-Er-7sb"/>
+                <outlet property="locationLabel" destination="huI-z8-alR" id="4st-9f-Iux"/>
+                <outlet property="titleLabel" destination="pqc-oa-ra8" id="Lse-3e-Zir"/>
             </connections>
             <point key="canvasLocation" x="238.40579710144928" y="189.17410714285714"/>
         </collectionViewCell>

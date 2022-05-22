@@ -24,6 +24,7 @@ struct SearchData: Decodable {
     var thumbnailUrl: String
     var timestamp: String
     var avatar: String
+    var videoImageUrl: String
     
     enum CodingKeys: String, CodingKey {
         case name, tag, type, format, timestamp, avatar
@@ -31,5 +32,6 @@ struct SearchData: Decodable {
         case thumbnailUrl = "thumbnail_url"
         case propertyId = "id"
         case ownerId = "uid"
+        case videoImageUrl = "videoimage_url"
     }
 }

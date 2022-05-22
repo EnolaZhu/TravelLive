@@ -15,7 +15,7 @@ class ImageManager {
         imageView.kf.setImage(with: URL(string: url))
     }
     
-    func downloadImage(isAvatar: Bool, with urlString : String, imageCompletionHandler: @escaping (UIImage?) -> Void) {
+    func downloadImage(isAvatar: Bool, with urlString: String, imageCompletionHandler: @escaping (UIImage?) -> Void) {
         guard let url = URL.init(string: urlString) else {
             return  imageCompletionHandler(nil)
         }

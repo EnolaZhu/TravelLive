@@ -131,7 +131,7 @@ class LoginViewController: UIViewController {
             }, onError: { error in
                 print(error)
             }, onCompleted: {
-                if userID == "" {
+                if UserManager.shared.userID == "" {
                     self.createContainerView()
                     return
                 } else {
@@ -223,7 +223,7 @@ class LoginViewController: UIViewController {
     
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
-        let charset: Array<Character> = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         var result = ""
         var remainingLength = length
         
@@ -336,7 +336,7 @@ extension LoginViewController {
                 self.view.makeToast("授權失敗", duration: 0.5, position: .center)
                 return
             }
-            userID = (authResult?.user.uid)!
+            UserManager.shared.userID = (authResult?.user.uid)!
             self.getFirebaseUserInfo()
             self.showMainView()
         }
@@ -345,9 +345,9 @@ extension LoginViewController {
     // MARK: - Firebase 取得登入使用者的資訊
     func getFirebaseUserInfo() {
         let currentUser = Auth.auth().currentUser
-        let userid = currentUser?.uid ?? userID
-        userID = userid
-        ProfileProvider.shared.postUserInfo(userID: userid, name: fullName ?? userID)
+        let userid = currentUser?.uid ?? UserManager.shared.userID
+        UserManager.shared.userID = userid
+        ProfileProvider.shared.postUserInfo(userID: userid, name: fullName ?? UserManager.shared.userID)
     }
 }
 

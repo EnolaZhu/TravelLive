@@ -22,7 +22,7 @@ public class CropViewController: UIViewController {
         button.setTitle("Back", for: .normal)
         button.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(backClick), for: .touchUpInside)
+        button.addTarget(CropViewController.self, action: #selector(backClick), for: .touchUpInside)
         button.layer.cornerRadius = 8
         return button
     }()
@@ -32,7 +32,7 @@ public class CropViewController: UIViewController {
         button.setTitle("Crop Image", for: .normal)
         button.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(okClick), for: .touchUpInside)
+        button.addTarget(CropViewController.self, action: #selector(okClick), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 20
         return button
@@ -150,10 +150,6 @@ extension CropViewController: UIScrollViewDelegate {
     public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
-
-    public func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        //need empty implementation for zooming
-    }
 }
 
 extension UIImage {
@@ -183,4 +179,3 @@ extension UIImage {
         return result
     }
 }
-

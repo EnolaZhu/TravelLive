@@ -10,19 +10,18 @@ import GoogleMaps
 import Firebase
 import UserNotifications
 import GoogleMobileAds
+import TXLiteAVSDK_Professional
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    
-    
+        
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         GMSServices.provideAPIKey(Secret.googleMapApiKey.title)
         
         UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in
         }
         UIApplication.shared.registerForRemoteNotifications()
         
@@ -39,10 +38,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if let user = Auth.auth().currentUser {
-            userID = "\(user.uid)"
+            UserManager.shared.userID = "\(user.uid)"
         }
         
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+        V2TXLivePremier.setLicence(Secret.liveLicenceUrl.title, key: Secret.liveLicenceKey.title)
         return true
     }
     

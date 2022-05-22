@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol GridLayoutDelegate: class {
+protocol GridLayoutDelegate: AnyObject {
     func scaleForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> UInt
     func itemFlexibleDimension(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, fixedDimension: CGFloat) -> CGFloat
     func headerFlexibleDimension(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, fixedDimension: CGFloat) -> CGFloat
@@ -60,13 +60,13 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
 
     /// This represents a 2 dimensional array for each section, indicating whether each block in the grid is occupied
     /// It is grown dynamically as needed to fit every item into a grid
-    private var sectionedItemGrid: Array<Array<Array<Bool>>> = []
+    private var sectionedItemGrid: [[[Bool]]] = []
 
     /// The cache built up during the `prepare` function
-    private var itemAttributesCache: Array<UICollectionViewLayoutAttributes> = []
+    private var itemAttributesCache: [UICollectionViewLayoutAttributes] = []
 
     /// The header cache built up during the `prepare` function
-    private var headerAttributesCache: Array<UICollectionViewLayoutAttributes> = []
+    private var headerAttributesCache: [UICollectionViewLayoutAttributes] = []
 
     /// A convenient tuple for working with items
     private typealias ItemFrame = (section: Int, flexibleIndex: Int, fixedIndex: Int, scale: Int)
@@ -160,7 +160,7 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
                     }
                 }
 
-                if (didFitInOriginalFrame) {
+                if didFitInOriginalFrame {
                     fixedIndex += 1 + itemFrame.scale
                 }
             }

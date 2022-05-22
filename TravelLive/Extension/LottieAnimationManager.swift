@@ -43,7 +43,7 @@ class LottieAnimationManager {
     // Show lottie animation on button
     func showLoadingAnimation(view: UIView, name: String) {
         let animationView = AnimationView(name: name)
-        showLoadingAnimation(animationView: animationView, view: view, name: name, width: 80, height: 80)
+        showLoadingAnimation(animationView: animationView, view: view, name: name, width: 90, height: 90)
     }
     
     func showLoadingAnimation(animationView: AnimationView, view: UIView, name: String) {

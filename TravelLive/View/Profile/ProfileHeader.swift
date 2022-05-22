@@ -50,7 +50,7 @@ class ProfileHeader: UICollectionReusableView {
         changePropertySegment.selectedSegmentIndex = 0
         changePropertySegment.selectedSegmentTintColor = UIColor.primary
         
-        changePropertySegment.subviews.flatMap{ $0.subviews }.forEach { subview in
+        changePropertySegment.subviews.flatMap { $0.subviews }.forEach { subview in
             if let imageView = subview as? UIImageView, imageView.frame.width > 5 {
                 imageView.contentMode = .scaleAspectFill
                 imageView.clipsToBounds = true
