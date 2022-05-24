@@ -91,6 +91,8 @@ enum AuthText {
     case noResponse
     case noHandle
     case noReason
+    case noFound
+    case noSequence
     
     var text: String {
         switch self {
@@ -104,6 +106,10 @@ enum AuthText {
             return "授權請求未處理"
         case .noReason:
             return "授權失敗，原因不知"
+        case .noFound:
+            return "無法找到識別令牌"
+        case .noSequence:
+            return "無法序列化識別令牌"
         }
     }
 }

@@ -21,7 +21,7 @@ class PhotoVideoManager {
         let riversRef = storageRef.child(child)
         
         _ = riversRef.putFile(from: localFile, metadata: nil) { _, _ in
-            riversRef.downloadURL { (url, error) in
+            riversRef.downloadURL { (_, error) in
                 if error != nil {
                     completion("error")
                 } else {

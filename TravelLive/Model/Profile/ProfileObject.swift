@@ -10,5 +10,4 @@ import Foundation
 struct ProfileObject: Decodable {
     let name: String
     let avatar: String
-    
 }

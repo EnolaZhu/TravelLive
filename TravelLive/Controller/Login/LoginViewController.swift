@@ -200,7 +200,7 @@ class LoginViewController: UIViewController {
     
     @objc func redirectNewPage(_ notification: NSNotification) {
         if notification.userInfo?.keys.contains("live") != nil {
-            let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
+            let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: "\(PullStreamingViewController.self)"
             )
             guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
             pullVC.streamingUrl = "\(notification.userInfo?["live"] ?? "")"
@@ -278,15 +278,13 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             
-            guard let nonce = currentNonce else {
-                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-            }
+            guard let nonce = currentNonce else { return }
             guard let appleIDToken = appleIDCredential.identityToken else {
-                self.view.makeToast("無法找到識別令牌", duration: 0.5, position: .center)
+                self.view.makeToast(AuthText.noFound.text, duration: 0.5, position: .center)
                 return
             }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                self.view.makeToast("無法序列化識別令牌", duration: 0.5, position: .center)
+                self.view.makeToast(AuthText.noSequence.text, duration: 0.5, position: .center)
                 return
             }
             
@@ -332,7 +330,7 @@ extension LoginViewController {
     func firebaseSignInWithApple(credential: AuthCredential) {
         Auth.auth().signIn(with: credential) { authResult, error in
             guard error == nil else {
-                self.view.makeToast("授權失敗", duration: 0.5, position: .center)
+                self.view.makeToast(AuthText.fail.text, duration: 0.5, position: .center)
                 return
             }
             UserManager.shared.userID = (authResult?.user.uid)!

@@ -40,9 +40,9 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        // check if streamer is streaming by 5s
-        //        postStreamerInfoTimer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
-        pushStreamingManager.createObserver(pushVC: self) //
+        // check if streamer is streaming by 3s
+        postStreamerInfoTimer = Timer.scheduledTimer(timeInterval: TimeInterval(time), target: self, selector: #selector(postPushStreamingInfo), userInfo: nil, repeats: true)
+        pushStreamingManager.createObserver(pushVC: self)
         
         self.navigationController?.isNavigationBarHidden = true
     }
@@ -278,7 +278,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         recordingSeconds += 1
         if recordingSeconds == 10 {
             // Stop timer
-            recordingLimitTimer.invalidate()// better
+            recordingLimitTimer.invalidate()
             
             RecordManager.record.stopRecording(recorder, self) { [weak self] result in
                 // 增加停止提醒

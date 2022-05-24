@@ -44,9 +44,9 @@ class EventViewController: UIViewController {
     }
     
     private func setupTableView() {
-        let nib = UINib(nibName: String(describing: EventTableViewCell.self), bundle: nil)
+        let nib = UINib(nibName: "\(EventTableViewCell.self)", bundle: nil)
         
-        eventTableView.register(nib, forCellReuseIdentifier: String(describing: EventTableViewCell.self))
+        eventTableView.register(nib, forCellReuseIdentifier: "\(EventTableViewCell.self)")
         eventTableView.dataSource = self
         eventTableView.delegate = self
         
@@ -96,7 +96,7 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: EventTableViewCell.self)) as? EventTableViewCell else {
+        guard let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: "\(EventTableViewCell.self)") as? EventTableViewCell else {
             return UITableViewCell()
         }
         

@@ -27,9 +27,11 @@ extension NibOwnerLoadable where Self: UIView {
         }
         self.addSubview(contentView)
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        contentView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        contentView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            contentView.rightAnchor.constraint(equalTo: rightAnchor),
+            contentView.leftAnchor.constraint(equalTo: leftAnchor),
+            contentView.topAnchor.constraint(equalTo: topAnchor)
+        ])
     }
 }

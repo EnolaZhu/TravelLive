@@ -108,7 +108,6 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
             if result == "" {
                 self.fetchVideoData(userId: UserManager.shared.userID, tag: nil)
                 self.tableView.reloadData()
-//                self?.navigationController?.popToRootViewController(animated: true)
             } else {
                 self.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
             }

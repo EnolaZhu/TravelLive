@@ -34,7 +34,6 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         
         setUpTableView()
         setUpSubview()
-        //        setGestureOnCell()
         
         if isFromProfile {
             getOwnerAvatar(avatarUrl ?? "")
@@ -138,8 +137,8 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         detailTableView.separatorStyle = .none
         detailTableView.backgroundColor = UIColor.backgroundColor
         
-        detailTableView.registerCellWithNib(identifier: String(describing: DetailViewImageCell.self), bundle: nil)
-        detailTableView.registerCellWithNib(identifier: String(describing: DetailViewCommentCell.self), bundle: nil)
+        detailTableView.registerCellWithNib(identifier: "\(DetailViewImageCell.self)", bundle: nil)
+        detailTableView.registerCellWithNib(identifier: "\(DetailViewCommentCell.self)", bundle: nil)
     }
     
     private func setUpSubview() {
@@ -158,7 +157,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
                 LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
                 self?.detailTableView.reloadData()
                 
-            case .failure(let error):
+            case .failure:
                 self?.view.makeToast("獲取評論失敗", duration: 1.0, position: .center)
             }
         }
@@ -203,7 +202,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewImageCell.self), for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailViewImageCell.self)", for: indexPath)
             guard let imageCell = cell as? DetailViewImageCell else { return cell }
             
             imageCell.backgroundColor = UIColor.backgroundColor
@@ -227,7 +226,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             
             return imageCell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: DetailViewCommentCell.self), for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailViewCommentCell.self)", for: indexPath)
             guard let commentCell = cell as? DetailViewCommentCell else { return cell }
             commentCell.backgroundColor = UIColor.backgroundColor
             commentCell.selectionStyle = .default
@@ -257,7 +256,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc private func avatarTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let profileViewController = UIStoryboard.profile.instantiateViewController(withIdentifier: String(describing: ProfileViewController.self)
+        let profileViewController = UIStoryboard.profile.instantiateViewController(withIdentifier: "\( ProfileViewController.self)"
         )
         guard let profileVC = profileViewController as? ProfileViewController else { return }
         profileVC.propertyOwnerId = detailData?.ownerId ?? ""

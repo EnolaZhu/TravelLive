@@ -31,6 +31,7 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
             mapDetailTableView.dataSource = self
         }
     }
+    private let noData = "暫無資料"
     var detailEventData: Event?
     var detailPlaceData: Place?
     lazy var header = StretchyTableHeaderView()
@@ -42,7 +43,6 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         setUpView()
         setUpMaskView()
         setUpHeader()
-        addGestureOnMaskView()
         
         // Setting navigationbar back button color
         navigationController?.navigationBar.tintColor = UIColor.primary
@@ -68,12 +68,6 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
             maskView.leftAnchor.constraint(equalTo: view.leftAnchor),
             maskView.topAnchor.constraint(equalTo: view.topAnchor)
         ])
-    }
-    
-    private func addGestureOnMaskView() {
-        let tapMapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(mapTapped(tapGestureRecognizer:)))
-        maskView.addGestureRecognizer(tapMapGestureRecognizer)
-        maskView.isUserInteractionEnabled = true
     }
     
     private func setUpView() {
@@ -134,9 +128,9 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         guard let placeEventViewTitleCell = cell as? PlaceEventViewTitleCell else { return }
         
         if detailPlaceData == nil {
-            placeEventViewTitleCell.layoutCell(title: detailEventData?.title ?? "暫無")
+            placeEventViewTitleCell.layoutCell(title: detailEventData?.title ?? noData)
         } else {
-            placeEventViewTitleCell.layoutCell(title: detailPlaceData?.title ?? "暫無")
+            placeEventViewTitleCell.layoutCell(title: detailPlaceData?.title ?? noData)
         }
     }
     
@@ -144,9 +138,9 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         guard let placeEventViewLocationCell = cell as? PlaceEventViewLocationCell else { return }
         
         if detailPlaceData == nil {
-            placeEventViewLocationCell.layoutCell(title: detailEventData?.city ?? "暫無資料", detail: detailEventData?.address ?? "暫無資料")
+            placeEventViewLocationCell.layoutCell(title: detailEventData?.city ?? noData, detail: detailEventData?.address ?? noData)
         } else {
-            placeEventViewLocationCell.layoutCell(title: detailPlaceData?.city ?? "暫無資料", detail: detailPlaceData?.distric ?? "暫無資料")
+            placeEventViewLocationCell.layoutCell(title: detailPlaceData?.city ?? noData, detail: detailPlaceData?.distric ?? noData)
         }
     }
     
@@ -154,9 +148,9 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         guard let placeEventViewContentCell = cell as? PlaceEventViewContentCell else { return }
         
         if detailPlaceData == nil {
-            placeEventViewContentCell.layoutCell(content: detailEventData?.content ?? "暫無資料")
+            placeEventViewContentCell.layoutCell(content: detailEventData?.content ?? noData)
         } else {
-            placeEventViewContentCell.layoutCell(content: detailPlaceData?.content ?? "暫無資料")
+            placeEventViewContentCell.layoutCell(content: detailPlaceData?.content ?? noData)
         }
     }
     
@@ -164,9 +158,9 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         guard let placeEventViewReuseCell = cell as? PlaceEventViewReuseCell else { return }
         
         if detailPlaceData == nil {
-            placeEventViewReuseCell.layoutCell(start: detailEventData?.start ?? " 暫無資料", end: detailEventData?.end ?? " 暫無資料")
+            placeEventViewReuseCell.layoutCell(start: detailEventData?.start ?? noData, end: detailEventData?.end ?? noData)
         } else {
-            placeEventViewReuseCell.layoutCell(start: detailPlaceData?.start ?? " 暫無資料", end: detailPlaceData?.end ?? " 暫無資料")
+            placeEventViewReuseCell.layoutCell(start: detailPlaceData?.start ?? noData, end: detailPlaceData?.end ?? noData)
         }
     }
     
@@ -190,7 +184,7 @@ extension MapDetailViewController: UITableViewDataSource, GMSMapViewDelegate {
     func createMapView(latitude: Float, longitude: Float) {
         let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude), zoom: 16.0)
         let mapView = GMSMapView.map(withFrame: CGRect.init(x: 0, y: 0, width: UIScreen.width, height: 250), camera: camera)
-        // Using map as footerview
+        // using map as footerview
         mapDetailTableView.tableFooterView = mapView
         
         let marker = GMSMarker()

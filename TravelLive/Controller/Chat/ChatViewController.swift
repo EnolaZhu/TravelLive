@@ -112,7 +112,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     }
     
     private func setupChatView() {
-        chatView.registerCellWithNib(identifier: String(describing: MessageCell.self), bundle: nil)
+        chatView.registerCellWithNib(identifier: "\(MessageCell.self)", bundle: nil)
         sendButton.tintColor = UIColor.primary
         sendButton.setImage(UIImage.asset(.send)?.maskWithColor(color: UIColor.primary), for: .normal)
         caption.backgroundColor = UIColor.primary
@@ -153,7 +153,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
             switch result {
             case .success(let data):
                 self?.userDisplayName = data.name
-            case .failure(let error):
+            case .failure:
                 self?.view.makeToast("失敗，請稍後再試", duration: 0.5, position: .center)
             }
         }
@@ -216,7 +216,7 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MessageCell.self), for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "\(MessageCell.self)", for: indexPath)
         guard let messageCell = cell as? MessageCell else { return cell }
         messageCell.userNameLabel.text = messages[indexPath.row].username
         messageCell.messageLabel.text = messages[indexPath.row].message

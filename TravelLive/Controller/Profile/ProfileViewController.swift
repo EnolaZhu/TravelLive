@@ -15,7 +15,6 @@ import Lottie
 
 class ProfileViewController: UIViewController {
     
-    //    @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var profileView: UICollectionView!
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
@@ -168,7 +167,7 @@ class ProfileViewController: UIViewController {
                     self?.avatarImage = image
                     self?.profileView.reloadData()
                 }
-            case .failure(let error):
+            case .failure:
                 self?.view.makeToast("失敗，請稍後再試。", duration: 1, position: .center)
             }
         }
@@ -296,9 +295,8 @@ class ProfileViewController: UIViewController {
         DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: propertyOwnerId) { [weak self] result in
             if result == "" {
                 self?.navigationController?.popToRootViewController(animated: true)
-//                self?.dismiss(animated: true, completion: nil)
             } else {
-                self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                self?.view.makeToast(BlockText.blockFail.text, duration: 0.5, position: .center)
             }
         }
     }
@@ -317,7 +315,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func backToLoginView() {
-        let loginViewController = UIStoryboard.main.instantiateViewController(withIdentifier: String(describing: LoginViewController.self)) as? LoginViewController
+        let loginViewController = UIStoryboard.main.instantiateViewController(withIdentifier: "\( LoginViewController.self)") as? LoginViewController
         guard let loginVC = loginViewController else { return }
         loginVC.modalPresentationStyle = .fullScreen
         present(loginVC, animated: false)
@@ -326,7 +324,7 @@ class ProfileViewController: UIViewController {
     @objc private func postImage(_ sender: UIButton) {
         imagePickerController.delegate = self
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            // 如果可以，指定 UIImagePickerController 的照片來源為 照片圖庫 (.photoLibrary)，並 present UIImagePickerController
+            
             imagePickerController.sourceType = .photoLibrary
             if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
                 imagePickerController.mediaTypes = mediaTypes
@@ -335,21 +333,15 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    //    @objc private func hideBanner(_ button: UIButton) {
-    //        bannerView.isHidden = true
-    //    }
-    
     private func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
-        // Create the temporary directory.
+        // create the temporary directory.
         let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         // create a temporary file for us to copy the video to.
         let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent(url.lastPathComponent ?? "")
-        // Attempt the copy.
+        // attempt the copy.
         do {
             try FileManager().copyItem(at: url.absoluteURL!, to: temporaryFileURL)
-        } catch {
-            print("There was an error copying the video file to the temporary location.")
-        }
+        } catch { }
         return temporaryFileURL as NSURL
     }
 }
@@ -363,7 +355,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         let storageRefPath = UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            // Image Labeling
+            // image Labeling
             ImageLabelingManager.shared.getImageLabel(inputImage: pickedImage) { [weak self] data in
                 var result = String()
                 for index in 0..<data.count {
@@ -430,7 +422,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     // Set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { return UICollectionReusableView() }
         
         if isFromOther {
             header.changePropertySegment.isHidden = true
@@ -438,7 +430,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         
         if displayName == nil {
-            header.layoutProfileHeader(avatar: (avatarImage ?? UIImage(named: "placeholder"))!, displayName: "")
+            header.layoutProfileHeader(avatar: (avatarImage ?? UIImage(named: "placeholder"))!, displayName: displayName ?? "")
         } else {
             header.layoutProfileHeader(avatar: (avatarImage ?? UIImage(named: "placeholder"))!, displayName: displayName ?? "")
         }
@@ -451,11 +443,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProfileCollectionCell.self), for: indexPath) as? ProfileCollectionCell else {
-            fatalError("Couldn't create cell")
-        }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ProfileCollectionCell.self)", for: indexPath) as? ProfileCollectionCell else { return UICollectionViewCell() }
         // Placeholder
-        cell.layoutCell(image: UIImage(named: "placeholder") ?? UIImage())
+        cell.layoutCell(image: UIImage.asset(.placeholder) ?? UIImage())
         // ImageView gesture
         let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         if isFromOther {
@@ -466,7 +456,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.profileImageView.addGestureRecognizer(tapGestureRecognizer)
         
         if propertyImages.isEmpty {
-            cell.layoutCell(image: UIImage(named: "placeholder") ?? UIImage())
+            cell.layoutCell(image: UIImage.asset(.placeholder) ?? UIImage())
         } else {
             cell.layoutCell(image: propertyImages[indexPath.row])
         }
@@ -540,7 +530,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = propertyImages[indexPath.item]
         
-        let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: String(describing: DetailViewController.self)
+        let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: "\(DetailViewController.self)"
         )
         guard let detailVC = detailTableViewVC as? DetailViewController else { return }
         
