@@ -12,8 +12,6 @@ class NotificationManager {
     
     func subscribeTopic(topic: String) {
         // Make user subscribe topic
-        Messaging.messaging().subscribe(toTopic: topic) { _ in
-            print("Subscribed to \(topic)")
-        }
+        Messaging.messaging().subscribe(toTopic: topic) { _ in}
     }
 }

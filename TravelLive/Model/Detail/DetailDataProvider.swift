@@ -58,13 +58,6 @@ class DetailDataProvider {
     func postLike(propertyId: String, userId: String, isLiked: Bool) {
         let body = LikeBody(propertyId: propertyId, userId: userId, isLiked: isLiked)
         let request = DataRequest.postLike(body: try? JSONEncoder().encode(body))
-        HTTPClient.shared.request(request, completion: { data in
-            switch data {
-            case .success:
-                print("Comment successfully")
-            case .failure(let error):
-                print(error)
-            }
-        })
+        HTTPClient.shared.request(request, completion: { _ in })
     }
 }

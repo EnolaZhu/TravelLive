@@ -76,11 +76,6 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         maskView.isUserInteractionEnabled = true
     }
     
-    @objc func mapTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        // handling code
-        print("item")
-    }
-    
     private func setUpView() {
         mapDetailTableView.separatorStyle = .none
         mapDetailTableView.backgroundColor = UIColor.backgroundColor

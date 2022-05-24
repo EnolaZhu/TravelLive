@@ -169,7 +169,6 @@ class ProfileViewController: UIViewController {
                     self?.profileView.reloadData()
                 }
             case .failure(let error):
-                print(error)
                 self?.view.makeToast("失敗，請稍後再試。", duration: 1, position: .center)
             }
         }
@@ -309,11 +308,11 @@ class ProfileViewController: UIViewController {
         do {
             try Auth.auth().signOut()
             UserManager.shared.userID = ""
-            self.view.makeToast("登出成功", duration: 0.5, position: .center)
+            view.makeToast("登出成功", duration: 0.5, position: .center)
             // Sign out back to login vc
             backToLoginView()
         } catch {
-            print(error)
+            view.makeToast("登出失敗", duration: 0.5, position: .center)
         }
     }
     
@@ -401,13 +400,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             PhotoVideoManager.shared.getImageFromVideo(url: mediaUrl, at: TimeInterval(uploadTimestamp)) { image in
                 let storageRefImagePath = "videoimage_" + UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
                 guard let image = image else { return }
-                PhotoVideoManager.shared.uploadFileFromMemory(image: image, child: storageRefImagePath) { result in
-                    if result == "" {
-                        print("extra frame from video success")
-                    } else {
-                        print("extra frame from video falil")
-                    }
-                }
+                PhotoVideoManager.shared.uploadFileFromMemory(image: image, child: storageRefImagePath) { _ in }
             }
             
             // Convert video type to GIF

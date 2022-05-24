@@ -35,7 +35,6 @@ class RecordManager {
                 guard let previewViewController = previewViewController else { return }
                 completion(Result.success(previewViewController))
             } else if let error = error {
-                print(error.localizedDescription)
                 completion(Result.failure(error))
             }
         })

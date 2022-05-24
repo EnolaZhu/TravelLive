@@ -22,7 +22,6 @@ class PhotoVideoManager {
         
         _ = riversRef.putFile(from: localFile, metadata: nil) { _, _ in
             riversRef.downloadURL { (url, error) in
-                print("\(String(describing: url))")
                 if error != nil {
                     completion("error")
                 } else {
@@ -38,7 +37,6 @@ class PhotoVideoManager {
         
         _ = riversRef.putData(data, metadata: nil) { _, _ in
             riversRef.downloadURL { (url, _) in
-                print("\(String(describing: url))")
                 if url == nil {
                     completion("error")
                 } else {
@@ -61,7 +59,6 @@ class PhotoVideoManager {
             do {
                 thumbnailImageRef = try assetIG.copyCGImage(at: cmTime, actualTime: nil)
             } catch let error {
-                print("Error: \(error)")
                 return completion(nil)
             }
 

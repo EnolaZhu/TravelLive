@@ -149,7 +149,7 @@ extension EventCollectionViewController: UICollectionViewDelegateFlowLayout {
                 }
 
             case .failure(let error):
-                print(error)
+                self?.view.makeToast("獲取景點資料失敗", duration: 0.5, position: .center)
             }
         }
     }

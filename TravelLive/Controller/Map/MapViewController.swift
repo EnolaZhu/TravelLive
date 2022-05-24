@@ -189,9 +189,6 @@ class MapViewController: UIViewController {
     private func fetchStreamerData() {
         mapView.clear()
         showTypeOfMarker = "streamer"
-//        mapView.camera
-//        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: MapViewController.defaultZoom)
-//        mapView.camera = camera
         
         mapDataProvider.fetchStreamerInfo(userid: UserManager.shared.userID, latitude: latitude, longitude: longitude) { [weak self] result in
             switch result {
@@ -254,7 +251,7 @@ class MapViewController: UIViewController {
                     }
                 }
             case .failure:
-                print("Failed")
+                self?.view.makeToast("獲取活動資料失敗", duration: 1.0, position: .center)
             }
         }
     }
@@ -288,7 +285,7 @@ class MapViewController: UIViewController {
                     }
                 }
             case .failure:
-                print("Failed")
+                self?.view.makeToast("獲取景點資料失敗", duration: 2.0, position: .center)
             }
         }
     }

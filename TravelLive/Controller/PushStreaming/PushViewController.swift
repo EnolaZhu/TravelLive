@@ -372,12 +372,10 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     }
     
     private func deletePushStreaming() {
-        pushStreamingProvider.deletePushStreamingInfo(streamerId: UserManager.shared.userID) { _ in
-            print("delete success") //
-        }
+        pushStreamingProvider.deletePushStreamingInfo(streamerId: UserManager.shared.userID) { _ in }
     }
     
-    private func startLive(_ url: String) { //
+    private func startLive(_ url: String) {
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setCategory(.playAndRecord, options: .defaultToSpeaker)

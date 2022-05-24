@@ -129,7 +129,7 @@ class LoginViewController: UIViewController {
                     }
                 }
             }, onError: { error in
-                print(error)
+                
             }, onCompleted: {
                 if UserManager.shared.userID == "" {
                     self.createContainerView()
@@ -138,7 +138,7 @@ class LoginViewController: UIViewController {
                     self.showMainView()
                 }
             }, onDisposed: {
-                print("observableInterval onDisposed")
+                
             })
             .disposed(by: disposeBag)
     }

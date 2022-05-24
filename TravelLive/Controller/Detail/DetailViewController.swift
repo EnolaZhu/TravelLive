@@ -159,7 +159,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
                 self?.detailTableView.reloadData()
                 
             case .failure(let error):
-                print(error)
+                self?.view.makeToast("獲取評論失敗", duration: 1.0, position: .center)
             }
         }
     }

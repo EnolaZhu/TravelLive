@@ -69,10 +69,8 @@ class ASVideoPlayerController: NSObject, NSCacheDelegate {
             case .loaded:
                     break
             case .failed, .cancelled:
-                    print("Failed to load asset successfully")
                     return
             default:
-                    print("Unkown state of asset")
                     return
             }
             let player = AVPlayer()

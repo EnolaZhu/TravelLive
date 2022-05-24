@@ -15,7 +15,6 @@ class GIFManager {
             let outfileName = String(format: "%@_%@", ProcessInfo.processInfo.globallyUniqueString, "outfile.gif")
             let outfileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(outfileName)
             
-            print("\(outfileURL)")
             let convertQueue = DispatchQueue(label: "convertToGIF")
             convertQueue.async {
                 _ = MobileFFmpeg.execute("-i \(fileURL.path) -vf fps=15,scale=250:-1 \(outfileURL.path)")

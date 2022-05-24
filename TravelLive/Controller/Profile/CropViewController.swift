@@ -181,7 +181,6 @@ extension UIImage {
         let transformedRect = rect.applying(rectTransform)
         let imageRef = cgImage!.cropping(to: transformedRect)!
         let result = UIImage(cgImage: imageRef, scale: scale, orientation: imageOrientation)
-        print("croped Image width and height = \(result.size)")
         return result
     }
 }

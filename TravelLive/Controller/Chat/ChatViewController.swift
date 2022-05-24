@@ -95,9 +95,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
         self.client.publish(["message": "close",
                              "username": "close",
                              "uuid": self.client.uuid()
-                            ], toChannel: channelName) { status in
-            print(status.data.information)
-        }
+                            ], toChannel: channelName) { _ in }
     }
     // swiftlint:disable identifier_name
     private func createCloseAlert() {
@@ -138,9 +136,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
               "uuid": client.uuid()
             ]
             
-            client.publish(messageObject, toChannel: channelName) { status in
-                print(status.data.information)
-            }
+            client.publish(messageObject, toChannel: channelName) { _ in }
             inputTextfield.text = ""
         }
     }
@@ -149,9 +145,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
         client.publish(["message": "heart",
                         "username": "animation",
                         "uuid": client.uuid()
-                       ], toChannel: channelName) { status in
-            print(status.data.information)
-        }
+                       ], toChannel: channelName) { _ in}
     }
     
     private func getUserInfo(id: String) {
@@ -160,7 +154,6 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
             case .success(let data):
                 self?.userDisplayName = data.name
             case .failure(let error):
-                print(error)
                 self?.view.makeToast("失敗，請稍後再試", duration: 0.5, position: .center)
             }
         }
@@ -174,7 +167,6 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
                 LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.fallHeart.title, view: self.view, location: CGRect(x: -20, y: -20, width: Int(UIScreen.width), height: Int(UIScreen.height) + 50))
                 
             } else if theMessage["username"] == "STT" {
-                print("receive = " + (theMessage["message"] ?? ""))
                 if !isFromStreamer {
                     caption.text = theMessage["message"] ?? ""
                 }
@@ -212,9 +204,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
             self.client.publish(["message": message,
                                  "username": "STT",
                                  "uuid": self.client.uuid()
-                                ], toChannel: channelName) { status in
-                print(status.data.information)
-            }
+                                ], toChannel: channelName) { _ in }
             totalTime = 0
         }
     }
