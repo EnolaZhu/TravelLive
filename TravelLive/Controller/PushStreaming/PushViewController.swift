@@ -79,7 +79,6 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         
         LottieAnimationManager.shared.createlottieAnimation(name: "loading", view: self.view, animationSpeed: 4, isRemove: false, theX: Int(UIScreen.width) / 8, theY: Int(UIScreen.height) / 4, width: 400, height: 400)
         
-        // 创建一个 view 对象，并将其嵌入到当前界面中
         pusher.setRenderView(view)
         addPushPreview()
         closeButton.isHidden = false
@@ -120,7 +119,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         requestAccessForVideo()
         requestAccessForAudio()
         
-        //  啟動本地攝像頭預覽
+        //  start local camera preview
         pusher.startCamera(true)
         pusher.startMicrophone()
         
@@ -301,8 +300,6 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     lazy var stateButton: UIButton = {
         let stateLabel = UIButton(frame: CGRect(x: 20, y: 40, width: 80, height: 40))
         stateLabel.roundCorners(cornerRadius: 8)
-//        stateLabel.isEnabled = false
-//        stateLabel.text = ComponentText.noConnect.text
         stateLabel.setImage(UIImage.asset(.onAir), for: .normal)
         return stateLabel
     }()
