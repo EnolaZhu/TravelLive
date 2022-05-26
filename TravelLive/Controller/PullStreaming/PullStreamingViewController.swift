@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import RxSwift
 import TXLiteAVSDK_Professional
 
 class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     
+    private let disposeBag = DisposeBag()
     private let loveButton = UIButton()
     private var livePlayer = V2TXLivePlayer()
     private let shareButton = UIButton()
@@ -23,6 +25,7 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
 """
     var streamingUrl = String()
     var channelName = String() // 即 streamerId
+    let subject = PublishSubject<String>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +40,13 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
         blockButton.addTarget(self, action: #selector(createBlockSheet(_:)), for: .touchUpInside)
         
         self.navigationController?.navigationBar.tintColor = UIColor.primary
+        
+        
+        subject.debounce(DispatchTimeInterval.seconds(3), scheduler: MainScheduler())
+            .subscribe(onNext: { _ in
+                NotificationCenter.default.post(name: .animationNotificationKey, object: nil)
+            })
+            .disposed(by: disposeBag)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -154,6 +164,6 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     }
     
     @objc func click() {
-        NotificationCenter.default.post(name: .animationNotificationKey, object: nil)
+        subject.onNext("")
     }
 }

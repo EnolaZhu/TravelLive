@@ -7,10 +7,12 @@
 
 import UIKit
 import Toast_Swift
+import RxSwift
 
 class VideoWallViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var tableView: UITableView!
+    let disposeBag = DisposeBag()
     let videoWallTableViewCellIdentifier = "VideoWallTableViewCell"
     let loadingCellTableViewCellCellIdentifier = "LoadingCellTableViewCell"
     var resultDataObjc: SearchDataObject?
@@ -158,12 +160,16 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
             case .success(let data):
                 strongSelf.resultDataObjc = data
                 guard let resultDataObjc = strongSelf.resultDataObjc else { return }
-                strongSelf.videoData = resultDataObjc.data.filter({ $0.type == "video" })
-                guard let videoData = strongSelf.videoData else { return }
+                var videos = [SearchData]()
+                Observable.from(resultDataObjc.data)
+                    .filter { $0.type == "video" }
+                    .subscribe(onNext: {videos.append($0)})
+                    .disposed(by: strongSelf.disposeBag)
+                strongSelf.videoData = videos
                 
-                for index in 0..<videoData.count {
-                    strongSelf.videoUrls.append(videoData[index].fileUrl)
-                    strongSelf.imageUrls.append(videoData[index].videoImageUrl)
+                for index in 0..<videos.count {
+                    strongSelf.videoUrls.append(videos[index].fileUrl)
+                    strongSelf.imageUrls.append(videos[index].videoImageUrl)
                 }
                 strongSelf.tableView.reloadData()
                 
