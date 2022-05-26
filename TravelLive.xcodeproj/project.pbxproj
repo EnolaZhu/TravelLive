@@ -119,7 +119,6 @@
 		4BC2BE4B27FBF848001FF31D /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */; };
 		4BC2BE4D27FC0B19001FF31D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */; };
 		4BC2BE5227FC45F3001FF31D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC2BE5127FC45F3001FF31D /* MapViewController.swift */; };
-		4BD37361280415E400141A29 /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BD37360280415E400141A29 /* IJKMediaFramework.framework */; };
 		4BD373642804181800141A29 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD373632804181800141A29 /* SearchViewController.swift */; };
 		4BD3736828041B9300141A29 /* PullStreamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD3736728041B9300141A29 /* PullStreamingViewController.swift */; };
 		4BD3736A28041BE200141A29 /* PullStreaming.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BD3736928041BE200141A29 /* PullStreaming.storyboard */; };
@@ -272,7 +271,6 @@
 		4BC2BE4A27FBF848001FF31D /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		4BC2BE4C27FC0B19001FF31D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		4BC2BE5127FC45F3001FF31D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		4BD37360280415E400141A29 /* IJKMediaFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IJKMediaFramework.framework; sourceTree = "<group>"; };
 		4BD373632804181800141A29 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		4BD3736728041B9300141A29 /* PullStreamingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullStreamingViewController.swift; sourceTree = "<group>"; };
 		4BD3736928041BE200141A29 /* PullStreaming.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PullStreaming.storyboard; sourceTree = "<group>"; };
@@ -318,7 +316,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BD37361280415E400141A29 /* IJKMediaFramework.framework in Frameworks */,
 				0951D3D245DBD86F0F3241C5 /* Pods_TravelLive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -629,7 +626,6 @@
 		4BC1072D27FA9DD40017B1B7 = {
 			isa = PBXGroup;
 			children = (
-				4BD37360280415E400141A29 /* IJKMediaFramework.framework */,
 				4BC1073827FA9DD40017B1B7 /* TravelLive */,
 				4BC1073727FA9DD40017B1B7 /* Products */,
 				7A913B85FE671E754022C81C /* Pods */,
