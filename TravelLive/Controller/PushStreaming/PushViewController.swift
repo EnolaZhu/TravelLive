@@ -10,6 +10,7 @@ import CoreLocation
 import TXLiteAVSDK_Professional
 
 class PushViewController: UIViewController, V2TXLivePusherObserver {
+    
     // MARK: - Property
     private var date = Int(Date().timeIntervalSince1970)
     private var location = CLLocationCoordinate2D()
@@ -80,7 +81,6 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         tabBarController?.tabBar.isHidden = false
         startLiveButton.isHidden = false
         
-        //
         for view in self.view.subviews {
             view.removeFromSuperview()
         }
@@ -192,7 +192,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         startLiveButton.addTarget(self, action: #selector(requestLive(_:)), for: .touchUpInside)
     }
     
-    // MARK: - IBAction
+    // MARK: - Target / IBAction
     
     @objc func requestLive(_ sender: UIButton) {
         sttManager.requestPermission(view: view) {

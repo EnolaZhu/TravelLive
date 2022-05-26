@@ -15,6 +15,7 @@ import Lottie
 
 class ProfileViewController: UIViewController {
     
+    // MARK: - Property
     @IBOutlet weak var profileView: UICollectionView!
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
@@ -42,6 +43,7 @@ class ProfileViewController: UIViewController {
     
     let animationView = AnimationView(name: LottieAnimation.lodingAnimation.title)
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -110,6 +112,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    // MARK: - Method
     private func setUpPostButton() {
         view.addSubview(postButton)
         postButton.translatesAutoresizingMaskIntoConstraints = false
@@ -121,13 +124,6 @@ class ProfileViewController: UIViewController {
         ])
         postButton.tintColor = UIColor.primary
         postButton.setImage(UIImage.asset(.add), for: UIControl.State())
-    }
-    
-    private func addRefreshHeader() {
-        MJRefreshNormalHeader { [weak self] in
-            self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
-        }.autoChangeTransparency(true)
-            .link(to: profileView)
     }
     
     // show selected image
@@ -142,8 +138,16 @@ class ProfileViewController: UIViewController {
         self.present(cropViewController, animated: true, completion: nil)
     }
     
-    // async 取回選擇的 image
+    // MARK: - Method
+    private func addRefreshHeader() {
+        MJRefreshNormalHeader { [weak self] in
+            self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
+        }.autoChangeTransparency(true)
+            .link(to: profileView)
+    }
+    
     private func openImagePicker(with state: CameraState) {
+        // async get selected image
         self.imagePicker = ImagePicker(fromController: self, state: state, compltionClouser: { [unowned self] pickupResult in
             switch pickupResult {
             case .success(let selectedImage):
@@ -379,7 +383,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         }
         
         if let mediaUrl = info[.mediaURL] as? URL {
-            // Upload video file
+            // upload video file
             let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
             PhotoVideoManager.shared.uploadFileFromIo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
                 if result == "" {
@@ -388,14 +392,14 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                     self?.view.makeToast(TextManager.fail.text, duration: 0.5, position: .center)
                 }
             }
-            // Extract frame from video
+            // extract frame from video
             PhotoVideoManager.shared.getImageFromVideo(url: mediaUrl, at: TimeInterval(uploadTimestamp)) { image in
                 let storageRefImagePath = "videoimage_" + UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
                 guard let image = image else { return }
                 PhotoVideoManager.shared.uploadFileFromMemory(image: image, child: storageRefImagePath) { _ in }
             }
             
-            // Convert video type to GIF
+            // convert video type to GIF
             let storageRefGifPath = "thumbnail_" + UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
             GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
                 switch result {
@@ -420,7 +424,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
 }
 
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    // Set up header
+    // set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { return UICollectionReusableView() }
         
@@ -444,9 +448,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ProfileCollectionCell.self)", for: indexPath) as? ProfileCollectionCell else { return UICollectionViewCell() }
-        // Placeholder
+        // placeholder
         cell.layoutCell(image: UIImage.asset(.placeholder) ?? UIImage())
-        // ImageView gesture
+        // imageView gesture
         let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         if isFromOther {
             cell.profileImageView.isUserInteractionEnabled = false

@@ -16,11 +16,13 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var detailTableView: UITableView!
     let reportMaskView = UIView()
     let animationView = AnimationView(name: LottieAnimation.lodingAnimation.title)
-    var allCommentData: CommentObject?
-    var detailData: SearchData?
     var detailPageImage = UIImage()
     var avatarImage: UIImage?
     var commentImage: UIImage?
+    
+    // MARK: - Property
+    var allCommentData: CommentObject?
+    var detailData: SearchData?
     var avatarUrl: String?
     var propertyId = String()
     var imageOwnerName = String()
@@ -29,6 +31,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
     var allMessageArray = [String]()
     var placeHolderImage = UIImage.asset(.placeholder)
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -65,6 +68,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         self.detailTableView.addGestureRecognizer(longPressGesture)
     }
     
+    // MARK: - Action
     @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             let touchPoint = sender.location(in: detailTableView)
@@ -74,22 +78,7 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    private func createBlockAlert(index: Int) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖此則留言的主人", style: .destructive, handler: { [weak self] _ in
-            self?.postBlockCommentData(blockId: self?.allCommentData?.message[index].reviewerId ?? "")
-        }))
-        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
-        }))
-        
-        alertController.view.tintColor = UIColor.black
-        
-        // iPad specific code
-        IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(alertController, view: self.view)
-        
-        self.present(alertController, animated: true)
-    }
-    
+    // MARK: - Method
     private func postBlockImageData(blockId: String) {
         if UserManager.shared.userID == blockId {
             self.view.makeToast(TextManager.blockSelf.text, duration: 0.5, position: .center)
@@ -129,6 +118,13 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    private func getOwnerAvatar(_ imageUrl: String) {
+        avatarImage = nil
+        ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
+            self?.avatarImage = image
+        }
+    }
+    
     private func setUpTableView() {
         detailTableView.rowHeight = UITableView.automaticDimension
         detailTableView.estimatedRowHeight = 200.0
@@ -163,13 +159,23 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    private func getOwnerAvatar(_ imageUrl: String) {
-        avatarImage = nil
-        ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
-            self?.avatarImage = image
-        }
+    private func createBlockAlert(index: Int) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "封鎖此則留言的主人", style: .destructive, handler: { [weak self] _ in
+            self?.postBlockCommentData(blockId: self?.allCommentData?.message[index].reviewerId ?? "")
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+        }))
+        
+        alertController.view.tintColor = UIColor.black
+        
+        // iPad specific code
+        IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(alertController, view: self.view)
+        
+        self.present(alertController, animated: true)
     }
     
+    // MARK: - Target / IBAction
     @IBAction private func editComment(_ sender: UITextField) {
         if sender.text == "" {
             return
@@ -191,6 +197,37 @@ class DetailViewController: BaseViewController, UIGestureRecognizerDelegate {
                 }
             }
             commentTextField.text = ""
+        }
+    }
+    
+    @objc private func createBlockSheet(_ sender: UIButton) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "封鎖此貼文的主人", style: .destructive, handler: { [weak self] _ in
+            self?.postBlockImageData(blockId: self?.detailData?.ownerId ?? "")
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        
+        alertController.view.tintColor = UIColor.black
+        
+        // iPad specific code
+        IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(alertController, view: self.view)
+        
+        self.present(alertController, animated: true)
+    }
+    
+    
+    @objc private func clickLoveButton(_ sender: UIButton) {
+        if sender.hasImage(named: "theheart", for: .normal) {
+            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: UserManager.shared.userID, isLiked: false)
+            LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.breakHeart.title, view: self.view, animationSpeed: 1, location: CGRect(x: 0, y: Int(UIScreen.height) / 8, width: 400, height: Int(UIScreen.height) + 50))
+            
+            setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
+        } else {
+            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: UserManager.shared.userID, isLiked: true)
+            
+            LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.heart.title, view: self.view, location: CGRect(x: 0, y: Int(UIScreen.height) / 4, width: 400, height: 400))
+            setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
         }
     }
 }
@@ -238,9 +275,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             if allCommentData == nil {
                 return UITableViewCell()
             } else {
-//                ImageManager.shared.fetchImage(imageUrl: allCommentData?.message[indexPath.row - 1].avatar ?? "") { [weak self] image in
-//                    self?.commentImage = image
-//                }
                 ImageManager.shared.loadImage(imageView: commentCell.reviewerAvatarImage, url: allCommentData?.message[indexPath.row - 1].avatar ?? "")
                 
                 commentCell.layoutCell(name: allCommentData?.message[indexPath.row - 1].name ?? "", comment: allCommentData?.message[indexPath.row - 1].message ?? "", time: allCommentData?.message[indexPath.row - 1].timestamp ?? "")
@@ -262,36 +296,5 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         profileVC.propertyOwnerId = detailData?.ownerId ?? ""
         profileVC.isFromOther = true
         show(profileVC, sender: nil)
-    }
-    
-    @objc private func createBlockSheet(_ sender: UIButton) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "封鎖此貼文的主人", style: .destructive, handler: { [weak self] _ in
-            self?.postBlockImageData(blockId: self?.detailData?.ownerId ?? "")
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
-        
-        alertController.view.tintColor = UIColor.black
-        
-        // iPad specific code
-        IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(alertController, view: self.view)
-        
-        self.present(alertController, animated: true)
-    }
-    
-    
-    @objc private func clickLoveButton(_ sender: UIButton) {
-        if sender.hasImage(named: "theheart", for: .normal) {
-            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: UserManager.shared.userID, isLiked: false)
-            LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.breakHeart.title, view: self.view, animationSpeed: 1, location: CGRect(x: 0, y: Int(UIScreen.height) / 8, width: 400, height: Int(UIScreen.height) + 50))
-            
-            setUpButtonBasicColor(sender, UIImage.asset(.emptyHeart) ?? UIImage(), color: UIColor.primary)
-        } else {
-            DetailDataProvider.shared.postLike(propertyId: propertyId, userId: UserManager.shared.userID, isLiked: true)
-            
-            LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.heart.title, view: self.view, location: CGRect(x: 0, y: Int(UIScreen.height) / 4, width: 400, height: 400))
-            setUpButtonBasicColor(sender, UIImage.asset(.theheart) ?? UIImage(), color: UIColor.primary)
-        }
     }
 }

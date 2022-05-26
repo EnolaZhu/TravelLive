@@ -25,6 +25,8 @@ private enum PlaceEventCellType: CaseIterable {
 }
 
 class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
+    
+    // MARK: - Property
     @IBOutlet weak var mapDetailTableView: UITableView! {
         didSet {
             mapDetailTableView.delegate = self
@@ -37,6 +39,7 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
     lazy var header = StretchyTableHeaderView()
     lazy var maskView = UIView()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
@@ -44,21 +47,24 @@ class MapDetailViewController: UIViewController, UITableViewDelegate, UIScrollVi
         setUpMaskView()
         setUpHeader()
         
-        // Setting navigationbar back button color
+        // setting navigationbar back button color
         navigationController?.navigationBar.tintColor = UIColor.primary
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         tabBarController?.tabBar.isHidden = true
     }
     
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        
         tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - Component
     private func setUpMaskView() {
         view.addSubview(maskView)
         maskView.translatesAutoresizingMaskIntoConstraints = false

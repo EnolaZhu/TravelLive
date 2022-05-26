@@ -10,6 +10,7 @@ import Toast_Swift
 
 class VideoWallViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    // MARK: - Property
     @IBOutlet var tableView: UITableView!
     let videoWallTableViewCellIdentifier = "VideoWallTableViewCell"
     let loadingCellTableViewCellCellIdentifier = "LoadingCellTableViewCell"
@@ -20,6 +21,7 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     lazy var blockButton = UIButton()
     lazy var avatarView = UIImageView()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -56,10 +58,12 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - Method
     private func stopVideo() {
         ASVideoPlayerController.sharedVideoPlayer.pausePlayeVideosFor(tableView: tableView, appEnteredFromBackground: true, isStopVideo: true)
     }
-
+    
+    // MARK: - UITableView delegate and dataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -77,7 +81,8 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         videoWallCell.blockButton.addTarget(self, action: #selector(blockVideoOwner(_:)), for: .touchUpInside)
         return videoWallCell
     }
-                                            
+    
+    // MARK: - Target / IBAction
     @objc private func blockVideoOwner(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView)
         guard let indexPath = tableView.indexPathForRow(at: point) else { return }
@@ -134,6 +139,7 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    // MARK: - Method
     func pausePlayeVideos() {
         ASVideoPlayerController.sharedVideoPlayer.pausePlayeVideosFor(tableView: tableView)
     }

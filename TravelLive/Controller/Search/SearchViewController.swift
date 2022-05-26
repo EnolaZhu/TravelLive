@@ -11,6 +11,8 @@ import MJRefresh
 import Lottie
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
+    
+    // MARK: - Property
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var gridLayout: GridLayout!
     
@@ -19,9 +21,10 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     var searchDataObjc: SearchDataObject?
     var searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
-    var showNoResultLabel = UILabel()
+    lazy var showNoResultLabel = UILabel()
     let animationView = AnimationView(name: LottieAnimation.lodingAnimation.title)
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +35,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         arrInstaBigCells.append(1)
         addRefreshHeader()
         
-        // Fix searchbar hidden when change view
+        // fix searchbar hidden when change view
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchBar.delegate = self
         searchController.searchBar.keyboardType = .asciiCapable
@@ -83,10 +86,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         super.viewDidDisappear(animated)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     // MARK: - UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -111,6 +110,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         return cell
     }
     
+    // MARK: - Method
     @objc private func imageTapped(tapGestureRecognizer: UILongPressGestureRecognizer) {
         let point = tapGestureRecognizer.view?.convert(CGPoint.zero, to: searchCollectionView)
         blockUser(index: point)
@@ -148,7 +148,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         }
     }
     
-    // Refresh Data by pull-down
+    // refresh Data by pull-down
     private func addRefreshHeader() {
         MJRefreshNormalHeader { [weak self] in
             self?.getSearchData()
@@ -156,7 +156,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             .link(to: searchCollectionView)
     }
     // MARK: - PrimeGridDelegate
-    
     func scaleForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> UInt {
         if arrInstaBigCells.contains(indexPath.row) || (indexPath.row == 1) {
             return 2
@@ -210,7 +209,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     }
     
     private func getImage(searchData: SearchData, imageUrl: String, index: Int) {
-        // Image
+        // image
         ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
             self?.images[index] = image
             self?.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])

@@ -7,14 +7,15 @@
 
 import UIKit
 import AuthenticationServices
-import FirebaseAuth // 用來與 Firebase Auth 進行串接用的
-import CryptoKit // 用來產生隨機字串 (Nonce) 的
+import FirebaseAuth
+import CryptoKit
 import Toast_Swift
 import RxSwift
 import RxCocoa
 
 class LoginViewController: UIViewController {
-    // swiftlint:disable trailing_whitespace
+    
+    // MARK: - Property
     fileprivate var currentNonce: String?
     private var fullName: String?
     private let logoView = UIImageView()
@@ -27,13 +28,8 @@ class LoginViewController: UIViewController {
     private let licenseLabel = UILabel()
     private var checkButton = UIButton()
     private var isChecked = false
-    //    {
-    //        didSet {
-    //            checkButton.setImage(UIImage.asset(.check)?.maskWithColor(color: UIColor.primary), for: .normal)
-    //            checkButton.setImage(UIImage.asset(.checkbox)?.maskWithColor(color: UIColor.primary), for: .selected)
-    //        }
-    //    }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +48,7 @@ class LoginViewController: UIViewController {
         addLogoView()
     }
     
+    // MARK: - Component
     private func createContainerView() {
         view.addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -128,7 +125,7 @@ class LoginViewController: UIViewController {
                         break
                     }
                 }
-            }, onError: { error in
+            }, onError: { _ in
                 
             }, onCompleted: {
                 if UserManager.shared.userID == "" {
@@ -155,6 +152,7 @@ class LoginViewController: UIViewController {
         licenseLabel.attributedText = attributedString
     }
     
+    // MARK: - Target / IBAction
     @objc private func tapLabel(_ gesture: UITapGestureRecognizer) {
         guard let text = licenseLabel.text else { return }
         let privacyRange = (text as NSString).range(of: "隱私權政策")
@@ -183,6 +181,8 @@ class LoginViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Method
     
     private func login() {
         let nonce = randomNonceString()
@@ -292,17 +292,17 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             let familyName = appleIDCredential.fullName?.familyName ?? ""
             fullName = givenName + " " + familyName
             
-            // 取得使用者的 id、name
-            // 產生 Apple ID 登入的 Credential
+            // get user id、name
+            // create Credential
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             
-            // 與 Firebase Auth 進行串接
+            // chain with Firebase Auth
             firebaseSignInWithApple(credential: credential)
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // 登入失敗，處理 Error
+        // login fail handle Error
         switch error {
         case ASAuthorizationError.canceled:
             self.view.makeToast(AuthText.cancel.text, duration: 0.5, position: .center)
@@ -326,7 +326,7 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
     }
 }
 extension LoginViewController {
-    // MARK: - 透過 Credential 與 Firebase Auth 串接
+    // chain with Firebase Auth by Credential
     func firebaseSignInWithApple(credential: AuthCredential) {
         Auth.auth().signIn(with: credential) { authResult, error in
             guard error == nil else {
@@ -339,7 +339,7 @@ extension LoginViewController {
         }
     }
     
-    // MARK: - Firebase 取得登入使用者的資訊
+    // Firebase get user info
     func getFirebaseUserInfo() {
         let currentUser = Auth.auth().currentUser
         let userid = currentUser?.uid ?? UserManager.shared.userID

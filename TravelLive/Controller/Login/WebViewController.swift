@@ -23,6 +23,7 @@ class WebViewController: UIViewController {
         let url = URL(string: urlString)
         if let url = url {
             let request = URLRequest(url: url)
+            
             // init and load request in webview
             mWebView = WKWebView(frame: self.view.frame)
             if let mWebView = mWebView {

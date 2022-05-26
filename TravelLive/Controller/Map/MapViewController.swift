@@ -11,7 +11,8 @@ import CoreLocation
 import Toast_Swift
 
 class MapViewController: UIViewController {
-
+    
+    // MARK: - Property
     @IBOutlet weak var mapView: GMSMapView!
     
     static let defaultLongitude = 121.5255809
@@ -40,6 +41,7 @@ class MapViewController: UIViewController {
     var isButtonSelected = false
     var isLocationUpdated = false
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,13 +70,13 @@ class MapViewController: UIViewController {
                 latitude = locationManager.location?.coordinate.latitude ?? CLLocationDegrees(MapViewController.defaultLatitude)
             }
         }
-//        fetchStreamerData()
         mapView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        // Hide the Navigation Bar
+        
+        // hide the Navigation Bar
         mapView.clear()
         fetchStreamerData()
         
@@ -101,10 +103,7 @@ class MapViewController: UIViewController {
         containerView.roundCorners(cornerRadius: 12.0)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
+    // MARK: - Component
     private func setUpContainerView() {
         view.addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -170,6 +169,7 @@ class MapViewController: UIViewController {
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.primary)
     }
     
+    // MARK: - Target / IBAction
     @objc func showVideos(_ sender: UIButton) {
         let videoWallVC = UIStoryboard.videoWall.instantiateViewController(withIdentifier: String(describing: VideoWallViewController.self)
         )
@@ -186,6 +186,7 @@ class MapViewController: UIViewController {
         setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
     }
     
+    // MARK: - Method
     private func fetchStreamerData() {
         mapView.clear()
         showTypeOfMarker = "streamer"
@@ -375,7 +376,6 @@ extension MapViewController: GMSMapViewDelegate {
 }
 
 extension MapViewController: CLLocationManagerDelegate {
-    // 半秒一次
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         longitude = locValue.longitude

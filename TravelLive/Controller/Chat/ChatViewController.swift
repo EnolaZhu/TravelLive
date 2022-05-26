@@ -16,6 +16,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
         var uuid: String
     }
     
+    // MARK: - Property
     @IBOutlet weak var chatView: UITableView! {
         didSet {
             chatView.delegate = self
@@ -50,6 +51,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     var isFromStreamer = false
     var userDisplayName = String()
     
+    // MARK: - Lifecycle]
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -80,6 +82,8 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
         caption.text = ""
     }
     
+    // MARK: - Notification methods
+    
     @objc func getStreamerText(_ notification: NSNotification) {
         if let text = notification.userInfo?["streamer"] as? String {
             caption.text = (caption.text ?? "") + text
@@ -97,9 +101,9 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
                              "uuid": self.client.uuid()
                             ], toChannel: channelName) { _ in }
     }
-    // swiftlint:disable identifier_name
+    
     private func createCloseAlert() {
-        let CloseAlertController = UIAlertController(
+        let closeAlertController = UIAlertController(
             title: "主播已下播",
             message: "去別的地方看看吧！",
             preferredStyle: .alert)
@@ -107,10 +111,11 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
             self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
             self.navigationController?.popToRootViewController(animated: true)
         })
-        CloseAlertController.addAction(okAction)
-        self.present(CloseAlertController, animated: true, completion: nil)
+        closeAlertController.addAction(okAction)
+        self.present(closeAlertController, animated: true, completion: nil)
     }
     
+    // MARK: - Component
     private func setupChatView() {
         chatView.registerCellWithNib(identifier: "\(MessageCell.self)", bundle: nil)
         sendButton.tintColor = UIColor.primary
@@ -119,6 +124,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
         caption.roundCorners(cornerRadius: 6)
     }
     
+    // MARK: - Target / IBAction
     @IBAction func sendMessage(_ sender: UIButton) {
         if inputTextfield.text == "" {
             return
@@ -141,6 +147,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
         }
     }
     
+    // MARK: - Method
     private func publishAnimation() {
         client.publish(["message": "heart",
                         "username": "animation",
