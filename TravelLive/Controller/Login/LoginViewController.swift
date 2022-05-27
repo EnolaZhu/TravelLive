@@ -11,7 +11,6 @@ import FirebaseAuth
 import CryptoKit
 import Toast_Swift
 import RxSwift
-import RxCocoa
 
 class LoginViewController: UIViewController {
     
