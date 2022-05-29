@@ -69,6 +69,7 @@
 		4B66E94D2817BC6400BD62C6 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B66E94B2817BC6400BD62C6 /* EventTableViewCell.swift */; };
 		4B66E94E2817BC6500BD62C6 /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B66E94C2817BC6400BD62C6 /* EventTableViewCell.xib */; };
 		4B6F185628376E2C00CCAEFA /* IpadAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6F185528376E2C00CCAEFA /* IpadAlertManager.swift */; };
+		4B6FA98E2840A3DC00F7EBEB /* PubNubManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FA98D2840A3DC00F7EBEB /* PubNubManager.swift */; };
 		4B7AA60528349E83007C1ABF /* PushStreamingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7AA60428349E83007C1ABF /* PushStreamingManager.swift */; };
 		4B8AE2B02835EA3800923D6B /* TextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8AE2AF2835EA3800923D6B /* TextManager.swift */; };
 		4B93F4FF27FE8ECF00C3C99B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */; };
@@ -218,6 +219,7 @@
 		4B66E94B2817BC6400BD62C6 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		4B66E94C2817BC6400BD62C6 /* EventTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
 		4B6F185528376E2C00CCAEFA /* IpadAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IpadAlertManager.swift; sourceTree = "<group>"; };
+		4B6FA98D2840A3DC00F7EBEB /* PubNubManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubNubManager.swift; sourceTree = "<group>"; };
 		4B7AA60428349E83007C1ABF /* PushStreamingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStreamingManager.swift; sourceTree = "<group>"; };
 		4B8AE2AF2835EA3800923D6B /* TextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextManager.swift; sourceTree = "<group>"; };
 		4B93F4FE27FE8ECF00C3C99B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -488,6 +490,14 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		4B6FA98C2840A3BE00F7EBEB /* PubNub */ = {
+			isa = PBXGroup;
+			children = (
+				4B6FA98D2840A3DC00F7EBEB /* PubNubManager.swift */,
+			);
+			path = PubNub;
+			sourceTree = "<group>";
+		};
 		4B8AE2AE2835EA2400923D6B /* String */ = {
 			isa = PBXGroup;
 			children = (
@@ -709,6 +719,7 @@
 		4BC1075027FB46430017B1B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4B6FA98C2840A3BE00F7EBEB /* PubNub */,
 				4B8AE2AE2835EA2400923D6B /* String */,
 				4B5BC3E2282BA4D30049B39C /* VideoPlayerLibrary */,
 				4BA36588281AEB3C00A2E724 /* Image */,
@@ -1112,6 +1123,7 @@
 				4B66896B2818E2F6003CA423 /* ProfileProvider.swift in Sources */,
 				4B66896C2818E2F6003CA423 /* ProfileLikedObject.swift in Sources */,
 				4B43FD922800AB2400B7085D /* UILabel+Extension.swift in Sources */,
+				4B6FA98E2840A3DC00F7EBEB /* PubNubManager.swift in Sources */,
 				4BC1075D27FB51870017B1B7 /* UIStoryboard+Extension.swift in Sources */,
 				4BA5E396280E76CA00D421D0 /* iOSDevCenters+GIF.swift in Sources */,
 				4BA5E394280E49F600D421D0 /* SearchDataObject.swift in Sources */,

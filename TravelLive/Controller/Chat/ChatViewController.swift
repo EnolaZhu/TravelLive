@@ -9,12 +9,8 @@ import UIKit
 import PubNub
 import Lottie
 
-class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecognizerDelegate {
-    private struct Message {
-        var message: String
-        var username: String
-        var uuid: String
-    }
+class ChatViewController: BaseViewController, UIGestureRecognizerDelegate {
+    
     
     // MARK: - Property
     @IBOutlet weak var chatView: UITableView! {
@@ -30,7 +26,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var inputTextfield: UITextField!
     
-    private var messages = [Message]() {
+    private var messages = [PubNubMessage]() {
         didSet {
             chatView.reloadData()
             scroolRowToNewestRow(chatView)
@@ -43,7 +39,6 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     var noMoreMessages = false
     var earliestMessageTime: NSNumber = -1
     var loadingMore = false
-    var client: PubNub!
     var channelName = String()
     var textsOfSTT = [String]()
     var sendPubNubTimer = Timer()
@@ -51,19 +46,14 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     var isFromStreamer = false
     var userDisplayName = String()
     
-    // MARK: - Lifecycle]
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getUserInfo(id: UserManager.shared.userID)
         setupChatView()
-        // setting up our PubNub object
-        let configuration = PNConfiguration(publishKey: Secret.pubNubPublishKey.title, subscribeKey: Secret.pubNubSubscribeKey.title)
-        configuration.uuid = UUID().uuidString
-        client = PubNub.clientWithConfiguration(configuration)
-        client.addListener(self)
-        client.subscribeToChannels([channelName], withPresence: true)
         
+        PubNubManager.shared.configurePubNub(thevc: self, channelName: channelName)
         // add observer for animation
         NotificationCenter.default.addObserver(self, selector: #selector(self.showAnimation(_:)), name: .animationNotificationKey, object: nil)
         // add observer for STT text
@@ -95,11 +85,8 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     }
     
     @objc func closePullingView(_ notification: NSNotification) {
-        
-        self.client.publish(["message": "close",
-                             "username": "close",
-                             "uuid": self.client.uuid()
-                            ], toChannel: channelName) { _ in }
+        let closeMassage = PubNubMessage(message: "close", username: "close", uuid: PubNubManager.shared.client.uuid())
+        PubNubManager().publishMassage(messageObject: closeMassage, channelName: channelName)
     }
     
     private func createCloseAlert() {
@@ -136,23 +123,18 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     private func publishMessage() {
         if inputTextfield.text != "" || inputTextfield.text != nil {
             let messageString: String = inputTextfield.text!
-            let messageObject: [String: Any] =
-            [ "message": messageString,
-              "username": userDisplayName,
-              "uuid": client.uuid()
-            ]
             
-            client.publish(messageObject, toChannel: channelName) { _ in }
+            let message = PubNubMessage(message: messageString, username: userDisplayName, uuid: PubNubManager.shared.client.uuid())
+            PubNubManager.shared.publishMassage(messageObject: message, channelName: channelName)
+
             inputTextfield.text = ""
         }
     }
     
     // MARK: - Method
     private func publishAnimation() {
-        client.publish(["message": "heart",
-                        "username": "animation",
-                        "uuid": client.uuid()
-                       ], toChannel: channelName) { _ in}
+        let animationMessage = PubNubMessage(message: "heart", username: "animation", uuid: PubNubManager.shared.client.uuid())
+        PubNubManager.shared.publishMassage(messageObject: animationMessage, channelName: channelName)
     }
     
     private func getUserInfo(id: String) {
@@ -166,24 +148,7 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
         }
     }
 
-    func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
-        if channelName == message.data.channel {
-            guard let theMessage = message.data.message as? [String: String] else { return }
-            
-            if theMessage["username"] == "animation" {
-                LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.fallHeart.title, view: self.view, location: CGRect(x: -20, y: -20, width: Int(UIScreen.width), height: Int(UIScreen.height) + 50))
-                
-            } else if theMessage["username"] == "STT" {
-                if !isFromStreamer {
-                    caption.text = theMessage["message"] ?? ""
-                }
-            } else if theMessage["username"] == "close" {
-                createCloseAlert()
-            } else {
-                messages.append(Message(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
-            }
-        }
-    }
+    
     
     private func scroolRowToNewestRow(_ tableView: UITableView) {
         let indexPath = IndexPath(row: messages.count - 1, section: 0)
@@ -208,10 +173,9 @@ class ChatViewController: BaseViewController, PNEventsListener, UIGestureRecogni
     
     private func sendPubNub(message: String) {
         if !message.isEmpty {
-            self.client.publish(["message": message,
-                                 "username": "STT",
-                                 "uuid": self.client.uuid()
-                                ], toChannel: channelName) { _ in }
+            let speechMessage = PubNubMessage(message: message, username: "STT", uuid: PubNubManager.shared.client.uuid())
+            
+            PubNubManager.shared.publishMassage(messageObject: speechMessage, channelName: channelName)
             totalTime = 0
         }
     }
@@ -258,5 +222,26 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
         IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(alertController, view: self.view)
         
         self.present(alertController, animated: true)
+    }
+}
+
+extension ChatViewController: PNEventsListener {
+    func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
+        if channelName == message.data.channel {
+            guard let theMessage = message.data.message as? [String: String] else { return }
+
+            if theMessage["username"] == "animation" {
+                LottieAnimationManager.shared.createlottieAnimation(name: LottieAnimation.fallHeart.title, view: self.view, location: CGRect(x: -20, y: -20, width: Int(UIScreen.width), height: Int(UIScreen.height) + 50))
+
+            } else if theMessage["username"] == "STT" {
+                if !isFromStreamer {
+                    caption.text = theMessage["message"] ?? ""
+                }
+            } else if theMessage["username"] == "close" {
+                createCloseAlert()
+            } else {
+                messages.append(PubNubMessage(message: theMessage["message"]!, username: theMessage["username"]!, uuid: theMessage["uuid"]!))
+            }
+        }
     }
 }
