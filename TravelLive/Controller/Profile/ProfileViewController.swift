@@ -39,8 +39,8 @@ class ProfileViewController: UIViewController {
             profileView.reloadData()
         }
     }
+    lazy var bannerView = GADBannerView()
     lazy var postButton = UIButton()
-    
     let animationView = AnimationView(name: LottieAnimation.lodingAnimation.title)
     
     // MARK: - Lifecycle
@@ -55,9 +55,7 @@ class ProfileViewController: UIViewController {
         // change avatar
         NotificationCenter.default.addObserver(self, selector: #selector(self.showEditView(_:)), name: .showEditAvatarViewKey, object: nil)
         // Add advertisement
-        //        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        //        bannerView.rootViewController = self
-        //        bannerView.load(GADRequest())
+        setUpBannerView()
         
         profileView.delegate = self
         profileView.dataSource = self
@@ -124,6 +122,23 @@ class ProfileViewController: UIViewController {
         ])
         postButton.tintColor = UIColor.primary
         postButton.setImage(UIImage.asset(.add), for: UIControl.State())
+    }
+    
+    // set up banner view
+    private func setUpBannerView() {
+        view.addSubview(bannerView)
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+    
+        NSLayoutConstraint.activate([
+            bannerView.bottomAnchor.constraint(equalTo: profileView.bottomAnchor),
+            bannerView.heightAnchor.constraint(equalToConstant: 50),
+            bannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+        bannerView.backgroundColor = UIColor.clear
+        bannerView.adUnitID = Secret.bannerId.title
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
     }
     
     // show selected image
@@ -311,7 +326,7 @@ class ProfileViewController: UIViewController {
             try Auth.auth().signOut()
             UserManager.shared.userID = ""
             view.makeToast("登出成功", duration: 0.5, position: .center)
-            // Sign out back to login vc
+            // sign out back to login vc
             backToLoginView()
         } catch {
             view.makeToast("登出失敗", duration: 0.5, position: .center)

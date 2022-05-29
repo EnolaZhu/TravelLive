@@ -8,6 +8,7 @@
 import UIKit
 import CoreLocation
 import TXLiteAVSDK_Professional
+import FirebaseAnalytics
 
 class PushViewController: UIViewController, V2TXLivePusherObserver {
     
@@ -29,6 +30,16 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     private let recorder = RPScreenRecorder.shared() //
     private var recordingSeconds = 0 // data
     private var isRecordingClicked = false
+    
+    // MARK: - Components
+    
+    lazy var startLiveButton = UIButton()
+    lazy var closeButton = UIButton()
+    lazy var stateButton = UIButton()
+    lazy var cameraButton = UIButton()
+    lazy var beautyButton = UIButton()
+    lazy var recordButton = UIButton()
+    lazy var stopLiveButton = UIButton()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -86,16 +97,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
         }
     }
     
-    // MARK: - Components
-    
-    lazy var startLiveButton = UIButton()
-    lazy var closeButton = UIButton()
-    lazy var stateButton = UIButton()
-    lazy var cameraButton = UIButton()
-    lazy var beautyButton = UIButton()
-    lazy var recordButton = UIButton()
-    lazy var stopLiveButton = UIButton()
-    
+    // MARK: - Set up components
     func setUpStateButton() {
         view.addSubview(stateButton)
         stateButton.translatesAutoresizingMaskIntoConstraints = false
@@ -196,6 +198,9 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     
     @objc func requestLive(_ sender: UIButton) {
         sttManager.requestPermission(view: view) {
+        
+            AnalyticsManager.shared.postAnalitic(eventName: "click_startLive", name: UserManager.shared.userID, text: ("\(self.location.latitude)" + "\(self.location.longitude)"))
+            
             self.postPushStreamingInfo()
             self.startLiveButton.isHidden = true
             self.closeButton.isHidden = true
@@ -305,7 +310,6 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
             }
         }
     }
-    
     // MARK: - Method
     
     private func addPushPreview() {
@@ -372,7 +376,7 @@ class PushViewController: UIViewController, V2TXLivePusherObserver {
     }
     
     private func deletePushStreaming() {
-        pushStreamingProvider.deletePushStreamingInfo(streamerId: UserManager.shared.userID) { _ in }
+        self.pushStreamingProvider.deletePushStreamingInfo(streamerId: UserManager.shared.userID) { _ in }
     }
     
     private func startLive(_ url: String) {

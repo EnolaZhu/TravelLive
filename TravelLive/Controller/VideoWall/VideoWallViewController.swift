@@ -109,12 +109,12 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private func postBlockData(blockId: String) {
         DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] result in
-            guard let self = self else { return }
+            guard let strongSelf = self else { return }
             if result == "" {
-                self.fetchVideoData(userId: UserManager.shared.userID, tag: nil)
-                self.tableView.reloadData()
+                strongSelf.fetchVideoData(userId: UserManager.shared.userID, tag: nil)
+                strongSelf.tableView.reloadData()
             } else {
-                self.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                strongSelf.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
             }
         }
     }

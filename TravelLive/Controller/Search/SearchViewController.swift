@@ -134,7 +134,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     
     private func postBlockData(blockId: String) {
         if UserManager.shared.userID == blockId {
-            self.view.makeToast(BlockText.blockSelf.text, duration: 0.5, position: .center)
+            view.makeToast(BlockText.blockSelf.text, duration: 0.5, position: .center)
             return
         } else {
             DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] resultString in
