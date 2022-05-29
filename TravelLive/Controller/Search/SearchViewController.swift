@@ -11,6 +11,8 @@ import MJRefresh
 import Lottie
 
 class SearchViewController: BaseViewController, UICollectionViewDataSource, GridLayoutDelegate {
+    
+    // MARK: - Property
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var gridLayout: GridLayout!
     
@@ -19,9 +21,10 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     var searchDataObjc: SearchDataObject?
     var searchController = UISearchController()
     let searchDataProvider = SearchDataProvider()
-    var showNoResultLabel = UILabel()
-    let animationView = AnimationView(name: "loading")
+    lazy var showNoResultLabel = UILabel()
+    let animationView = AnimationView(name: LottieAnimation.lodingAnimation.title)
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +35,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         arrInstaBigCells.append(1)
         addRefreshHeader()
         
-        // Fix searchbar hidden when change view
+        // fix searchbar hidden when change view
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchBar.delegate = self
         searchController.searchBar.keyboardType = .asciiCapable
@@ -83,10 +86,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         super.viewDidDisappear(animated)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     // MARK: - UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -111,9 +110,8 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
         return cell
     }
     
+    // MARK: - Method
     @objc private func imageTapped(tapGestureRecognizer: UILongPressGestureRecognizer) {
-        // swiftlint:disable force_cast
-        _ = tapGestureRecognizer.view as! UIImageView
         let point = tapGestureRecognizer.view?.convert(CGPoint.zero, to: searchCollectionView)
         blockUser(index: point)
     }
@@ -124,27 +122,19 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             guard let indexPath = self?.searchCollectionView.indexPathForItem(at: index ?? CGPoint()) else { return }
             self?.postBlockData(blockId: self?.searchDataObjc?.data[indexPath.item].ownerId ?? "")
         }))
-        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
-        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
         alertController.view.tintColor = UIColor.black
         
         // iPad specific code
-        alertController.popoverPresentationController?.sourceView = self.view
+        IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(alertController, view: self.view)
         
-        let xOrigin = self.view.bounds.width / 2
-        
-        let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-        
-        alertController.popoverPresentationController?.sourceRect = popoverRect
-        
-        alertController.popoverPresentationController?.permittedArrowDirections = .up
         self.present(alertController, animated: true)
     }
     
     private func postBlockData(blockId: String) {
         if UserManager.shared.userID == blockId {
-            self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
+            view.makeToast(BlockText.blockSelf.text, duration: 0.5, position: .center)
             return
         } else {
             DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: blockId) { [weak self] resultString in
@@ -152,13 +142,13 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                     self?.images.removeAll()
                     self?.getSearchData()
                 } else {
-                    self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                    self?.view.makeToast(BlockText.blockFail.text, duration: 0.5, position: .center)
                 }
-            } 
+            }
         }
     }
     
-    // Refresh Data by pull-down
+    // refresh Data by pull-down
     private func addRefreshHeader() {
         MJRefreshNormalHeader { [weak self] in
             self?.getSearchData()
@@ -166,7 +156,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             .link(to: searchCollectionView)
     }
     // MARK: - PrimeGridDelegate
-    
     func scaleForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> UInt {
         if arrInstaBigCells.contains(indexPath.row) || (indexPath.row == 1) {
             return 2
@@ -185,7 +174,7 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
     }
     
     private func fetchSearchData(userId: String, tag: String?) {
-        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: LottieAnimation.lodingAnimation.title)
         searchDataProvider.fetchSearchData(userId: userId, tag: tag) { [weak self] result in
             switch result {
             case .success(let data):
@@ -214,13 +203,13 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
                 self?.searchCollectionView.mj_header?.endRefreshing()
                 
             case .failure:
-                print("failed")
+                self?.view.makeToast("搜尋失敗", duration: 0.5, position: .center)
             }
         }
     }
     
     private func getImage(searchData: SearchData, imageUrl: String, index: Int) {
-        // Image
+        // image
         ImageManager.shared.fetchImage(imageUrl: imageUrl) { [weak self] image in
             self?.images[index] = image
             self?.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
@@ -233,21 +222,6 @@ class SearchViewController: BaseViewController, UICollectionViewDataSource, Grid
             self?.images[index] = gif
             self?.searchCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
-    }
-    
-    private func setUpNoResultLabel() {
-        view.addSubview(showNoResultLabel)
-        
-        showNoResultLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            showNoResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            showNoResultLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            showNoResultLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50),
-            showNoResultLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50)
-        ])
-        showNoResultLabel.text = "暫無搜尋結果"
-        showNoResultLabel.textColor = UIColor.gray
-        showNoResultLabel.contentMode = .center
     }
 }
 

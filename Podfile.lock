@@ -245,13 +245,7 @@ PODS:
   - PubNub (4.17.0):
     - PubNub/Core (= 4.17.0)
   - PubNub/Core (4.17.0)
-  - RxCocoa (6.5.0):
-    - RxRelay (= 6.5.0)
-    - RxSwift (= 6.5.0)
-  - RxRelay (6.5.0):
-    - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
-  - SnapKit (5.6.0)
   - SwiftLint (0.47.0)
   - Toast-Swift (5.0.1)
   - TXLiteAVSDK_Professional (9.5.11346)
@@ -274,9 +268,7 @@ DEPENDENCIES:
   - MJRefresh
   - mobile-ffmpeg-full (~> 4.4)
   - PubNub (~> 4)
-  - RxCocoa (= 6.5.0)
   - RxSwift (= 6.5.0)
-  - SnapKit (~> 5.6.0)
   - SwiftLint
   - Toast-Swift (~> 5.0.1)
   - TXLiteAVSDK_Professional
@@ -319,10 +311,7 @@ SPEC REPOS:
     - PromisesObjC
     - Protobuf
     - PubNub
-    - RxCocoa
-    - RxRelay
     - RxSwift
-    - SnapKit
     - SwiftLint
     - Toast-Swift
     - TXLiteAVSDK_Professional
@@ -364,14 +353,11 @@ SPEC CHECKSUMS:
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
   Protobuf: b60ec2f51ad74765f44d0c09d2e0579d7de21745
   PubNub: 306896876c3089884067609ff25d628a547d2942
-  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
-  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
-  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   TXLiteAVSDK_Professional: 645670c9d1bbabb88e8dff998fb097a22fe71208
 
-PODFILE CHECKSUM: 6738f389763691fea0d6f9acc8c6db80329a3d3c
+PODFILE CHECKSUM: 82acde2aacc6400c5e980b987ab8b78374764f5c
 
 COCOAPODS: 1.11.3

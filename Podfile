@@ -14,7 +14,6 @@ target 'TravelLive' do
   pod 'IQKeyboardManagerSwift'
   pod 'Firebase/Storage'
   pod 'TXLiteAVSDK_Professional'
-  pod 'SnapKit', '~> 5.6.0'
   pod 'Kingfisher', '~> 7.0' 
   pod 'mobile-ffmpeg-full', '~> 4.4'
   pod 'Firebase/Messaging'
@@ -27,9 +26,7 @@ target 'TravelLive' do
   pod 'Toast-Swift', '~> 5.0.1'
   pod 'MJRefresh'
   pod 'RxSwift', '6.5.0'
-  pod 'RxCocoa', '6.5.0'
   pod 'Firebase/Crashlytics'
-  pod 'TXLiteAVSDK_Professional'
 
 post_install do |installer|
     installer.pods_project.build_configurations.each do |config|

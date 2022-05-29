@@ -11,7 +11,8 @@ import CoreLocation
 import Toast_Swift
 
 class MapViewController: UIViewController {
-
+    
+    // MARK: - Property
     @IBOutlet weak var mapView: GMSMapView!
     
     static let defaultLongitude = 121.5255809
@@ -40,6 +41,7 @@ class MapViewController: UIViewController {
     var isButtonSelected = false
     var isLocationUpdated = false
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,13 +70,13 @@ class MapViewController: UIViewController {
                 latitude = locationManager.location?.coordinate.latitude ?? CLLocationDegrees(MapViewController.defaultLatitude)
             }
         }
-//        fetchStreamerData()
         mapView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        // Hide the Navigation Bar
+        
+        // hide the Navigation Bar
         mapView.clear()
         fetchStreamerData()
         
@@ -101,10 +103,7 @@ class MapViewController: UIViewController {
         containerView.roundCorners(cornerRadius: 12.0)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
+    // MARK: - Component
     private func setUpContainerView() {
         view.addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -170,6 +169,7 @@ class MapViewController: UIViewController {
         setUpButtonBasicColor(streamButton, UIImage.asset(.Icons_live)!, color: UIColor.primary)
     }
     
+    // MARK: - Target / IBAction
     @objc func showVideos(_ sender: UIButton) {
         let videoWallVC = UIStoryboard.videoWall.instantiateViewController(withIdentifier: String(describing: VideoWallViewController.self)
         )
@@ -186,12 +186,10 @@ class MapViewController: UIViewController {
         setUpButtonBasicColor(placeButton, UIImage.asset(.Icons_attractions)!, color: UIColor.secondary)
     }
     
+    // MARK: - Method
     private func fetchStreamerData() {
         mapView.clear()
         showTypeOfMarker = "streamer"
-//        mapView.camera
-//        let camera = GMSCameraPosition(latitude: latitude ?? Double(), longitude: longitude ?? Double(), zoom: MapViewController.defaultZoom)
-//        mapView.camera = camera
         
         mapDataProvider.fetchStreamerInfo(userid: UserManager.shared.userID, latitude: latitude, longitude: longitude) { [weak self] result in
             switch result {
@@ -218,9 +216,9 @@ class MapViewController: UIViewController {
                 }
                 
             case .failure:
-                guard let strongSelf = self else { return }
-                let camera = GMSCameraPosition(latitude: strongSelf.latitude, longitude: strongSelf.longitude, zoom: 10.81)
-                strongSelf.mapView.camera = camera
+                guard let self = self else { return }
+                let camera = GMSCameraPosition(latitude: self.latitude, longitude: self.longitude, zoom: 10.81)
+                self.mapView.camera = camera
             }
         }
     }
@@ -254,7 +252,7 @@ class MapViewController: UIViewController {
                     }
                 }
             case .failure:
-                print("Failed")
+                self?.view.makeToast("獲取活動資料失敗", duration: 1.0, position: .center)
             }
         }
     }
@@ -288,7 +286,7 @@ class MapViewController: UIViewController {
                     }
                 }
             case .failure:
-                print("Failed")
+                self?.view.makeToast("獲取景點資料失敗", duration: 2.0, position: .center)
             }
         }
     }
@@ -378,7 +376,6 @@ extension MapViewController: GMSMapViewDelegate {
 }
 
 extension MapViewController: CLLocationManagerDelegate {
-    // 半秒一次
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         longitude = locValue.longitude

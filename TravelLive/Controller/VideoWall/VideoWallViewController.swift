@@ -10,6 +10,7 @@ import Toast_Swift
 
 class VideoWallViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    // MARK: - Property
     @IBOutlet var tableView: UITableView!
     let videoWallTableViewCellIdentifier = "VideoWallTableViewCell"
     let loadingCellTableViewCellCellIdentifier = "LoadingCellTableViewCell"
@@ -20,6 +21,7 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     lazy var blockButton = UIButton()
     lazy var avatarView = UIImageView()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -56,10 +58,12 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - Method
     private func stopVideo() {
         ASVideoPlayerController.sharedVideoPlayer.pausePlayeVideosFor(tableView: tableView, appEnteredFromBackground: true, isStopVideo: true)
     }
-
+    
+    // MARK: - UITableView delegate and dataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -77,34 +81,28 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         videoWallCell.blockButton.addTarget(self, action: #selector(blockVideoOwner(_:)), for: .touchUpInside)
         return videoWallCell
     }
-                                            
+    
+    // MARK: - Target / IBAction
     @objc private func blockVideoOwner(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView)
         guard let indexPath = tableView.indexPathForRow(at: point) else { return }
         
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "封鎖此人", style: .destructive, handler: { [weak self] _ in
-            guard let strongSelf = self else { return }
-            guard let ownerID = strongSelf.videoData?[indexPath.row].ownerId else { return }
+            guard let self = self else { return }
+            guard let ownerID = self.videoData?[indexPath.row].ownerId else { return }
             
             if ownerID == UserManager.shared.userID {
-                strongSelf.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
+                self.view.makeToast("不可以封鎖自己哦", duration: 0.5, position: .center)
             } else {
-                strongSelf.postBlockData(blockId: self?.videoData?[indexPath.row].ownerId ?? "")
+                self.postBlockData(blockId: self.videoData?[indexPath.row].ownerId ?? "")
             }
         }))
-        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
-        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
         alertController.view.tintColor = UIColor.black
         // iPad specific code
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            alertController.popoverPresentationController?.sourceView = self.view
-            let xOrigin = self.view.bounds.width / 2
-            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-            alertController.popoverPresentationController?.sourceRect = popoverRect
-            alertController.popoverPresentationController?.permittedArrowDirections = .up
-        }
+        IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(alertController, view: self.view)
         
         self.present(alertController, animated: true)
     }
@@ -115,7 +113,6 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
             if result == "" {
                 strongSelf.fetchVideoData(userId: UserManager.shared.userID, tag: nil)
                 strongSelf.tableView.reloadData()
-//                self?.navigationController?.popToRootViewController(animated: true)
             } else {
                 strongSelf.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
             }
@@ -142,6 +139,7 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    // MARK: - Method
     func pausePlayeVideos() {
         ASVideoPlayerController.sharedVideoPlayer.pausePlayeVideosFor(tableView: tableView)
     }
@@ -152,23 +150,23 @@ class VideoWallViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private func fetchVideoData(userId: String, tag: String?) {
         SearchDataProvider().fetchSearchData(userId: userId, tag: tag) { [weak self] result in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             
             switch result {
             case .success(let data):
-                strongSelf.resultDataObjc = data
-                guard let resultDataObjc = strongSelf.resultDataObjc else { return }
-                strongSelf.videoData = resultDataObjc.data.filter({ $0.type == "video" })
-                guard let videoData = strongSelf.videoData else { return }
+                self.resultDataObjc = data
+                guard let resultDataObjc = self.resultDataObjc else { return }
+                self.videoData = resultDataObjc.data.filter({ $0.type == "video" })
+                guard let videoData = self.videoData else { return }
                 
                 for index in 0..<videoData.count {
-                    strongSelf.videoUrls.append(videoData[index].fileUrl)
-                    strongSelf.imageUrls.append(videoData[index].videoImageUrl)
+                    self.videoUrls.append(videoData[index].fileUrl)
+                    self.imageUrls.append(videoData[index].videoImageUrl)
                 }
-                strongSelf.tableView.reloadData()
+                self.tableView.reloadData()
                 
             case .failure:
-                strongSelf.view.makeToast("搜尋影片失敗", duration: 1, position: .center)
+                self.view.makeToast("搜尋影片失敗", duration: 1, position: .center)
             }
         }
     }

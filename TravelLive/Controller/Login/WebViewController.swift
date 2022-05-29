@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 
 class WebViewController: UIViewController {
-    var mWebView: WKWebView?
+    private var mWebView: WKWebView?
     var url = String()
     
     override func viewDidLoad() {
@@ -23,7 +23,8 @@ class WebViewController: UIViewController {
         let url = URL(string: urlString)
         if let url = url {
             let request = URLRequest(url: url)
-            // init and load request in webview.
+            
+            // init and load request in webview
             mWebView = WKWebView(frame: self.view.frame)
             if let mWebView = mWebView {
                 mWebView.navigationDelegate = self
@@ -38,12 +39,6 @@ class WebViewController: UIViewController {
 
 extension WebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        print(error.localizedDescription)
-    }
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print("Strat to load")
-    }
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("finish to load")
+        view.makeToast("出現錯誤", duration: 1.0, position: .center)
     }
 }

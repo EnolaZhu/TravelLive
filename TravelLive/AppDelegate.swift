@@ -70,16 +70,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let deviceTokenString = deviceToken.reduce("") {
             $0 + String(format: "%02x", $1)
         }
-        print("deviceToken", deviceTokenString)
     }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
     // 使用者點選推播時觸發
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print(#function)
         let content = response.notification.request.content
-        print(content.userInfo)
         completionHandler()
     }
     

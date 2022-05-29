@@ -7,14 +7,14 @@
 
 import UIKit
 import AuthenticationServices
-import FirebaseAuth // 用來與 Firebase Auth 進行串接用的
-import CryptoKit // 用來產生隨機字串 (Nonce) 的
+import FirebaseAuth
+import CryptoKit
 import Toast_Swift
 import RxSwift
-import RxCocoa
 
 class LoginViewController: UIViewController {
-    // swiftlint:disable trailing_whitespace
+    
+    // MARK: - Property
     fileprivate var currentNonce: String?
     private var fullName: String?
     private let logoView = UIImageView()
@@ -27,13 +27,8 @@ class LoginViewController: UIViewController {
     private let licenseLabel = UILabel()
     private var checkButton = UIButton()
     private var isChecked = false
-//    {
-//        didSet {
-//            checkButton.setImage(UIImage.asset(.check)?.maskWithColor(color: UIColor.primary), for: .normal)
-//            checkButton.setImage(UIImage.asset(.checkbox)?.maskWithColor(color: UIColor.primary), for: .selected)
-//        }
-//    }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +47,7 @@ class LoginViewController: UIViewController {
         addLogoView()
     }
     
+    // MARK: - Component
     private func createContainerView() {
         view.addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -117,19 +113,19 @@ class LoginViewController: UIViewController {
                 if element < self.animationArray.count {
                     switch element {
                     case 0:
-                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: 0, theY: 0, width: 200, height: 200)
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, location: CGRect(x: 0, y: 0, width: 200, height: 200))
                     case 1:
-                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: Int(UIScreen.width) - 200, theY: Int(UIScreen.height) / 4, width: 200, height: 200)
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, location: CGRect(x: Int(UIScreen.width) - 200, y: Int(UIScreen.height) / 4, width: 200, height: 200))
                     case 2:
-                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: 0, theY: Int(UIScreen.height) * 2 / 4, width: 200, height: 200)
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, location: CGRect(x: 0, y: Int(UIScreen.height) * 2 / 4, width: 200, height: 200))
                     case 3:
-                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, theX: Int(UIScreen.width) - 200, theY: Int(UIScreen.height) * 3 / 4, width: 200, height: 200)
+                        LottieAnimationManager.shared.createlottieAnimation(name: self.animationArray[element], view: self.view, animationSpeed: 2, isRemove: true, location: CGRect(x: Int(UIScreen.width) - 200, y: Int(UIScreen.height) * 3 / 4, width: 200, height: 200))
                     default:
                         break
                     }
                 }
-            }, onError: { error in
-                print(error)
+            }, onError: { _ in
+                
             }, onCompleted: {
                 if UserManager.shared.userID == "" {
                     self.createContainerView()
@@ -138,7 +134,7 @@ class LoginViewController: UIViewController {
                     self.showMainView()
                 }
             }, onDisposed: {
-                print("observableInterval onDisposed")
+                
             })
             .disposed(by: disposeBag)
     }
@@ -155,6 +151,7 @@ class LoginViewController: UIViewController {
         licenseLabel.attributedText = attributedString
     }
     
+    // MARK: - Target / IBAction
     @objc private func tapLabel(_ gesture: UITapGestureRecognizer) {
         guard let text = licenseLabel.text else { return }
         let privacyRange = (text as NSString).range(of: "隱私權政策")
@@ -184,6 +181,8 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // MARK: - Method
+    
     private func login() {
         let nonce = randomNonceString()
         currentNonce = nonce
@@ -200,7 +199,7 @@ class LoginViewController: UIViewController {
     
     @objc func redirectNewPage(_ notification: NSNotification) {
         if notification.userInfo?.keys.contains("live") != nil {
-            let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: String(describing: PullStreamingViewController.self)
+            let pullStreamingVC = UIStoryboard.pullStreaming.instantiateViewController(withIdentifier: "\(PullStreamingViewController.self)"
             )
             guard let pullVC = pullStreamingVC as? PullStreamingViewController else { return }
             pullVC.streamingUrl = "\(notification.userInfo?["live"] ?? "")"
@@ -278,15 +277,13 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             
-            guard let nonce = currentNonce else {
-                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-            }
+            guard let nonce = currentNonce else { return }
             guard let appleIDToken = appleIDCredential.identityToken else {
-                self.view.makeToast("無法找到識別令牌", duration: 0.5, position: .center)
+                self.view.makeToast(AuthText.noFound.text, duration: 0.5, position: .center)
                 return
             }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                self.view.makeToast("無法序列化識別令牌", duration: 0.5, position: .center)
+                self.view.makeToast(AuthText.noSequence.text, duration: 0.5, position: .center)
                 return
             }
             
@@ -294,28 +291,28 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             let familyName = appleIDCredential.fullName?.familyName ?? ""
             fullName = givenName + " " + familyName
             
-            // 取得使用者的 id、name
-            // 產生 Apple ID 登入的 Credential
+            // get user id、name
+            // create Credential
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             
-            // 與 Firebase Auth 進行串接
+            // chain with Firebase Auth
             firebaseSignInWithApple(credential: credential)
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // 登入失敗，處理 Error
+        // login fail handle Error
         switch error {
         case ASAuthorizationError.canceled:
-            self.view.makeToast("取消登入", duration: 0.5, position: .center)
+            self.view.makeToast(AuthText.cancel.text, duration: 0.5, position: .center)
         case ASAuthorizationError.failed:
-            self.view.makeToast("授權請求失敗", duration: 0.5, position: .center)
+            self.view.makeToast(AuthText.fail.text, duration: 0.5, position: .center)
         case ASAuthorizationError.invalidResponse:
-            self.view.makeToast("授權請求無回應", duration: 0.5, position: .center)
+            self.view.makeToast(AuthText.noResponse.text, duration: 0.5, position: .center)
         case ASAuthorizationError.notHandled:
-            self.view.makeToast("授權請求未處理", duration: 0.5, position: .center)
+            self.view.makeToast(AuthText.noHandle.text, duration: 0.5, position: .center)
         case ASAuthorizationError.unknown:
-            self.view.makeToast("授權失敗，原因不知", duration: 0.5, position: .center)
+            self.view.makeToast(AuthText.noReason.text, duration: 0.5, position: .center)
         default:
             break
         }
@@ -327,13 +324,12 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
         return view.window!
     }
 }
-
 extension LoginViewController {
-    // MARK: - 透過 Credential 與 Firebase Auth 串接
+    // chain with Firebase Auth by Credential
     func firebaseSignInWithApple(credential: AuthCredential) {
         Auth.auth().signIn(with: credential) { authResult, error in
             guard error == nil else {
-                self.view.makeToast("授權失敗", duration: 0.5, position: .center)
+                self.view.makeToast(AuthText.fail.text, duration: 0.5, position: .center)
                 return
             }
             UserManager.shared.userID = (authResult?.user.uid)!
@@ -342,16 +338,11 @@ extension LoginViewController {
         }
     }
     
-    // MARK: - Firebase 取得登入使用者的資訊
+    // Firebase get user info
     func getFirebaseUserInfo() {
         let currentUser = Auth.auth().currentUser
         let userid = currentUser?.uid ?? UserManager.shared.userID
         UserManager.shared.userID = userid
         ProfileProvider.shared.postUserInfo(userID: userid, name: fullName ?? UserManager.shared.userID)
     }
-}
-
-enum LoginUrlString: String {
-    case privacyUrl = "https://firebasestorage.googleapis.com/v0/b/travellive-webplayer/o/Privacy%20Policy.html?alt=media&token=f6de7d54-111d-4a5d-9aed-d54e7505c6b2"
-    case standardLicense = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
 }

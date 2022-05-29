@@ -15,6 +15,7 @@ import Lottie
 
 class ProfileViewController: UIViewController {
     
+    // MARK: - Property
     @IBOutlet weak var profileView: UICollectionView!
     let imagePickerController = UIImagePickerController()
     fileprivate var imageWidth: CGFloat = 0
@@ -38,20 +39,15 @@ class ProfileViewController: UIViewController {
             profileView.reloadData()
         }
     }
-    lazy var postButton: UIButton = {
-        let postButton = UIButton(frame: CGRect(x: UIScreen.width - 100, y: UIScreen.height - 180, width: 88, height: 88))
-        postButton.tintColor = UIColor.primary
-        postButton.setImage(UIImage.asset(.add), for: UIControl.State())
-        return postButton
-    }()
     lazy var bannerView = GADBannerView()
+    lazy var postButton = UIButton()
+    let animationView = AnimationView(name: LottieAnimation.lodingAnimation.title)
     
-    let animationView = AnimationView(name: "loading")
-    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: LottieAnimation.lodingAnimation.title)
         
         // Add observer of change images
         NotificationCenter.default.addObserver(self, selector: #selector(self.showUserProperty(_:)), name: .showUserPropertyKey, object: nil)
@@ -67,6 +63,7 @@ class ProfileViewController: UIViewController {
         profileView.contentInsetAdjustmentBehavior = .never
         profileView.showsVerticalScrollIndicator = false
         profileView.backgroundColor = UIColor.backgroundColor
+        setUpPostButton()
         
         if isFromOther {
             getUserInfo(id: propertyOwnerId)
@@ -113,11 +110,18 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    private func addRefreshHeader() {
-        MJRefreshNormalHeader { [weak self] in
-            self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
-        }.autoChangeTransparency(true)
-            .link(to: profileView)
+    // MARK: - Method
+    private func setUpPostButton() {
+        view.addSubview(postButton)
+        postButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            postButton.widthAnchor.constraint(equalToConstant: 88),
+            postButton.heightAnchor.constraint(equalToConstant: 88),
+            postButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: UIScreen.width - 100),
+            postButton.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.height - 180)
+        ])
+        postButton.tintColor = UIColor.primary
+        postButton.setImage(UIImage.asset(.add), for: UIControl.State())
     }
     
     // set up banner view
@@ -149,8 +153,16 @@ class ProfileViewController: UIViewController {
         self.present(cropViewController, animated: true, completion: nil)
     }
     
-    // async 取回選擇的 image
+    // MARK: - Method
+    private func addRefreshHeader() {
+        MJRefreshNormalHeader { [weak self] in
+            self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
+        }.autoChangeTransparency(true)
+            .link(to: profileView)
+    }
+    
     private func openImagePicker(with state: CameraState) {
+        // async get selected image
         self.imagePicker = ImagePicker(fromController: self, state: state, compltionClouser: { [unowned self] pickupResult in
             switch pickupResult {
             case .success(let selectedImage):
@@ -174,8 +186,7 @@ class ProfileViewController: UIViewController {
                     self?.avatarImage = image
                     self?.profileView.reloadData()
                 }
-            case .failure(let error):
-                print(error)
+            case .failure:
                 self?.view.makeToast("失敗，請稍後再試。", duration: 1, position: .center)
             }
         }
@@ -232,7 +243,7 @@ class ProfileViewController: UIViewController {
                     }
                 }
             case .failure:
-                self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                self?.view.makeToast(TextManager.fail.text, duration: 0.5, position: .center)
             }
         }
     }
@@ -279,13 +290,8 @@ class ProfileViewController: UIViewController {
         alertController.view.tintColor = UIColor.black
         
         // iPad specific code
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            alertController.popoverPresentationController?.sourceView = self.view
-            let xOrigin = self.view.bounds.width / 2
-            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-            alertController.popoverPresentationController?.sourceRect = popoverRect
-            alertController.popoverPresentationController?.permittedArrowDirections = .up
-        }
+        IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(alertController, view: self.view)
+        
         self.present(alertController, animated: true)
     }
     
@@ -299,17 +305,7 @@ class ProfileViewController: UIViewController {
         
         alertController.view.tintColor = UIColor.black
         // iPad specific code
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            alertController.popoverPresentationController?.sourceView = self.view
-            
-            let xOrigin = self.view.bounds.width / 2
-            
-            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-            
-            alertController.popoverPresentationController?.sourceRect = popoverRect
-            
-            alertController.popoverPresentationController?.permittedArrowDirections = .up
-        }
+        IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(alertController, view: self.view)
         
         self.present(alertController, animated: true)
     }
@@ -318,9 +314,8 @@ class ProfileViewController: UIViewController {
         DetailDataProvider.shared.postBlockData(userId: UserManager.shared.userID, blockId: propertyOwnerId) { [weak self] result in
             if result == "" {
                 self?.navigationController?.popToRootViewController(animated: true)
-//                self?.dismiss(animated: true, completion: nil)
             } else {
-                self?.view.makeToast("封鎖失敗", duration: 0.5, position: .center)
+                self?.view.makeToast(BlockText.blockFail.text, duration: 0.5, position: .center)
             }
         }
     }
@@ -330,16 +325,16 @@ class ProfileViewController: UIViewController {
         do {
             try Auth.auth().signOut()
             UserManager.shared.userID = ""
-            self.view.makeToast("登出成功", duration: 0.5, position: .center)
-            // Sign out back to login vc
+            view.makeToast("登出成功", duration: 0.5, position: .center)
+            // sign out back to login vc
             backToLoginView()
         } catch {
-            print(error)
+            view.makeToast("登出失敗", duration: 0.5, position: .center)
         }
     }
     
     private func backToLoginView() {
-        let loginViewController = UIStoryboard.main.instantiateViewController(withIdentifier: String(describing: LoginViewController.self)) as? LoginViewController
+        let loginViewController = UIStoryboard.main.instantiateViewController(withIdentifier: "\( LoginViewController.self)") as? LoginViewController
         guard let loginVC = loginViewController else { return }
         loginVC.modalPresentationStyle = .fullScreen
         present(loginVC, animated: false)
@@ -348,7 +343,7 @@ class ProfileViewController: UIViewController {
     @objc private func postImage(_ sender: UIButton) {
         imagePickerController.delegate = self
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            // 如果可以，指定 UIImagePickerController 的照片來源為 照片圖庫 (.photoLibrary)，並 present UIImagePickerController
+            
             imagePickerController.sourceType = .photoLibrary
             if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
                 imagePickerController.mediaTypes = mediaTypes
@@ -357,21 +352,15 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    //    @objc private func hideBanner(_ button: UIButton) {
-    //        bannerView.isHidden = true
-    //    }
-    
     private func createTemporaryURLforVideoFile(url: NSURL) -> NSURL {
-        // Create the temporary directory.
+        // create the temporary directory.
         let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         // create a temporary file for us to copy the video to.
         let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent(url.lastPathComponent ?? "")
-        // Attempt the copy.
+        // attempt the copy.
         do {
             try FileManager().copyItem(at: url.absoluteURL!, to: temporaryFileURL)
-        } catch {
-            print("There was an error copying the video file to the temporary location.")
-        }
+        } catch { }
         return temporaryFileURL as NSURL
     }
 }
@@ -385,7 +374,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         let storageRefPath = UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            // Image Labeling
+            // image Labeling
             ImageLabelingManager.shared.getImageLabel(inputImage: pickedImage) { [weak self] data in
                 var result = String()
                 for index in 0..<data.count {
@@ -402,36 +391,30 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                         self?.getUserInfo(id: UserManager.shared.userID)
                         self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
                     } else {
-                        self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                        self?.view.makeToast(TextManager.fail.text, duration: 0.5, position: .center)
                     }
                 }
             }
         }
         
         if let mediaUrl = info[.mediaURL] as? URL {
-            // Upload video file
+            // upload video file
             let videoUrl = createTemporaryURLforVideoFile(url: mediaUrl as NSURL)
             PhotoVideoManager.shared.uploadFileFromIo(url: String(describing: videoUrl), child: storageRefPath) { [weak self] result in
                 if result == "" {
                     self?.view.makeToast("上傳成功", duration: 0.5, position: .center)
                 } else {
-                    self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                    self?.view.makeToast(TextManager.fail.text, duration: 0.5, position: .center)
                 }
             }
-            // Extract frame from video
+            // extract frame from video
             PhotoVideoManager.shared.getImageFromVideo(url: mediaUrl, at: TimeInterval(uploadTimestamp)) { image in
                 let storageRefImagePath = "videoimage_" + UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
                 guard let image = image else { return }
-                PhotoVideoManager.shared.uploadFileFromMemory(image: image, child: storageRefImagePath) { result in
-                    if result == "" {
-                        print("extra frame from video success")
-                    } else {
-                        print("extra frame from video falil")
-                    }
-                }
+                PhotoVideoManager.shared.uploadFileFromMemory(image: image, child: storageRefImagePath) { _ in }
             }
             
-            // Convert video type to GIF
+            // convert video type to GIF
             let storageRefGifPath = "thumbnail_" + UserManager.shared.userID + "_" + "\(uploadTimestamp)" + dateFormat.string(from: uploadDate)
             GIFManager.shared.convertMp4ToGIF(fileURL: mediaUrl) { [weak self] result in
                 switch result {
@@ -443,11 +426,11 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                             self?.getUserInfo(id: UserManager.shared.userID)
                             self?.getUserProperty(id: UserManager.shared.userID, byUser: UserManager.shared.userID)
                         } else {
-                            self?.view.makeToast("失敗", duration: 0.5, position: .center)
+                            self?.view.makeToast(TextManager.fail.text, duration: 0.5, position: .center)
                         }
                     }
                 case .failure:
-                    print("Failed")
+                    self?.view.makeToast("上傳失敗", duration: 0.5, position: .center)
                 }
             }
         }
@@ -456,9 +439,9 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
 }
 
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    // Set up header
+    // set up header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { fatalError("Couldn't create header") }
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeader", for: indexPath) as? ProfileHeader else { return UICollectionReusableView() }
         
         if isFromOther {
             header.changePropertySegment.isHidden = true
@@ -466,7 +449,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         
         if displayName == nil {
-            header.layoutProfileHeader(avatar: (avatarImage ?? UIImage(named: "placeholder"))!, displayName: "")
+            header.layoutProfileHeader(avatar: (avatarImage ?? UIImage(named: "placeholder"))!, displayName: displayName ?? "")
         } else {
             header.layoutProfileHeader(avatar: (avatarImage ?? UIImage(named: "placeholder"))!, displayName: displayName ?? "")
         }
@@ -479,12 +462,10 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProfileCollectionCell.self), for: indexPath) as? ProfileCollectionCell else {
-            fatalError("Couldn't create cell")
-        }
-        // Placeholder
-        cell.layoutCell(image: UIImage(named: "placeholder") ?? UIImage())
-        // ImageView gesture
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ProfileCollectionCell.self)", for: indexPath) as? ProfileCollectionCell else { return UICollectionViewCell() }
+        // placeholder
+        cell.layoutCell(image: UIImage.asset(.placeholder) ?? UIImage())
+        // imageView gesture
         let tapGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         if isFromOther {
             cell.profileImageView.isUserInteractionEnabled = false
@@ -494,7 +475,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.profileImageView.addGestureRecognizer(tapGestureRecognizer)
         
         if propertyImages.isEmpty {
-            cell.layoutCell(image: UIImage(named: "placeholder") ?? UIImage())
+            cell.layoutCell(image: UIImage.asset(.placeholder) ?? UIImage())
         } else {
             cell.layoutCell(image: propertyImages[indexPath.row])
         }
@@ -553,7 +534,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //        itemSize
         return CGSize(width: imageWidth, height: imageWidth)
     }
     
@@ -569,7 +549,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         collectionView.deselectItem(at: indexPath, animated: true)
         let image = propertyImages[indexPath.item]
         
-        let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: String(describing: DetailViewController.self)
+        let detailTableViewVC = UIStoryboard.propertyDetail.instantiateViewController(withIdentifier: "\(DetailViewController.self)"
         )
         guard let detailVC = detailTableViewVC as? DetailViewController else { return }
         
@@ -603,13 +583,7 @@ extension ProfileViewController {
         cameraActionSheet.addAction(cancelAction)
         
         // iPad specific code
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            cameraActionSheet.popoverPresentationController?.sourceView = self.view
-            let xOrigin = self.view.bounds.width / 2
-            let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-            cameraActionSheet.popoverPresentationController?.sourceRect = popoverRect
-            cameraActionSheet.popoverPresentationController?.permittedArrowDirections = .up
-        }
+        IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(cameraActionSheet, view: self.view)
         
         self.present(cameraActionSheet, animated: true, completion: nil)
     }

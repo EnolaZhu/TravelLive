@@ -79,28 +79,14 @@ class ProfileProvider {
         let body = UserDataObject(uid: userID, name: name)
         let request = DataRequest.postUserInfo(body: try? JSONEncoder().encode(body))
         
-        HTTPClient.shared.request(request, completion: { data in
-            switch data {
-            case .success:
-                print("Post user info successfully")
-            case .failure(let error):
-                print(error)
-            }
-        })
+        HTTPClient.shared.request(request, completion: { _ in })
     }
     
     func putUserAvatar(userID: String, photoBase64: String) {
         let body = UserAvatarObject(uid: userID, base64: photoBase64)
         let request = DataRequest.postUserAvatar(body: try? JSONEncoder().encode(body))
         
-        HTTPClient.shared.request(request, completion: { data in
-            switch data {
-            case .success:
-                print("Post user avatar successfully")
-            case .failure(let error):
-                print(error)
-            }
-        })
+        HTTPClient.shared.request(request, completion: { _ in })
     }
     
     // delete
@@ -108,41 +94,20 @@ class ProfileProvider {
         let query = ConvertQuery.shared.getQueryString(keyValues: ("id", propertyId))
         let request = DataRequest.deleteProperty(query: query)
         
-        HTTPClient.shared.request(request, completion: { data in
-            switch data {
-            case .success:
-                print("Delete  successfully")
-            case .failure(let error):
-                print(error)
-            }
-        })
+        HTTPClient.shared.request(request, completion: { _ in })
     }
     
     func deleteAccount(userId: String) {
         let query = ConvertQuery.shared.getQueryString(keyValues: ("uid", userId))
         let request = DataRequest.deleteAccount(query: query)
         
-        HTTPClient.shared.request(request, completion: { data in
-            switch data {
-            case .success:
-                print("Delete  successfully")
-            case .failure(let error):
-                print(error)
-            }
-        })
+        HTTPClient.shared.request(request, completion: { _ in })
     }
     
     func putModifyUserInfo(userID: String, name: String) {
         let body = UserDataObject(uid: userID, name: name)
         let request = DataRequest.putUserInfo(body: try? JSONEncoder().encode(body))
         
-        HTTPClient.shared.request(request, completion: { data in
-            switch data {
-            case .success:
-                print("Post user info successfully")
-            case .failure(let error):
-                print(error)
-            }
-        })
+        HTTPClient.shared.request(request, completion: { _ in })
     }
 }

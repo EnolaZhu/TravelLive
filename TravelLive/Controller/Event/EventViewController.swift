@@ -20,12 +20,12 @@ class EventViewController: UIViewController {
         EventCollectionViewController()
     ]
     var citys = ["臺北": 0, "新北": 1, "臺中": 3, "臺南": 4, "高雄": 5]
-    let animationView = AnimationView(name: "loading")
+    let animationView = AnimationView(name: LottieAnimation.lodingAnimation.title)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: "loading")
+        LottieAnimationManager.shared.showLoadingAnimation(animationView: animationView, view: self.view, name: LottieAnimation.lodingAnimation.title)
         
         setupTableView()
         getData()
@@ -44,9 +44,9 @@ class EventViewController: UIViewController {
     }
     
     private func setupTableView() {
-        let nib = UINib(nibName: String(describing: EventTableViewCell.self), bundle: nil)
+        let nib = UINib(nibName: "\(EventTableViewCell.self)", bundle: nil)
         
-        eventTableView.register(nib, forCellReuseIdentifier: String(describing: EventTableViewCell.self))
+        eventTableView.register(nib, forCellReuseIdentifier: "\(EventTableViewCell.self)")
         eventTableView.dataSource = self
         eventTableView.delegate = self
         
@@ -96,8 +96,8 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: EventTableViewCell.self)) as? EventTableViewCell else {
-            fatalError("Couldn't create cell")
+        guard let eventTableViewCell = tableView.dequeueReusableCell(withIdentifier: "\(EventTableViewCell.self)") as? EventTableViewCell else {
+            return UITableViewCell()
         }
         
         self.smallCollectionViewControllers[indexPath.section].view.frame = eventTableViewCell.bounds
@@ -111,7 +111,16 @@ extension EventViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionView = UIView()
-        let label = UILabel(frame: CGRect(x: 24, y: -18, width: 60, height: 30))
+        let label = UILabel()
+        view.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.widthAnchor.constraint(equalToConstant: 60),
+            label.heightAnchor.constraint(equalToConstant: 30),
+            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: -10)
+        ])
+        
         var titles = [String]()
         for (title, _) in Array(citys).sorted(by: {$0.value < $1.value}) {
             titles.append(title)
@@ -145,14 +154,13 @@ extension EventViewController {
                         ImageManager.shared.fetchImage(imageUrl: data.data[index].image) { [weak self] image in
                             self?.smallCollectionViewControllers[theCity].images.append(image)
                             self?.eventTableView.reloadData()
-                            print("success")
                         }
                     }
                     LottieAnimationManager.shared.stopAnimation(animationView: self?.animationView)
                 }
                 
-            case .failure(let error):
-                print(error)
+            case .failure:
+                self?.view.makeToast("獲取資料失敗", duration: 1.0, position: .center)
             }
         }
     }

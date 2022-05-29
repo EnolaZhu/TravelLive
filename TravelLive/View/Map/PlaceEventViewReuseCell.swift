@@ -14,6 +14,7 @@ class PlaceEventViewReuseCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.selectionStyle = .none
         self.backgroundColor = UIColor.backgroundColor
     }
 

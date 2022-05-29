@@ -36,7 +36,6 @@ class MapDataProvider {
         HTTPClient.shared.request(request, completion: { data in
             switch data {
             case .success(let data):
-                print("\(data)")
                 do {
                     let response = try JSONDecoder().decode(PlaceDataObject.self, from: data)
                     completion(Result.success(response))

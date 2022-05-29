@@ -212,7 +212,7 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
         contentHeight = 0
     }
 
-    // MARK: - Private
+    // MARK: - Private method
 
     private func indexableScale(forItemAt indexPath: IndexPath) -> Int {
         var itemScale = (delegate ?? self).scaleForItem(inCollectionView: collectionView!, withLayout: self, atIndexPath: indexPath)

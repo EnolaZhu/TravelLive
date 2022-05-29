@@ -49,8 +49,8 @@ class EventCollectionViewController: UIViewController {
 
         collectionView.backgroundColor = UIColor.backgroundColor
 
-        let nib = UINib(nibName: String(describing: EventCollectionViewCell.self), bundle: nil)
-        collectionView.register(nib, forCellWithReuseIdentifier: String(describing: EventCollectionViewCell.self))
+        let nib = UINib(nibName: "\(EventCollectionViewCell.self)", bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: "\(EventCollectionViewCell.self)")
 
         view.addSubview(collectionView)
         
@@ -73,12 +73,12 @@ extension EventCollectionViewController: UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: EventCollectionViewCell.self), for: indexPath) as? EventCollectionViewCell else {
-            fatalError("Couldn't create cell")
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(EventCollectionViewCell.self)", for: indexPath) as? EventCollectionViewCell else {
+            return UICollectionViewCell()
         }
         
         if specificPlaceData == nil {
-//            detailVC.detailPlaceData = detailPlaceData
+            
         } else {
             cell.layoutCell(image: images[indexPath.item], title: specificPlaceData?.data[indexPath.row].title ?? "", location: specificPlaceData?.data[indexPath.row].city ?? "")
         }
@@ -144,13 +144,12 @@ extension EventCollectionViewController: UICollectionViewDelegateFlowLayout {
                         ImageManager.shared.fetchImage(imageUrl: specificPlaceData.data[index].image) { [weak self] image in
                             self?.images.append(image)
                             self?.collectionView.reloadData()
-                            print("success")
                         }
                     }
                 }
 
-            case .failure(let error):
-                print(error)
+            case .failure:
+                self?.view.makeToast("獲取景點資料失敗", duration: 0.5, position: .center)
             }
         }
     }

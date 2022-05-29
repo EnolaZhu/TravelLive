@@ -14,15 +14,8 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     private var livePlayer = V2TXLivePlayer()
     private let shareButton = UIButton()
     private let blockButton = UIButton()
-    private let ruleMessage = """
-進入聊天室，請遵守以下規則：
-⦿ 不得發送違法訊息
-⦿ 不得侵犯智慧財產權
-⦿ 不得發送情色、賭、毒訊息
-⦿ 不得進行歧視、霸凌、語言暴力
-"""
     var streamingUrl = String()
-    var channelName = String() // 即 streamerId
+    var channelName = String() // = streamerId
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +50,7 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
     }
     
     private func createPullStreamingRuleAlert() {
-        let ruleAlertController = UIAlertController(title: "警告", message: ruleMessage, preferredStyle: .alert)
+        let ruleAlertController = UIAlertController(title: "警告", message: TextManager.chatRuleMessage.text, preferredStyle: .alert)
         
         ruleAlertController.addAction(UIAlertAction(title: "我會遵守聊天室規則", style: .default, handler: { _ in
         }))
@@ -128,17 +121,12 @@ class PullStreamingViewController: UIViewController, V2TXLivePlayerObserver {
             self?.postBlockStreamerData(blockId: self?.channelName ?? "")
         }))
         
-        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
-        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
         alertController.view.tintColor = UIColor.black
         
         // iPad specific code
-        alertController.popoverPresentationController?.sourceView = self.view
-        let xOrigin = self.view.bounds.width / 2
-        let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-        alertController.popoverPresentationController?.sourceRect = popoverRect
-        alertController.popoverPresentationController?.permittedArrowDirections = .up
+        IpadAlertManager.ipadAlertManager.makeAlertSuitIpad(alertController, view: self.view)
         
         self.present(alertController, animated: true)
     }
