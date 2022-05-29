@@ -111,7 +111,7 @@
 
 ## Requirement
 - Swift 5.0
-- Xcode 13.0
+- Xcode 13.3.1
 - iOS 13.0 or higher
 
 ## Contact
